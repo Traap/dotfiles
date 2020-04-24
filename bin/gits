@@ -2,7 +2,7 @@
 # ------------------------------------------------------------------------------
 # Check the porcelain state of my git repositories.
 # ------------------------------------------------------------------------------
-lsd() { ls -d * | tr -d '/' ; }
+lsd() { ls -d */ | tr -d '/' ; }
 
 # ------------------------------------------------------------------------------
 repo() {
@@ -27,47 +27,52 @@ repo() {
 
 # ------------------------------------------------------------------------------
 gitPull() {
-  if [[ "pull" == $1 ]]; then
-    if [[ -z $(git status --porcelain) ]]; then
-      git pull
-      echo
-    fi
-  fi
+  case $1 in
+    pull)
+      [ -z $(git status --porcelain) ] && git pull && echo
+      ;;
+  esac
 }
 
 # ------------------------------------------------------------------------------
 gitSetUserAndEmail(){
-  if [[ "pull" == $2 ]]; then
-    if [[ "bb" == $1  ]]; then
-      gce fk
-    else
-      gce traap
-    fi
-  fi
+  case $1 in
+    pull)
+      case $2 in
+        bb) gce fk ;;
+        *) gce traap ;;
+      esac
+  esac
 }
 
 # ------------------------------------------------------------------------------
 gits(){
+
+  #command to check if we are inside a git repository.
+
   # Save current directory.
   dir=$(pwd)
 
-  echo $1
   repoName=$(repo $1)
-  echo $repoName
-
   cd ${HOME}/${repoName} > /dev/null;
 
   for i in $(lsd); do
+
+    # move to subdirectory
     d=${HOME}/${repoName}/${i%%}
-    if [[ -d "${d}/.git" ]]; then
+    cd $d > /dev/null
+
+    # Do work if were are inside a git repository.
+    if [ inside-repo ]; then
       echo "*** ${d} ***";
-      cd ${d} > /dev/null
       git status --short --branch;
       echo ""
       gitPull $2
       gitSetUserAndEmail $1 $2
-      cd - > /dev/null;
     fi
+
+    # move up a directory
+    cd - > /dev/null;
   done;
 
   # Restore current director.
