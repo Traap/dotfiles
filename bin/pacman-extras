@@ -1,0 +1,46 @@
+#!/bin/bash
+pacmanCommand() {
+  sudo pacman --noconfirm $1 $2
+}
+
+cmd='-S'
+
+if [[ 'uninstall' == $1 ]]; then
+  cmd='-R'
+fi
+
+# Update system
+if [[ $cmd == '-S' ]]; then
+  sudo pacman --noconfirm -Syyu
+fi
+
+# Install or remove component
+pacmanCommand $cmd arandr 
+pacmanCommand $cmd base-devel
+pacmanCommand $cmd dialog
+pacmanCommand $cmd dunst 
+pacmanCommand $cmd firefox 
+pacmanCommand $cmd fzf 
+pacmanCommand $cmd i3blocks
+pacmanCommand $cmd i3-gaps
+pacmanCommand $cmd libnotify 
+pacmanCommand $cmd neovim
+pacmanCommand $cmd sxiv 
+pacmanCommand $cmd tmux 
+pacmanCommand $cmd unclutter 
+pacmanCommand $cmd unzip 
+pacmanCommand $cmd upower
+pacmanCommand $cmd wget
+pacmanCommand $cmd xclip 
+pacmanCommand $cmd xcompmgr 
+pacmanCommand $cmd xorg-server
+pacmanCommand $cmd xorg-xinit 
+pacmanCommand $cmd xorg-xprop
+pacmanCommand $cmd xorg-xwininfo
+pacmanCommand $cmd xwallpaper
+pacmanCommand $cmd zathura
+
+# Apple hardware specific items
+pacmanCommand $cmd lm_sensors 
+pacmanCommand $cmd acpilight # conflicts with xorg-xbacklight
+pacmanCommand $cmd intel-ucode

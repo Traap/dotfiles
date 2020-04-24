@@ -1,0 +1,9 @@
+#!/bin/bash
+
+# ln -fsv ~/git/dotfiles/Xauthority   ~/.Xauthority
+# ln -fsv ~/git/dotfiles/fontconfig   ~/.fontconfig
+# ln -fsv ~/git/dotfiles/icons        ~/.icons
+# ln -fsv ~/git/dotfiles/local        ~/.local
+ln -fsv ~/git/dotfiles/profile      ~/.profile
+ln -fsv ~/git/dotfiles/xinitrc      ~/.xinitrc
+ln -fsv ~/git/dotfiles/xprofile     ~/.xprofile

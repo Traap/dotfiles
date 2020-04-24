@@ -1,0 +1,12 @@
+#!/bin/sh
+# ------------------------------------------------------------------------------
+# Reset Vim to Traap's factory settings. 
+# 
+# Steps;
+# 1 - move to git directory
+# 2 - remove git/vim directory
+# 3 - clone my Vim perferences
+# 4 - Run Vim
+# 5 - Watch the show. :)
+# ------------------------------------------------------------------------------
+cd ~/git && rm -rf ~/git/vim && gr vim && vim

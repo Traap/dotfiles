@@ -1,0 +1,4 @@
+#!/bin/bash
+rm -vf $1.gpg
+gpg -v --encrypt --recipient 'Gary A. Howard' $1
+rm -rf $1

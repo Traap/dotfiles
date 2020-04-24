@@ -1,0 +1,29 @@
+#!/bin/bash
+# ------------------------------------------------------------------------------
+# Prompt
+# ------------------------------------------------------------------------------
+# see https://github.com/magicmonty/bash-git-prompt
+PS1_START='\[\033[01;32m\]\u\[\033[01;33m\]@\[\033[01;35m\]\h\[\033[01;32m\]:\[\033[01;36m\]\w'
+PS1_END='\n\[\033[01;36m\]\$\[\033[00m\] '
+export PS1=${PS1_START}${PS1_END}
+
+prompt() {
+  GIT_PROMPT_ONLY_IN_REPO=1
+  GIT_PROMPT_START=${PS1_START}
+  GIT_PROMPT_END=${PS1_END}
+}
+
+if [[ ${OSTYPE} =~ "linux" ]] ||
+   [[ ${OSTYPE} =~ "cygwin" ]] ||
+   [[ ${OSTYPE} =~ "msys" ]]; then
+  if fileExists ${HOME}/.bash-git-prompt/gitprompt.sh; then
+    prompt
+    source ${HOME}/.bash-git-prompt/gitprompt.sh
+  fi
+elif [[ ${OSTYPE} =~ "darwin" ]]; then
+  if [[ -f $(brew --prefix)/opt/bash-git-prompt/share/gitprompt.sh ]]; then
+    prompt
+    source "$(brew --prefix)/opt/bash-git-prompt/share/gitprompt.sh"
+  fi
+fi
+

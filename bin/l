@@ -1,0 +1,2 @@
+#!/bin/sh
+LC_COLLATE=C ls -FCas "$@"

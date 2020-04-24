@@ -1,0 +1,185 @@
+#!/bin/bash
+# ------------------------------------------------------------------------------
+# 256 colors.
+# ------------------------------------------------------------------------------
+export BROWSER=firefox
+export FILE=ranger
+if hostName "Sweetheart" \
+|| hostName "Ryder"; then
+  export TERM=st-256color
+  #export TERMINAL=st
+  export TERMINAL=termite
+else
+  export TERM=xterm-256color
+fi
+
+# ------------------------------------------------------------------------------
+# Darwin CLI and LS colors.
+# ------------------------------------------------------------------------------
+if osType "darwin"; then
+  export CLICOLOR=1
+  export LSCOLORS=GxFxBxDxCxegedabagacad
+fi
+
+# ------------------------------------------------------------------------------
+# amber location.
+# ------------------------------------------------------------------------------
+if dirExists ${HOME}/git/amber; then
+   AMBERPATH=${HOME}/git/amber
+elif dirExists ${HOME}/soup/amber; then
+     AMBERPATH=${HOME}/soup/amber
+else
+  AMBERPATH=""
+  echo "WARNING: amber is not installed."
+fi
+export AMBERPATH
+
+if [[ -d ${AMBERPATH} ]]; then
+  newfactoryitem() {
+    ${AMBERPATH}/bin/newfactoryitem "$@"
+  }
+fi
+
+# ------------------------------------------------------------------------------
+# autodoc location.
+# ------------------------------------------------------------------------------
+if  dirExists ${HOME}/git/autodoc; then
+  AUTODOCPATH=${HOME}/git/autodoc
+elif dirExists ${HOME}/soup/autodoc; then
+   AUTODOCPATH=${HOME}/soup/autodoc
+else
+  echo "WARNING: autodoc is not installed."
+  AUTODOCPATH=""
+fi
+export AUTODOCPATH
+
+# ------------------------------------------------------------------------------
+# docbld location and function.  These must go together.
+# ------------------------------------------------------------------------------
+if dirExists ${HOME}/git/docbld; then
+  DOCBLDPATH=${HOME}/git/docbld
+elif dirExists ${HOME}/soup/docbld; then
+    DOCBLDPATH=${HOME}/soup/docbld
+else
+  echo "WARNING: docbld is not installed."
+  DOCBLDPATH=""
+fi
+export DOCBLDPATH
+
+if [[ -d ${DOCBLDPATH} ]]; then
+  docbld() {
+    rake --rakefile ${DOCBLDPATH}/Rakefile $1
+  }
+fi
+
+# ------------------------------------------------------------------------------
+# Default editor.
+# ------------------------------------------------------------------------------
+if fileExists /usr/bin/nvim; then
+  export EDITOR=/usr/bin/nvim
+elif fileExists /usr/local/bin/nvim; then
+  export EDITOR=/usr/local/bin/nvim
+else
+  export EDITOR=/usr/bin/vim
+fi
+
+# ------------------------------------------------------------------------------
+# emend location and function.  These must go together.
+# ------------------------------------------------------------------------------
+if dirExists ${HOME}/git/emend; then
+  EMENDPATH=${HOME}/git/emend
+else
+  EMENDPATH=""
+fi
+export EMENDPATH
+
+if [[ -d ${EMENDPATH} ]]; then
+  newcomponent() {
+    ${EMENDPATH}/bin/newcomponent "$@"
+  }
+fi
+
+# ------------------------------------------------------------------------------
+# GIT_HOME is needed for test automation framework.
+# ------------------------------------------------------------------------------
+if dirExists ${HOME}/git; then
+  export GIT_HOME=${HOME}/git
+else
+  echo "WARNING: ${HOME}/git does not exists."
+fi
+
+# ------------------------------------------------------------------------------
+# HISTCONTROL 
+# ------------------------------------------------------------------------------
+export HISTCONTROL=ignoreboth:erasedups
+
+# ------------------------------------------------------------------------------
+# JAVA locations.
+# ------------------------------------------------------------------------------
+if dirExists ${HOME}/build/lclasses/main; then
+  CLASSPATH=build/classes/main:build/classes/test
+  export CLASSPATH
+fi
+
+# ------------------------------------------------------------------------------
+# Less configurations.  Courtsey of Luke Smith.
+# https://github.com/LukeSmithxyx/voidrice
+# -----------------------------------------------------------------------------
+# export LESS=-R
+# export LESS_TERMCAP_mb="$(printf '%b' '[1;31m')"
+# export LESS_TERMCAP_md="$(printf '%b' '[1;36m')"
+# export LESS_TERMCAP_me="$(printf '%b' '[0m')"
+# export LESS_TERMCAP_so="$(printf '%b' '[01;44;33m')"
+# export LESS_TERMCAP_se="$(printf '%b' '[0m')"
+# export LESS_TERMCAP_us="$(printf '%b' '[1;32m')"
+# export LESS_TERMCAP_ue="$(printf '%b' '[0m')"
+
+# ------------------------------------------------------------------------------
+# newdoc location and functions.  These must go together.
+# ------------------------------------------------------------------------------
+if dirExists ${HOME}/git/newdoc; then
+  NEWDOCPATH=${HOME}/git/newdoc
+elif dirExists ${HOME}/soup/newdoc; then
+    NEWDOCPATH=${HOME}/soup/newdoc
+else
+  echo "WARNING: newdoc is not installed."
+  NEWDOCPATH=""
+fi
+export NEWDOCPATH
+
+if [[ -d ${NEWDOCPATH} ]]; then
+  newdoc() {
+    ${NEWDOCPATH}/newdoc "$@"
+  }
+fi
+
+# ------------------------------------------------------------------------------
+# Perforce defaults.
+# ------------------------------------------------------------------------------
+if fileExists usr/bin/p4d; then
+  if hostName "Ryder"; then
+    export P4DISK=/Volumes/Larry
+    export P4HOST=localhost
+    export P4PORT=1666
+    export P4ROOT=${P4DISK}/p4root
+    export P4CLIENT=Gary:on:Ryder
+  fi
+fi
+
+# ------------------------------------------------------------------------------
+# X11 display type. 
+# ------------------------------------------------------------------------------
+if osType "linux"; then
+  export DISPLAY=:0
+fi
+
+# ------------------------------------------------------------------------------
+# Lock my Windows environment variables.  Don't ask, Don't tell!!!
+# ------------------------------------------------------------------------------
+if hostName "USLZ"; then
+  export HOME=/c/Users/${USERNAME}
+  export HOMEDRIVE=/c
+  export HOMEPATH=/c/Users/${USERNAME}
+  export GIT_HOME=/c/Users/${USERNAME}/git
+  export HOMESHARE=/c
+fi

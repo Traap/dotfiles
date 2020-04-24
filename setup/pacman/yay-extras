@@ -1,0 +1,8 @@
+# Ruby
+yay -Sy rbenv ruby-build
+
+# Skype
+yay -Sy skypeforlinux-stable-bin
+
+# LaTeX
+yay -Sy texlive-core texlive-latexextras texlive-publishers

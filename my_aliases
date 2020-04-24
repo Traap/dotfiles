@@ -1,0 +1,169 @@
+#!/bin/bash
+
+# ------------------------------------------------------------------------------
+# Operating system specific settings.
+# ------------------------------------------------------------------------------
+if osType "darwin"; then
+  alias me='clear && source ~/.bash_profile'
+  alias la='ls -A'
+  alias ll='ls -lahG'
+elif osType "linux" \
+  || osType "cygwin" \
+  || osType "msys"; then
+  alias me='clear && source ~/.bashrc'
+  alias la='ls -A --color'
+  alias ls='ls --color=auto'
+  alias ll='ls -lahG --color'
+  d=.dircolors
+  test -r $d && eval "$(dircolors $d)"
+  if fileExists /usr/share/bash-completion/bash_completion; then
+    . /usr/share/bash-completion/bash_completion
+  fi
+else
+    echo "Unknown operating system:" ${OSTYPE}
+fi
+
+# ------------------------------------------------------------------------------
+# Vim keybindings.  Troubleshoot tmux + vim + vim-keybindings.
+# ------------------------------------------------------------------------------
+set -o vi
+
+# ------------------------------------------------------------------------------
+# Haskell and Cabal (Glasgow Haskell Compiler).
+# ------------------------------------------------------------------------------
+if fileExists /usr/bin/ghc; then
+  alias ci='cabal install'
+  alias cif='cabal install --force-reinstalls'
+  alias cemacs='emacs -Q -l ${HOME}/git/emacs-haskell-config/init.el'
+fi
+
+# ------------------------------------------------------------------------------
+# Fuse => https://osxfuse.github.io/
+# ------------------------------------------------------------------------------
+if osType "darwin"; then
+  if hostName "Stooges"; then
+    alias  fpc0='sshfs fpc:git/smart-device-sw /Volumes/Larry/fpc0'
+    alias ufpc0='umount /Volumes/Larry/fpc0'
+    alias   ds6='sshfs datasci:git/smart-device-sw /Volumes/Larry/ds6'
+    alias  uds6='umount /Volumes/Larry/ds6'
+  else
+    alias  fpc0='sshfs fpc:git/smart-device-sw ${HOME}/fpc0'
+    alias ufpc0='umount ${HOME}/fpc0'
+    alias   ds6='sshfs datasci:git/smart-device-sw ${HOME}/ds6'
+    alias  uds6='umount ${HOME}/ds6'
+  fi
+fi
+
+# ------------------------------------------------------------------------------
+# latexrun is defined when present.
+# ------------------------------------------------------------------------------
+if fileExists ${HOME}/git/latexrun/latexrun; then
+  alias latexrun='${HOME}/git/latexrun/latexrun'
+fi
+
+# ------------------------------------------------------------------------------
+# Tmux setup.
+# ------------------------------------------------------------------------------
+if fileExists /usr/bin/tmux; then
+  alias tmux='tmux -2'
+fi
+
+# ------------------------------------------------------------------------------
+# General purpose aliases.
+# ------------------------------------------------------------------------------
+alias cls='clear'
+alias cp='cp -v'
+alias decrypt='${HOME}/git/dotfiles/decrypt'
+alias ec='emacsclient -c'
+alias egrep='egrep --color=auto'
+alias encrypt='${HOME}/git/dotfiles/encrypt'
+alias fgrep='fgrep --color=auto'
+alias ga='git add'
+alias gc='git commit -m' 
+alias gl7='git logg -7'
+alias glgg='git logg'
+alias glg='git log'
+alias glgi='git logi'
+alias gitv='gits vim'
+alias gp='git push'
+alias grep='grep --color=auto'
+alias grh='git reset HEAD'
+alias gs='clear && git status'
+alias gsuo='git push --set-upstream origin' 
+alias h='history'
+alias kax='sudo killall Xorg'
+alias l1='ls -1'
+alias lad='ls -lad .*'
+alias mv='mv -v'
+alias nano='vim'
+alias pacmann='sudo pacman --noconfirm -S'
+alias rbn='sudo reboot now'
+alias sa='source ${HOME}/git/dotfiles/my_aliases'
+alias sdn='sudo shutdown now'
+alias se='source ${HOME}/git/dotfiles/my_exports'
+alias sf='source ${HOME}/git/dotfiles/my_functions'
+alias sp='source ${HOME}/git/dotfiles/my_paths'
+alias ssh='ssh -A'
+alias s='source'
+alias yayn='yay --noconfirm -S'
+
+# ------------------------------------------------------------------------------
+# Aliases to folders within my Git root.
+# ------------------------------------------------------------------------------
+alias ac='cd ${HOME}/git/AllanConsulting'
+alias bb='cd ${HOME}/bb'
+alias bootd='cd ${HOME}/git/bootstrap'
+alias color='cd ${HOME}/git/color'
+alias dot='cd ${HOME}/git/dotfiles/'
+alias fk='cd ${HOME}/git/fk/'
+alias gd='cd ${HOME}/git'
+alias hh='cd ${HOME}/git/HowardHouse'
+alias resume='cd ${HOME}/git/resume'
+alias sshd='cd ${HOME}/git/ssh'
+alias tmuxd='cd ${HOME}/git/tmux'
+alias vimd='cd ${HOME}/git/vim'
+
+# ------------------------------------------------------------------------------
+# Brew wants me to own usr/local
+# ------------------------------------------------------------------------------
+if osType "darwin"; then
+  alias ulo='sudo chown -R $(whoami) /usr/local'
+fi
+
+# ------------------------------------------------------------------------------
+# Repeat command are used when I enable my resume editor. 
+# ------------------------------------------------------------------------------
+alias rgl='repeat git logg -6'
+alias rgs='repeat git status --short'
+
+# ------------------------------------------------------------------------------
+# Perforce defaults.
+# ------------------------------------------------------------------------------
+if osType "linux"; then
+  if hostName "Ryder"; then
+    alias p4='${P4DISK}/2013.1/p4'
+    alias p4d='${P4DISK}/2013.1/p4d'
+  fi
+fi
+
+# ------------------------------------------------------------------------------
+# File I edit frequently. 
+# ------------------------------------------------------------------------------
+alias ,ea='${EDITOR} ${HOME}/git/dotfiles/alias_and_functions'
+alias ,eb='${EDITOR} ${HOME}/git/dotfiles/bashrc'
+alias ,ec='${EDITOR} ${HOME}/git/ssh/config.vim'
+alias ,ed='${EDITOR} ${HOME}/git/vim/custom-dictionary.utf-8.add'
+alias ,eg='${EDITOR} ${HOME}/git/ssh/gitconfig'
+alias ,ep='${EDITOR} ${HOME}/git/vim/plug.vim'
+alias ,et='${EDITOR} ${HOME}/git/tmux/tmux.conf'
+alias ,ev='${EDITOR} ${HOME}/git/vim/vimrc'
+
+alias ,ma='${EDITOR} ${HOME}/git/dotfiles/my_aliases'
+alias ,mc='${EDITOR} ${HOME}/git/dotfiles/my_completions'
+alias ,me='${EDITOR} ${HOME}/git/dotfiles/my_exports'
+alias ,mf='${EDITOR} ${HOME}/git/dotfiles/my_functions'
+alias ,mp='${EDITOR} ${HOME}/git/dotfiles/my_paths'
+alias ,mt='${EDITOR} ${HOME}/git/dotfiles/my_prompt'
+
+alias ,i3='${EDITOR} ${HOME}/git/dotfiles/i3-config'
+alias ,xi='${EDITOR} ${HOME}/git/dotfiles/xinitrc'

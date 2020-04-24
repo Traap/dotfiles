@@ -1,0 +1,2 @@
+#!/bin/sh
+git clone git@github.com:Traap/$1.git && cd $1

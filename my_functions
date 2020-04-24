@@ -1,0 +1,394 @@
+#!/bin/bash
+# ------------------------------------------------------------------------------
+# Set base16 color.  Mom and Dad functions are a simple tribute to my parents.
+# ------------------------------------------------------------------------------
+mom() {
+  base16Color $1 dark
+}
+
+dad() {
+  base16Color $1 light
+}
+
+ct() {
+ cd ${HOME}/git/color/base16-shell && ./colortest && cd -
+}
+
+# ------------------------------------------------------------------------------
+# A check for the existence of a directory.
+# ------------------------------------------------------------------------------
+dirExists() {
+  [[ -d "$1" ]]
+}
+
+# ------------------------------------------------------------------------------
+# Start and stop lightdm (display manager)
+# ------------------------------------------------------------------------------
+dmn() {
+  sudo systemctl disable lightdm
+  sudo systemctl stop    lightdm
+}
+
+dmy() {
+  sudo systemctl enable lightdm
+  sudo systemctl start  lightdm
+}
+# ------------------------------------------------------------------------------
+# A check for the existence of a file.
+# ------------------------------------------------------------------------------
+fileExists() {
+  [[ -f "$1" ]]
+}
+
+# ------------------------------------------------------------------------------
+# A check for the host name.
+# ------------------------------------------------------------------------------
+hostName() {
+ [[ ${HOSTNAME} =~ "$1" ]]
+}
+
+# ------------------------------------------------------------------------------
+# A check for the existence of a program on my path.
+# ------------------------------------------------------------------------------
+programExists() {
+  which "$1" &> /dev/null ;
+}
+
+# ------------------------------------------------------------------------------
+# A check for the operating system type.
+# ------------------------------------------------------------------------------
+osType() {
+ [[ ${OSTYPE} =~ "$1" ]]
+}
+
+# ------------------------------------------------------------------------------
+# Append to my path
+# ------------------------------------------------------------------------------
+appendToPath() {
+  if dirExists "$1"; then
+    [[ ":$PATH:" != *"$1"* ]] && export PATH="${PATH}:$1"
+  fi
+}
+
+# ------------------------------------------------------------------------------
+# Prepend to my path
+# ------------------------------------------------------------------------------
+prependToPath() {
+  if dirExists "$1"; then
+    [[ ":$PATH:" != *"$1"* ]] && export PATH="$1:${PATH}"
+  fi
+}
+
+# ------------------------------------------------------------------------------
+# Disable features / programs running on OSX.
+# ------------------------------------------------------------------------------
+if osType =~ "darwin"; then
+  msa() { Launchctl remove com.microsoft.SyncServicesAgent ; }
+  pah() { defaults write -g ApplePressAndHoldEnable -bool false ; }
+fi
+
+# ------------------------------------------------------------------------------
+# Set terminal title.
+# ------------------------------------------------------------------------------
+title() { echo -n -e "\033]0;$1\007"; }
+
+# ------------------------------------------------------------------------------
+# Docker machine and stack commands
+# ------------------------------------------------------------------------------
+sdm() {
+  docker-machine env
+  eval "$(docker-machine env default)"
+  docker-machine start
+}
+
+docker-gc() {
+  docker ps --no-trunc -aq | xargs docker rm
+  docker images -f "dangling=true" -q | xargs docker rmi
+}
+
+dba() { stack exec -- doc-build; }
+dbc() { stack exec -- doc-build clean ; }
+dbh() { stack build hmst-documentation ; }
+dbt() { stack exec -- doc-build tex ; }
+dbti(){ stack exec -- env DONT_RERUN_TEX_BUILD=1 doc-build tex;}
+dbv() { stack build verify && stack exec verify ; }
+
+# ------------------------------------------------------------------------------
+# Generating a new SSH key and adding it to the ssh-agent
+# https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent
+# ------------------------------------------------------------------------------
+sshkey(){
+  if fileExists ${HOME}/.ssh/$1_rsa; then
+    eval "$(ssh-agent -s)"
+    ssh-add ${HOME}/.ssh/$1_rsa
+  else
+    echo ${HOME}/.ssh/$1_rsa does not exist.
+  fi
+}
+
+sshlist() {
+  ps aux | awk /ssh-agent/
+}
+
+
+sshgh() {
+  eval "$(ssh-agent -s)"
+  ssh-add ${HOME}/.ssh/slyder
+}
+
+sshwork() {
+  sshgh
+  sshbb
+}
+
+sshme() {
+  echo "My ssh-agent PID ${SSH_AGENT_PID}"
+}
+
+sshkill() {
+  if osType =~ "msys"; then
+    col=1
+  else
+    col=2
+  fi
+  for pid in $(ps aux | awk '/ssh-agent/ {print $col}'); do kill -9 $pid; done
+}
+
+latexmkkill() {
+  for pid in $(ps aux | awk '/latexmk/ {print $2}'); do kill -9 $pid; done
+  for pid in $(ps aux | awk '/perl/ {print $2}'); do kill -9 $pid; done
+}
+
+sshstart() {
+  if programExists /etc/init.d/ssh; then
+    sudo /etc/init.d/ssh start
+  fi
+}
+
+sshstop() {
+  if programExists /etc/init.d/ssh; then
+    sudo /etc/init.d/ssh stop
+  fi
+}
+
+# ------------------------------------------------------------------------------
+# Base16 Shell
+# ------------------------------------------------------------------------------
+BASE16_SHELL=$HOME/git/color/base16-shell/
+[[ -n $PS1 ]] && [[ -s $BASE16_SHELL/profile_helper.sh ]] && \
+  eval "$($BASE16_SHELL/profile_helper.sh)"
+
+# ------------------------------------------------------------------------------
+# Make okular shut up on Windows.
+# ------------------------------------------------------------------------------
+okular() {
+  /c/ProgramData/chocolatey/bin/okular.exe $1 > /dev/null 2>&1
+}
+
+# ------------------------------------------------------------------------------
+# Repeat a command until a key is pressed.  The read command waits
+# 1sec before timing out.
+# ------------------------------------------------------------------------------
+repeat() {
+  let passNo=0;
+  while [ true ]; do
+    read -t 1 -n 1
+    if [ $? -gt 0 ]; then
+      let passNo=$((passNo+1))
+      clear
+      echo Repeating [$@]  Ctrl-C to stop.  Pass: $passNo
+      $@
+      sleep 5
+    fi
+  done
+}
+
+# ------------------------------------------------------------------------------
+# Cxx helper to simplify CxxTest use for C++ software.
+# ------------------------------------------------------------------------------
+cxx() {
+  ${HOME}/git/cxxtest/bin/cxxtestgen --error-printer -o Test$1.cpp Test$1.h
+  g++ -w -o Test$1 Test$1.cpp
+  ./Test$1
+  rm Test$1.cpp
+}
+
+# ------------------------------------------------------------------------------
+# Start Vim with client server when it is compiled in.
+# ------------------------------------------------------------------------------
+vim() {
+  $EDITOR "$@"
+}
+
+vimu() {
+  $EDITOR -u NORC "$@"
+}
+
+if [[ ${OSTYPE} =~ "darwin" ]]; then
+  if [[ -n $(vim --version | grep clientserver) ]]; then
+    alias vimx='$EDITOR --servername VIM'
+  fi
+fi
+
+# ------------------------------------------------------------------------------
+# Perforce defaults.
+# ------------------------------------------------------------------------------
+if [[ ${OSTYPE} =~ "linux" ]]; then
+  if [[ ${HOSTNAME} =~ "Ryder" ]]; then
+    export P4DISK=/Volumes/Larry
+    export P4HOST=localhost
+    export P4PORT=1666
+    export P4ROOT=${P4DISK}/p4root
+    export P4CLIENT=Gary:on:Ryder
+  fi
+fi
+
+# ------------------------------------------------------------------------------
+# sdkman
+# ------------------------------------------------------------------------------
+if [[ -f ${HOME}/.sdkman/bin/sdkman-init.sh ]]; then
+  export SDKMAN_DIR="${HOME}/.sdkman"
+  source "${HOME}/.sdkman/bin/sdkman-init.sh"
+fi
+
+# ------------------------------------------------------------------------------
+# Build gem
+# ------------------------------------------------------------------------------
+bldgem() {
+  clear && cd $1 \
+     && bundle install \
+     && bundle exec rake \
+     && bundle exec rake install
+}
+
+# ------------------------------------------------------------------------------
+# Build something I know about.
+# ------------------------------------------------------------------------------
+bld() {
+  case $1 in
+    amber)
+      bldgem ${AMBERPATH}
+      ;;
+    emend)
+      bldgem ${HOME}/git/emend
+      ;;
+    daryn)
+      bldgem ${HOME}/git/daryn
+      ;;
+    ametrine)
+      bldgem ${HOME}/git/ametrine
+      ;;
+    *)
+      echo "bld: $1 not supported."
+      echo "Usage: bld [amber | daryn | emend| ametrine ]"
+  esac
+}
+
+# ------------------------------------------------------------------------------
+# amber function.
+# ------------------------------------------------------------------------------
+check-test-output() {
+  echo grep -rw --include=\*step*.* test-output/ -e $1
+  grep -rw --include=\*step*.* test-output/ -e $1
+}
+
+pass() {
+  check-test-output PASS
+}
+
+fail() {
+  check-test-output FAIL
+}
+
+requirements() {
+  echo "grep -rw --include=\*.yaml factory/ -e 'requirement:'"
+  grep -rw --include=\*.yaml factory/ -e 'requirement:'
+}
+
+validate-git-client() {
+  cd ${HOME}/git/tool-validation/git-client
+  rm -rf _build/ test-ouput/
+  amber --nodryrun --environment --verbose --plan=command-line
+  docbld
+}
+
+validate-git-gui() {
+  cd ${HOME}/git/tool-validation/git-client
+  rm -rf _build/ test-ouput/
+  amber --nodryrun --environment --verbose --plan=command-line \
+        --language=en --browser=Chrome
+  docbld
+}
+
+# ------------------------------------------------------------------------------
+# GIT_HOME is needed for test automation framework.
+# ------------------------------------------------------------------------------
+if [[ -d ${HOME}/bb ]]; then
+  export GIT_HOME=${HOME}/bb
+fi
+
+# ------------------------------------------------------------------------------
+# spath function tells me each part of my current path.
+# ------------------------------------------------------------------------------
+spath() {
+  echo $PATH | sed -n 1'p' | tr ':' '\n' | while read word; do
+    echo $word
+  done
+}
+
+# ------------------------------------------------------------------------------
+# master moves me to master and shows me a few commits.
+# ------------------------------------------------------------------------------
+br() {
+  git co $1
+}
+
+master() {
+  br master
+  clear
+  git logg -15
+}
+
+# ------------------------------------------------------------------------------
+# Grep my history for a prior command I used.
+# ------------------------------------------------------------------------------
+hg() {
+  history | grep "$1"
+}
+
+# ------------------------------------------------------------------------------
+# File & String related functions
+# ------------------------------------------------------------------------------
+
+ff()  {
+  find . -type f -iname "$1" -print ;
+}
+
+ffr() { find . -name "$1" -delete -ls ; }
+
+ffw() {
+  local ext=$1 pattern=$2
+  find . -name "$ext" -type f -exec grep "$pattern" /dev/null {} +
+}
+
+# ------------------------------------------------------------------------------
+# pm
+# ------------------------------------------------------------------------------
+pm() {
+  sudo pacman --noconfirm -Sy $1
+}
+
+# ------------------------------------------------------------------------------
+# cj & gh are functions that I rewrite all the time to simplify my life.
+# ------------------------------------------------------------------------------
+cj() {
+  newdoc --dir=$1/$2 --file=$2 --title=$2 $3 $4
+}
+
+gh() {
+  clear && docbld clobber && docbld texx && ll && zathura $1
+}
+
+pdf() {
+  latexmk -pdf -synctex=1 -verbose -file-line-error -cd $1
+}

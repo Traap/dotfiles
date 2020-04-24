@@ -1,0 +1,30 @@
+# DO NOT EXECUTE;  These are notes I have taken to setup ssh.
+#                  
+#
+
+$eval(which ruby)
+
+# .ssh
+cd ~/.ssh
+chmod 600 * 
+chmod 644 *.pub
+
+# See what is set.
+echo $HOST
+echo $HOSTFILE
+echo $HOSTNAME
+echo $HOSTTYPE
+echo $INPUTRC
+echo $MACHTYPE
+echo $UID
+
+# When I need an ssh server.
+sudo apt-get install openssh-server
+sudo apt-get purge openssh-server
+sudo apt-get update
+
+# Start the server.
+sudo service ssh --full-restart
+
+# Examine file.
+sudo vim /etc/ssh/sshd_config 

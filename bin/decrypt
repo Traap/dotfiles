@@ -1,0 +1,7 @@
+#!/bin/bash
+rm -vf $1
+gpg -v --output $1 --decrypt $1.gpg
+if [ $? -eq 0 ]
+then
+  rm -rf $1.gpg
+fi

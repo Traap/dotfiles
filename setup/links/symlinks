@@ -1,0 +1,21 @@
+#!/bin/bash
+
+ln -fsv ~/git/dotfiles/bash_logout  ~/.bash_logout
+ln -fsv ~/git/dotfiles/bashrc       ~/.bash_profile
+ln -fsv ~/git/dotfiles/bashrc       ~/.bashrc
+ln -fsv ~/git/dotfiles/config       ~/.config
+ln -fsv ~/git/dotfiles/dircolors    ~/.dircolors
+ln -fsv ~/git/dotfiles/inputrc      ~/.inputrc
+ln -fsv ~/git/dotfiles/minttyrc     ~/.minttyrc
+ln -fsv ~/git/dotfiles/mozilla      ~/.mozilla
+#ln -fsv ~/git/mutt-office365        ~/.mutt
+#ln -fsv ~/git/mutt-office365/muttrc ~/.muttrc
+ln -fsv ~/git/ssh/config.vim        ~/.config.vim
+ln -fsv ~/git/ssh/gitconfig         ~/.gitconfig
+ln -fsv ~/git/ssh/gitignore_global  ~/.gitignore_global
+ln -fsv ~/git/ssh                   ~/.ssh
+ln -fsv ~/git/tmux                  ~/.tmux
+ln -fsv ~/git/tmux/tmux.conf        ~/.tmux.conf
+ln -fsv ~/git/vim                   ~/.vim
+ln -fsv ~/git/vim/vimrc_background  ~/.vimrc_background
+ln -fsv ~/git/vim/vimrc             ~/.vimrc

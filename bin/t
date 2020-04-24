@@ -1,0 +1,2 @@
+#!/bin/sh
+tail $(find . -iname *.sh)

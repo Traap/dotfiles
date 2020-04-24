@@ -1,0 +1,45 @@
+#!/bin/bash
+# ------------------------------------------------------------------------------
+# Brew => https://brew.sh/
+# ------------------------------------------------------------------------------
+if osType "darwin"; then
+  if [[ -f $(brew --prefix)/etc/bash_completion ]]; then
+    . $(brew --prefix)/etc/bash_completion
+  fi
+else
+  d=.dircolors
+  test -r $d && eval "$(dircolors $d)"
+  if fileExists /usr/share/bash-completion/bash_completion; then
+    . /usr/share/bash-completion/bash_completion
+  fi
+fi
+
+# ------------------------------------------------------------------------------
+# fzf - A command-line fuzzy finder 
+# ------------------------------------------------------------------------------
+if fileExists ${HOME}/.fzf.bash; then
+  source ${HOME}/.fzf.bash
+fi
+
+# ------------------------------------------------------------------------------
+# iTerm2 shell integration => https://www.iterm2.com/
+# ------------------------------------------------------------------------------
+if osType "darwin"; then
+  if fileExists ${HOME}/.iterm2_shell_integration.bash; then
+    source ${HOME}/.iterm2_shell_integration.bash
+  fi
+fi
+
+# ------------------------------------------------------------------------------
+# Travis integration
+# ------------------------------------------------------------------------------
+if fileExists ${HOME}.travis/travis.sh; then
+  source ${HOME}.travis/travis.sh
+fi
+
+# ------------------------------------------------------------------------------
+# Stack specific settings.
+# ------------------------------------------------------------------------------
+if fileExists /usr/local/bin/stack; then
+  eval "$(stack --bash-completion-script stack)"
+fi

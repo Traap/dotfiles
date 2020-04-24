@@ -1,0 +1,33 @@
+#!/bin/bash
+# ------------------------------------------------------------------------------
+# Stooges: Honorning Lary, Moe, and Curley ... Nyuk, nyuk, nyuk.
+# ------------------------------------------------------------------------------
+echo ${HOSTNAME} "on" ${OSTYPE}
+
+# ------------------------------------------------------------------------------
+# Bash scripting cheatsheet => https://devhints.io/bash
+# ------------------------------------------------------------------------------
+# Disable ctrl-s and ctrl-q
+stty -ixon 
+
+# Infanite history
+HISTSIZE= HISTFILESIZE=
+
+# Turn off numlock
+[[ ${OSTYPE} =~ "linux" ]] && numlockx off
+
+# ------------------------------------------------------------------------------
+# Define functions and paths for this shell. 
+# ------------------------------------------------------------------------------
+dotfiles=${HOME}/git/dotfiles
+
+my_array=("functions" "exports" "aliases" "paths" "completions" "prompt" )
+for m in ${my_array[@]}; do
+  x=$dotfiles/my_$m
+  source $x
+done
+
+# ------------------------------------------------------------------------------
+# Add ssh-key using sshgh function.
+# ------------------------------------------------------------------------------
+sshgh

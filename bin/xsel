@@ -1,0 +1,26 @@
+#!/bin/bash
+
+# -----------------------------------------------------------------------------
+# https://lloydrochester.com/post/vim/wsl-neovim-copy-paste/
+# filename: xsel
+# make sure this file has executable privledges
+# neovim will paste "xsel -o -b"
+# neovim will copy using "xsel --nodetach -i -b"
+# -----------------------------------------------------------------------------
+
+for i in "$@"
+do
+  case "$i" in
+  -o )
+    # for paste we will grab contents from powershell.exe
+    # powershell.exe Get-Clipboard always adds an extra
+    # line break so we will added sed with -z
+    powershell.exe Get-Clipboard | sed 's/\r$//' | sed -z '$ s/\n$//'
+    exit 0
+    ;;
+  -i )
+    # for copy we'll direct stdin to clip.exe
+    tee <&0 | clip.exe
+    exit 0
+  esac
+done

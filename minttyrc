@@ -1,0 +1,12 @@
+BoldAsFont=-1
+FontHeight=11
+Transparency=high
+CursorType=block
+Scrollbar=none
+Term=xterm-256color
+Font=Lucida Console
+OpaqueWhenFocused=no
+CursorBlinks=no
+RightClickAction=paste
+Rows=25
+CursorColour=255,128,192

@@ -1,0 +1,6 @@
+#!/bin/bash
+git clone ssh://git@10.2.0.235:7999/soup/amber.git
+git clone ssh://git@10.2.0.235:7999/soup/autodoc.git
+git clone ssh://git@10.2.0.235:7999/soup/docbld.git
+git clone ssh://git@10.2.0.235:7999/soup/newdoc.git
+git clone ssh://git@10.2.0.235:7999/soup/tlc-article.git
