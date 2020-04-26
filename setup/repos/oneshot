@@ -1,0 +1,12 @@
+#!/bin/bash
+repos=(amber autodoc docbld dotfiles newdoc scripts ssh vim)
+
+clone() {
+  arr=("$@")
+  for r in "${arr[@]}"
+  do
+    git clone --depth 1 https://github.com/Traap/$r.git
+  done
+}
+
+clone ${repos[@]}
