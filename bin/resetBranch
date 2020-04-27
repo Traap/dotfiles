@@ -3,10 +3,7 @@
 # Reset a git Branch hard.
 # ------------------------------------------------------------------------------ 
 resetBranch() {
-  git reset --hard $1
-  if [[ $? -eq 0 ]]; then
-    git push --force
-  fi
+  git reset --hard $1 && [ $? -eq 0 ] && git push --force
 }
 # ------------------------------------------------------------------------------
 resetBranch "$@"
