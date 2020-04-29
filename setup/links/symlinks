@@ -6,10 +6,11 @@ ln -fsv ~/git/dotfiles/bashrc       ~/.bashrc
 ln -fsv ~/git/dotfiles/config       ~/.config
 ln -fsv ~/git/dotfiles/dircolors    ~/.dircolors
 ln -fsv ~/git/dotfiles/inputrc      ~/.inputrc
+ln -fsv ~/git/dotfiles/latexmkrc    ~/.letexmkrc
 ln -fsv ~/git/dotfiles/minttyrc     ~/.minttyrc
-ln -fsv ~/git/dotfiles/mozilla      ~/.mozilla
-#ln -fsv ~/git/mutt-office365        ~/.mutt
-#ln -fsv ~/git/mutt-office365/muttrc ~/.muttrc
+# ln -fsv ~/git/dotfiles/mozilla      ~/.mozilla
+# ln -fsv ~/git/mutt-office365        ~/.mutt
+# ln -fsv ~/git/mutt-office365/muttrc ~/.muttrc
 ln -fsv ~/git/ssh/config.vim        ~/.config.vim
 ln -fsv ~/git/ssh/gitconfig         ~/.gitconfig
 ln -fsv ~/git/ssh/gitignore_global  ~/.gitignore_global

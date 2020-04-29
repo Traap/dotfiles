@@ -5,10 +5,13 @@
 if osType "darwin" \
 || osType "linux"  \
 || osType "msys"; then
-    # appendToPath ${HOME}/git/scripts/statusbar
-    # appendToPath ${HOME}/git/scripts/utilities
     prependToPath ${HOME}/git/dotfiles/bin
     prependToPath ${HOME}/.vim/bundle/vim-superman/bin
+    appendToPath  ${HOME}/usr/local/texlive/2020/bin/x85_64-linux
+
+    appendToManPath  /usr/local/texlive/2020/texmf-dist/doc/man
+
+    appendToInfoPath /usr/local/texlive/2020/texmf-dist/doc/info
 fi
 
 # ------------------------------------------------------------------------------
