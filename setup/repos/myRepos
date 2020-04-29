@@ -1,5 +1,5 @@
 #!/bin/bash
-repos=(amber autodoc docbld dotfiles newdoc scripts ssh vim)
+repos=(amber autodoc docbld dotfiles emend-computer newdoc ssh tmux vim)
 
 clone() {
   arr=("$@")
