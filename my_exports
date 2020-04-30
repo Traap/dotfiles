@@ -75,13 +75,14 @@ fi
 # ------------------------------------------------------------------------------
 # Default editor.
 # ------------------------------------------------------------------------------
-if fileExists /usr/local/bin/nvim; then
-  export EDITOR=/usr/local/bin/nvim
-elif fileExists /usr/bin/nvim; then
-  export EDITOR=/usr/bin/nvim
-else
-  export EDITOR=/usr/bin/vim
-fi
+export EDITOR=/usr/bin/vim
+# if fileExists /usr/local/bin/nvim; then
+#   export EDITOR=/usr/local/bin/nvim
+# elif fileExists /usr/bin/nvim; then
+#   export EDITOR=/usr/bin/nvim
+# else
+#   export EDITOR=/usr/bin/vim
+# fi
 
 # ------------------------------------------------------------------------------
 # emend location and function.  These must go together.
