@@ -6,7 +6,7 @@ ln -fsv ~/git/dotfiles/bashrc       ~/.bashrc
 ln -fsv ~/git/dotfiles/config       ~/.config
 ln -fsv ~/git/dotfiles/dircolors    ~/.dircolors
 ln -fsv ~/git/dotfiles/inputrc      ~/.inputrc
-ln -fsv ~/git/dotfiles/latexmkrc    ~/.letexmkrc
+ln -fsv ~/git/dotfiles/latexmkrc    ~/.latexmkrc
 ln -fsv ~/git/dotfiles/minttyrc     ~/.minttyrc
 # ln -fsv ~/git/dotfiles/mozilla      ~/.mozilla
 # ln -fsv ~/git/mutt-office365        ~/.mutt
