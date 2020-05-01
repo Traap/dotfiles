@@ -390,7 +390,7 @@ ffr() { find . -name "$1" -delete -ls ; }
 
 ffw() {
   local ext=$1 pattern=$2
-  find . -name "$ext" -type f -exec grep "$pattern" /dev/null {} +
+  find . -name "$ext" -type f -exec grep -l "$pattern" /dev/null {} +
 }
 
 # ------------------------------------------------------------------------------
