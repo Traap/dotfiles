@@ -1,0 +1,10 @@
+#!/bin/bash
+echo "uname        : $(uname):" 
+echo "    kernel -s: $(uname -s):" 
+echo "     node  -n: $(uname -n):" 
+echo "  release  -r: $(uname -r):" 
+echo "  version  -v: $(uname -v):" 
+echo "  machine  -m: $(uname -m):" 
+echo "processor  -p: $(uname -p):" 
+echo " hardware  -i: $(uname -i):" 
+echo "       OS  -o: $(uname -o):" 
