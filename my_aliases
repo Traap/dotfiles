@@ -14,6 +14,7 @@ elif osType "linux" \
   alias la='ls -A --color'
   alias ls='ls --color=auto'
   alias ll='ls -lahG --color'
+  alias xz='vi -c "let g:tty='\''$(tty)'\''"'
   d=.dircolors
   test -r $d && eval "$(dircolors $d)"
   if fileExists /usr/share/bash-completion/bash_completion; then
@@ -79,7 +80,7 @@ alias egrep='egrep --color=auto'
 alias encrypt='${HOME}/git/dotfiles/encrypt'
 alias fgrep='fgrep --color=auto'
 alias ga='git add'
-alias gc='git commit -m' 
+alias gc='git commit -m'
 alias gl7='git logg -7'
 alias glgg='git logg'
 alias glg='git log'
@@ -89,7 +90,7 @@ alias gp='git push'
 alias grep='grep --color=auto'
 alias grh='git reset HEAD'
 alias gs='clear && git status'
-alias gsuo='git push --set-upstream origin' 
+alias gsuo='git push --set-upstream origin'
 alias h='history'
 alias kax='sudo killall Xorg'
 alias l1='ls -1'
@@ -131,7 +132,7 @@ if osType "darwin"; then
 fi
 
 # ------------------------------------------------------------------------------
-# Repeat command are used when I enable my resume editor. 
+# Repeat command are used when I enable my resume editor.
 # ------------------------------------------------------------------------------
 alias rgl='repeat git logg -6'
 alias rgs='repeat git status --short'
@@ -147,7 +148,7 @@ if osType "linux"; then
 fi
 
 # ------------------------------------------------------------------------------
-# File I edit frequently. 
+# File I edit frequently.
 # ------------------------------------------------------------------------------
 alias ,ea='${EDITOR} ${HOME}/git/dotfiles/alias_and_functions'
 alias ,eb='${EDITOR} ${HOME}/git/dotfiles/bashrc'
