@@ -3,19 +3,19 @@
 # Git helpers
 # ------------------------------------------------------------------------------
 gce() {
-  if [[ "amgen" = $1 ]]; then
+  if [ "amgen" = $1 ]; then
     git config --local user.name gahoward
     git config --local user.email gahoward@amgen.com
-  elif [[ "edx" = $1 ]]; then
+  elif [ "edx" = $1 ]; then
     git config --local user.name gary.howard
     git config --local user.email gary.howard@endotronicx.com
-  elif [[ "fk" = $1 ]]; then
-    git config --local user.name gahoward
+  elif [ "fk" = $1 ]; then
+    git config --local user.name gary.howard 
     git config --local user.email gary.howard@fresenius-kabi.com
-  elif [[ "mhp" = $1 ]]; then
+  elif [ "mhp" = $1 ]; then
     git config --local user.name ghoward
     git config --local user.email gahoward@mhealthpharma.com
-  elif [[ "traap" = $1 ]]; then
+  elif [ "traap" = $1 ]; then
     git config --local user.name Traap
     git config --local user.email gary.a.howard@mac.com
   else
