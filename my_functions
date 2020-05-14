@@ -246,6 +246,10 @@ vimu() {
   $EDITOR -u NORC "$@"
 }
 
+vims() {
+  $EDITOR startuptime --startuptime startuptime 
+}
+
 if [[ ${OSTYPE} =~ "darwin" ]]; then
   if [[ -n $(vim --version | grep clientserver) ]]; then
     alias vimx='$EDITOR --servername VIM'

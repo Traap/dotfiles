@@ -30,32 +30,6 @@ fi
 set -o vi
 
 # ------------------------------------------------------------------------------
-# Haskell and Cabal (Glasgow Haskell Compiler).
-# ------------------------------------------------------------------------------
-if fileExists /usr/bin/ghc; then
-  alias ci='cabal install'
-  alias cif='cabal install --force-reinstalls'
-  alias cemacs='emacs -Q -l ${HOME}/git/emacs-haskell-config/init.el'
-fi
-
-# ------------------------------------------------------------------------------
-# Fuse => https://osxfuse.github.io/
-# ------------------------------------------------------------------------------
-if osType "darwin"; then
-  if hostName "Stooges"; then
-    alias  fpc0='sshfs fpc:git/smart-device-sw /Volumes/Larry/fpc0'
-    alias ufpc0='umount /Volumes/Larry/fpc0'
-    alias   ds6='sshfs datasci:git/smart-device-sw /Volumes/Larry/ds6'
-    alias  uds6='umount /Volumes/Larry/ds6'
-  else
-    alias  fpc0='sshfs fpc:git/smart-device-sw ${HOME}/fpc0'
-    alias ufpc0='umount ${HOME}/fpc0'
-    alias   ds6='sshfs datasci:git/smart-device-sw ${HOME}/ds6'
-    alias  uds6='umount ${HOME}/ds6'
-  fi
-fi
-
-# ------------------------------------------------------------------------------
 # latexrun is defined when present.
 # ------------------------------------------------------------------------------
 if fileExists ${HOME}/git/latexrun/latexrun; then
