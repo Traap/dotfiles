@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # ------------------------------------------------------------------------------
 # Check the porcelain state of my git repositories.
 # ------------------------------------------------------------------------------
@@ -63,12 +63,13 @@ gits(){
     cd $d > /dev/null
 
     # Do work if were are inside a git repository.
-    if [ inside-repo ]; then
-      echo "*** ${d} ***";
-      git status --short --branch;
-      echo ""
-      gitPull $2
-      gitSetUserAndEmail $1 $2
+    if [[ insideRepo ]]; then
+      x=repoChanged
+      $x && echo "*** ${d} ***";
+      $x && git status --short --branch;
+      $x && echo ""
+      $x && gitPull $2
+      $x && gitSetUserAndEmail $1 $2
     fi
 
     # move up a directory

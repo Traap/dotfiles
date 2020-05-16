@@ -1,0 +1,3 @@
+#!/bin/bash
+status="$(git status --porcelain 2>/dev/null && git stash list 2>/dev/null)"
+[[ ! -z $status ]]

@@ -1,3 +1,0 @@
-#!/bin/sh
-inside_repo="$(git rev-parse --is-inside-work-tree 2>/dev/null)"
-[ ${inside_repo} ]
