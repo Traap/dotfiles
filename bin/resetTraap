@@ -1,0 +1,5 @@
+#!/bin/bash
+# ------------------------------------------------------------------------------
+# Reset Traap factory settings. 
+# ------------------------------------------------------------------------------
+time /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Traap/TraapReset/master/install.sh)"
