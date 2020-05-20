@@ -1,11 +1,17 @@
 #!/bin/bash
-repos=(amber autodoc docbld dotfiles  newdoc)
+repos=()
+repos+=('soup/amber')
+repos+=('soup/autodoc')
+repos+=('soup/docbld')
+repos+=('soup/newdoc')
+repos+=('~gary.howard/fk')
+repos+=('~gary.howard/ryder')
 
 clone() {
   arr=("$@")
   for r in "${arr[@]}"
   do
-    git clone --depth 1 ssh://git@10.2.0.235:7999/soup/$r.git
+    time git clone ssh://git@10.2.0.235:7999/$r.git
   done
 }
 

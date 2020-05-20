@@ -1,2 +1,3 @@
-#!/bin/sh
-git clone git@github.com:Traap/$1.git && cd $1
+#!/bin/bash
+echo "git clone git@github.com:Traap/$1.git"
+git clone git@github.com:Traap/$1.git
