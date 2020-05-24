@@ -9,4 +9,4 @@
 # 4 - Run Vim
 # 5 - Watch the show. :)
 # ------------------------------------------------------------------------------
-cd ~/git && rm -rf ~/git/vim && gr vim && vim
+cd ${HOME}/git && rm -rf ${HOME}/git/vim && gr vim && vim
