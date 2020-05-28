@@ -14,7 +14,9 @@ stty -ixon
 HISTSIZE= HISTFILESIZE=
 
 # Turn off numlock
-[[ ${OSTYPE} =~ "linux" ]] && numlockx off
+if hostName "REMOVE-THE-HACK"; then
+  [[ ${OSTYPE} =~ "linux" ]] && numlockx off
+fi
 
 # ------------------------------------------------------------------------------
 # Define functions and paths for this shell. 

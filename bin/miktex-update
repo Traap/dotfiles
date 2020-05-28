@@ -1,0 +1,3 @@
+#!/bin/bash
+sudo miktexsetup --shared=yes finish
+sudo initexmf --admin --set-config-value [MPM]AutoInstall=1
