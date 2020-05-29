@@ -1,0 +1,25 @@
+#!/bin/bash
+#
+# Inspired by:
+#  Doug Bell - "Organized Development with tmux", Jun 18, 2019
+#               Conference in the Cloud A Perl and Raku Conf
+#
+# https://www.youtube.com/watch?v=o7Dg1kmjhfQ&t=2428s
+# ------------------------------------------------------------------------------
+
+if ! tmux has-session -t alpha; then
+  tmux new-session -c ${HOME}/git/dotfiles -n Dotfiles -s alpha -d
+  tmux send-keys -t alpha:1 'vim' Enter
+
+  tmux new-window -c ${HOME}/git/scratchpad -n Scratchpad -t alpha:2
+  tmux split-window -t alpha:2 -h
+  tmux send-keys -t alpha:2.0 'ls -la' Enter
+  tmux send-keys -t alpha:2.1 'top' Enter
+
+  tmux new-window -c ${HOME}/git/vim -n Vimmer -t alpha:3
+  tmux send-keys -t alpha:3 'vim plug.vim' Enter
+
+  tmux new-window -c ${HOME}/git/kjv -n KJV -t alpha:4
+  tmux send-keys -t alpha:4 'kjv john' Enter
+fi
+tmux attach -t alpha
