@@ -22,18 +22,6 @@ dirExists() {
 }
 
 # ------------------------------------------------------------------------------
-# Start and stop lightdm (display manager)
-# ------------------------------------------------------------------------------
-dmn() {
-  sudo systemctl disable lightdm
-  sudo systemctl stop    lightdm
-}
-
-dmy() {
-  sudo systemctl enable lightdm
-  sudo systemctl start  lightdm
-}
-# ------------------------------------------------------------------------------
 # A check for the existence of a file.
 # ------------------------------------------------------------------------------
 fileExists() {
@@ -80,7 +68,7 @@ prependToPath() {
 }
 
 # ------------------------------------------------------------------------------
-# Append to INFOPATH 
+# Append to INFOPATH
 # ------------------------------------------------------------------------------
 appendToInfoPath() {
   if dirExists "$1"; then
@@ -89,7 +77,7 @@ appendToInfoPath() {
 }
 
 # ------------------------------------------------------------------------------
-# Append to MANPATH 
+# Append to MANPATH
 # ------------------------------------------------------------------------------
 appendToManPath() {
   if dirExists "$1"; then
@@ -109,27 +97,6 @@ fi
 # Set terminal title.
 # ------------------------------------------------------------------------------
 title() { echo -n -e "\033]0;$1\007"; }
-
-# ------------------------------------------------------------------------------
-# Docker machine and stack commands
-# ------------------------------------------------------------------------------
-sdm() {
-  docker-machine env
-  eval "$(docker-machine env default)"
-  docker-machine start
-}
-
-docker-gc() {
-  docker ps --no-trunc -aq | xargs docker rm
-  docker images -f "dangling=true" -q | xargs docker rmi
-}
-
-dba() { stack exec -- doc-build; }
-dbc() { stack exec -- doc-build clean ; }
-dbh() { stack build hmst-documentation ; }
-dbt() { stack exec -- doc-build tex ; }
-dbti(){ stack exec -- env DONT_RERUN_TEX_BUILD=1 doc-build tex;}
-dbv() { stack build verify && stack exec verify ; }
 
 # ------------------------------------------------------------------------------
 # Generating a new SSH key and adding it to the ssh-agent
@@ -247,7 +214,7 @@ vimu() {
 }
 
 vims() {
-  $EDITOR startuptime --startuptime startuptime 
+  $EDITOR startuptime --startuptime startuptime
 }
 
 if [[ ${OSTYPE} =~ "darwin" ]]; then

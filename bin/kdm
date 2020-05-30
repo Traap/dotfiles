@@ -1,0 +1,6 @@
+#!/bin/bash
+# ------------------------------------------------------------------------------
+# Kill lightdm (display manager)
+# ------------------------------------------------------------------------------
+sudo systemctl enable lightdm
+sudo systemctl start  lightdm
