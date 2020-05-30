@@ -142,3 +142,22 @@ alias ,mt='${EDITOR} ${HOME}/git/dotfiles/my_prompt'
 
 alias ,i3='${EDITOR} ${HOME}/git/dotfiles/i3-config'
 alias ,xi='${EDITOR} ${HOME}/git/dotfiles/xinitrc'
+
+# ------------------------------------------------------------------------------
+# tmux sessions I frequently use.
+# ------------------------------------------------------------------------------
+alias tao='ao ao'
+alias tbash='ao bash'
+alias tkjv='ao kjv'
+alias tssh='ao ssh'
+alias tsoup='ao soup'
+alias tvim='ao vim'
+alias twork='ao work'
+
+alias kao='tmux kill-session -t ao'
+alias kbash='tmux kill-session -t bash'
+alias kkjv='tmux kill-session -t kjv'
+alias kssh='tmux kill-session -t ssh'
+alias ksoup='tmux kill-session -t soup'
+alias kvim='tmux kill-session -t vim'
+alias kwork='tmux kill-session -t work'
