@@ -8,16 +8,19 @@ echo ${HOSTNAME} "on" ${OSTYPE}
 # Bash scripting cheatsheet => https://devhints.io/bash
 # ------------------------------------------------------------------------------
 # Disable ctrl-s and ctrl-q
-stty -ixon 
+stty -ixon
 
 # Infanite history
 HISTSIZE= HISTFILESIZE=
 
 # Turn off numlock
-#   [[ ${OSTYPE} =~ "linux" ]] && numlockx off
+if [[ ${HOSTNAME} =~ "Stryder" ]]; then
+  numlockx off
+  setxkbmap -option caps:swapescape
+fi
 
 # ------------------------------------------------------------------------------
-# Define functions and paths for this shell. 
+# Define functions and paths for this shell.
 # ------------------------------------------------------------------------------
 dotfiles=${HOME}/git/dotfiles
 
