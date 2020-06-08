@@ -4,14 +4,15 @@ repos+=('soup/amber')
 repos+=('soup/autodoc')
 repos+=('soup/docbld')
 repos+=('soup/newdoc')
-repos+=('~gary.howard/fk')
+repos+=('rdtest/autodhf')
+#repos+=('~gary.howard/fk')
 repos+=('~gary.howard/ryder')
 
 clone() {
   arr=("$@")
   for r in "${arr[@]}"
   do
-    time git clone ssh://git@10.2.0.235:7999/$r.git
+    time git clone ssh://git@bitbucket.fkrnd.com:7999/$r.git
   done
 }
 
