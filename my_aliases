@@ -13,7 +13,6 @@ elif osType "linux" \
   alias la='ls -A --color'
   alias ls='ls --color=auto'
   alias ll='ls -lahG --color'
-  alias xz='vi -c "let g:tty='\''$(tty)'\''"'
   d=.dircolors
   test -r $d && eval "$(dircolors $d)"
   if fileExists /usr/share/bash-completion/bash_completion; then
@@ -68,6 +67,7 @@ alias h='history'
 alias kax='sudo killall Xorg'
 alias l1='ls -1'
 alias lad='ls -lad .*'
+alias man='vman'
 alias mv='mv -v'
 alias nano='vim'
 alias pacmann='sudo pacman --noconfirm -S'
@@ -80,6 +80,7 @@ alias sp='source ${HOME}/git/dotfiles/my_paths'
 alias ssh='ssh -A'
 alias s='source'
 alias yayn='yay --noconfirm -S'
+alias xz='vi -c "let g:tty='\''$(tty)'\''"'
 
 # ------------------------------------------------------------------------------
 # Aliases to folders within my Git root.
