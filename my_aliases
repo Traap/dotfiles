@@ -160,3 +160,9 @@ alias kssh='tmux kill-session -t ssh'
 alias ksoup='tmux kill-session -t soup'
 alias kvim='tmux kill-session -t vim'
 alias kwork='tmux kill-session -t work'
+
+# ------------------------------------------------------------------------------
+# archlinux tlmgr (texlive manager)
+# ------------------------------------------------------------------------------
+export TEXMFDIST='/usr/share/texmf-dist'
+alias tlmgr='${TEXMFDIST}/scripts/texlive/tlmgr.pl --usermode'
