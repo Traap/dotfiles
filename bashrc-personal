@@ -14,7 +14,7 @@ stty -ixon
 HISTSIZE= HISTFILESIZE=
 
 # Turn off numlock
-if [[ ${HOSTNAME} =~ "Stryder" ]]; then
+if [[ ${HOSTNAME} == "TraapDoor" ]]; then
   numlockx off
   setxkbmap -option caps:swapescape
 fi

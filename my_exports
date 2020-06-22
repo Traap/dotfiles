@@ -1,88 +1,11 @@
-#!/bin/bash
-# ------------------------------------------------------------------------------
-# 256 colors.
-# ------------------------------------------------------------------------------
-export BROWSER=firefox
-export FILE=ranger
-if hostName "Sweetheart" \
-|| hostName "Ryder"; then
-  export TERM=st-256color
-  #export TERMINAL=st
-  export TERMINAL=termite
+# EDITOR=/usr/bin/vim
+if fileExists /usr/local/bin/nvim; then
+  export EDITOR=/usr/local/bin/nvim
+elif fileExists /usr/bin/nvim; then
+  export EDITOR=/usr/bin/nvim
 else
-  export TERM=xterm-256color
+  export EDITOR=/usr/bin/vim
 fi
-
-# ------------------------------------------------------------------------------
-# Darwin CLI and LS colors.
-# ------------------------------------------------------------------------------
-if osType "darwin"; then
-  export CLICOLOR=1
-  export LSCOLORS=GxFxBxDxCxegedabagacad
-fi
-
-# ------------------------------------------------------------------------------
-# amber location.
-# ------------------------------------------------------------------------------
-if dirExists ${HOME}/git/amber; then
-   AMBERPATH=${HOME}/git/amber
-elif dirExists ${HOME}/soup/amber; then
-     AMBERPATH=${HOME}/soup/amber
-else
-  AMBERPATH=""
-  echo "WARNING: amber is not installed."
-fi
-export AMBERPATH
-
-if [[ -d ${AMBERPATH} ]]; then
-  newfactoryitem() {
-    ${AMBERPATH}/bin/newfactoryitem "$@"
-  }
-fi
-
-# ------------------------------------------------------------------------------
-# autodoc location.
-# ------------------------------------------------------------------------------
-if  dirExists ${HOME}/git/autodoc; then
-  AUTODOCPATH=${HOME}/git/autodoc
-elif dirExists ${HOME}/soup/autodoc; then
-   AUTODOCPATH=${HOME}/soup/autodoc
-else
-  echo "WARNING: autodoc is not installed."
-  AUTODOCPATH=""
-fi
-export AUTODOCPATH
-
-# ------------------------------------------------------------------------------
-# docbld location and function.  These must go together.
-# ------------------------------------------------------------------------------
-if dirExists ${HOME}/git/docbld; then
-  DOCBLDPATH=${HOME}/git/docbld
-elif dirExists ${HOME}/soup/docbld; then
-    DOCBLDPATH=${HOME}/soup/docbld
-else
-  echo "WARNING: docbld is not installed."
-  DOCBLDPATH=""
-fi
-export DOCBLDPATH
-
-if [[ -d ${DOCBLDPATH} ]]; then
-  docbld() {
-    rake --rakefile ${DOCBLDPATH}/Rakefile $1
-  }
-fi
-
-# ------------------------------------------------------------------------------
-# Default editor.
-# ------------------------------------------------------------------------------
-export EDITOR=/usr/bin/vim
-# if fileExists /usr/local/bin/nvim; then
-#   export EDITOR=/usr/local/bin/nvim
-# elif fileExists /usr/bin/nvim; then
-#   export EDITOR=/usr/bin/nvim
-# else
-#   export EDITOR=/usr/bin/vim
-# fi
 
 # ------------------------------------------------------------------------------
 # emend location and function.  These must go together.
