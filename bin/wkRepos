@@ -5,7 +5,7 @@ repos+=('soup/autodoc')
 repos+=('soup/docbld')
 repos+=('soup/newdoc')
 repos+=('rdtest/autodhf')
-#repos+=('~gary.howard/fk')
+repos+=('~gary.howard/fk')
 repos+=('~gary.howard/ryder')
 
 clone() {

@@ -1,5 +1,7 @@
 #!/bin/bash
-
+# ------------------------------------------------------------------------------
+# Symlinks I use alot. 
+# ------------------------------------------------------------------------------
 ln -fsv ~/git/dotfiles/bash_logout  ~/.bash_logout
 ln -fsv ~/git/dotfiles/bashrc       ~/.bash_profile
 ln -fsv ~/git/dotfiles/bashrc       ~/.bashrc
@@ -16,3 +18,4 @@ ln -fsv ~/git/tmux/tmux.conf        ~/.tmux.conf
 ln -fsv ~/git/vim                   ~/.vim
 ln -fsv ~/git/vim/vimrc_background  ~/.vimrc_background
 ln -fsv ~/git/vim/vimrc             ~/.vimrc
+# ------------------------------------------------------------------------------
