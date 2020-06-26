@@ -3,7 +3,6 @@
 ln -fsv ~/git/dotfiles/bash_logout  ~/.bash_logout
 ln -fsv ~/git/dotfiles/bashrc       ~/.bash_profile
 ln -fsv ~/git/dotfiles/bashrc       ~/.bashrc
-ln -fsv ~/git/dotfiles/config       ~/.config
 ln -fsv ~/git/dotfiles/dircolors    ~/.dircolors
 ln -fsv ~/git/dotfiles/inputrc      ~/.inputrc
 ln -fsv ~/git/dotfiles/minttyrc     ~/.minttyrc
