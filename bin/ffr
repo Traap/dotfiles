@@ -1,0 +1,5 @@
+#!/bin/bash
+# 1 - file to remove 
+
+ffr() { find . -name "$1" -delete -ls ; }
+ffr "$@"
