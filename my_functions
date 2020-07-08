@@ -210,7 +210,7 @@ vim() {
 }
 
 vimf() {
-  $EDITOR $(fzf)
+  $EDITOR $(fzf --border --preview="cat {}" --preview-window=right:50%)
 }
 
 vimu() {
