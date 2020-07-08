@@ -91,7 +91,11 @@ if [[ -d ${EMENDPATH} ]]; then
 fi
 
 # -------------------------------------------------------------------------- }}}
-# {{{ GIT_HOME is needed for test automation framework.
+# {{{ FZF customizations  
+
+# export FZF_DEFAULT_COMMAND='rg --files --no-ignore-vcs --hidden'
+
+# -------------------------------------------------------------------------- }}} # {{{ GIT_HOME is needed for test automation framework.
 
 if dirExists ${HOME}/git; then
   export GIT_HOME=${HOME}/git

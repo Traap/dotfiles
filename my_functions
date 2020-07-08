@@ -209,6 +209,10 @@ vim() {
   $EDITOR "$@"
 }
 
+vimf() {
+  $EDITOR $(fzf)
+}
+
 vimu() {
   $EDITOR -u NORC "$@"
 }
