@@ -186,9 +186,9 @@ alt + ctrl + m
   xfce4-settings-manager
 
 alt + ctrl + p
+  ~/.config/bspwm/scripts/picom-toggle.sh
 
 alt + ctrl + o
-  ~/.config/bspwm/scripts/picom-toggle.sh
   pamac-manager
 
 alt + ctrl + r
@@ -210,7 +210,7 @@ alt + ctrl + Prior
   conky-rotate -p
 
 alt + ctrl + Left
-node --  bspc focus west
+  node --  bspc focus west
 
 alt + ctrl + Right
   bspc node --focus east
@@ -252,10 +252,7 @@ alt + shift + Tab
   bspc desktop -f '^{1-9,10}'
 
 # -------------------------------------------------------------------------- }}}
-# {{{ ctrl + shift + key
-
-ctlr + enter
-  termite 
+# {{{ ctrl + shift + [ letter key | key ]
 
 ctrl + shift + Escape
   xfce4-taskmanager
@@ -263,14 +260,23 @@ ctrl + shift + Escape
 ctrl + shift + Print
   gnome-screenshot -i
 
+ctrl + shift + d
+  discord 
+
+ctrl + shift + s 
+  slack 
+
+ctrl + shift + t
+  teams
+
 # -------------------------------------------------------------------------- }}}
 # {{{ ctrl
 
+ctrl + Enter
+  termite
+
 ctrl + Print
   xfce4-screenshooter
-
-ctrl + Return
-  termite
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Function keys
