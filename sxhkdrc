@@ -18,9 +18,6 @@ super + c
 super + f
   bspc node --state \~fullscreen
 
-super + g
-  chromium -no-default-browser-check
-
 super + l
   arcolinux-logout
 
