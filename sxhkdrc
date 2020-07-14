@@ -1,13 +1,13 @@
-# super is the OS key: Apple, Windows, Lunux, etc.
+# super is the OS key: Apple,  Windows,  Lunux,  etc.
 # {{{ super + number
 
 # Focus selected desktop FOR QWERTY KEYBOARDS
-super + {1-9,0}
-  bspc desktop -f '^{1-9,10}'
+super + {1-9, 0}
+  bspc desktop -f '^{1-9, 10}'
 
 # Move window to selected desktop FOR QWERTY KEYBOARDS
-super + shift + {1-9,0}
-  id=$(bspc query -N -n); bspc node -d ^{1-9,10}; bspc node -f ${id}}
+super + shift + {1-9, 0}
+  id=$(bspc query -N -n); bspc node -d ^{1-9, 10}; bspc node -f ${id}}
 
 # -------------------------------------------------------------------------- }}}
 # {{{ super + letter key
@@ -17,6 +17,9 @@ super + c
 
 super + f
   bspc node --state \~fullscreen
+
+super + g
+  chromium -no-default-browser-check
 
 super + p
   bspc node --state \~pseudo_tiled
@@ -45,41 +48,38 @@ super + z
 super + BackSpace
   bspc monitor -f next
 
-super + bracket{left,right}
-  bspc config -d focused window_gap $((`bspc config -d focused window_gap` {-,+} 1 ))
-
-super + Escape
-  xkill
+super + bracket{left, right}
+  bspc config -d focused window_gap $((`bspc config -d focused window_gap` {-, +} 1 ))
 
 super + Return
   termite
 
 super + space
-  bspc node -t {tiled,pseudo_tiled,floating,fullscreen}
+  bspc node -t {tiled, pseudo_tiled, floating, fullscreen}
 
 # -------------------------------------------------------------------------- }}}
 # {{{ super + alt + shift + arrow key
 
-super + alt + {_,shift + }{Left,Down,Up,Right}
-  ~/.config/bspwm/scripts/move-window {_,edge-}{west,south,north,east}
+super + alt + {_, shift + }{Left, Down, Up, Right}
+  ~/.config/bspwm/scripts/move-window {_, edge-}{west, south, north, east}
 
 # -------------------------------------------------------------------------- }}}
 # {{{ super + ctrl + letter key
 
-super + ctrl + {Left,Down,Up,Right}
-  bspc node --{focus} {west,south,north,east}
+super + ctrl + {Left, Down, Up, Right}
+  bspc node --{focus} {west,  south,  north,  east}
 
-super + ctrl + {h,j,k,l}
-  bspc node {@east -r -10,@north -r +10,@south -r -10,@west -r +10}
+super + ctrl + {h, j, k, l}
+  bspc node {@east -r -10, @north -r +10, @south -r -10, @west -r +10}
 
-super + ctrl + {e,r,t,y}
-  bspc node --focus @{parent,brother,first,second}
+super + ctrl + {e, r, t, y}
+  bspc node --focus @{parent, brother, first, second}
 
-super + ctrl + {u,i,o,p}
-  bspc node --presel-dir \~{west,south,north,east}
+super + ctrl + {u, i, o, p}
+  bspc node --presel-dir \~{west, south, north, east}
 
-super + ctrl + {_,shift +}{1-9}
-  bspc node {_,@/} --presel-ratio 0.{1-9}
+super + ctrl + {_, shift +}{1-9}
+  bspc node {_, @/} --presel-ratio 0.{1-9}
 
 super + ctrl + space
   bspc node --presel-dir cancel
@@ -102,11 +102,11 @@ super + shift + s
 super + shift + x
   bspc quit
 
-super + {_,shift + }{h,j,k,l}
-  bspc node --{focus,swap} {west,south,north,east}
+super + {_, shift + }{h, j, k, l}
+  bspc node --{focus, swap}{west, south, north, east}
 
-super + {_,shift + }a
-  bspc node @/ --flip {vertical,horizontal}
+super + {_, shift + }a
+  bspc node @/ --flip {vertical, horizontal}
 
 super + shift + Left
   bspc node -m next --follow
@@ -119,6 +119,7 @@ super + shift + Up
 
 super + shift + Down
   bspc node -m next --follow
+
 # -------------------------------------------------------------------------- }}}
 # {{{ alt + letterkey
 
@@ -147,49 +148,37 @@ alt + Down
   variety --resume
 
 alt + F2
-  gmrun
+	gmrun
 
 alt + F3
   xfce4-appfinder
 
+alt + F4 
+  arcolinux-tweak-tool
+
+alt + F5 
+  xfce4-settings-manager
+
+alt + F6
+  pamac-manager
+
 alt + space
-  bspc node @/ --rotate {90,-90}
+  bspc node @/ --rotate {90, -90}
 
 # -------------------------------------------------------------------------- }}}
 # {{{ alt + ctrl + letter key
 
-alt + ctrl + a
-  xfce4-appfinder
-
-alt + ctrl + b
-   thunar
-
-alt + ctrl + c
-   catfish
-
 alt + ctrl + e
   arcolinux-tweak-tool
-
-alt + ctrl + g
-  chromium -no-default-browser-check
 
 alt + ctrl + i
   nitrogen
 
-alt + ctrl + k
-  arcolinux-logout
-
 alt + ctrl + l
   arcolinux-logout
 
-alt + ctrl + m
-  xfce4-settings-manager
-
 alt + ctrl + p
   ~/.config/bspwm/scripts/picom-toggle.sh
-
-alt + ctrl + o
-  pamac-manager
 
 alt + ctrl + r
   rofi-theme-selector
@@ -209,23 +198,11 @@ alt + ctrl + Next
 alt + ctrl + Prior
   conky-rotate -p
 
-alt + ctrl + Left
-  node --  bspc focus west
-
-alt + ctrl + Right
-  bspc node --focus east
-
-alt + ctrl + Up
-  bspc node --focus north
-
-alt + ctrl + Down
-  bspc node --focus south
-
 # -------------------------------------------------------------------------- }}}
 # {{{ alt + shift + letterkey
 
-alt + shift + {h,j,k,l}
-  bspc node {@west -r -10,@south -r +10,@north -r -10,@east -r +10}
+alt + shift + {h, j, k, l}
+  bspc node {@west -r -10, @south -r +10, @north -r -10, @east -r +10}
 
 alt + shift + t
   variety -t && wal -i $(cat $HOME/.config/variety/wallpaper/wallpaper.jpg.txt)&
@@ -240,31 +217,28 @@ alt + shift + f
   variety -f && wal -i $(cat $HOME/.config/variety/wallpaper/wallpaper.jpg.txt)&
 
 alt + shift + u
-  wal -i $(cat $HOME/.config/variety/wallpaper/wallpaper.jpg.txt)&
+  wall -i $(cat $HOME/.config/variety/wallpaper/wallpaper.jpg.txt)&
 
 # -------------------------------------------------------------------------- }}}
 # {{{ alt + tab | alt + shift + tab
 
 alt + Tab
-  bspc desktop -f '^{1-9,10}'
+  bspc desktop -f '^{1-9, 10}'
 
 alt + shift + Tab
-  bspc desktop -f '^{1-9,10}'
+  bspc desktop -f '^{1-9, 10}'
 
 # -------------------------------------------------------------------------- }}}
 # {{{ ctrl + shift + [ letter key | key ]
 
-ctrl + shift + Escape
+ctrl + shift + d
+  discord
+
+ctrl + shift + m 
   xfce4-taskmanager
 
-ctrl + shift + Print
-  gnome-screenshot -i
-
-ctrl + shift + d
-  discord 
-
-ctrl + shift + s 
-  slack 
+ctrl + shift + s
+  slack
 
 ctrl + shift + t
   teams
