@@ -21,6 +21,9 @@ super + f
 super + g
   chromium -no-default-browser-check
 
+super + l
+  arcolinux-logout
+
 super + p
   bspc node --state \~pseudo_tiled
 
@@ -35,9 +38,6 @@ super + t
 
 super + w
   firefox
-
-super + x
-  arcolinux-logout
 
 super + y
   polybar-msg cmd toggle
@@ -173,9 +173,6 @@ alt + ctrl + e
 
 alt + ctrl + i
   nitrogen
-
-alt + ctrl + l
-  arcolinux-logout
 
 alt + ctrl + p
   ~/.config/bspwm/scripts/picom-toggle.sh
