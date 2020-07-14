@@ -36,11 +36,11 @@ bspc config urgent_border_color 	"# dd2727"
 
 # find out names with arandr or xrandr
 # Single monitor
-bspc monitor -d 1 2 3 4 5 6 7 8 9 10
+# bspc monitor -d 1 2 3 4 5 6 7 8 9 10
 
 # Dual monitor
-# bspc monitor DP-2 -d 1 2 3 4 5
-# bspc monitor DP-1 -d 6 7 8 9 10 
+bspc monitor DP-0 -d 1 2 3 4 5
+bspc monitor DP-2 -d 6 7 8 9 10 
 
 # Fullscreen applications
 # bspc rule -a Gimp state=fullscreen
