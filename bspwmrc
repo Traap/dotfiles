@@ -34,13 +34,18 @@ bspc config presel_feedback_color	"# 5e81ac"
 bspc config urgent_border_color 	"# dd2727"
 
 
-# find out names with arandr or xrandr
-# Single monitor
-# bspc monitor -d 1 2 3 4 5 6 7 8 9 10
+# User arand or xrand to determin monitor type.
+host=$(uname -n)
+case $host in
+  Sunshine)
+    bspc monitor DP-0 -d 1 2 3 4 5
+    bspc monitor DP-2 -d 6 7 8 9 10 
+    ;;
+  *)
+    bspc monitor -d 1 2 3 4 5 6 7 8 9 10
+    ;;
+esac
 
-# Dual monitor
-bspc monitor DP-0 -d 1 2 3 4 5
-bspc monitor DP-2 -d 6 7 8 9 10 
 
 # Fullscreen applications
 # bspc rule -a Gimp state=fullscreen

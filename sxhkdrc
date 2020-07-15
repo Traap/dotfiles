@@ -12,14 +12,14 @@ super + shift + {1-9, 0}
 # -------------------------------------------------------------------------- }}}
 # {{{ super + letter key
 
+super + b
+	polybar-msg cmd toggle
+
 super + c
 	conky-toggle
 
 super + f
 	bspc node --state \~fullscreen
-
-super + l
-	arcolinux-logout
 
 super + p
 	bspc node --state \~pseudo_tiled
@@ -36,17 +36,17 @@ super + t
 super + w
 	firefox
 
-super + y
-	polybar-msg cmd toggle
-
 super + z
 	urxvt 'htop task manager' -e htop
+
+super + {h,j,k,l}
+	bspc node --{focus} {west,south,north,east}
 
 super + BackSpace
 	bspc monitor -f next
 
-super + bracket{left, right}
-	bspc config -d focused window_gap $((`bspc config -d focused window_gap` {-, +} 1 ))
+super + bracket{left,right}
+	bspc config -d focused window_gap $((`bspc config -d focused window_gap` {-,+} 1))
 
 super + Return
 	termite
@@ -62,9 +62,6 @@ super + alt + {_, shift + }{Left, Down, Up, Right}
 
 # -------------------------------------------------------------------------- }}}
 # {{{ super + ctrl + letter key
-
-super + ctrl + {Left, Down, Up, Right}
-	bspc node --{focus} {west,  south,  north,  east}
 
 super + ctrl + {h, j, k, l}
 	bspc node {@east -r -10, @north -r +10, @south -r -10, @west -r +10}
@@ -99,8 +96,8 @@ super + shift + s
 super + shift + x
 	bspc quit
 
-super + {_, shift + }{h, j, k, l}
-	bspc node --{focus, swap}{west, south, north, east}
+super + {_, shift + }{h,j,k,l}
+	bspc node --{focus,swap}{west,south,north,east}
 
 super + {_, shift + }a
 	bspc node @/ --flip {vertical, horizontal}
@@ -171,6 +168,9 @@ alt + ctrl + e
 alt + ctrl + i
 	nitrogen
 
+alt + ctrl + l
+	arcolinux-logout
+
 alt + ctrl + p
 	~/.config/bspwm/scripts/picom-toggle.sh
 
@@ -191,6 +191,18 @@ alt + ctrl + Next
 
 alt + ctrl + Prior
 	conky-rotate -p
+
+alt + ctrl + Left
+	node --  bspc focus west
+
+alt + ctrl + Right
+	bspc node --focus east
+
+alt + ctrl + Up
+	bspc node --focus north
+
+alt + ctrl + Down
+	bspc node --focus south
 
 # -------------------------------------------------------------------------- }}}
 # {{{ alt + shift + letterkey
