@@ -12,6 +12,9 @@ super + shift + {1-9, 0}
 # -------------------------------------------------------------------------- }}}
 # {{{ super + letter key
 
+super + a
+  apple-keyboard-hack 
+
 super + b
 	polybar-msg cmd toggle
 
@@ -20,6 +23,9 @@ super + c
 
 super + f
 	bspc node --state \~fullscreen
+
+super + n
+  nvidia-settings	
 
 super + p
 	bspc node --state \~pseudo_tiled
@@ -32,6 +38,9 @@ super + r
 
 super + t
 	Thunar
+
+super + s
+  xfce4-screenshooter
 
 super + w
 	firefox
@@ -254,9 +263,6 @@ ctrl + shift + t
 
 ctrl + Enter
 	termite
-
-ctrl + Print
-	xfce4-screenshooter
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Function keys

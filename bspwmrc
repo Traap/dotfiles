@@ -31,7 +31,7 @@ bspc config normal_border_color		"# 4c566a"
 bspc config active_border_color		"# 1e1e1e"
 bspc config focused_border_color	"# 5e81ac"
 bspc config presel_feedback_color	"# 5e81ac"
-bspc config urgent_border_color 	"# dd2727"
+#bspc config urgent_border_color 	"# dd2727"
 
 
 # User arand or xrand to determin monitor type.
