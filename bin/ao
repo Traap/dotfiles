@@ -83,15 +83,9 @@ if [[ $# -eq 1 ]]; then
         ;;
       "work")
         tmux new-session -c ${HOME}/git/autodhf      -n autodhf    -s $1 -d
-        tmux new-window  -c ${HOME}/git/fk/otl       -n otl        -t $1:2
-        tmux new-window  -c ${HOME}/git/scratchpad   -n postnote   -t $1:3
-        tmux new-window  -c ${HOME}/git/scratchpad   -n phonecalls -t $1:4
-        tmux new-window  -c ${HOME}/git/wiki         -n wiki       -t $1:5
+        tmux new-window  -c ${HOME}/git/wiki         -n wiki       -t $1:2
 
-        tmux send-keys   -t $1:2 'vim meeting-notes.otl' Enter
-        tmux send-keys   -t $1:3 'vim postnotes.txt'     Enter
-        tmux send-keys   -t $1:4 'vim MakeThisCall.otl'  Enter
-        tmux send-keys   -t $1:5 'vim index.wiki'        Enter
+        tmux send-keys   -t $1:2 'vim index.wiki'        Enter
         ;;
       *)
         echo "Session name $1 is not supported."
