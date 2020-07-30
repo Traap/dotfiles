@@ -46,7 +46,7 @@ if [[ $# -eq 1 ]]; then
         tmux send-keys   -t $1:7  'vim my_exports'      Enter
         tmux send-keys   -t $1:8  'vim my_functions'    Enter
         tmux send-keys   -t $1:9  'vim my_paths'        Enter
-        tmux send-keys   -t $1:10 'vim my_prompts'      Enter
+        tmux send-keys   -t $1:10 'vim my_prompt'       Enter
 
         tmux select-window -t $1:3
         ;;
