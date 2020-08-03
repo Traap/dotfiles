@@ -90,14 +90,14 @@ super + ctrl + space
 # -------------------------------------------------------------------------- }}}
 # {{{ super + shift + letter key
 
+super + shift + b
+	~/.config/bspwm/bspwmrc
+
 super + shift + d
 	dmenu_run -i -nb '#191919' -nf '#fea63c' -sb '#fea63c' -sf '#191919' -fn 'NotoMonoRegular:bold:pixelsize=14'
 
 super + shift + q
 	bspc node -c
-
-super + shift + r
-	~/.config/bspwm/bspwmrc
 
 super + shift + s
 	pkill -USR1 -x sxhkd
