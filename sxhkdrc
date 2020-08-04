@@ -1,6 +1,4 @@
-# super is the OS key: Apple,  Windows,  Lunux,  etc.
-# {{{ super + number
-
+# super is the OS key: Apple,  Windows,  Lunux,  etc.  # {{{ super + number
 # Focus selected desktop FOR QWERTY KEYBOARDS
 super + {1-9, 0}
 	bspc desktop -f '^{1-9, 10}'
@@ -73,7 +71,10 @@ super + alt + {_, shift + }{Left, Down, Up, Right}
 # {{{ super + ctrl + letter key
 
 super + ctrl + {h, j, k, l}
-	bspc node {@east -r -10, @north -r +10, @south -r -10, @west -r +10}
+	bspc node {@east  -r +10, \
+             @north -r -10, \
+             @south -r +10, \ 
+             @west  -r -10}
 
 super + ctrl + {e, r, t, y}
 	bspc node --focus @{parent, brother, first, second}
