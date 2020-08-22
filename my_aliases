@@ -124,24 +124,26 @@ fi
 # ------------------------------------------------------------------------------
 # File I edit frequently.
 # ------------------------------------------------------------------------------
-alias ,ea='${EDITOR} ${HOME}/git/dotfiles/alias_and_functions'
-alias ,eb='${EDITOR} ${HOME}/git/dotfiles/bashrc'
+alias ,eb='${EDITOR} ${HOME}/git/dotfiles/bootstrap.vim'
 alias ,ec='${EDITOR} ${HOME}/git/ssh/config.vim'
 alias ,ed='${EDITOR} ${HOME}/git/vim/custom-dictionary.utf-8.add'
 alias ,eg='${EDITOR} ${HOME}/git/ssh/gitconfig'
+alias ,en='${EDITOR} ${HOME}/git/vim/nvim.vim'
 alias ,ep='${EDITOR} ${HOME}/git/vim/plug.vim'
 alias ,et='${EDITOR} ${HOME}/git/tmux/tmux.conf'
 alias ,ev='${EDITOR} ${HOME}/git/vim/vimrc'
 
 alias ,ma='${EDITOR} ${HOME}/git/dotfiles/my_aliases'
+alias ,mb='${EDITOR} ${HOME}/git/dotfiles/bashrc'
 alias ,mc='${EDITOR} ${HOME}/git/dotfiles/my_completions'
 alias ,me='${EDITOR} ${HOME}/git/dotfiles/my_exports'
 alias ,mf='${EDITOR} ${HOME}/git/dotfiles/my_functions'
 alias ,mp='${EDITOR} ${HOME}/git/dotfiles/my_paths'
 alias ,mt='${EDITOR} ${HOME}/git/dotfiles/my_prompt'
+alias ,mz='${EDITOR} ${HOME}/git/dotfiles/bashrc-personal'
 
-alias ,i3='${EDITOR} ${HOME}/git/dotfiles/i3-config'
-alias ,xi='${EDITOR} ${HOME}/git/dotfiles/xinitrc'
+alias ,xb='${EDITOR} ${HOME}/git/dotfiles/bspwmrc'
+alias ,xs='${EDITOR} ${HOME}/git/dotfiles/sxhkdrc'
 
 # ------------------------------------------------------------------------------
 # tmux sessions I frequently use.
