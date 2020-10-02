@@ -12,13 +12,10 @@ bspc config bottom_padding       3
 bspc config left_padding         3
 bspc config right_padding        3
 bspc config single_monocle       false
-# bspc config click_to_focus       true
 bspc config split_ratio          0.50
 bspc config borderless_monocle   true
 bspc config gapless_monocle      true
-# bspc config focus_by_distance    true
 bspc config focus_follows_pointer true
-# bspc config history_aware_focus  true
 bspc config pointer_modifier mod4
 bspc config pointer_action1 move
 bspc config pointer_action2 resize_side
@@ -31,7 +28,6 @@ bspc config normal_border_color		"# 4c566a"
 bspc config active_border_color		"# 1e1e1e"
 bspc config focused_border_color	"# 5e81ac"
 bspc config presel_feedback_color	"# 5e81ac"
-#bspc config urgent_border_color 	"# dd2727"
 
 # User arand or xrand to determin monitor type.
 $HOME/git/dotfiles/bin/bspwm-monitor
@@ -40,7 +36,6 @@ $HOME/git/dotfiles/bin/bspwm-monitor
 bspc rule -a Arandr state=floating
 bspc rule -a Arcolinux-tweak-tool.py state=floating
 bspc rule -a Arcolinux-welcome-app.py state=floating
-bspc rule -a feh state=floating
 
 # Tiled applications
 bspc rule -a Gnome-disks state=tiled
@@ -50,9 +45,6 @@ bspc rule -a Xfce4-settings-manager state=tiled
 bspc rule -a discord desktop='^4'
 bspc rule -a Slack   desktop='^5' follow=on
 bspc rule -a teams   desktop='^5' follow=on
-# bspc rule -a Firefox desktop='^1' follow=on
-# bspc rule -a Thunar desktop='^8' follow=on
-# bspc rule -a discord desktop='^9' follow=on
 
 # polybar hidden when fullscreen for vlc, youtube, mpv ...
 # find out the name of your monitor with xrandr
