@@ -34,3 +34,5 @@ done
 # Add ssh-key using sshgh function.
 # ------------------------------------------------------------------------------
 #sshgh
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash

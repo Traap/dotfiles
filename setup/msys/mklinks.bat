@@ -6,7 +6,7 @@ mklink    c:\Users\%USERNAME%\.dircolors          c:\Users\%USERNAME%\git\dotfil
 mklink    c:\Users\%USERNAME%\.gitconfig          c:\Users\%USERNAME%\git\ssh\gitconfig
 mklink    c:\Users\%USERNAME%\.gitignore_global   c:\Users\%USERNAME%\git\ssh\gitignore_global 
 mklink    c:\Users\%USERNAME%\.inputrc            c:\Users\%USERNAME%\git\dotfiles\inputrc 
-rem # mklink    c:\Users\%USERNAME%\.minttyrc           c:\Users\%USERNAME%\git\dotfiles\minttyrc 
+mklink    c:\Users\%USERNAME%\.minttyrc           c:\Users\%USERNAME%\git\dotfiles\minttyrc 
 rem # mklink    c:\Users\%USERNAME%\.mutt               c:\Users\%USERNAME%\git\mutt-office365 
 rem # mklink    c:\Users\%USERNAME%\.muttrc             c:\Users\%USERNAME%\git\mutt-office365\muttrc 
 rem # mklink    c:\Users\%USERNAME%\.tmux.conf          c:\Users\%USERNAME%\git\tmux\tmux.conf 
