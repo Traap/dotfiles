@@ -1,5 +1,5 @@
-mklink    c:\Users\%USERNAME%\.bash_logout        c:\Users\%USERNAME%\git\dotfiles\bash_logout
-mklink    c:\Users\%USERNAME%\.bash_profile       c:\Users\%USERNAME%\git\dotfiles\bashrc
+#mklink    c:\Users\%USERNAME%\.bash_logout        c:\Users\%USERNAME%\git\dotfiles\bash_logout
+#mklink    c:\Users\%USERNAME%\.bash_profile       c:\Users\%USERNAME%\git\dotfiles\bashrc
 mklink    c:\Users\%USERNAME%\.bashrc             c:\Users\%USERNAME%\git\dotfiles\bashrc 
 mklink    c:\Users\%USERNAME%\.config.vim         c:\Users\%USERNAME%\git\ssh\config.vim 
 mklink    c:\Users\%USERNAME%\.dircolors          c:\Users\%USERNAME%\git\dotfiles\dircolors 
