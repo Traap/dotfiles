@@ -285,8 +285,8 @@ bld() {
 # amber function.
 # ------------------------------------------------------------------------------
 check-test-output() {
-  echo grep -rw --include=\*step*.* test-output/ -e $1
-  grep -rw --include=\*step*.* test-output/ -e $1
+  echo grep -rw --include=\*step*-status.* test-output/ -e $1
+  grep -rw --include=\*step*-status.* test-output/ -e $1
 }
 
 pass() {
@@ -295,6 +295,10 @@ pass() {
 
 fail() {
   check-test-output FAIL
+}
+
+passfail() {
+  check-test-output "PASS -e FAIL"
 }
 
 requirements() {

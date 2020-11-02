@@ -70,9 +70,11 @@ if [[ -d ${DOCBLDPATH} ]]; then
 fi
 
 # -------------------------------------------------------------------------- }}}
-# {{{ Default editor. 
+# {{{ Editor. 
 
-export EDITOR=/usr/bin/vim
+export EDITOR=/usr/bin/nvim
+export MANPAGER='nvim +Man!'
+export MANWIDTH=76
 
 # -------------------------------------------------------------------------- }}}
 # {{{ emend location and function.  These must go together.
