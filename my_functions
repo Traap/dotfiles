@@ -88,7 +88,7 @@ appendToManPath() {
 # ------------------------------------------------------------------------------
 # Disable features / programs running on OSX.
 # ------------------------------------------------------------------------------
-if osType =~ "darwin"; then
+if osType "darwin"; then
   msa() { Launchctl remove com.microsoft.SyncServicesAgent ; }
   pah() { defaults write -g ApplePressAndHoldEnable -bool false ; }
 fi
@@ -131,7 +131,7 @@ sshme() {
 }
 
 sshkill() {
-  if osType =~ "msys"; then
+  if osType "msys"; then
     for pid in $(ps aux | awk '/ssh-agent/ {print $1}'); do kill -9 $pid; done
   else
     for pid in $(ps aux | awk '/ssh-agent/ {print $2}'); do kill -9 $pid; done
@@ -139,7 +139,7 @@ sshkill() {
 }
 
 latexmkkill() {
-  if osType =~ "msys"; then
+  if osType "msys"; then
     for pid in $(ps aux | awk '/latexmk/ {print $1}'); do kill -9 $pid; done
     for pid in $(ps aux | awk '/perl/    {print $1}'); do kill -9 $pid; done
   else

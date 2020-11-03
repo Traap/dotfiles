@@ -201,3 +201,5 @@ ex ()
 #in there. They will not be overwritten by skel.
 
 [[ -f ~/.bashrc-personal ]] && . ~/.bashrc-personal
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash

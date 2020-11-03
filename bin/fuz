@@ -21,4 +21,5 @@ select_file() {
   fzf --preview="cat {}" --preview-window=right:50%:wrap --query="$given_file"
 }
 
+# Kick start Note-Taking
 main ""

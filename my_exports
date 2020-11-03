@@ -141,18 +141,25 @@ fi
 # {{{ X11 display type. 
 
 if osType "linux"; then
-  export DISPLAY=:0
+  # if hostName "USLK"; then
+  #   export DISPLAY=192.168.52.69:0.0
+  #   export LIBGL_ALWAYS_INDIRECT=1
+  # else
+    export DISPLAY=:0
+  # fi 
 fi
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Lock my Windows environment variables.  Don't ask, Don't tell!!!
 
-if hostName "USLZ"; then
-  export HOME=/c/Users/${USERNAME}
-  export HOMEDRIVE=/c
-  export HOMEPATH=/c/Users/${USERNAME}
-  export GIT_HOME=/c/Users/${USERNAME}/git
-  export HOMESHARE=/c
+if osType "msys"; then
+  if hostName "USLK"; then
+    export HOME=/c/Users/${USERNAME}
+    export HOMEDRIVE=/c
+    export HOMEPATH=/c/Users/${USERNAME}
+    export GIT_HOME=/c/Users/${USERNAME}/git
+    export HOMESHARE=/c
+  fi
 fi
 
 # -------------------------------------------------------------------------- }}}

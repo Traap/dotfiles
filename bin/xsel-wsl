@@ -2,7 +2,7 @@
 
 # -----------------------------------------------------------------------------
 # https://lloydrochester.com/post/vim/wsl-neovim-copy-paste/
-# make sure this file has executable privledges
+# make sure this file has executable privlidges
 # 
 # neovim will:
 #   "xsel --nodetach -i -b"  => copy
