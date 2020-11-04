@@ -376,5 +376,5 @@ gh() {
 }
 
 pdf() {
-  latexmk -pdf -synctex=1 -verbose -file-line-error -cd $1
+  latexmk -pdf -verbose -file-line-error -synctex=1 -interaction=nonstopmode -cd $1
 }
