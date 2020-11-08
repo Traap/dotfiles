@@ -72,9 +72,13 @@ fi
 # -------------------------------------------------------------------------- }}}
 # {{{ Editor. 
 
-export EDITOR=/usr/bin/nvim
-export MANPAGER='nvim +Man!'
 export MANWIDTH=76
+if programExists nvim; then
+  export EDITOR=/usr/bin/nvim
+  export MANPAGER='nvim +Man!'
+else
+  export EDITOR=/usr/bin/vim
+fi
 
 # -------------------------------------------------------------------------- }}}
 # {{{ emend location and function.  These must go together.

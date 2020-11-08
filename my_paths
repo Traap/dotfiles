@@ -6,15 +6,15 @@ if osType "darwin" \
 || osType "linux"  \
 || osType "msys"; then
     prependToPath ${HOME}/git/dotfiles/bin
-    prependToPath ${HOME}/.vim/bundle/vim-superman/bin
 fi
 
 # ------------------------------------------------------------------------------
 # Linux only machines.
 # ------------------------------------------------------------------------------
 if osType "linux"; then
-    appendToPath ${HOME}/.rbenv/bin
+    appendToPath ${HOME}/.rbenv/versions/2.7.2/bin
     eval "$(rbenv init -)"
+    echo "here"
 fi
 
 
