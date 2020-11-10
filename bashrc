@@ -187,7 +187,7 @@ ex ()
       *.zip)       unzip $1     ;;
       *.Z)         uncompress $1;;
       *.7z)        7z x $1      ;;
-      *.deb)       ar x $1      ;;
+      *deb)       ar x $1      ;;
       *.tar.xz)    tar xf $1    ;;
       *.tar.zst)   unzstd $1    ;;      
       *)           echo "'$1' cannot be extracted via ex()" ;;
@@ -201,5 +201,3 @@ ex ()
 #in there. They will not be overwritten by skel.
 
 [[ -f ~/.bashrc-personal ]] && . ~/.bashrc-personal
-
-[ -f ~/.fzf.bash ] && source ~/.fzf.bash

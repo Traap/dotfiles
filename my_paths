@@ -14,7 +14,6 @@ fi
 if osType "linux"; then
     appendToPath ${HOME}/.rbenv/versions/2.7.2/bin
     eval "$(rbenv init -)"
-    echo "here"
 fi
 
 
