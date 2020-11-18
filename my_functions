@@ -213,6 +213,10 @@ vimf() {
   $EDITOR $(fzf --border --preview="cat {}" --preview-window=right:50%)
 }
 
+vimmin() {
+  $EDITOR -u ~/git/vim/minimalrc "$@"
+}
+
 vimu() {
   $EDITOR -u NORC "$@"
 }
