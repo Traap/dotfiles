@@ -13,6 +13,7 @@ fi
 # ------------------------------------------------------------------------------
 if osType "linux"; then
     appendToPath ${HOME}/.rbenv/versions/2.7.2/bin
+    appendToPath ${HOME}/.cargo/bin
     eval "$(rbenv init -)"
 fi
 
