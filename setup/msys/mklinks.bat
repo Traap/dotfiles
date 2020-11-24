@@ -15,6 +15,7 @@ mklink    c:\Users\%USERNAME%\.viminfo            c:\Users\%USERNAME%\git\vim\vi
 mklink    c:\Users\%USERNAME%\.vimrc              c:\Users\%USERNAME%\git\vim\vimrc
 mklink    c:\Users\%USERNAME%\.vimrc_background   c:\Users\%USERNAME%\git\vim\vimrc_background
 mklink /D c:\Users\%USERNAME%\.ssh                c:\Users\%USERNAME%\git\ssh 
+mklink    c:\Users\%USERNAME%\AppData\Local\nvim\init.vim c:\Users\%USERNAME%\git\vim\init.vim
 rem # mklink /D c:\Users\%USERNAME%\.tmux               c:\Users\%USERNAME%\git\tmux 
 
 echo off
