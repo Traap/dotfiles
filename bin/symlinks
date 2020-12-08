@@ -3,6 +3,7 @@
 # Symlinks I use alot. 
 # ------------------------------------------------------------------------------
 cd ${HOME}
+
 ln -fsv ~/git/dotfiles/bash_logout     ~/.bash_logout
 ln -fsv ~/git/dotfiles/bashrc-personal ~/.bashrc-personal
 ln -fsv ~/git/dotfiles/dircolors       ~/.dircolors
@@ -15,6 +16,8 @@ ln -fsv ~/git/ssh/gitignore_global     ~/.gitignore_global
 ln -fsv ~/git/ssh                      ~/.ssh
 ln -fsv ~/git/tmux                     ~/.tmux
 ln -fsv ~/git/tmux/tmux.conf           ~/.tmux.conf
+ln -fsv ~/git/vim/init.vim             ~/.config/nvim/init.vim
+ln -fsv ~/git/vim/package.json         ~/.config/coc/extensions/package.json 
 ln -fsv ~/git/vim                      ~/.vim
 ln -fsv ~/git/vim/vimrc_background     ~/.vimrc_background
 ln -fsv ~/git/vim/vimrc                ~/.vimrc
