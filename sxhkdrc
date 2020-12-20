@@ -203,7 +203,7 @@ alt + ctrl + Prior
 	conky-rotate -p
 
 alt + ctrl + Left
-	node --  bspc focus west
+	bspc node --focus west 
 
 alt + ctrl + Right
 	bspc node --focus east
