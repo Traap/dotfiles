@@ -1,9 +1,13 @@
-# super is the OS key: Apple,  Windows,  Lunux,  etc.  # {{{ super + number
+# super is the OS key: Apple,  Windows,  Lunux,  etc.  
+# {{{ super + number
+#
 # Focus selected desktop FOR QWERTY KEYBOARDS
+#
 super + {1-9, 0}
 	bspc desktop -f '^{1-9, 10}'
 
 # Move window to selected desktop FOR QWERTY KEYBOARDS
+#
 super + shift + {1-9, 0}
 	id=$(bspc query -N -n); bspc node -d ^{1-9, 10}; bspc node -f ${id}}
 
@@ -41,7 +45,7 @@ super + s
   xfce4-screenshooter
 
 super + w
-	firefox
+  brave	
 
 super + z
 	urxvt 'htop task manager' -e htop
