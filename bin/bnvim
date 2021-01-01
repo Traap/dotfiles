@@ -1,0 +1,9 @@
+#!/bin/sh
+# ------------------------------------------------------------------------------
+# Build neovim
+# ------------------------------------------------------------------------------
+cd ~/soup/neovim \
+  && git pull \
+  && make \
+  && echo "Success: Now copy ~/soup/neovim/build/bin/nvim => /usr/bin/nvim" \
+  || echo "Error: neovim did not build."

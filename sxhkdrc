@@ -26,6 +26,9 @@ super + c
 super + f
 	bspc node --state \~fullscreen
 
+super + l
+  weather 
+
 super + n
   nvidia-settings	
 
