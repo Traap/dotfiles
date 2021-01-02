@@ -13,7 +13,6 @@ export TERM=xterm-256color
 # {{{ Darwin CLI and LS colors.
 
 if osType "darwin"; then
-
   export CLICOLOR=1
   export LSCOLORS=GxFxBxDxCxegedabagacad
 fi

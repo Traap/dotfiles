@@ -3,13 +3,11 @@
 # Operating system specific settings.
 # ------------------------------------------------------------------------------
 if osType "darwin"; then
-  alias me='clear && source ~/.bash_profile'
   alias la='ls -A'
   alias ll='ls -lahG'
 elif osType "linux" \
   || osType "cygwin" \
   || osType "msys"; then
-  alias me='clear && source ~/.bashrc'
   alias la='ls -A --color'
   alias ls='ls --color=auto'
   alias ll='ls -lahG --color'
@@ -70,6 +68,7 @@ alias lad='ls -lad .*'
 alias las='find . -maxdepth 1 -type l -printf "%p -> %l\n" | sort'
 alias lass='find . -type l -printf "%p -> %l\n" | sort'
 #alias man='vman'
+alias me='clear && exec bash'
 alias mv='mv -v'
 alias nano='vim'
 alias pacmann='sudo pacman --noconfirm -S'

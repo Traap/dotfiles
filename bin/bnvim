@@ -1,16 +1,16 @@
-#!/bin/sh
+#!/bin/bash
 # ------------------------------------------------------------------------------
 # Build neovim
 # ------------------------------------------------------------------------------
 
 if [[ -d ~/git/neovim ]]; then
-  cd ~/git/neovim
-  git pull
+  cd ~/git/neovim \
+  && git pull
 else
-  cd ~/git
-  git clone https://github.com/neovim/neovim
+  cd ~/git \
+  && git clone https://github.com/neovim/neovim
 fi
 
-cd ~/git/neovim
-sudo make install
-exec bash 
+cd ~/git/neovim \
+&& sudo make install \
+&& exec bash
