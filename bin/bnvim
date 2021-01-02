@@ -3,8 +3,6 @@
 # Build neovim
 # ------------------------------------------------------------------------------
 
-dir=$pwd
-
 if [[ -d ~/git/neovim ]]; then
   cd ~/git/neovim
   git pull
@@ -15,5 +13,4 @@ fi
 
 cd ~/git/neovim
 sudo make install
-cd $dir
 exec bash 
