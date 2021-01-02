@@ -2,8 +2,18 @@
 # ------------------------------------------------------------------------------
 # Build neovim
 # ------------------------------------------------------------------------------
-cd ~/git/neovim \
-  && git pull \
-  && sudo make install \
-  && echo "Success: neovim built." \
-  || echo "Error: neovim did not build."
+
+dir=$pwd
+
+if [[ -d ~/git/neovim ]]; then
+  cd ~/git/neovim
+  git pull
+else
+  cd ~/git
+  git clone https://github.com/neovim/neovim
+fi
+
+cd ~/git/neovim
+sudo make install
+cd $dir
+exec bash 
