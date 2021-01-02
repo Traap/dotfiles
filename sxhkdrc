@@ -26,9 +26,6 @@ super + c
 super + f
 	bspc node --state \~fullscreen
 
-super + l
-  weather 
-
 super + n
   nvidia-settings	
 
@@ -41,17 +38,20 @@ super + q
 super + r
 	rofi-theme-selector
 
-super + t
-	Thunar
-
 super + s
   xfce4-screenshooter
+
+super + t
+	Thunar
 
 super + w
   brave	
 
+super + x
+ termite --title=Weather --exec=weather --hold
+
 super + z
-	urxvt 'htop task manager' -e htop
+ termite --title='htop task manager' --exec=htop
 
 super + {h,j,k,l}
 	bspc node --{focus} {west,south,north,east}
@@ -64,6 +64,9 @@ super + bracket{left,right}
 
 super + Return
 	termite
+
+super + slash 
+	sxhkd-help
 
 super + space
 	bspc node -t {tiled, pseudo_tiled, floating, fullscreen}
@@ -99,37 +102,25 @@ super + ctrl + space
 # {{{ super + shift + letter key
 
 super + shift + b
-	~/.config/bspwm/bspwmrc
+ termite --title=bspwmrc --exec=editBspWmRc
 
 super + shift + d
 	dmenu_run -i -nb '#191919' -nf '#fea63c' -sb '#fea63c' -sf '#191919' -fn 'NotoMonoRegular:bold:pixelsize=14'
 
-super + shift + q
-	bspc node -c
+super + shift + r
+	pkill -usr1 -x sxhkd; notify-send 'sxhkd' 'Reloaded config'
 
 super + shift + s
-	pkill -USR1 -x sxhkd
+ termite --title=sxhkdrc --exec=editSxhKdRc
 
 super + shift + x
 	bspc quit
 
-super + {_, shift + }{h,j,k,l}
-	bspc node --{focus,swap}{west,south,north,east}
+super + shift + {h,j,k,l}
+	bspc node --focus --swap {west, south, north, east}
 
 super + {_, shift + }a
 	bspc node @/ --flip {vertical, horizontal}
-
-super + shift + Left
-	bspc node -m next --follow
-
-super + shift + Right
-	bspc node -m next --follow
-
-super + shift + Up
-	bspc node -m next --follow
-
-super + shift + Down
-	bspc node -m next --follow
 
 # -------------------------------------------------------------------------- }}}
 # {{{ alt + letterkey
