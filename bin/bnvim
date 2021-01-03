@@ -4,13 +4,16 @@
 # ------------------------------------------------------------------------------
 
 if [[ -d ~/git/neovim ]]; then
-  cd ~/git/neovim \
-  && git pull
+  echo "Update neovim sources."
+  cd ~/git/neovim
+  git pull
 else
-  cd ~/git \
-  && git clone https://github.com/neovim/neovim
+  echo "Clone neovim sources."
+  cd ~/git
+  git clone https://github.com/neovim/neovim
 fi
 
-cd ~/git/neovim \
-&& sudo make install \
-&& exec bash
+echo "Build neovim."
+cd ~/git/neovim
+sudo make install
+exec bash
