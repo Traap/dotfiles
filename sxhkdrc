@@ -9,7 +9,7 @@ super + {1-9, 0}
 # Move window to selected desktop FOR QWERTY KEYBOARDS
 #
 super + shift + {1-9, 0}
-	id=$(bspc query -N -n); bspc node -d ^{1-9, 10}; bspc node -f ${id}}
+	id=$(bspc query -N -n); bspc node -d '^{1-9, 10}'; bspc node -f ${id}}
 
 # -------------------------------------------------------------------------- }}}
 # {{{ super + letter key
@@ -43,6 +43,9 @@ super + s
 
 super + t
 	Thunar
+
+super + v
+   simplescreenrecorder
 
 super + w
   brave	
@@ -111,7 +114,7 @@ super + shift + r
 	pkill -usr1 -x sxhkd; notify-send 'sxhkd' 'Reloaded config'
 
 super + shift + s
- termite --title=sxhkdrc --exec=editSxhKdRc
+ exec termite --title=sxhkdrc --exec=editSxhKdRc
 
 super + shift + x
 	bspc quit
