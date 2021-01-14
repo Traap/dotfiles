@@ -1,0 +1,13 @@
+#!/bin/bash
+# ------------------------------------------------------------------------------
+# Update everything 
+# ------------------------------------------------------------------------------
+
+# See bashr
+uac       
+update
+upall
+
+# Directly reference package managers. 
+gem update --system
+npm update --global
