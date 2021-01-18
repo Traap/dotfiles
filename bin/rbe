@@ -2,5 +2,11 @@
 # ------------------------------------------------------------------------------
 # Build emend 
 # ------------------------------------------------------------------------------
-
-rake build:emend
+if [[ -d ${EMENDPATH} ]]; then
+  dir=$(pwd)
+  cd ${EMENDPATH}
+  rake build:emend
+  cd ${dir}
+else
+  echo "WARNING: emend is not installed."
+fi

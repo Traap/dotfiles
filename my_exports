@@ -69,6 +69,25 @@ if [[ -d ${DOCBLDPATH} ]]; then
 fi
 
 # -------------------------------------------------------------------------- }}}
+# {{{ emend location.
+
+if dirExists ${HOME}/git/emend; then
+   EMENDpATH=${HOME}/git/emend
+elif dirExists ${HOME}/soup/emend; then
+     EMENDPATH=${HOME}/soup/emend
+else
+  EMENDPATH=""
+  echo "WARNING: emend is not installed."
+fi
+export EMENDPATH
+
+if [[ -d ${EMENDPATH} ]]; then
+  newcomponent() {
+    ${EMENDPATH}/bin/newcomponent "$@"
+  }
+fi
+
+# -------------------------------------------------------------------------- }}}
 # {{{ Editor. 
 
 export MANWIDTH=76
