@@ -1,0 +1,3 @@
+#!/bin/bash
+vims() { rm -f startuptime && $EDITOR startuptime --startuptime startuptime ; }
+vims "$@"

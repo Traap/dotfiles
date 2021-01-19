@@ -1,0 +1,5 @@
+#!/bin/bash
+vimf() { 
+  $EDITOR $(fzf --border --preview="cat {}" --preview-window=right:50%) ;
+}
+vimf "$@"

@@ -205,25 +205,6 @@ cxx() {
 # ------------------------------------------------------------------------------
 # Start Vim with client server when it is compiled in.
 # ------------------------------------------------------------------------------
-vim() {
-  $EDITOR "$@"
-}
-
-vimf() {
-  $EDITOR $(fzf --border --preview="cat {}" --preview-window=right:50%)
-}
-
-vimmin() {
-  $EDITOR -u ~/git/vim/minimalrc "$@"
-}
-
-vimu() {
-  $EDITOR -u NORC "$@"
-}
-
-vims() {
-  $EDITOR startuptime --startuptime startuptime
-}
 
 if [[ ${OSTYPE} =~ "darwin" ]]; then
   if [[ -n $(vim --version | grep clientserver) ]]; then
