@@ -44,6 +44,7 @@ fi
 # ------------------------------------------------------------------------------
 alias cls='clear'
 alias cp='cp -v'
+alias dir='ls'
 alias decrypt='${HOME}/git/dotfiles/decrypt'
 alias ec='emacsclient -c'
 alias egrep='egrep --color=auto'
