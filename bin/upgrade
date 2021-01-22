@@ -3,11 +3,23 @@
 # Update everything 
 # ------------------------------------------------------------------------------
 
-# See bashr
-uac       
-update
-upall
+if programExists apt-get; then
 
-# Directly reference package managers. 
-gem update --system
-npm update --global
+  sudo apt-get -y upgrade && \
+  sudo apt-get -y update  && \
+  gem update --system && \
+  sudo npm install --global npm && \
+  echo "System updated." || echo "Error:  System update failed."
+
+elif programExists pacman; then
+  # See bashr
+  uac       
+  update
+  upall
+
+  # Directly reference package managers. 
+  gem update --system
+  npm update --global
+else
+  @echo "WARNING: Unknown package management system."
+fi
