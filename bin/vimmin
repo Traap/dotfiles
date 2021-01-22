@@ -1,3 +1,0 @@
-#!/bin/bash
-vimmin() { $EDITOR -u $HOME/git/vim/minimalrc "$@" ; }
-vimmin "$@"
