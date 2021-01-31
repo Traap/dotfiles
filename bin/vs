@@ -1,0 +1,3 @@
+#!/bin/bash
+vs() { rm -f startuptime && $EDITOR startuptime --startuptime startuptime ; }
+vs "$@"
