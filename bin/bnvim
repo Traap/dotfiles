@@ -1,19 +1,27 @@
 #!/bin/bash
-# ------------------------------------------------------------------------------
-# Build neovim
-# ------------------------------------------------------------------------------
+# {{{ Define directory to clone neovim into.
 
-if [[ -d ~/git/neovim ]]; then
+cloneDir="$HOME/git/"
+
+# -------------------------------------------------------------------------- }}}
+# {{{ Clone or pull latest neovim sources.
+
+if [[ -d ${cloneDir}/neovim ]]; then
   echo "Update neovim sources."
-  cd ~/git/neovim
+  cd ${cloneDir}/neovim
   git pull
 else
   echo "Clone neovim sources."
-  cd ~/git
+  cd ${cloneDir}
   git clone https://github.com/neovim/neovim
 fi
 
+# -------------------------------------------------------------------------- }}}
+# {{{ Build and install neovim.
+
 echo "Build neovim."
-cd ~/git/neovim
+cd ${cloneDir}/neovim
 sudo make install
 exec bash
+
+# -------------------------------------------------------------------------- }}}
