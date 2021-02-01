@@ -8,9 +8,9 @@ if osType "darwin"; then
 elif osType "linux" \
   || osType "cygwin" \
   || osType "msys"; then
-  alias la='ls -A --color'
-  alias ls='ls --color=auto'
-  alias ll='ls -lahG --color'
+  alias la='exa -a'
+  alias ls='exa'
+  alias ll='exa -la'
   d=.dircolors
   test -r $d && eval "$(dircolors $d)"
   if fileExists /usr/share/bash-completion/bash_completion; then
@@ -44,7 +44,7 @@ fi
 # ------------------------------------------------------------------------------
 alias cls='clear'
 alias cp='cp -v'
-alias dir='ls'
+alias dir='exa'
 alias decrypt='${HOME}/git/dotfiles/decrypt'
 alias ec='emacsclient -c'
 alias egrep='egrep --color=auto'
