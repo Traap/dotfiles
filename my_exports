@@ -72,7 +72,7 @@ fi
 # {{{ emend location.
 
 if dirExists ${HOME}/git/emend; then
-   EMENDpATH=${HOME}/git/emend
+   EMENDPATH=${HOME}/git/emend
 elif dirExists ${HOME}/soup/emend; then
      EMENDPATH=${HOME}/soup/emend
 else
