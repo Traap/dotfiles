@@ -1,0 +1,14 @@
+#!/bin/bash
+# I strongly encourage you to review this post.
+# 
+# https://tex.stackexchange.com/questions/95483/how-to-remove-everything-related-to-tex-live-for-fresh-install-on-ubuntu
+#
+sudo apt-get -y purge texlive*
+sudo rm -rf /usr/local/texlive/* and rm -rf ~/.texlive*
+sudo rm -rf /usr/local/share/texmf
+sudo rm -rf /var/lib/texmf
+sudo rm -rf /etc/texmf
+sudo apt-get remove tex-common --purge
+sudo rm -rf ~/.texlive
+sudo find -L /usr/local/bin/ -lname /usr/local/texlive/*/bin/* | xargs rm
+sudo apt-get -y autoremove
