@@ -274,7 +274,7 @@ check-test-output() {
   grep -rw --include=\*step*-status.* test-output/ -e $1
 }
 
-pass() {
+passes() {
   check-test-output PASS
 }
 
