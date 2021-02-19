@@ -4,8 +4,9 @@
 lsd() { ls -d */ | tr -d '/' ; }
 
 # -------------------------------------------------------------------------- }}}
-# {{{ Get repo name. 
+# {{{ Get repo project folder. 
 #     $1 => [bb | git | vim | soup]
+
 repo() {
   case $1 in
     bb)
@@ -24,12 +25,14 @@ repo() {
       repoName=git
   esac
   echo $repoName
+
 }
+
 # -------------------------------------------------------------------------- }}}
-# {{{ Get repo name. 
+# {{{ Pull latest changes 
 #
 # $1 => [pull | {empty}]
-#
+
 gitPull() {
   case $1 in
     pull)
@@ -37,30 +40,33 @@ gitPull() {
       ;;
   esac
 }
+
 # -------------------------------------------------------------------------- }}}
 # {{{ Set git user and email
 #
-# $1 => [pull | {empty}]
-# $2 => [bb | {empty}]
-#
+# $1 => repoType
+# $2 => pull
+
 gitSetUserAndEmail(){
-  case $1 in
+  case $2 in 
     pull)
-      case $2 in
-        bb) gce fk ;;
-        *) gce traap ;;
-      esac
+    case $1 in
+      bb)   gce fk ;;
+      soup) gce fk ;;
+      *)    gce traap ;;
+    esac
   esac
 }
+
 # -------------------------------------------------------------------------- }}}
 # {{{ Scan git repositories.
 #
 # $1 => repoType
 # $2 => pull
-#
+
 gits(){
 
-  #command to check if we are inside a git repository.
+  # command to check if we are inside a git repository.
 
   # Save current directory.
   dir=$(pwd)
@@ -69,20 +75,22 @@ gits(){
   cd ${HOME}/${repoName} > /dev/null;
 
   for i in $(lsd); do
-
     # move to subdirectory
     d=${HOME}/${repoName}/${i%%}
     cd $d > /dev/null
 
     # Do work if were are inside a git repository.
-    if [[ insideRepo ]]; then
-      x=repoChanged
-      $x && echo "*** ${d} ***";
-      $x && git status --short --branch;
-      $x && echo ""
-      $x && gitPull $2
-      $x && gitSetUserAndEmail $1 $2
-    fi
+    if [[ $(git rev-parse --is-inside-work-tree 2>/dev/null) ]]; then
+
+      if [[ -z $(git status --porcelain 2>/dev/null \
+         && git stash list 2>/dev/null)  ]]; then
+        echo "*** ${d} ***";
+        git status --short --branch;
+        echo ""
+        gitPull $2
+        gitSetUserAndEmail $1
+      fi
+   fi
 
     # move up a directory
     cd - > /dev/null;
