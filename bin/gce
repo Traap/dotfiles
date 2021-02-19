@@ -1,7 +1,8 @@
 #!/bin/sh
-# ----------------------------------------------------------------------------t-
-# Git helpers
-# ------------------------------------------------------------------------------
+# {{{ Git Configure email address and user name. 
+#
+# $1 - the repository type, aka, the directory I clone things to. 
+
 gce() {
   if [ "amgen" = $1 ]; then
     git config --local user.name gahoward
@@ -22,8 +23,15 @@ gce() {
     echo "Usage: gce [amgen|edx|fk|mhp|traap]"
     echo "Found: " $1
   fi
+
+  gdr
   git config --local --get user.name
   git config --local --get user.email
 }
-# ------------------------------------------------------------------------------
+
+# -------------------------------------------------------------------------- }}}
+# {{{ Kick start this script.
+
 gce "$@"
+
+# -------------------------------------------------------------------------- }}}

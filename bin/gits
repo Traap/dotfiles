@@ -1,5 +1,5 @@
 #!/bin/bash
-# {{{ Check the porcelain state of my git repositories.
+# {{{ list directory names in current folder 
 
 lsd() { ls -d */ | tr -d '/' ; }
 
@@ -84,11 +84,8 @@ gits(){
 
       if [[ -z $(git status --porcelain 2>/dev/null \
          && git stash list 2>/dev/null)  ]]; then
-        echo "*** ${d} ***";
-        git status --short --branch;
-        echo ""
+        gitSetUserAndEmail $1 $2
         gitPull $2
-        gitSetUserAndEmail $1
       fi
    fi
 

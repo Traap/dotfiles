@@ -1,0 +1,16 @@
+#!/bin/sh
+# {{{ Git Display Remote Url for this Branch.
+#
+# Note:
+# https://stackoverflow.com/questions/171550/find-out-which-remote-branch-a-local-branch-is-tracking
+gdr() {
+  git remote get-url \
+      $(git for-each-ref --format='%(upstream:short)' \
+      $(git symbolic-ref -q HEAD)|cut -d/ -f1)
+}
+# -------------------------------------------------------------------------- }}}
+# {{{ Kick start this script.
+
+gdr "$@"
+
+# -------------------------------------------------------------------------- }}}
