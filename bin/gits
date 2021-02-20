@@ -46,6 +46,7 @@ repo() {
 gitPull() {
   case $2 in
     pull)
+      git fetch --quiet
       upstream='@{u}'
          local=$(git rev-parse @)
         remote=$(git rev-parse "$upstream")
