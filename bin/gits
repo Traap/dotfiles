@@ -39,16 +39,32 @@ repo() {
 #   2. Remote must have changes.
 #   3. Duh! set user name and email.
 #   4. Tank .. PULL
+#
+# Note:
+# https://stackoverflow.com/questions/3258243/check-if-pull-needed-in-git
 
 gitPull() {
   case $2 in
     pull)
-      pwd
-      if [[ -z $(git fetch --dry-run 2>/dev/null) ]]; then
+      upstream='@{u}'
+         local=$(git rev-parse @)
+        remote=$(git rev-parse "$upstream")
+          base=$(git merge-base @ "$upstream")
+
+      # echo "upstream: $upstream"
+      # echo "   local: $local"
+      # echo "  remote: $remote"
+      # echo "    base: $base"
+
+      if [[ $local = $remote ]]; then
+        # Up-to-date.  I don't want a message.
+      elif [[ $local = $base ]]; then
         gitSetUserAndEmail $1 $2
         git pull
         echo
       fi
+     
+      echo
       ;;
   esac
 }
