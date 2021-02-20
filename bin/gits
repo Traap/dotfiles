@@ -10,7 +10,7 @@ lsd() { ls -d */ | tr -d '/' ; }
 repo() {
   case $1 in
     bb)
-      repoName=git
+      repoName=bb
       ;;
     git)
       repoName=git
@@ -36,7 +36,10 @@ repo() {
 gitPull() {
   case $1 in
     pull)
-      [[ -z $(git status --porcelain) ]] && git pull && echo
+      [[ -z $(git status --porcelain) ]] \
+      && gitSetUserAndEmail $1 $2 \
+      && git pull \
+      && echo
       ;;
   esac
 }
@@ -84,8 +87,12 @@ gits(){
 
       if [[ -z $(git status --porcelain 2>/dev/null \
          && git stash list 2>/dev/null)  ]]; then
-        gitSetUserAndEmail $1 $2
-        gitPull $2
+        gitPull $1 $2
+      else
+        echo "*** $d ***" 
+        gdr
+        git status --porcelain
+        echo ""
       fi
    fi
 
