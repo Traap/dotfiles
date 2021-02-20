@@ -2,9 +2,9 @@
 # {{{ check state for all repo types 
 
 checkRepos() {
-  gits bb
-  gits soup
-  gits git
+  echo 'checking bb'   && gits bb
+  echo 'checking soup' && gits soup
+  echo 'checking git'  && gits git
 }
 
 # -------------------------------------------------------------------------  }}}
