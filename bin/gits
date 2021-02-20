@@ -46,21 +46,20 @@ repo() {
 gitPull() {
   case $2 in
     pull)
+
       git fetch --quiet
       upstream='@{u}'
          local=$(git rev-parse @)
         remote=$(git rev-parse "$upstream")
           base=$(git merge-base @ "$upstream")
 
-      # if [[ $local = $remote ]]; then
-      #   # Up-to-date.  I don't want a message.
-      #   echo /dev/null
       if [[ $local != $remote && $local = $base ]]; then
         gitSetUserAndEmail $1 $2
         git pull
         echo
       fi
       ;;
+
   esac
 }
 
