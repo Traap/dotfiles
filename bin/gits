@@ -51,11 +51,6 @@ gitPull() {
         remote=$(git rev-parse "$upstream")
           base=$(git merge-base @ "$upstream")
 
-      # echo "upstream: $upstream"
-      # echo "   local: $local"
-      # echo "  remote: $remote"
-      # echo "    base: $base"
-
       # if [[ $local = $remote ]]; then
       #   # Up-to-date.  I don't want a message.
       #   echo /dev/null
