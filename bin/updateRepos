@@ -1,0 +1,15 @@
+#!/bin/bash
+# {{{ Update all repotype
+
+updateRepos() {
+  gits bb pull
+  gits soup pull
+  gits git pull
+}
+
+# -------------------------------------------------------------------------  }}}
+# {{{ Kick start the show.
+
+updateRepos "$@"
+
+# -------------------------------------------------------------------------- }}}
