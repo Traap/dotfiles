@@ -1,0 +1,15 @@
+#!/bin/bash
+# {{{ check state for all repo types 
+
+checkRepos() {
+  gits bb
+  gits soup
+  gits git
+}
+
+# -------------------------------------------------------------------------  }}}
+# {{{ Kick start the show.
+
+checkRepos "$@"
+
+# -------------------------------------------------------------------------- }}}
