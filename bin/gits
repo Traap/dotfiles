@@ -1,10 +1,10 @@
 #!/bin/bash
-# {{{ list directory names in current folder 
+# {{{ list directory names in current folder
 
 lsd() { ls -d */ | tr -d '/' ; }
 
 # -------------------------------------------------------------------------- }}}
-# {{{ Get repo project folder. 
+# {{{ Get repo project folder.
 #     $1 => [bb | git | vim | soup]
 
 repo() {
@@ -35,10 +35,10 @@ repo() {
 # $2 => pull
 #
 # Steps:
-#   1. Local tracked files must be clean. 
+#   1. Local tracked files must be clean.
 #   2. Remote must have changes.
 #   3. Duh! set user name and email.
-#   4. Tank .. PULL 
+#   4. Tank .. PULL
 
 gitPull() {
   case $2 in
@@ -59,7 +59,7 @@ gitPull() {
 # $2 => pull
 
 gitSetUserAndEmail(){
-  case $2 in 
+  case $2 in
     pull)
     case $1 in
       bb)   gce fk ;;
@@ -97,7 +97,7 @@ gits(){
          && git stash list 2>/dev/null)  ]]; then
         gitPull $1 $2
       else
-        echo "*** $d ***" 
+        echo "*** $d ***"
         gdr
         git status --porcelain
         echo ""
