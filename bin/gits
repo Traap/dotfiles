@@ -56,9 +56,10 @@ gitPull() {
       # echo "  remote: $remote"
       # echo "    base: $base"
 
-      if [[ $local = $remote ]]; then
-        # Up-to-date.  I don't want a message.
-      elif [[ $local = $base ]]; then
+      # if [[ $local = $remote ]]; then
+      #   # Up-to-date.  I don't want a message.
+      #   echo /dev/null
+      if [[ $local != $remote && $local = $base ]]; then
         gitSetUserAndEmail $1 $2
         git pull
         echo
