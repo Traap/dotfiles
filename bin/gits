@@ -30,17 +30,23 @@ repo() {
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Pull latest changes
-#
+# Args:
 # $1 => repoType
 # $2 => pull
+#
+# Steps:
+#   1. Local tracked files must be clean. 
+#   2. Remote must have changes.
+#   3. Duh! set user name and email.
+#   4. Tank .. PULL 
 
 gitPull() {
   case $2 in
     pull)
-      [[ -z $(git status --porcelain) ]] \  # Local tracked files must be clean. 
-      && [[ -n $(gil fetch --dry-run) ]] \  # Remote must have changes.
-      && gitSetUserAndEmail $1 $2 \         # Duh! set user name and email.
-      && git pull \                         # Tank .. PULL 
+      [[ -z $(git status --porcelain) ]] \
+      && [[ -n $(gil fetch --dry-run) ]] \
+      && gitSetUserAndEmail $1 $2 \
+      && git pull \
       && echo
       ;;
   esac
