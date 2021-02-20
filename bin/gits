@@ -64,8 +64,6 @@ gitPull() {
         git pull
         echo
       fi
-     
-      echo
       ;;
   esac
 }
