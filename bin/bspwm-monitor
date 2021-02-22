@@ -2,7 +2,7 @@
 # User arand or xrand to determin monitor type.
 host=$(uname -n)
 case $host in
-  Sunshine)
+  Tank)
     bspc monitor DP-0 -d 1 2 3 4 5
     bspc monitor DP-2 -d 6 7 8 9 10 
     ;;
