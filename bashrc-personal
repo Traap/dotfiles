@@ -1,33 +1,41 @@
 #!bin/bash
-# ------------------------------------------------------------------------------
-# Stooges: Honorning Lary, Moe, and Curley ... Nyuk, nyuk, nyuk.
-# ------------------------------------------------------------------------------
+# {{{ Stooges: Honoring Larry, Moe, and Curley ... Nyuk, nyuk, nyuk.
+#
+# Bash scripting cheatsheet => https://devhints.io/bash
+
 echo ${HOSTNAME} "on" ${OSTYPE}
 
-# ------------------------------------------------------------------------------
-# Bash scripting cheatsheet => https://devhints.io/bash
-# ------------------------------------------------------------------------------
-# Disable ctrl-s and ctrl-q
+# -------------------------------------------------------------------------- }}}
+# {{{ Disable # Disable ctrl-s and ctrl-q
+
 stty -ixon
 
-# Infanite history
+# -------------------------------------------------------------------------- }}}
+# {{{ Infanite history
+
 HISTSIZE= HISTFILESIZE=
 
+# -------------------------------------------------------------------------- }}}
+# {{{ ArchLinux specific keyboard settin.
+
 # Turn off numlock and swap Cap Lock && Escape keys on Arch Linux
+
 if [[ $(uname -r) =~ 'arch' || $(uname -r) =~ 'lts' ]]; then
    numlockx off
    setxkbmap -option caps:swapescape
 fi
 
-# ------------------------------------------------------------------------------
+# -------------------------------------------------------------------------- }}}
+# {{{ Customize my bash experience.
+
 # Define functions and paths for this shell.
-# ------------------------------------------------------------------------------
 dotfiles=${HOME}/git/dotfiles
 
+# Customize my shell.
 my_array=("functions" "exports" "aliases" "paths" "completions" "prompt" )
 for m in ${my_array[@]}; do
   x=$dotfiles/my_$m
   source $x
 done
 
-# ------------------------------------------------------------------------------
+# -------------------------------------------------------------------------- }}}

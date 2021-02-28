@@ -8,9 +8,6 @@ if osType "darwin"; then
 elif osType "linux" \
   || osType "cygwin" \
   || osType "msys"; then
-  alias la='exa -a'
-  alias ls='exa'
-  alias ll='exa -la'
   d=.dircolors
   test -r $d && eval "$(dircolors $d)"
   if fileExists /usr/share/bash-completion/bash_completion; then

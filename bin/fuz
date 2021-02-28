@@ -18,7 +18,7 @@ main() {
 
 select_file() {
   given_file="$1"
-  fzf --preview="cat {}" --preview-window=right:50%:wrap --query="$given_file"
+  fzf --preview="bat {}" --preview-window=right:50%:wrap --query="$given_file"
 }
 
 # Kick start Note-Taking
