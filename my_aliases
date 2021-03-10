@@ -130,6 +130,7 @@ alias ,ed='${EDITOR} ${HOME}/git/vim/custom-dictionary.utf-8.add'
 alias ,eg='${EDITOR} ${HOME}/git/ssh/gitconfig'
 alias ,en='${EDITOR} ${HOME}/git/vim/nvim.vim'
 alias ,ep='${EDITOR} ${HOME}/git/vim/plug.vim'
+alias ,em='${EDITOR} ${HOME}/git/vim/minimal-plug.vim'
 alias ,et='${EDITOR} ${HOME}/git/tmux/tmux.conf'
 alias ,ev='${EDITOR} ${HOME}/git/vim/vimrc'
 
