@@ -52,18 +52,6 @@
 [code]
   pager = cat
 
-[credential "https://github.com"]
-  accesstoken = "52b89cb110c77bdc692cce833771c466df14599a"
-  helper = store
-  signingkey = B1C6261279F24E74
-  username = Traap
-
-[credential "https://bitbucket.fkrnd.com"]
-  accesstoken = "MDgxMzg2ODMxOTgzOv94KrdSLc07nzw8086N59lFZ9MC"
-  email = gary.howard@fresenius-kabi.com
-  helper = store
-  username = gary.howard@fresenius-kabi.com
-
 [branch]
   autosetuprebase = always
 
