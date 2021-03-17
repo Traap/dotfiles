@@ -22,6 +22,8 @@ fi
 
 if dirExists ${HOME}/git/amber; then
    AMBERPATH=${HOME}/git/amber
+elif dirExists ${HOME}/bb/amber; then
+     AMBERPATH=${HOME}/bb/amber
 elif dirExists ${HOME}/soup/amber; then
      AMBERPATH=${HOME}/soup/amber
 else
@@ -41,6 +43,8 @@ fi
 
 if  dirExists ${HOME}/git/autodoc; then
   AUTODOCPATH=${HOME}/git/autodoc
+elif dirExists ${HOME}/bb/autodoc; then
+   AUTODOCPATH=${HOME}/bb/autodoc
 elif dirExists ${HOME}/soup/autodoc; then
    AUTODOCPATH=${HOME}/soup/autodoc
 else
@@ -54,6 +58,8 @@ export AUTODOCPATH
 
 if dirExists ${HOME}/git/docbld; then
   DOCBLDPATH=${HOME}/git/docbld
+elif dirExists ${HOME}/bb/docbld; then
+    DOCBLDPATH=${HOME}/bb/docbld
 elif dirExists ${HOME}/soup/docbld; then
     DOCBLDPATH=${HOME}/soup/docbld
 else
@@ -73,6 +79,8 @@ fi
 
 if dirExists ${HOME}/git/emend; then
    EMENDPATH=${HOME}/git/emend
+elif dirExists ${HOME}/bb/emend; then
+     EMENDPATH=${HOME}/bb/emend
 elif dirExists ${HOME}/soup/emend; then
      EMENDPATH=${HOME}/soup/emend
 else
@@ -146,6 +154,8 @@ fi
 
 if dirExists ${HOME}/git/newdoc; then
   NEWDOCPATH=${HOME}/git/newdoc
+elif dirExists ${HOME}/bb/newdoc; then
+    NEWDOCPATH=${HOME}/bb/newdoc
 elif dirExists ${HOME}/soup/newdoc; then
     NEWDOCPATH=${HOME}/soup/newdoc
 else
