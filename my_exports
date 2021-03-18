@@ -68,12 +68,6 @@ else
 fi
 export DOCBLDPATH
 
-if [[ -d ${DOCBLDPATH} ]]; then
-  docbld() {
-    rake --rakefile ${DOCBLDPATH}/Rakefile $1
-  }
-fi
-
 # -------------------------------------------------------------------------- }}}
 # {{{ emend location.
 

@@ -1,0 +1,7 @@
+#!/bin/bash
+docbld() {
+  [[ -d ${DOCBLDPATH} ]] \
+    && rake --rakefile ${DOCBLDPATH}/Rakefile $1 \
+    ||echo "ERROR: docbld is not installed."
+}
+docbld "$@"
