@@ -1,5 +1,0 @@
-#!/bin/bash
-# 1 - file to find
-
-ff() { find . -type f -iname "$1" -print ; }
-ff "$@"
