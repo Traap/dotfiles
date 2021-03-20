@@ -1,7 +1,6 @@
 #!/bin/bash
-# ------------------------------------------------------------------------------
-# Operating system specific settings.
-# ------------------------------------------------------------------------------
+# {{{ Operating system specific settings.
+
 if osType "darwin"; then
   alias la='ls -A'
   alias ll='ls -lahG'
@@ -17,34 +16,28 @@ else
     echo "Unknown operating system:" ${OSTYPE}
 fi
 
-# ------------------------------------------------------------------------------
-# Vim keybindings.  Troubleshoot tmux + vim + vim-keybindings.
-# ------------------------------------------------------------------------------
+# -------------------------------------------------------------------------- }}}
+# {{{ Vim keybindings.  Troubleshoot tmux + vim + vim-keybindings.
+
 set -o vi
 
-# ------------------------------------------------------------------------------
-# latexrun is defined when present.
-# ------------------------------------------------------------------------------
+# -------------------------------------------------------------------------- }}}
+# {{{ latexrun is defined when present.
+
 if fileExists ${HOME}/git/latexrun/latexrun; then
   alias latexrun='${HOME}/git/latexrun/latexrun'
 fi
 
-# ------------------------------------------------------------------------------
-# Tmux setup.
-# ------------------------------------------------------------------------------
+# -------------------------------------------------------------------------- }}}
+# {{{ Tmux setup.
+
 if fileExists /usr/bin/tmux; then
   alias tmux='tmux -2'
 fi
 
-# ------------------------------------------------------------------------------
-# General purpose aliases.
-# ------------------------------------------------------------------------------
-alias cls='clear'
-alias cp='cp -v'
-alias dir='exa'
-alias decrypt='${HOME}/git/dotfiles/decrypt'
-alias ec='emacsclient -c'
-alias egrep='egrep --color=auto'
+# -------------------------------------------------------------------------- }}}
+# {{{ General purpose aliases.
+
 alias encrypt='${HOME}/git/dotfiles/encrypt'
 alias fgrep='fgrep --color=auto'
 alias ga='git add'
@@ -81,9 +74,9 @@ alias s='source'
 alias yayn='yay --noconfirm -S'
 alias xz='vi -c "let g:tty='\''$(tty)'\''"'
 
-# ------------------------------------------------------------------------------
-# Aliases to folders within my Git root.
-# ------------------------------------------------------------------------------
+# -------------------------------------------------------------------------- }}}
+# {{{ Aliases to folders within my Git root.
+
 alias ac='cd ${HOME}/git/AllanConsulting'
 alias bb='cd ${HOME}/bb'
 alias bootd='cd ${HOME}/git/bootstrap'
@@ -98,22 +91,22 @@ alias sshd='cd ${HOME}/git/ssh'
 alias tmuxd='cd ${HOME}/git/tmux'
 alias vimd='cd ${HOME}/git/vim'
 
-# ------------------------------------------------------------------------------
-# Brew wants me to own usr/local
-# ------------------------------------------------------------------------------
+# -------------------------------------------------------------------------- }}}
+# {{{ Brew wants me to own usr/local
+
 if osType "darwin"; then
   alias ulo='sudo chown -R $(whoami) /usr/local'
 fi
 
-# ------------------------------------------------------------------------------
-# Repeat command are used when I enable my resume editor.
-# ------------------------------------------------------------------------------
+# -------------------------------------------------------------------------- }}}
+# {{{ Repeat command are used when I enable my resume editor.
+
 alias rgl='repeat git logg -6'
 alias rgs='repeat git status --short'
 
-# ------------------------------------------------------------------------------
-# Perforce defaults.
-# ------------------------------------------------------------------------------
+# -------------------------------------------------------------------------- }}}
+# {{{ Perforce defaults.
+
 if osType "linux"; then
   if hostName "Ryder"; then
     alias p4='${P4DISK}/2013.1/p4'
@@ -121,9 +114,9 @@ if osType "linux"; then
   fi
 fi
 
-# ------------------------------------------------------------------------------
-# File I edit frequently.
-# ------------------------------------------------------------------------------
+# -------------------------------------------------------------------------- }}}
+# {{{ File I edit frequently.
+
 alias ,eb='${EDITOR} ${HOME}/git/dotfiles/bootstrap.vim'
 alias ,ec='${EDITOR} ${HOME}/git/ssh/config.vim'
 alias ,ed='${EDITOR} ${HOME}/git/vim/custom-dictionary.utf-8.add'
@@ -146,9 +139,9 @@ alias ,mz='${EDITOR} ${HOME}/git/dotfiles/bashrc-personal'
 alias ,xb='${EDITOR} ${HOME}/git/dotfiles/bspwmrc'
 alias ,xs='${EDITOR} ${HOME}/git/dotfiles/sxhkdrc'
 
-# ------------------------------------------------------------------------------
-# tmux sessions I frequently use.
-# ------------------------------------------------------------------------------
+# -------------------------------------------------------------------------- }}}
+# {{{ tmux sessions I frequently use.
+
 alias tao='ao ao'
 alias tbash='ao bash'
 alias tkjv='ao kjv'
@@ -165,8 +158,10 @@ alias ksoup='tmux kill-session -t soup'
 alias kvim='tmux kill-session -t vim'
 alias kwork='tmux kill-session -t work'
 
-# ------------------------------------------------------------------------------
-# archlinux tlmgr (texlive manager)
-# ------------------------------------------------------------------------------
+# -------------------------------------------------------------------------- }}}
+# {{{ archlinux tlmgr (texlive manager)
+
 export TEXMFDIST='/usr/share/texmf-dist'
 alias tlmgr='${TEXMFDIST}/scripts/texlive/tlmgr.pl --usermode'
+
+# -------------------------------------------------------------------------- }}}
