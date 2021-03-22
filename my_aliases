@@ -38,7 +38,6 @@ fi
 # -------------------------------------------------------------------------- }}}
 # {{{ General purpose aliases.
 
-alias cp 'cp -v'
 alias encrypt='${HOME}/git/dotfiles/encrypt'
 alias fgrep='fgrep --color=auto'
 alias ga='git add'

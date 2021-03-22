@@ -13,15 +13,15 @@ ln -fsv ~/git/dotfiles/inputrc          ~/.inputrc
 ln -fsv ~/git/dotfiles/latexmkrc        ~/.latexmkrc
 ln -fsv ~/git/dotfiles/minttyrc         ~/.minttyrc
 ln -fsv ~/git/dotfiles/mozilla          ~/.mozilla
-ln -fsv ~/git/ssh/config.vim            ~/.config.vim
 ln -fsv ~/git/ssh                       ~/.ssh
+ln -fsv ~/git/ssh/config.vim            ~/.config.vim
 ln -fsv ~/git/tmux                      ~/.tmux
 ln -fsv ~/git/tmux/tmux.conf            ~/.tmux.conf
-ln -fsv ~/git/vim/init.vim              ~/.config/nvim/init.vim
-ln -fsv ~/git/vim/package.json          ~/.config/coc/extensions/package.json 
 ln -fsv ~/git/vim                       ~/.vim
-ln -fsv ~/git/vim/vimrc_background      ~/.vimrc_background
+ln -fsv ~/git/vim/package.json          ~/.config/coc/extensions/package.json 
+ln -fsv ~/git/vim/vimrc                 ~/.config/nvim/init.vim
 ln -fsv ~/git/vim/vimrc                 ~/.vimrc
+ln -fsv ~/git/vim/vimrc_background      ~/.vimrc_background
 
 # NOTE:  The next line should not be used from ArcoLinuxB
 ln -fsv ~/git/dotfiles/bashrc           ~/.bashrc
