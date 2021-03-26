@@ -1,4 +1,4 @@
-!/bin/bash
+#!/bin/bash
 docbld() {
   [[ -d ${DOCBLDPATH} ]] \
     && rake --rakefile ${DOCBLDPATH}/Rakefile $1 \

@@ -1,0 +1,3 @@
+#!/bin/bash
+echo "rm -rf _build"
+rm -rf _build
