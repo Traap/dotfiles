@@ -93,7 +93,9 @@ fi
 # {{{ Editor. 
 
 export MANWIDTH=76
-if programExists nvim; then
+if osType "msys"; then
+  EDITOR=$(which vim)
+elif programExists nvim; then
   EDITOR=$(which nvim)
   export MANPAGER='nvim +Man!'
 else
