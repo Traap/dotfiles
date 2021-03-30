@@ -1,0 +1,3 @@
+#!/bin/bash
+n() { $EDITOR -u $HOME/git/vim/minimalrc "$@" ; }
+n "$@"
