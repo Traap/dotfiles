@@ -116,8 +116,8 @@ super + shift + r
 super + shift + s
  exec termite --title=sxhkdrc --exec=editSxhKdRc
 
-super + shift + x
-	bspc quit
+# super + shift + x
+# 	bspc quit
 
 super + shift + {h,j,k,l}
 	bspc node --focus --swap {west, south, north, east}
@@ -226,6 +226,9 @@ alt + shift + t
 
 alt + shift + n
 	variety -n && wal -i $(cat $HOME/.config/variety/wallpaper/wallpaper.jpg.txt)&
+
+super + shift + x
+	bspc quit
 
 alt + shift + p
 	variety -p && wal -i $(cat $HOME/.config/variety/wallpaper/wallpaper.jpg.txt)&
