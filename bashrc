@@ -256,3 +256,5 @@ ex ()
 [[ -f /usr/share/fzf/key-bindings.bash ]] && . /usr/share/fzf/key-bindings.bash
 
 # -------------------------------------------------------------------------- }}}
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash

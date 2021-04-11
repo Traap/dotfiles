@@ -5,6 +5,7 @@
 cd ${HOME}
 
 ln -fsv ~/git/dotfiles/bash_logout      ~/.bash_logout
+ln -fsv ~/git/dotfiles/bashrc           ~/.bashrc
 ln -fsv ~/git/dotfiles/bashrc-personal  ~/.bashrc-personal
 ln -fsv ~/git/dotfiles/dircolors        ~/.dircolors
 ln -fsv ~/git/dotfiles/gitconfig        ~/.gitconfig
@@ -23,6 +24,11 @@ ln -fsv ~/git/vim/vimrc                 ~/.config/nvim/init.vim
 ln -fsv ~/git/vim/vimrc                 ~/.vimrc
 ln -fsv ~/git/vim/vimrc_background      ~/.vimrc_background
 
-# NOTE:  The next line should not be used from ArcoLinuxB
-ln -fsv ~/git/dotfiles/bashrc           ~/.bashrc
+if [[ $(uname -r) =~ 'arch' ]]; then
+  ln -fsv ~/git/dotfiles/bspwm/autostart.sh ~/.config/bspwm/autostart.sh
+  ln -fsv ~/git/dotfiles/bspwm/bspwmrc      ~/.config/bspwm/bspwmrc
+  ln -fsv ~/git/dotfiles/bspwm/sxhkdrc      ~/.config/bspwm/sxhkd/sxhkdrc
+  ln -fsv ~/git/dotfiles/termite/config     ~/.config/termite/config
+fi
+
 # ------------------------------------------------------------------------------

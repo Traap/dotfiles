@@ -16,7 +16,7 @@ stty -ixon
 HISTSIZE= HISTFILESIZE=
 
 # -------------------------------------------------------------------------- }}}
-# {{{ ArchLinux specific keyboard settin.
+# {{{ ArchLinux specific keyboard setting.
 
 # Turn off numlock and swap Cap Lock && Escape keys on Arch Linux
 
