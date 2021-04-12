@@ -13,7 +13,7 @@ fi
 # ------------------------------------------------------------------------------
 if osType "linux"; then
     prependToPath ${HOME}/.rbenv/bin
-    prependToPath ${HOME}/.rbenv/versions/2.7.2/bin
+    prependToPath ${HOME}/.rbenv/versions/3.0.1/bin
     prependToPath ${HOME}/.cargo/bin
     [[ ":$PATH:" != *"${HOME}/.rbenv/bin"* ]] && eval "$(rbenv init -)"
 fi

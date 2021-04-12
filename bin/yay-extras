@@ -1,8 +1,14 @@
-# Ruby
-yay -Sy rbenv ruby-build
-
-# Skype
-yay -Sy skypeforlinux-stable-bin
-
-# LaTeX
-yay -Sy texlive-core texlive-latexextras texlive-publishers
+#!/bin/bash
+yay -S --noconfirm \
+    npm \
+    rbenv \
+    ripgrep \
+    ruby-build
+    texlive-bin \
+    texlive-core \
+    texlive-latex-extra \
+    texlive-metapost \
+    texlive-music \
+    texlive-pictures \ 
+    texlive-pstricks \
+    texlive-science
