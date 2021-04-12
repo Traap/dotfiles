@@ -19,7 +19,7 @@ ln -fsv ~/git/ssh/config.vim            ~/.config.vim
 ln -fsv ~/git/tmux                      ~/.tmux
 ln -fsv ~/git/tmux/tmux.conf            ~/.tmux.conf
 ln -fsv ~/git/vim                       ~/.vim
-ln -fsv ~/git/vim/package.json          ~/.config/coc/extensions/package.json 
+ln -fsv ~/git/vim/coc-package.json     ~/.config/coc/extensions/package.json 
 ln -fsv ~/git/vim/vimrc                 ~/.config/nvim/init.vim
 ln -fsv ~/git/vim/vimrc                 ~/.vimrc
 ln -fsv ~/git/vim/vimrc_background      ~/.vimrc_background
