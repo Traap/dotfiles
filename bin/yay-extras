@@ -1,6 +1,7 @@
 #!/bin/bash
 yay -S --noconfirm \
     npm \
+    okular \
     rbenv \
     ripgrep \
     ruby-build
