@@ -4,12 +4,11 @@ yay -S --noconfirm \
     okular \
     rbenv \
     ripgrep \
-    ruby-build
+    ruby-build \
     texlive-bin \
     texlive-core \
-    texlive-latex-extra \
-    texlive-metapost \
+    texlive-latexextra \
     texlive-music \
-    texlive-pictures \ 
-    texlive-pstricks \
+    texlive-pictures \
+    texlive-publishers \
     texlive-science
