@@ -1,0 +1,7 @@
+#!/bin/bash
+vbs() {
+ sudo mount -t vboxsf -o rw,uid#1000,gid#1000 Downloads /home/$USER/Downloads
+ sudo mount -t vboxsf -o rw,uid#1000,gid#1000 Fresenius /home/$USER/Fresenius
+ sudo mount -t vboxsf -o rw,uid#1000,gid#1000 'OneDrive_-_Fresenius' /home/$USER/OneDrive\ -\ Fresenius
+}
+vbs "$@"
