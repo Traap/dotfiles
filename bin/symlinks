@@ -1,34 +1,77 @@
 #!/bin/bash
-# ------------------------------------------------------------------------------
-# Symlinks I use alot. 
-# ------------------------------------------------------------------------------
-cd ${HOME}
+# {{{ deleteSymLinks
 
-ln -fsv ~/git/dotfiles/bash_logout      ~/.bash_logout
-ln -fsv ~/git/dotfiles/bashrc           ~/.bashrc
-ln -fsv ~/git/dotfiles/bashrc-personal  ~/.bashrc-personal
-ln -fsv ~/git/dotfiles/dircolors        ~/.dircolors
-ln -fsv ~/git/dotfiles/gitconfig        ~/.gitconfig
-ln -fsv ~/git/dotfiles/gitignore_global ~/.gitignore_global
-ln -fsv ~/git/dotfiles/inputrc          ~/.inputrc
-ln -fsv ~/git/dotfiles/latexmkrc        ~/.latexmkrc
-ln -fsv ~/git/dotfiles/minttyrc         ~/.minttyrc
-ln -fsv ~/git/dotfiles/mozilla          ~/.mozilla
-ln -fsv ~/git/ssh                       ~/.ssh
-ln -fsv ~/git/ssh/config.vim            ~/.config.vim
-ln -fsv ~/git/tmux                      ~/.tmux
-ln -fsv ~/git/tmux/tmux.conf            ~/.tmux.conf
-ln -fsv ~/git/vim                       ~/.vim
-ln -fsv ~/git/vim/coc-package.json     ~/.config/coc/extensions/package.json 
-ln -fsv ~/git/vim/vimrc                 ~/.config/nvim/init.vim
-ln -fsv ~/git/vim/vimrc                 ~/.vimrc
-ln -fsv ~/git/vim/vimrc_background      ~/.vimrc_background
+deleteSymLinks() {
+  if [[ symlinksFlag ]]; then
+    echo "" && echo "Deleting symbolic links."
+    rm -fv ~/.bash_logout
+    rm -fv ~/.bashrc
+    rm -fv ~/.bashrc-personal
+    rm -fv ~/.dircolors
+    rm -fv ~/.gitconfig
+    rm -fv ~/.gitignore_global
+    rm -fv ~/.inputrc
+    rm -fv ~/.latexmkrc
+    rm -fv ~/.minttyrc
+    rm -fv ~/.mozilla
+    rm -fv ~/.ssh
+    rm -fv ~/.config.vim
+    rm -fv ~/.tmux
+    rm -fv ~/.tmux.conf
+    rm -fv ~/.vim
+    rm -fv ~/.config/coc/extensions/package.json
+    rm -fv ~/.config/nvim/init.vim
+    rm -fv ~/.vimrc
+    rm -fv ~/.vimrc_background
 
-if [[ $(uname -r) =~ 'arch' ]]; then
-  ln -fsv ~/git/dotfiles/bspwm/autostart.sh ~/.config/bspwm/autostart.sh
-  ln -fsv ~/git/dotfiles/bspwm/bspwmrc      ~/.config/bspwm/bspwmrc
-  ln -fsv ~/git/dotfiles/bspwm/sxhkdrc      ~/.config/bspwm/sxhkd/sxhkdrc
-  ln -fsv ~/git/dotfiles/termite/config     ~/.config/termite/config
-fi
+    if [[ $(uname -r) =~ 'arch' ]]; then
+      rm -fv ~/.config/bspwm/autostart.sh
+      rm -fv ~/.config/bspwm/bspwmrc
+      rm -fv ~/.config/bspwm/sxhkd/sxhkdrc
+      rm -fv ~/.config/termite/config
+    fi
+  fi
+}
 
-# ------------------------------------------------------------------------------
+# -------------------------------------------------------------------------- }}}
+# {{{ createSymLinks
+
+createSymLinks() {
+  if [[ symlinksFlag ]]; then
+    echo "" && echo "Creating symbolic links."
+    ln -fsv ~/git/dotfiles/bash_logout      ~/.bash_logout
+    ln -fsv ~/git/dotfiles/bashrc           ~/.bashrc
+    ln -fsv ~/git/dotfiles/bashrc-personal  ~/.bashrc-personal
+    ln -fsv ~/git/dotfiles/dircolors        ~/.dircolors
+    ln -fsv ~/git/dotfiles/gitconfig        ~/.gitconfig
+    ln -fsv ~/git/dotfiles/gitignore_global ~/.gitignore_global
+    ln -fsv ~/git/dotfiles/inputrc          ~/.inputrc
+    ln -fsv ~/git/dotfiles/latexmkrc        ~/.latexmkrc
+    ln -fsv ~/git/dotfiles/minttyrc         ~/.minttyrc
+    ln -fsv ~/git/dotfiles/mozilla          ~/.mozilla
+    ln -fsv ~/git/ssh                       ~/.ssh
+    ln -fsv ~/git/ssh/config.vim            ~/.config.vim
+    ln -fsv ~/git/tmux                      ~/.tmux
+    ln -fsv ~/git/tmux/tmux.conf            ~/.tmux.conf
+    ln -fsv ~/git/vim                       ~/.vim
+    ln -fsv ~/git/vim/coc-package.json      ~/.config/coc/extensions/package.json
+    ln -fsv ~/git/vim/vimrc                 ~/.config/nvim/init.vim
+    ln -fsv ~/git/vim/vimrc                 ~/.vimrc
+    ln -fsv ~/git/vim/vimrc_background      ~/.vimrc_background
+
+    if [[ $(uname -r) =~ 'arch' ]]; then
+      ln -fsv ~/git/dotfiles/bspwm/autostart.sh ~/.config/bspwm/autostart.sh
+      ln -fsv ~/git/dotfiles/bspwm/bspwmrc      ~/.config/bspwm/bspwmrc
+      ln -fsv ~/git/dotfiles/bspwm/sxhkdrc      ~/.config/bspwm/sxhkd/sxhkdrc
+      ln -fsv ~/git/dotfiles/termite/config     ~/.config/termite/config
+    fi
+  fi
+}
+
+# -------------------------------------------------------------------------- }}}
+# {{{ The stage is set ... start the show!!!
+
+deleteSymLinks
+createSymLinks
+
+# -------------------------------------------------------------------------- }}}
