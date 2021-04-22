@@ -22,7 +22,9 @@ HISTSIZE= HISTFILESIZE=
 
 if [[ $(uname -r) =~ 'arch' || $(uname -r) =~ 'lts' ]]; then
    numlockx off
-   # setxkbmap -option caps:swapescape
+   if [[ $(xrandr | rg eDP1 -c) == 1 ]]; then
+     setxkbmap -option caps:swapescape
+  fi
 fi
 
 # -------------------------------------------------------------------------- }}}
