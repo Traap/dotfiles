@@ -12,7 +12,7 @@ super + shift + {1-9, 0}
 	id=$(bspc query -N -n); bspc node -d '^{1-9, 10}'; bspc node -f ${id}}
 
 # -------------------------------------------------------------------------- }}}
-# {{{ super + letter key
+# {{{ super + [letter | single] key
 
 super + a
   apple-keyboard-hack 
@@ -55,9 +55,6 @@ super + x
 
 super + z
  termite --title='htop task manager' --exec=htop
-
-super + {h,j,k,l}
-	bspc node --{focus} {west,south,north,east}
 
 super + BackSpace
 	bspc monitor -f next
@@ -128,23 +125,20 @@ super + {_, shift + }a
 # -------------------------------------------------------------------------- }}}
 # {{{ alt + letterkey
 
+alt + {h,j,k,l}
+	bspc node --{focus} {west,south,north,east}
+
 alt + f
-	variety -f
-
-alt + n
-	variety -n
-
-alt + p
-	variety -p
+	variety --favorite 
 
 alt + t
-	variety -t
+	variety --trash
 
-alt + Left
-	variety -p
+alt + right
+	variety --next
 
-alt + Right
-	variety -n
+alt + left 
+	variet --previous
 
 alt + Up
 	variety --toggle-pause
