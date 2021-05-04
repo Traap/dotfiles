@@ -1,21 +1,16 @@
-# super is the OS key: Apple,  Windows,  Lunux,  etc.  
-# {{{ super + number
-#
+# super is the OS key: Apple,  Windows,  Lunux,  etc.
+# {{{ super +
+
 # Focus selected desktop FOR QWERTY KEYBOARDS
-#
 super + {1-9, 0}
 	bspc desktop -f '^{1-9, 10}'
 
 # Move window to selected desktop FOR QWERTY KEYBOARDS
-#
 super + shift + {1-9, 0}
 	id=$(bspc query -N -n); bspc node -d '^{1-9, 10}'; bspc node -f ${id}}
 
-# -------------------------------------------------------------------------- }}}
-# {{{ super + [letter | single] key
-
 super + a
-  apple-keyboard-hack 
+  apple-keyboard-hack
 
 super + b
 	polybar-msg cmd toggle
@@ -27,7 +22,7 @@ super + f
 	bspc node --state \~fullscreen
 
 super + n
-  nvidia-settings	
+  nvidia-settings
 
 super + p
 	bspc node --state \~pseudo_tiled
@@ -48,7 +43,7 @@ super + v
    simplescreenrecorder
 
 super + w
-  brave	
+  brave
 
 super + x
  termite --title=Weather --exec=weather --hold
@@ -65,25 +60,35 @@ super + bracket{left,right}
 super + Return
 	termite
 
-super + slash 
+super + slash
 	sxhkd-help
 
 super + space
 	bspc node -t {tiled, pseudo_tiled, floating, fullscreen}
 
 # -------------------------------------------------------------------------- }}}
-# {{{ super + alt + shift + arrow key
+# {{{ super + alt + ctrl +
+
+" Nothing yet.
+
+# -------------------------------------------------------------------------- }}}
+# {{{ super + alt + ctrl + shift +
+
+" Nothing yet.
+
+# -------------------------------------------------------------------------- }}}
+# {{{ super + alt + shift +
 
 super + alt + {_, shift + }{Left, Down, Up, Right}
 	~/.config/bspwm/scripts/move-window {_, edge-}{west, south, north, east}
 
 # -------------------------------------------------------------------------- }}}
-# {{{ super + ctrl + letter key
+# {{{ super + ctrl +
 
 super + ctrl + {h, j, k, l}
 	bspc node {@east  -r +10, \
              @north -r -10, \
-             @south -r +10, \ 
+             @south -r +10, \
              @west  -r -10}
 
 super + ctrl + {e, r, t, y}
@@ -92,14 +97,17 @@ super + ctrl + {e, r, t, y}
 super + ctrl + {u, i, o, p}
 	bspc node --presel-dir \~{west, south, north, east}
 
-super + ctrl + {_, shift +}{1-9}
-	bspc node {_, @/} --presel-ratio 0.{1-9}
-
 super + ctrl + space
 	bspc node --presel-dir cancel
 
 # -------------------------------------------------------------------------- }}}
-# {{{ super + shift + letter key
+# {{{ super + ctrl + shift +
+
+super + ctrl + {_, shift +}{1-9}
+	bspc node {_, @/} --presel-ratio 0.{1-9}
+
+# -------------------------------------------------------------------------- }}}
+# {{{ super + shift +
 
 super + shift + b
  termite --title=bspwmrc --exec=editBspWmRc
@@ -123,13 +131,13 @@ super + {_, shift + }a
 	bspc node @/ --flip {vertical, horizontal}
 
 # -------------------------------------------------------------------------- }}}
-# {{{ alt + letterkey
+# {{{ alt +
 
 alt + {h,j,k,l}
 	bspc node --{focus} {west,south,north,east}
 
 alt + f
-	variety --favorite 
+	variety --favorite
 
 alt + t
 	variety --trash
@@ -137,7 +145,7 @@ alt + t
 alt + right
 	variety --next
 
-alt + left 
+alt + left
 	variet --previous
 
 alt + Up
@@ -152,10 +160,10 @@ alt + F2
 alt + F3
 	xfce4-appfinder
 
-alt + F4 
+alt + F4
 	arcolinux-tweak-tool
 
-alt + F5 
+alt + F5
 	xfce4-settings-manager
 
 alt + F6
@@ -165,7 +173,7 @@ alt + space
 	bspc node @/ --rotate {90, -90}
 
 # -------------------------------------------------------------------------- }}}
-# {{{ alt + ctrl + letter key
+# {{{ alt + ctrl +
 
 alt + ctrl + e
 	arcolinux-tweak-tool
@@ -198,7 +206,7 @@ alt + ctrl + Prior
 	conky-rotate -p
 
 alt + ctrl + Left
-	bspc node --focus west 
+	bspc node --focus west
 
 alt + ctrl + Right
 	bspc node --focus east
@@ -210,7 +218,12 @@ alt + ctrl + Down
 	bspc node --focus south
 
 # -------------------------------------------------------------------------- }}}
-# {{{ alt + shift + letterkey
+# {{{ alt + ctrl + shift +
+
+" Nothing yet.
+
+# -------------------------------------------------------------------------- }}}
+# {{{ alt + shift +
 
 alt + shift + {h, j, k, l}
 	bspc node {@west -r -10, @south -r +10, @north -r -10, @east -r +10}
@@ -233,22 +246,25 @@ alt + shift + f
 alt + shift + u
 	wall -i $(cat $HOME/.config/variety/wallpaper/wallpaper.jpg.txt)&
 
-# -------------------------------------------------------------------------- }}}
-# {{{ alt + tab | alt + shift + tab
+alt + shift + Tab
+	bspc desktop -f '^{1-9, 10}'
 
 alt + Tab
 	bspc desktop -f '^{1-9, 10}'
 
-alt + shift + Tab
-	bspc desktop -f '^{1-9, 10}'
+# -------------------------------------------------------------------------- }}}
+# {{{ ctrl
+
+ctrl + Return
+	termite
 
 # -------------------------------------------------------------------------- }}}
-# {{{ ctrl + shift + [ letter key | key ]
+# {{{ ctrl + shift +
 
 ctrl + shift + d
 	discord
 
-ctrl + shift + m 
+ctrl + shift + m
 	xfce4-taskmanager
 
 ctrl + shift + s
@@ -256,12 +272,6 @@ ctrl + shift + s
 
 ctrl + shift + t
 	teams
-
-# -------------------------------------------------------------------------- }}}
-# {{{ ctrl
-
-ctrl + Enter
-	termite
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Function keys
