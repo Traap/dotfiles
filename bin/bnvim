@@ -22,6 +22,5 @@ fi
 echo "Build neovim."
 cd ${cloneDir}/neovim
 sudo make install
-exec bash
 
 # -------------------------------------------------------------------------- }}}
