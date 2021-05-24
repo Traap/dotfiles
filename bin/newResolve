@@ -1,0 +1,6 @@
+#!/bin/bash
+# Note:  @2021.05.24 WSL2 + ArchLinux is not repecting wsl.conf after reboot.
+#
+#  network  [network]
+#  generateResolvConf = false
+sudo cp $HOME/git/dotfiles/setup/wsl/resolv.conf /etc/resolv.conf

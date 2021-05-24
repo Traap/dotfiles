@@ -1,9 +1,9 @@
 #!/bin/sh
 # Use xrandr and ripgrep (rg) to detect a second monitor.
 #
-# Note:  This was written and tested with VirtualBox to make it work.
+# Note:  This was written and tested with VirtualBox and WSL2.
 #
-if [[ $(xrandr | rg VGA-2 -c) == 1 ]]; then
+if [[ $(xrandr | rg VGA-2 -c) == 1 || $(xrandr | rg  XWAYLAND1 -c) ]]; then
   bspc monitor VGA-1 -d 1 2 3 4 5
   bspc monitor VGA-2 -d 6 7 8 9 10
 else

@@ -1,0 +1,2 @@
+#!/bin/bash
+sudo cp $HOME/git/dotfiles/setup/wsl/wsl.conf /etc/wsl.conf
