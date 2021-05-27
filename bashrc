@@ -252,9 +252,12 @@ ex ()
 
 [[ -f ~/.bashrc-personal ]] && . ~/.bashrc-personal
 
+# Other program keep updating my bashrc.  Oh well!
+
 [[ -f /usr/share/fzf/completion.bash ]]   && . /usr/share/fzf/completion.bash
 [[ -f /usr/share/fzf/key-bindings.bash ]] && . /usr/share/fzf/key-bindings.bash
+[[ -f ~/.fzf.bash ]] && source ~/.fzf.bash
+[[ -f $HOME/.config/lua-language-server/3rd/luamake/luamake ]] \
+   && alias luamake=$HOME/.config/lua-language-server/3rd/luamake/luamake
 
 # -------------------------------------------------------------------------- }}}
-
-[ -f ~/.fzf.bash ] && source ~/.fzf.bash
