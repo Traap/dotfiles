@@ -1,44 +1,30 @@
 #!/bin/bash
-# {{{ deleteSymLinks
+# {{{ Check arguments passed to this script.
 
-deleteSymLinks() {
-  if [[ symlinksFlag ]]; then
-    echo "" && echo "Deleting symbolic links."
-    rm -fv ~/.bash_logout
-    rm -fv ~/.bashrc
-    rm -fv ~/.bashrc-personal
-    rm -fv ~/.dircolors
-    rm -fv ~/.gitconfig
-    rm -fv ~/.gitignore_global
-    rm -fv ~/.inputrc
-    rm -fv ~/.latexmkrc
-    rm -fv ~/.minttyrc
-    rm -fv ~/.mozilla
-    rm -fv ~/.ssh
-    rm -fv ~/.config.vim
-    rm -fv ~/.tmux
-    rm -fv ~/.tmux.conf
-    rm -fv ~/.vim
-    rm -fv ~/.config/coc/extensions/package.json
-    rm -fv ~/.config/nvim/init.vim
-    rm -fv ~/.vimrc
-    rm -fv ~/.vimrc_background
+# Arguments:
+# $1 - check for the exact value
 
-    if [[ $(uname -r) =~ 'arch' || $(uname -r) =~ 'WSL2' ]]; then
-      rm -fv ~/.config/bspwm/autostart.sh
-      rm -fv ~/.config/bspwm/bspwmrc
-      rm -fv ~/.config/bspwm/sxhkd/sxhkdrc
-      rm -fv ~/.config/termite/config
-    fi
-  fi
-}
+createSymLinksFlag=0
+deleteSymLinksFlag=1
+
+case $1 in
+  --create)
+    createSymLinksFlag=1
+    ;;
+  --delete)
+    deleteSymLinksFlag=1
+    ;;
+  *)
+    createSymLinksFlag=1
+    deleteSymLinksFlag=1
+    ;;
+esac
 
 # -------------------------------------------------------------------------- }}}
-# {{{ createSymLinks
-
+# {{{ Create symbolic links 
 createSymLinks() {
-  if [[ symlinksFlag ]]; then
-    echo "" && echo "Creating symbolic links."
+  if [[ $createSymLinksFlag == 1 ]]; then
+    echo "Creating symbolic links."
     ln -fsv ~/git/dotfiles/bash_logout      ~/.bash_logout
     ln -fsv ~/git/dotfiles/bashrc           ~/.bashrc
     ln -fsv ~/git/dotfiles/bashrc-personal  ~/.bashrc-personal
@@ -64,6 +50,41 @@ createSymLinks() {
       ln -fsv ~/git/dotfiles/bspwm/bspwmrc      ~/.config/bspwm/bspwmrc
       ln -fsv ~/git/dotfiles/bspwm/sxhkdrc      ~/.config/bspwm/sxhkd/sxhkdrc
       ln -fsv ~/git/dotfiles/termite/config     ~/.config/termite/config
+    fi
+  fi
+}
+
+# -------------------------------------------------------------------------- }}}
+# {{{ Delete symbolic links
+
+deleteSymLinks() {
+  if [[ $deleteSymLinksFlag == 1 ]]; then
+    echo "Deleting symbolic links."
+    rm -fv ~/.bash_logout
+    rm -fv ~/.bashrc
+    rm -fv ~/.bashrc-personal
+    rm -fv ~/.dircolors
+    rm -fv ~/.gitconfig
+    rm -fv ~/.gitignore_global
+    rm -fv ~/.inputrc
+    rm -fv ~/.latexmkrc
+    rm -fv ~/.minttyrc
+    rm -fv ~/.mozilla
+    rm -fv ~/.ssh
+    rm -fv ~/.config.vim
+    rm -fv ~/.tmux
+    rm -fv ~/.tmux.conf
+    rm -fv ~/.vim
+    rm -fv ~/.config/coc/extensions/package.json
+    rm -fv ~/.config/nvim/init.vim
+    rm -fv ~/.vimrc
+    rm -fv ~/.vimrc_background
+
+    if [[ $(uname -r) =~ 'arch' || $(uname -r) =~ 'WSL2' ]]; then
+      rm -fv ~/.config/bspwm/autostart.sh
+      rm -fv ~/.config/bspwm/bspwmrc
+      rm -fv ~/.config/bspwm/sxhkd/sxhkdrc
+      rm -fv ~/.config/termite/config
     fi
   fi
 }
