@@ -74,6 +74,7 @@ alias sf='source ${HOME}/git/dotfiles/my_functions'
 alias sp='source ${HOME}/git/dotfiles/my_paths'
 alias ssh='ssh -A'
 alias s='source'
+alias ta='tmux attach'
 alias yayn='yay --noconfirm -S'
 alias xz='vi -c "let g:tty='\''$(tty)'\''"'
 

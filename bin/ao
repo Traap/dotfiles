@@ -90,9 +90,8 @@ if [[ $# -eq 1 ]]; then
         tmux select-window -t $1:1
 
         # vim pane
-        tmux split-window -c ${HOME}/git/vim -h -t:1
-        tmux select-pane -t:1
-        tmux send-keys \
+        tmux split-window -c ${HOME}/git/vim -h -t $1:1
+        tmux send-keys -t $1:1.2 \
           'vim \
             plug.vim \
             bundle/vim-bundle-keybindings/plugin/bundle-keybindings.vim \
