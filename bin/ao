@@ -1,4 +1,5 @@
 #!/bin/bash
+# {{{ AO credits and documentation.
 #
 # Inspired by:
 #  Doug Bell - "Organized Development with tmux", Jun 18, 2019
@@ -18,15 +19,28 @@
 # Note:
 #   1. A session is created or attached to.
 #   2. A new session is added if ao is used from with a tmux session.
-# ------------------------------------------------------------------------------
+# -------------------------------------------------------------------------- }}}
+# {{{ Validate request includes one session name.
 
 if [[ $# -eq 1 ]]; then
+
+# -------------------------------------------------------------------------- }}}
+# {{{ Validate session name.
+
   if ! tmux has-session    -t $1 2>/dev/null; then case $1 in
+
+# {{{ Create ao session
+
       "ao")
         tmux new-session   -c ${HOME}/git/dotfiles/bin -n ao -s $1 -d
         tmux send-keys     -t $1:1 '$EDITOR ao' Enter
         ;;
+
+# -------------------------------------------------------------------------- }}}
+# {{{ Create bash session
+
       "bash")
+
         tmux new-session   -c ${HOME}/git/dotfiles  -n dotfiles   -s $1 -d
         tmux new-window    -c ${HOME}/git/dotfiles  -n bashrc     -t $1:2
 
@@ -45,12 +59,55 @@ if [[ $# -eq 1 ]]; then
 
         tmux select-window -t $1:1
         ;;
+
+# -------------------------------------------------------------------------- }}}
+# {{{ Create havasu session
+
       "havasu")
         tmux new-session   -c ${HOME}/git/havasu    -n havasu     -s $1 -d
         ;;
+
+# -------------------------------------------------------------------------- }}}
+# {{{ Create KJV session
+
       "kjv")
         tmux new-session   -c ${HOME}/git/kjv       -n kjv        -s $1 -d
         ;;
+
+# -------------------------------------------------------------------------- }}}
+# {{{ Create nvim session
+
+      "nvim")
+        # nvim pane
+        tmux new-session  -c ${HOME}/.config/nvim -n nvim -s $1 -d
+        tmux send-keys -t $1:1 \
+          'nvim \
+            lua/plugins.lua \
+            lua/traap/keybindings.lua \
+            lua/traap/settings.lua \
+            init.lua \
+          ' Enter
+        tmux select-window -t $1:1
+
+        # vim pane
+        tmux split-window -c ${HOME}/git/vim -h -t:1
+        tmux select-pane -t:1
+        tmux send-keys \
+          'vim \
+            plug.vim \
+            bundle/vim-bundle-keybindings/plugin/bundle-keybindings.vim \
+            bundle/vim-bundle-settings/plugin/bundle-settings.vim \
+            vimrc \
+          ' Enter
+
+        # Use christoomey/vim-tmux-navigator to instruct vim to send <c-n>.
+        # The plugin causes the vim - tmux - nvim buffer switch.
+        tmux send-keys 'c-h' enter
+        ;;
+
+# -------------------------------------------------------------------------- }}}
+# {{{ Create ssh session
+
       "ssh")
         tmux new-session   -c ${HOME}/git/ssh       -n ssh        -s $1 -d
         tmux new-window    -c ${HOME}/git/tmux      -n tmux       -t $1:2
@@ -58,26 +115,38 @@ if [[ $# -eq 1 ]]; then
         tmux send-keys     -t $1:1 '$EDITOR -O config gitconfig' Enter
         tmux send-keys     -t $1:2 '$EDITOR tmux.conf' Enter
         ;;
+
+# -------------------------------------------------------------------------- }}}
+# {{{ Create soup session
+
       "soup")
         tmux new-session   -c ${HOME}/git/amber     -n amber      -s $1 -d
         tmux new-window    -c ${HOME}/git/autodoc   -n autodoc    -t $1:2
         tmux new-window    -c ${HOME}/git/newdoc    -n newdoc     -t $1:3
         ;;
+
+# -------------------------------------------------------------------------- }}}
+# {{{ Create vim session
+
       "vim")
         tmux new-session   -c ${HOME}/git/vim      -n vim        -s $1 -d
 
         tmux send-keys     -t $1:1 \
-          '$EDITOR \
+          'vim \
+            plug.vim \
+            bundle/im-bundle-keybindings/plugin/bundle-keybindings.vim \
+            bundle/cim-bundle-settings/plugin/bundle-settings.vim \
+            bundle/vim-bundle-terminal/plugin/bundle-terminal.vim \
             vimrc \
             bootstrap.vim \
-            plug.vim \
-            bundle/vim-bundle-keybindings/plugin/bundle-keybindings.vim \
-            bundle/vim-bundle-settings/plugin/bundle-settings.vim \
-            bundle/vim-bundle-terminal/plugin/bundle-terminal.vim \
-          ' Enter 
+          ' Enter
 
         tmux select-window -t $1:1
         ;;
+
+# -------------------------------------------------------------------------- }}}
+# {{{ Create work session
+
       "work")
         tmux new-session   -c ${HOME}/git/wiki      -n wiki       -s $1 -d
         tmux new-window    -c ${HOME}/git           -n 'GH Repos' -t $1:2
@@ -86,16 +155,30 @@ if [[ $# -eq 1 ]]; then
         tmux send-keys     -t $1:1 '$EDITOR index.wiki'   Enter
         tmux select-window -t $1:1
         ;;
+
+# -------------------------------------------------------------------------- }}}
+# {{{ Session name not supported error.
+
       *)
         echo "Session name $1 is not supported."
         exit
         ;;
     esac
   fi
+
+# -------------------------------------------------------------------------- }}}
+# -------------------------------------------------------------------------- }}}
+# {{{ Display usage
+
 else
-  echo "Session name [ao|bash|kjv|ssh|soup|work] is required" && exit
+  echo "Session name [ao|bash|havasu|kjv|nvim|ssh|soup|vim|work] is required" \
+      && exit
 fi
 
-# Attach to tmux session. 
+# -------------------------------------------------------------------------- }}}
+# {{{ Attach to tmux session.
+
 [[ ! -n $TMUX ]] && tmux attach -t $1
 exit 0
+
+# -------------------------------------------------------------------------- }}}
