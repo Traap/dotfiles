@@ -1,26 +1,17 @@
 #!/bin/sh
-# {{{ Git Configure email address and user name. 
+# {{{ Git Configure email address and user name.
 #
-# $1 - the repository type, aka, the directory I clone things to. 
+# $1 - the repository type, aka, the directory I clone things to.
 
 gce() {
-  if [ "amgen" = $1 ]; then
-    git config --local user.name gahoward
-    git config --local user.email gahoward@amgen.com
-  elif [ "edx" = $1 ]; then
+  if [ "fk" = $1 ]; then
     git config --local user.name gary.howard
-    git config --local user.email gary.howard@endotronicx.com
-  elif [ "fk" = $1 ]; then
-    git config --local user.name gary.howard 
     git config --local user.email gary.howard@fresenius-kabi.com
-  elif [ "mhp" = $1 ]; then
-    git config --local user.name ghoward
-    git config --local user.email gahoward@mhealthpharma.com
   elif [ "traap" = $1 ]; then
     git config --local user.name Traap
     git config --local user.email gary.a.howard@mac.com
   else
-    echo "Usage: gce [amgen|edx|fk|mhp|traap]"
+    echo "Usage: gce [fk|traap]"
     echo "Found: " $1
   fi
 
