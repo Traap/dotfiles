@@ -3,7 +3,7 @@
 # Simple Note-Taking with fzf and Vim
 # Casey Brant
 # https://medium.com/adorableio/simple-note-taking-with-fzf-and-vim-2a647a39cfa
-#   
+#
 set -e
 
 main() {
@@ -18,7 +18,9 @@ main() {
 
 select_file() {
   given_file="$1"
-  fzf --preview="bat {}" --preview-window=right:50%:wrap --query="$given_file"
+  fzf --preview="bat --color=always --style=numbers {}" \
+      --preview-window=right:50%:wrap \
+      --query="$given_file"
 }
 
 # Kick start Note-Taking
