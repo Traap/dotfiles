@@ -1,0 +1,13 @@
+#!/bin/bash
+# Nuke neovim and start over :)
+rm -rf ~/.cache/nvim
+rm -rf ~/.config/nvim
+rm -rf ~/.local/share/nvim
+
+# Rebuild neovim
+bnvim
+
+# Grab my nvim configuration and launch nvim
+# gr - get repo
+# nvim - start nvim
+cd ~/.config && gr nvim && nvim
