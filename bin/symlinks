@@ -21,7 +21,7 @@ case $1 in
 esac
 
 # -------------------------------------------------------------------------- }}}
-# {{{ Create symbolic links 
+# {{{ Create symbolic links
 createSymLinks() {
   if [[ $createSymLinksFlag == 1 ]]; then
     echo "Creating symbolic links."
@@ -41,7 +41,7 @@ createSymLinks() {
     ln -fsv ~/git/tmux/tmux.conf            ~/.tmux.conf
     ln -fsv ~/git/vim                       ~/.vim
     ln -fsv ~/git/vim/coc-package.json      ~/.config/coc/extensions/package.json
-    ln -fsv ~/git/vim/vimrc                 ~/.config/nvim/init.vim
+    ln -fsv ~/git/nvim                      ~/.config/nvim
     ln -fsv ~/git/vim/vimrc                 ~/.vimrc
     ln -fsv ~/git/vim/vimrc_background      ~/.vimrc_background
 
