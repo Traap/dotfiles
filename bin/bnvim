@@ -21,6 +21,6 @@ fi
 
 echo "Build neovim."
 cd ${cloneDir}/neovim
-sudo make install
+sudo make CMAKE_BUILD_TYPE=Release install
 
 # -------------------------------------------------------------------------- }}}
