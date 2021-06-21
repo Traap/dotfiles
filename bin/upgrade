@@ -1,25 +1,25 @@
 #!/bin/bash
 # ------------------------------------------------------------------------------
-# Update everything 
+# Update everything
 # ------------------------------------------------------------------------------
 
 if programExists apt-get; then
 
   sudo apt-get -y upgrade && \
   sudo apt-get -y update  && \
-  gem update --system && \
-  sudo npm install --global npm && \
+  gem update --system --no-document && \
+  sudo npm install --global && \
   echo "System updated." || echo "Error:  System update failed."
 
 elif programExists pacman; then
-  # See bashr
-  uac       
+  # Next three lines come from my bashrc
+  uac
   update
   upall
 
-  # Directly reference package managers. 
-  gem update --system
-  npm update --global
+  # Directly reference package managers.
+  gem update --system --no-document
+  sudo npm update --global
 else
   @echo "WARNING: Unknown package management system."
 fi
