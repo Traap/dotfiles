@@ -2,10 +2,24 @@
 # Nuke neovim and start over :)
 rm -rf ~/.cache/nvim
 rm -rf ~/.local/share/nvim
-rm -rf ~/git/nvim
+rm -rf ~/git/neovim
 
 # Rebuild neovim
 bnvim
+
+# Clone or pull my neovim configuration.
+cloneDir="$HOME/git"
+if [[ -d ${cloneDir}/nvim ]]; then
+  echo "Update nvim sources."
+  git ${cloneDir}/nvim
+  git pull
+else
+  echo "Clone nvim sources."
+  gr nvim
+fi
+
+# Symlink to my nvim area.
+ln -fsv ~/git/nvim ~/.config/nvim
 
 # My neovim installation bootstraps itself.
 nvim
