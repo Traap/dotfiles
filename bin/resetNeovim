@@ -1,8 +1,8 @@
 #!/bin/bash
 # Nuke neovim and start over :)
-rm -rf ~/.cache/nvim
-rm -rf ~/.local/share/nvim
-rm -rf ~/git/neovim
+sudo rm -rf ~/.cache/nvim
+sudo rm -rf ~/.local/share/nvim
+sudo rm -rf ~/git/neovim
 
 # Rebuild neovim
 bnvim
