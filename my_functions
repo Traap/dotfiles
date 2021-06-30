@@ -2,6 +2,7 @@
 # ------------------------------------------------------------------------------
 # Set base16 color.  Mom and Dad functions are a simple tribute to my parents.
 # ------------------------------------------------------------------------------
+base16Root=${HOME}/git/color/base16-shell
 mom() {
   base16Color $1 dark
 }
@@ -10,8 +11,17 @@ dad() {
   base16Color $1 light
 }
 
+base16Color() {
+  if [[ -f ${base16Root}/scripts/base16-$1-$2.sh ]]; then
+    file=base16-$1-$2.sh
+  else
+    file=base16-$1.sh
+  fi
+  cd ${base16Root} && ./colortest ${file} && cd -
+}
+
 ct() {
- cd ${HOME}/git/color/base16-shell && ./colortest && cd -
+  cd ${base16Root}  && ./colortest && cd -
 }
 
 # ------------------------------------------------------------------------------
