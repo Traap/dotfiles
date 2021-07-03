@@ -1,3 +1,8 @@
 #!/bin/bash
+dir=$(pwd)
 echo "git clone git@github.com:Traap/$1.git"
 git clone git@github.com:Traap/$1.git
+cd $1
+echo "git fetch --all --tags"
+      git fetch --all --tags
+cd ${dir}
