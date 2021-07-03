@@ -3,6 +3,13 @@
 # Update everything
 # ------------------------------------------------------------------------------
 
+sayAndDo() {
+    echo '********************'
+    echo $1
+    $1
+    echo
+}
+
 if programExists apt-get; then
 
   sudo apt-get -y upgrade && \
@@ -12,14 +19,25 @@ if programExists apt-get; then
   echo "System updated." || echo "Error:  System update failed."
 
 elif programExists pacman; then
-  # Next three lines come from my bashrc
-  uac
-  update
-  upall
+  # Use all cores.
+  if fileExists ~/.bin/main/000*; then
+     sh ~/.bin/main/000*
+  fi
 
-  # Directly reference package managers.
-  gem update --system --no-document
-  sudo npm update --global
+  # Update pacman packages.
+  sayAndDo 'sudo pacman -Syyu'
+  sayAndDo 'sudo pacman -Syyu'
+
+  # Update community packages.
+  sayAndDo 'yay -Syu --noconfirm'
+
+  # Updage Ruby gems
+  sayAndDo 'gem update --system --no-document'
+
+  # Update node packages.
+  sayAndDo 'sudo npm update --global'
+  sayAndDo 'sudo npm audit fix'
+
 else
-  @echo "WARNING: Unknown package management system."
+  echo "WARNING: Unknown package management system."
 fi
