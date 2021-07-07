@@ -24,3 +24,7 @@ ln -fsv ~/git/nvim ~/.config/nvim
 
 # My neovim installation bootstraps itself.
 nvim
+
+# Parting words.
+echo "Exit nvim and restart nvim to allow Treesitter to finish."
+echo "Use LspInstall to install language servers."
