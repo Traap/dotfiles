@@ -26,7 +26,6 @@ elif programExists pacman; then
 
   # Update pacman packages.
   sayAndDo 'sudo pacman -Syyu'
-  sayAndDo 'sudo pacman -Syyu'
 
   # Update community packages.
   sayAndDo 'yay -Syu --noconfirm'
