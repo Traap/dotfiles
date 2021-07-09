@@ -1,5 +1,0 @@
-#!/bin/bash
-vf() { 
-  $EDITOR $(fzf --border --preview="cat {}" --preview-window=right:50%) ;
-}
-vf "$@"
