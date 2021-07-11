@@ -1,4 +1,4 @@
-#!/bin/bash 
+#!/bin/bash
 # ------------------------------------------------------------------------------
 # Linux style machines.
 # ------------------------------------------------------------------------------
@@ -11,16 +11,17 @@ fi
 # ------------------------------------------------------------------------------
 # Linux only machines.
 # ------------------------------------------------------------------------------
+ruby_version='3.0.2'
 if osType "linux"; then
     prependToPath ${HOME}/.rbenv/bin
-    prependToPath ${HOME}/.rbenv/versions/3.0.1/bin
+    prependToPath ${HOME}/.rbenv/versions/${ruby_version}/bin
     prependToPath ${HOME}/.cargo/bin
     [[ ":$PATH:" != *"${HOME}/.rbenv/bin"* ]] && eval "$(rbenv init -)"
 fi
 
 
 # ------------------------------------------------------------------------------
-# msys style machines 
+# msys style machines
 # ------------------------------------------------------------------------------
 if osType "msys"; then
   appendToPath /mingw64/bin
