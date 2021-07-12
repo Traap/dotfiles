@@ -8,6 +8,7 @@
 export BROWSER=brave
 export FILE=ranger
 export TERM=xterm-256color
+echoWarning=0
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Darwin CLI and LS colors.
@@ -28,7 +29,7 @@ elif dirExists ${HOME}/soup/amber; then
      AMBERPATH=${HOME}/soup/amber
 else
   AMBERPATH=""
-  echo "WARNING: amber is not installed."
+  [[ $echoWarning == 1 ]] && echo "WARNING: amber is not installed."
 fi
 export AMBERPATH
 
@@ -48,7 +49,7 @@ elif dirExists ${HOME}/bb/autodoc; then
 elif dirExists ${HOME}/soup/autodoc; then
    AUTODOCPATH=${HOME}/soup/autodoc
 else
-  echo "WARNING: autodoc is not installed."
+  [[ $echoWarning == 1 ]] && echo "WARNING: autodoc is not installed."
   AUTODOCPATH=""
 fi
 export AUTODOCPATH
@@ -63,7 +64,7 @@ elif dirExists ${HOME}/bb/docbld; then
 elif dirExists ${HOME}/soup/docbld; then
     DOCBLDPATH=${HOME}/soup/docbld
 else
-  echo "WARNING: docbld is not installed."
+  [[ $echoWarning == 1 ]] && echo "WARNING: docbld is not installed."
   DOCBLDPATH=""
 fi
 export DOCBLDPATH
@@ -79,7 +80,7 @@ elif dirExists ${HOME}/soup/emend; then
      EMENDPATH=${HOME}/soup/emend
 else
   EMENDPATH=""
-  echo "WARNING: emend is not installed."
+  [[ $echoWarning == 1 ]] && echo "WARNING: emend is not installed."
 fi
 export EMENDPATH
 
@@ -90,7 +91,7 @@ if [[ -d ${EMENDPATH} ]]; then
 fi
 
 # -------------------------------------------------------------------------- }}}
-# {{{ Editor. 
+# {{{ Editor.
 
 export MANWIDTH=76
 if osType "msys"; then
@@ -101,7 +102,7 @@ elif programExists nvim; then
 else
   EDITOR=$(which vim)
 fi
-export EDITOR 
+export EDITOR
 
 # -------------------------------------------------------------------------- }}}
 # {{{ emend location and function.  These must go together.
@@ -120,7 +121,7 @@ if [[ -d ${EMENDPATH} ]]; then
 fi
 
 # -------------------------------------------------------------------------- }}}
-# {{{ FZF customizations  
+# {{{ FZF customizations
 
 # export FZF_DEFAULT_COMMAND='rg --files --no-ignore-vcs --hidden'
 
@@ -133,7 +134,7 @@ else
 fi
 
 # -------------------------------------------------------------------------- }}}
-# {{{ HISTCONTROL 
+# {{{ HISTCONTROL
 
 export HISTCONTROL=ignoreboth:erasedups
 
@@ -155,7 +156,7 @@ elif dirExists ${HOME}/bb/newdoc; then
 elif dirExists ${HOME}/soup/newdoc; then
     NEWDOCPATH=${HOME}/soup/newdoc
 else
-  echo "WARNING: newdoc is not installed."
+   [[ $echoWarning == 1 ]] && echo "WARNING: newdoc is not installed."
   NEWDOCPATH=""
 fi
 export NEWDOCPATH
@@ -167,15 +168,10 @@ if [[ -d ${NEWDOCPATH} ]]; then
 fi
 
 # -------------------------------------------------------------------------- }}}
-# {{{ X11 display type. 
+# {{{ X11 display type.
 
 if osType "linux"; then
-  # if hostName "USLK"; then
-  #   export DISPLAY=192.168.52.69:0.0
-  #   export LIBGL_ALWAYS_INDIRECT=1
-  # else
-    export DISPLAY=:0
-  # fi 
+  export DISPLAY=:0
 fi
 
 # -------------------------------------------------------------------------- }}}
