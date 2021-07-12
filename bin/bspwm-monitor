@@ -1,8 +1,0 @@
-#!/bin/sh
-# Use xrandr and ripgrep (rg) to detect a second monitor.
-#
-# Note:  This was written and tested with VirtualBox and WSL2.
-
-xrandr --output HDMI2 --mode 2560X1440 --above eDP1
-bspc monitor eDP1  -d 1 2 3 4 5
-bspc monitor HDMI2 -d 6 7 8 9 10

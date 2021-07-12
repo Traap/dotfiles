@@ -1,0 +1,12 @@
+# file: bspwm-monitor
+#
+# Notes:
+#   xrandr | grep -w connected
+#
+#   eDP1 connected primary 1920x1080+0+0 (normal left inverted right x axis y axis) 310mm x 170mm
+#   HDMI2 connected 1920x1080+0+0 (normal left inverted right x axis y axis) 600mm
+
+xrandr --output HDMI2 --mode 2560X1440
+
+bspc monitor eDP1  -d 1 2 3 4 5
+bspc monitor HDMI2 -d 6 7 8 9 10
