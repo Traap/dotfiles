@@ -1,6 +1,6 @@
 #!/bin/bash
 # Nuke neovim and start over :)
-sudo rm -rf ~/.cache/nvim        && echo 'Removed ~/.cache/nvimr'
+sudo rm -rf ~/.cache/nvim        && echo 'Removed ~/.cache/nvim'
 sudo rm -rf ~/.config/nvim       && echo 'Removed ~/.config/nvim'
 sudo rm -rf ~/.local/share/nvim  && echo 'Removed ~/.local/share/nvim'
 sudo rm -rf ~/git/neovim         && echo 'Removed ~/git/neovim'
