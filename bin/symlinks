@@ -45,11 +45,11 @@ createSymLinks() {
     ln -fsv ~/git/vim/vimrc_background      ~/.vimrc_background
 
     if [[ $(uname -r) =~ 'arch' || $(uname -r) =~ 'WSL2' ]]; then
-      ln -fsv ~/git/dotfiles/bspwm/autostart.sh    ~/.config/bspwm/autostart.sh
-      ln -fsv ~/git/dotfiles/bspwm/bspwmrc         ~/.config/bspwm/bspwmrc
-      ln -fsv ~/git/dotfiles/bspwm/bspwmrc-monitor ~/.config/bspwm/bspwmrc-monitor
-      ln -fsv ~/git/dotfiles/bspwm/sxhkdrc         ~/.config/bspwm/sxhkd/sxhkdrc
-      ln -fsv ~/git/dotfiles/termite/config       ~/.config/termite/config
+      ln -fsv ~/git/dotfiles/bspwm/autostart.sh  ~/.config/bspwm/autostart.sh
+      ln -fsv ~/git/dotfiles/bspwm/bspwmrc       ~/.config/bspwm/bspwmrc
+      ln -fsv ~/git/dotfiles/bspwm/bspwm-monitor ~/.config/bspwm/bspwm-monitor
+      ln -fsv ~/git/dotfiles/bspwm/sxhkdrc       ~/.config/bspwm/sxhkd/sxhkdrc
+      ln -fsv ~/git/dotfiles/termite/config      ~/.config/termite/config
     fi
   fi
 }
@@ -82,7 +82,7 @@ deleteSymLinks() {
     if [[ $(uname -r) =~ 'arch' || $(uname -r) =~ 'WSL2' ]]; then
       rm -fv ~/.config/bspwm/autostart.sh
       rm -fv ~/.config/bspwm/bspwmrc
-      rm -fv ~/.config/bspwm/bspwmrc-monitor
+      rm -fv ~/.config/bspwm/bspwm-monitor
       rm -fv ~/.config/bspwm/sxhkd/sxhkdrc
       rm -fv ~/.config/termite/config
     fi
