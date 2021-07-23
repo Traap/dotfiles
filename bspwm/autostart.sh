@@ -20,7 +20,7 @@ run nm-applet &
 run pamac-tray &
 run xfce4-power-manager &
 numlockx off &
-setxkbmap --option esc:swapcaps 
+setxkbmap -option caps:swapescape
 blueberry-tray &
 picom --config $HOME/.config/bspwm/picom.conf &
 /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
