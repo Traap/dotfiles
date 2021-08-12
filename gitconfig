@@ -77,9 +77,6 @@
 [merge]
 	conflictStyle = diff3
 
-[url "git@github.com:"]
-  insteadOf = https://github.com/
-
 [gc]
 	auto = 256
 
