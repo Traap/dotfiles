@@ -4,9 +4,9 @@
 # $1 - the repository type, aka, the directory I clone things to.
 
 gce() {
-  if [ "fk" = $1 ]; then
+  if [ "work" = $1 ]; then
     git config --local user.name gary.howard
-    git config --local user.email gary.howard@fresenius-kabi.com
+    git config --local user.email gary@allan-consulting.com
   elif [ "traap" = $1 ]; then
     git config --local user.name Traap
     git config --local user.email gary.a.howard@mac.com

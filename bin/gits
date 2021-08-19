@@ -73,8 +73,8 @@ gitSetUserAndEmail(){
   case $2 in
     pull)
     case $1 in
-      bb)   gce fk ;;
-      soup) gce fk ;;
+      bb)   gce work ;;
+      soup) gce work ;;
       *)    gce traap ;;
     esac
   esac
