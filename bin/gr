@@ -1,4 +1,8 @@
 #!/bin/bash
+# Arguments:
+# 1 - repository to clone
+# 2 - use HTTPS versus GIT protocol when present.
+
 sayAndDo() {
   echo $1
   $1
@@ -6,7 +10,12 @@ sayAndDo() {
 
 dir=$(pwd)
 
-sayAndDo "git clone https://github.com/Traap/$1"
+# 
+if [ "$#" -eq 1 ]; then
+  sayAndDo "git clone git@github.com:Traap/$1"
+else
+  sayAndDo "git clone https://github.com/Traap/$1"
+fi
 
 cd $1
 
