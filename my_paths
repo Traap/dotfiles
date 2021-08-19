@@ -15,7 +15,7 @@ ruby_version='3.0.2'
 if osType "linux"; then
     prependToPath ${HOME}/.rbenv/bin
     prependToPath ${HOME}/.rbenv/versions/${ruby_version}/bin
-    prependToPath ${HOME}/.cargo/bin
+    # prependToPath ${HOME}/.cargo/bin
     [[ ":$PATH:" != *"${HOME}/.rbenv/bin"* ]] && eval "$(rbenv init -)"
 fi
 

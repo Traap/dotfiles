@@ -19,7 +19,7 @@
   gm = "!git checkout $1;git merge @{1-}"
   st = status --short --branch
   undo = "!f() { git reset --hard $(git rev-parse --abbrev-ref HEAD)@{${1-1}}; }; f"
-	pushup = push -u origin HEAD
+  pushup = push -u origin HEAD
 
 [user]
   email = gary.a.howard@mac.com
@@ -31,8 +31,8 @@
   editor = vim
   autocrlf = input
   eol = lf
-	preloadindex = true
-	fscache = true
+  preloadindex = true
+  fscache = true
 
 [push]
   default = simple
@@ -69,22 +69,22 @@
   autoSquash = true
 
 [gpg]
-	program = gpg
+  program = gpg
 
 [fetch]
-	prune = true
+  prune = true
 
 [merge]
-	conflictStyle = diff3
+  conflictStyle = diff3
 
 [gc]
-	auto = 256
+  auto = 256
 
 [pull]
-	rebase = true
+  rebase = true
 
 [init]
-	defaultBranch = master
+  defaultBranch = master
 
 [include]
   path = ~/git/ssh/gitconfig-private
