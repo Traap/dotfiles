@@ -25,6 +25,7 @@ esac
 createSymLinks() {
   if [[ $createSymLinksFlag == 1 ]]; then
     echo "Creating symbolic links."
+    makdir -p ~/.config
     ln -fsv ~/git/dotfiles/bash_logout      ~/.bash_logout
     ln -fsv ~/git/dotfiles/bashrc           ~/.bashrc
     ln -fsv ~/git/dotfiles/bashrc-personal  ~/.bashrc-personal
