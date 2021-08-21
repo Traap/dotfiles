@@ -1,16 +1,15 @@
 #!/bin/bash
-# ------------------------------------------------------------------------------
-# Linux style machines.
-# ------------------------------------------------------------------------------
+# {{{ Linux style machines.
+
 if osType "darwin" \
 || osType "linux"  \
 || osType "msys"; then
     prependToPath ${HOME}/git/dotfiles/bin
 fi
 
-# ------------------------------------------------------------------------------
-# Linux only machines.
-# ------------------------------------------------------------------------------
+# -------------------------------------------------------------------------- }}}
+# {{{ Linux only machines.
+
 ruby_version='3.0.2'
 win10_user='mmspghoward'
 if osType "linux"; then
@@ -21,10 +20,9 @@ if osType "linux"; then
     [[ ":$PATH:" != *"${HOME}/.rbenv/bin"* ]] && eval "$(rbenv init -)"
 fi
 
+# -------------------------------------------------------------------------- }}}
+# {{{ msys style machines
 
-# ------------------------------------------------------------------------------
-# msys style machines
-# ------------------------------------------------------------------------------
 if osType "msys"; then
   appendToPath /mingw64/bin
   appendToPath /c/Program\ Files/MiKTeX/miktex/bin/x64
@@ -36,3 +34,5 @@ if osType "msys"; then
   appendToPath /c/Strawberry/perl/site/bin
   appendToPath /c/Strawberry/perl/bin
 fi
+
+# -------------------------------------------------------------------------- }}}
