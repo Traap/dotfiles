@@ -12,10 +12,12 @@ fi
 # Linux only machines.
 # ------------------------------------------------------------------------------
 ruby_version='3.0.2'
+win10_user='mmspghoward'
 if osType "linux"; then
     prependToPath ${HOME}/.rbenv/bin
     prependToPath ${HOME}/.rbenv/versions/${ruby_version}/bin
-    # prependToPath ${HOME}/.cargo/bin
+    prependToPath ${HOME}/.cargo/bin
+    prependToPath /mnt/c/Users/${win10_user}/AppData/Local/SumatraPDF
     [[ ":$PATH:" != *"${HOME}/.rbenv/bin"* ]] && eval "$(rbenv init -)"
 fi
 
