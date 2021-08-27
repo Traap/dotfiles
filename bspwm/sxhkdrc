@@ -3,41 +3,41 @@
 
 # Focus selected desktop FOR QWERTY KEYBOARDS
 super + {1-9, 0}
-	bspc desktop -f '^{1-9, 10}'
+  bspc desktop -f '^{1-9, 10}'
 
 # Move window to selected desktop FOR QWERTY KEYBOARDS
 super + shift + {1-9, 0}
-	id=$(bspc query -N -n); bspc node -d '^{1-9, 10}'; bspc node -f ${id}}
+  id=$(bspc query -N -n); bspc node -d '^{1-9, 10}'; bspc node -f ${id}}
 
 super + a
   apple-keyboard-hack
 
 super + b
-	polybar-msg cmd toggle
+  polybar-msg cmd toggle
 
 super + c
-	conky-toggle
+  conky-toggle
 
 super + f
-	bspc node --state \~fullscreen
+  bspc node --state \~fullscreen
 
 super + n
   nvidia-settings
 
 super + p
-	bspc node --state \~pseudo_tiled
+  bspc node --state \~pseudo_tiled
 
 super + q
-	bspc node -c
+  bspc node -c
 
 super + r
-	rofi-theme-selector
+  rofi-theme-selector
 
 super + s
   xfce4-screenshooter
 
 super + t
-	Thunar
+  Thunar
 
 super + v
    simplescreenrecorder
@@ -46,25 +46,25 @@ super + w
   brave
 
 super + x
- termite --title=Weather --exec=weather --hold
+ xfce4-terminal --title=Weather --exec=weather --hold
 
 super + z
- termite --title='htop task manager' --exec=htop
+ xfce4-terminal --title='htop task manager' --exec=htop
 
 super + BackSpace
-	bspc monitor -f next
+  bspc monitor -f next
 
 super + bracket{left,right}
-	bspc config -d focused window_gap $((`bspc config -d focused window_gap` {-,+} 1))
+  bspc config -d focused window_gap $((`bspc config -d focused window_gap` {-,+} 1))
 
 super + Return
-	termite
+  xfce4-terminal
 
 super + slash
-	sxhkd-help
+  sxhkd-help
 
 super + space
-	bspc node -t {tiled, pseudo_tiled, floating, fullscreen}
+  bspc node -t {tiled, pseudo_tiled, floating, fullscreen}
 
 # -------------------------------------------------------------------------- }}}
 # {{{ super + alt + ctrl +
@@ -80,142 +80,142 @@ super + space
 # {{{ super + alt + shift +
 
 super + alt + {_, shift + }{Left, Down, Up, Right}
-	~/.config/bspwm/scripts/move-window {_, edge-}{west, south, north, east}
+  ~/.config/bspwm/scripts/move-window {_, edge-}{west, south, north, east}
 
 # -------------------------------------------------------------------------- }}}
 # {{{ super + ctrl +
 
 super + ctrl + {h, j, k, l}
-	bspc node {@east  -r +10, \
+  bspc node {@east  -r +10, \
              @north -r -10, \
              @south -r +10, \
              @west  -r -10}
 
 super + ctrl + {e, r, t, y}
-	bspc node --focus @{parent, brother, first, second}
+  bspc node --focus @{parent, brother, first, second}
 
 super + ctrl + {u, i, o, p}
-	bspc node --presel-dir \~{west, south, north, east}
+  bspc node --presel-dir \~{west, south, north, east}
 
 super + ctrl + space
-	bspc node --presel-dir cancel
+  bspc node --presel-dir cancel
 
 # -------------------------------------------------------------------------- }}}
 # {{{ super + ctrl + shift +
 
 super + ctrl + {_, shift +}{1-9}
-	bspc node {_, @/} --presel-ratio 0.{1-9}
+  bspc node {_, @/} --presel-ratio 0.{1-9}
 
 # -------------------------------------------------------------------------- }}}
 # {{{ super + shift +
 
 super + shift + b
- termite --title=bspwmrc --exec=editBspWmRc
+ xfce4-terminal --title=bspwmrc --exec=editBspWmRc
 
 super + shift + d
-	dmenu_run -i -nb '#191919' -nf '#fea63c' -sb '#fea63c' -sf '#191919' -fn 'NotoMonoRegular:bold:pixelsize=14'
+  dmenu_run -i -nb '#191919' -nf '#fea63c' -sb '#fea63c' -sf '#191919' -fn 'NotoMonoRegular:bold:pixelsize=14'
 
 super + shift + r
-	pkill -usr1 -x sxhkd; notify-send 'sxhkd' 'Reloaded config'
+  pkill -usr1 -x sxhkd; notify-send 'sxhkd' 'Reloaded config'
 
 super + shift + s
- exec termite --title=sxhkdrc --exec=editSxhKdRc
+ exec xfce4-terminal --title=sxhkdrc --exec=editSxhKdRc
 
 # super + shift + x
-# 	bspc quit
+#   bspc quit
 
 super + shift + {h,j,k,l}
-	bspc node --focus --swap {west, south, north, east}
+  bspc node --focus --swap {west, south, north, east}
 
 super + {_, shift + }a
-	bspc node @/ --flip {vertical, horizontal}
+  bspc node @/ --flip {vertical, horizontal}
 
 # -------------------------------------------------------------------------- }}}
 # {{{ alt +
 
 alt + {h,j,k,l}
-	bspc node --{focus} {west,south,north,east}
+  bspc node --{focus} {west,south,north,east}
 
 alt + f
-	variety --favorite
+  variety --favorite
 
 alt + t
-	variety --trash
+  variety --trash
 
 alt + right
-	variety --next
+  variety --next
 
 alt + left
-	variet --previous
+  variet --previous
 
 alt + Up
-	variety --toggle-pause
+  variety --toggle-pause
 
 alt + Down
-	variety --resume
+  variety --resume
 
 alt + F2
-	gmrun
+  gmrun
 
 alt + F3
-	xfce4-appfinder
+  xfce4-appfinder
 
 alt + F4
-	arcolinux-tweak-tool
+  arcolinux-tweak-tool
 
 alt + F5
-	xfce4-settings-manager
+  xfce4-settings-manager
 
 alt + F6
-	pamac-manager
+  pamac-manager
 
 alt + space
-	bspc node @/ --rotate {90, -90}
+  bspc node @/ --rotate {90, -90}
 
 # -------------------------------------------------------------------------- }}}
 # {{{ alt + ctrl +
 
 alt + ctrl + e
-	arcolinux-tweak-tool
+  arcolinux-tweak-tool
 
 alt + ctrl + i
-	nitrogen
+  nitrogen
 
 alt + ctrl + l
-	arcolinux-logout
+  arcolinux-logout
 
 alt + ctrl + p
-	~/.config/bspwm/scripts/picom-toggle.sh
+  ~/.config/bspwm/scripts/picom-toggle.sh
 
 alt + ctrl + r
-	rofi-theme-selector
+  rofi-theme-selector
 
 alt + ctrl + v
-	vivaldi-stable
+  vivaldi-stable
 
 alt + ctrl + w
-	arcolinux-welcome-app
+  arcolinux-welcome-app
 
 alt + ctrl + u
-	pavucontrol
+  pavucontrol
 
 alt + ctrl + Next
-	conky-rotate -n
+  conky-rotate -n
 
 alt + ctrl + Prior
-	conky-rotate -p
+  conky-rotate -p
 
 alt + ctrl + Left
-	bspc node --focus west
+  bspc node --focus west
 
 alt + ctrl + Right
-	bspc node --focus east
+  bspc node --focus east
 
 alt + ctrl + Up
-	bspc node --focus north
+  bspc node --focus north
 
 alt + ctrl + Down
-	bspc node --focus south
+  bspc node --focus south
 
 # -------------------------------------------------------------------------- }}}
 # {{{ alt + ctrl + shift +
@@ -226,87 +226,87 @@ alt + ctrl + Down
 # {{{ alt + shift +
 
 alt + shift + {h, j, k, l}
-	bspc node {@west -r -10, @south -r +10, @north -r -10, @east -r +10}
+  bspc node {@west -r -10, @south -r +10, @north -r -10, @east -r +10}
 
 alt + shift + t
-	variety -t && wal -i $(cat $HOME/.config/variety/wallpaper/wallpaper.jpg.txt)&
+  variety -t && wal -i $(cat $HOME/.config/variety/wallpaper/wallpaper.jpg.txt)&
 
 alt + shift + n
-	variety -n && wal -i $(cat $HOME/.config/variety/wallpaper/wallpaper.jpg.txt)&
+  variety -n && wal -i $(cat $HOME/.config/variety/wallpaper/wallpaper.jpg.txt)&
 
 super + shift + x
-	bspc quit
+  bspc quit
 
 alt + shift + p
-	variety -p && wal -i $(cat $HOME/.config/variety/wallpaper/wallpaper.jpg.txt)&
+  variety -p && wal -i $(cat $HOME/.config/variety/wallpaper/wallpaper.jpg.txt)&
 
 alt + shift + f
-	variety -f && wal -i $(cat $HOME/.config/variety/wallpaper/wallpaper.jpg.txt)&
+  variety -f && wal -i $(cat $HOME/.config/variety/wallpaper/wallpaper.jpg.txt)&
 
 alt + shift + u
-	wall -i $(cat $HOME/.config/variety/wallpaper/wallpaper.jpg.txt)&
+  wall -i $(cat $HOME/.config/variety/wallpaper/wallpaper.jpg.txt)&
 
 alt + shift + Tab
-	bspc desktop -f '^{1-9, 10}'
+  bspc desktop -f '^{1-9, 10}'
 
 alt + Tab
-	bspc desktop -f '^{1-9, 10}'
+  bspc desktop -f '^{1-9, 10}'
 
 # -------------------------------------------------------------------------- }}}
 # {{{ ctrl
 
 ctrl + Return
-	termite
+  xfce4-terminal
 
 # -------------------------------------------------------------------------- }}}
 # {{{ ctrl + shift +
 
 ctrl + shift + d
-	discord
+  discord
 
 ctrl + shift + m
-	xfce4-taskmanager
+  xfce4-taskmanager
 
 ctrl + shift + s
-	slack
+  slack
 
 ctrl + shift + t
-	teams
+  teams
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Function keys
 
 Print
-	scrot 'ArcoLinux-%Y-%m-%d-%s_screenshot_$wx$h.jpg' -e 'mv $f $$(xdg-user-dir PICTURES)'
+  scrot 'ArcoLinux-%Y-%m-%d-%s_screenshot_$wx$h.jpg' -e 'mv $f $$(xdg-user-dir PICTURES)'
 
 F12
-	xfce4-terminal --drop-down
+  xfce4-terminal --drop-down
 
 XF86AudioRaiseVolume
-	amixer set Master 10%+
+  amixer set Master 10%+
 
 XF86AudioLowerVolume
-	amixer set Master 10%-
+  amixer set Master 10%-
 
 XF86AudioMute
-	amixer -D pulse set Master 1+ toggle
+  amixer -D pulse set Master 1+ toggle
 
 XF86AudioPlay
-	playerctl play-pause
+  playerctl play-pause
 
 XF86AudioNext
-	playerctl next
+  playerctl next
 
 XF86AudioPrev
-	playerctl previous
+  playerctl previous
 
 XF86AudioStop
-	playerctl stop
+  playerctl stop
 
 XF86MonBrightnessUp
-	xbacklight -inc 10
+  xbacklight -inc 10
 
 XF86MonBrightnessDown
-	xbacklight -dec 10
+  xbacklight -dec 10
 
 # -------------------------------------------------------------------------- }}}
