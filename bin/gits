@@ -53,7 +53,8 @@ gitPull() {
         remote=$(git rev-parse "$upstream")
           base=$(git merge-base @ "$upstream")
 
-      if [[ $local != $remote && $local = $base ]]; then
+      if [[ $local != $remote && $local == $base ]]; then
+        echo $base
         gitSetUserAndEmail $1 $2
         git pull
         echo
