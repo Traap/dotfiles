@@ -36,6 +36,13 @@ if fileExists /usr/bin/tmux; then
 fi
 
 # -------------------------------------------------------------------------- }}}
+# {{{ List
+
+[   -f /usr/bin/bat ] && alias 'cat=bat -p'
+[   -f /usr/bin/exa ] && alias ls='exa'
+[ ! -f /usr/bin/exa ] && alias ls='ls --color=auto'
+
+# -------------------------------------------------------------------------- }}}
 # {{{ General purpose aliases.
 
 alias cls='clear'

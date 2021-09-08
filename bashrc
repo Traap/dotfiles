@@ -9,7 +9,6 @@
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Interactive check
-
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
@@ -33,9 +32,6 @@ fi
 
 # -------------------------------------------------------------------------- }}}
 # {{{ List
-
-[   -f /usr/bin/exa ] && alias ls='exa'
-[ ! -f /usr/bin/exa ] && alias ls='ls --color=auto'
 
 alias la='ls -a'
 alias ll='ls -la'
