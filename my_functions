@@ -121,7 +121,7 @@ sshkey(){
 }
 
 sshlist() {
-  ps aux | awk /ssh-agent/
+  ps aux | awk '/ssh-agent -s/'
 }
 
 
