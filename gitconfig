@@ -90,6 +90,7 @@
   user            = Traap
   helper          = manager-core
   credentialStore = cache
+  interactvie     = false
 
 #[include]
 #  path = ~/git/ssh/gitconfig-private
