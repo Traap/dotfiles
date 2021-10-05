@@ -1,95 +1,95 @@
 [alias]
-    br  =  branch
-    co  =  checkout
-    db  =  branch  -d
-    logd      =  log  --color  --graph  --abbrev-commit  --pretty=format:'%Cred%h%Creset  -%C(yellow)%d%Creset  %s  %Cgreen(%cD)  %C(bold  blue)<%an>%Creset'
-    logg      =  log  --color  --graph  --abbrev-commit  --pretty=format:'%Cred%h%Creset  -%C(yellow)%d%Creset  %s  %Cgreen(%cr)  %C(bold  blue)<%an>%Creset'
-    logi      =  log  --color  --graph  --abbrev-commit  --pretty=format:'%Cred%h%Creset  -%C(yellow)%d%Creset  %s  %Cgreen(%ci)  %C(bold  blue)<%an>%Creset'
-    to          =  log  --no-walk  --tags  --pretty=format:'%C(auto)%aI  %H  %d'  --decorate=full
-    tt          =  log  --no-walk  --tags  --pretty=format:'%C(auto)%H  %d'  --decorate=full
-    t3          =  log  --no-walk  --tags  --pretty=format:'%C(auto)%h  %d'  --decorate=full
-    master  =  checkout  master
-    pf  =  push  --force
-    pom  =  push  origin  master
-    rbc  =  rebase  --continue
-    rbi  =  rebase  -i  origin/master
-    rbs  =  rebase  --skip
-    suo  =  push  --set-upstream  origin
-    cma  =  commit  --all  -m
-    gm  =  "!git  checkout  $1;git  merge  @{1-}"
-    st  =  status  --short  --branch
-    undo  =  "!f()  {  git  reset  --hard  $(git  rev-parse  --abbrev-ref  HEAD)@{${1-1}};  };  f"
-    pushup  =  push  -u  origin  HEAD
+  br     = branch
+  co     = checkout
+  db     = branch  -d
+  logd   = log  --color  --graph  --abbrev-commit  --pretty=format:'%Cred%h%Creset  -%C(yellow)%d%Creset  %s  %Cgreen(%cD)  %C(bold  blue)<%an>%Creset'
+  logg   = log  --color  --graph  --abbrev-commit  --pretty=format:'%Cred%h%Creset  -%C(yellow)%d%Creset  %s  %Cgreen(%cr)  %C(bold  blue)<%an>%Creset'
+  logi   = log  --color  --graph  --abbrev-commit  --pretty=format:'%Cred%h%Creset  -%C(yellow)%d%Creset  %s  %Cgreen(%ci)  %C(bold  blue)<%an>%Creset'
+  to     = log  --no-walk  --tags  --pretty=format:'%C(auto)%aI  %H  %d'  --decorate=full
+  tt     = log  --no-walk  --tags  --pretty=format:'%C(auto)%H  %d'  --decorate=full
+  t3     = log  --no-walk  --tags  --pretty=format:'%C(auto)%h  %d'  --decorate=full
+  master = checkout  master
+  pf     = push  --force
+  pom    = push  origin  master
+  rbc    = rebase  --continue
+  rbi    = rebase  -i  origin/master
+  rbs    = rebase  --skip
+  suo    = push  --set-upstream  origin
+  cma    = commit  --all  -m
+  gm     = "!git  checkout  $1;git  merge  @{1-}"
+  st     = status  --short  --branch
+  undo   = "!f()  {  git  reset  --hard  $(git  rev-parse  --abbrev-ref  HEAD)@{${1-1}};  };  f"
+  pushup = push  -u  origin  HEAD
 
 [user]
-    email  =  gary.a.howard@mac.com
-    user  =  Traap
-    name  =  Traap
+  email = gary.a.howard@mac.com
+  user  = Traap
+  name  = Traap
 
 [core]
-    excludesfile  =  ~/.gitignore_global
-    editor  =  vim
-    autocrlf  =  input
-    eol  =  lf
-    preloadindex  =  true
-    fscache  =  true
+  excludesfile = ~/.gitignore_global
+  editor       = vim
+  autocrlf     = input
+  eol          = lf
+  preloadindex = true
+  fscache      = true
 
 [push]
-    default  =  simple
+  default = simple
 
 [color]
-    ui  =  auto
-    branch  =  auto
-    diff  =  auto
-    interactive  =  auto
-    status  =  auto
+  ui          = auto
+  branch      = auto
+  diff        = auto
+  interactive = auto
+  status      = auto
 
 [color  "status"]
-    added  =  green
-    changed  =  yellow  bold
-    untracked  =  red  bold
+  added     = green
+  changed   = yellow  bold
+  untracked = red  bold
 
 [code]
-    pager  =  cat
+  pager = cat
 
 [branch]
-    autosetuprebase  =  always
+  autosetuprebase = always
 
-[filter  "lfs"]
-    clean  =  git-lfs  clean  --  %f
-    process  =  git-lfs  filter-process
-    required  =  true
-    smudge  =  git-lfs  smudge  --  %f
+[filter "lfs"]
+  clean    = git-lfs  clean  --  %f
+  process  = git-lfs  filter-process
+  required = true
+  smudge   = git-lfs  smudge  --  %f
 
 [rerere]
-    autoupdate  =  true
-    enable  =  true
+  autoupdate = true
+  enable     = true
 
 [rebase]
-    autoSquash  =  true
+  autoSquash = true
 
 [gpg]
-    program  =  gpg
+  program = gpg
 
 [fetch]
-    prune  =  true
+  prune = true
 
 [merge]
-    conflictStyle  =  diff3
+  conflictStyle = diff3
 
 [gc]
-    auto  =  256
+  auto = 256
 
 [pull]
-    rebase  =  true
+  rebase = true
 
 [init]
-    defaultBranch  =  master
+  defaultBranch = master
 
 [credential]
-  helper = manager-core
+  user            = Traap
+  helper          = manager-core
   credentialStore = cache
 
-[include]
-    path  =  ~/git/ssh/gitconfig-private
-
+#[include]
+#  path = ~/git/ssh/gitconfig-private
