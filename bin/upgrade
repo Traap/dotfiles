@@ -24,10 +24,7 @@ elif programExists pacman; then
      sh ~/.bin/main/000*
   fi
 
-  # Update pacman packages.
-  sayAndDo 'sudo pacman -Syyu'
-
-  # Update community packages.
+  # Update archlinux and community packages.
   sayAndDo 'yay -Syu --noconfirm'
 
   # Updage Ruby gems
