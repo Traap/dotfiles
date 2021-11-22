@@ -1,0 +1,66 @@
+#!/bin/bash
+# {{{ Test function to swap NeoVim environments 
+#
+# Name: switchNeoVim
+#
+# Use:
+#  switchNeoVim LunarVim
+#
+# Argument:
+#  $1 - Different NeoNvim envirements I have isntalled. 
+#
+# Note:
+#   1. This function changes the symbolic link to NeoVim only. 
+#   2. Install the experimental NeoVim enviroment first.
+#
+# -------------------------------------------------------------------------- }}}
+# {{{ removePackerPackages 
+
+removePackerPackes() {
+  rm -rf ~/.local/share/nvim/site/pack/packer/opt
+  rm -rf ~/.local/share/nvim/site/pack/packer/start
+  rm -rf ~/.config/nvim
+}
+
+# -------------------------------------------------------------------------- }}}
+# {{{ Validate argument.
+
+if [[ $# -eq 1 ]]; then
+
+# -------------------------------------------------------------------------- }}}
+# {{{ Set the NeoVim enfironment.
+
+case $1 in
+  LunarVim)
+    removePackerPackes
+    ln -fsv ~/git/LunarVim ~/.config/nvim
+    ;;
+  NvChad)
+    removePackerPackes
+    ln -fsv ~/git/NvChad ~/.config/nvim
+    ;;
+  nvim)
+    removePackerPackes
+    ln -fsv ~/git/nvim ~/.config/nvim
+    ;;
+  nfs)
+    removePackerPackes
+    ln -fsv ~/git/nfs ~/.config/nvim
+    ;;
+  *)
+esac
+
+# -------------------------------------------------------------------------- }}}
+# {{{ Report user input error. 
+
+else
+  echo "NeoVim name [LunarVim | NvChad | nvim | nfs] is required" \
+      && exit
+fi
+
+# -------------------------------------------------------------------------- }}}
+# {{{ Exit gracefully
+
+exit 0
+
+# -------------------------------------------------------------------------- }}}
