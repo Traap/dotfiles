@@ -18,6 +18,21 @@ if osType "linux"; then
     prependToPath ${HOME}/.cargo/bin
     prependToPath /mnt/c/Users/${win10_user}/AppData/Local/SumatraPDF
     [[ ":$PATH:" != *"${HOME}/.rbenv/bin"* ]] && eval "$(rbenv init -)"
+    prependToPath ${HOME}/.cargo/bin
+
+    # Language Servers
+    prependToPath ~/.local/share/nvim/lsp_servers/bash
+    prependToPath ~/.local/share/nvim/lsp_servers/ccsls
+    prependToPath ~/.local/share/nvim/lsp_servers/diagnosticls
+    prependToPath ~/.local/share/nvim/lsp_servers/emmet_ls
+    prependToPath ~/.local/share/nvim/lsp_servers/html
+    prependToPath ~/.local/share/nvim/lsp_servers/jsonls
+    prependToPath ~/.local/share/nvim/lsp_servers/latex
+    prependToPath ~/.local/share/nvim/lsp_servers/solargraph
+    prependToPath ~/.local/share/nvim/lsp_servers/sumenko_lua
+    prependToPath ~/.local/share/nvim/lsp_servers/tsserver
+    prependToPath ~/.local/share/nvim/lsp_servers/vim
+    prependToPath ~/.local/share/nvim/lsp_servers/yaml
 fi
 
 # -------------------------------------------------------------------------- }}}
