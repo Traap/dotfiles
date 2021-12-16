@@ -1,0 +1,49 @@
+#!/bin/bash
+# {{{ A function to swap resolve.conf between home and work enfironment.
+#
+# Name: switchResolv
+#
+# Use:
+#  switchResolv
+#
+# Argument:
+#  $1 - [home|work]
+#       Different envirements I have isntalled.
+#
+# Note:
+#   1. This function changes the symbolic link to /etc/resolv.conf
+#
+# -------------------------------------------------------------------------- }}}
+# {{{ Validate argument.
+
+if [[ $# -eq 0  || $# -eq 1 ]]; then
+
+# -------------------------------------------------------------------------- }}}
+# {{{ Set the NeoVim enfironment.
+
+case $1 in
+  home)
+    sudo ln -fsv /etc/resolv-home.conf /etc/resolv.conf
+    ;;
+  work)
+    sudo ln -fsv /etc/resolv-work.conf /etc/resolv.conf
+    ;;
+  *)
+    sudo ln -fsv /etc/resolv-home.conf /etc/resolv.conf
+    ;;
+esac
+
+# -------------------------------------------------------------------------- }}}
+# {{{ Report user input error.
+
+else
+  echo "Environment name [home|work] is required" \
+      && exit
+fi
+
+# -------------------------------------------------------------------------- }}}
+# {{{ Exit gracefully
+
+exit 0
+
+# -------------------------------------------------------------------------- }}}
