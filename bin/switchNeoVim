@@ -51,6 +51,10 @@ case $1 in
     removePackerPackes
     ln -fsv ~/git/nfs ~/.config/nvim
     ;;
+  ray-x)
+    removePackerPackes
+    ln -fsv ~/git/ray-x ~/.config/nvim
+    ;;
   *)
 esac
 
@@ -58,7 +62,7 @@ esac
 # {{{ Report user input error.
 
 else
-  echo "NeoVim name [LunarVim | NvChad | nvim | nfs] is required" \
+  echo "NeoVim name [LunarVim | NvChad | nvim | nfs | x-ray] is required" \
       && exit
 fi
 
