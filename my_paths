@@ -21,7 +21,7 @@ if osType "linux"; then
     prependToPath ${HOME}/.cargo/bin
 
     # Language Servers
-    prependToPath ~/.local/share/nvim/lsp_servers/bash
+    prependToPath ~/.local/share/nvim/lsp_servers/bash/node_modules/bash-language-server/bin
     prependToPath ~/.local/share/nvim/lsp_servers/ccsls
     prependToPath ~/.local/share/nvim/lsp_servers/diagnosticls
     prependToPath ~/.local/share/nvim/lsp_servers/emmet_ls
