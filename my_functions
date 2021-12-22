@@ -363,7 +363,7 @@ cj() {
   newdoc --dir=$1/$2 --file=$2 --title=$2 $3 $4
 }
 
-gh() {
+dh() {
   clear && docbld clobber && docbld texx && ll && zathura $1
 }
 
