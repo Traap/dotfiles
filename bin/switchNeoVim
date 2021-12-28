@@ -57,7 +57,7 @@ case $1 in
     ;;
   scratch)
     removePackerPackages
-    ln -fsv ~/git/Neovim-from-scratch ~/.config/nvim
+    ln -fsv ~/git/NeoVim-from-scratch ~/.config/nvim
     ;;
   *)
 esac
