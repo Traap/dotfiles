@@ -16,7 +16,7 @@
 # -------------------------------------------------------------------------- }}}
 # {{{ removePackerPackages
 
-removePackerPackes() {
+removePackerPackages() {
   rm -rf ~/.cache/nvim
   rm -rf ~/.config/nvim
   rm -rf ~/.local/share/nvim
@@ -32,31 +32,31 @@ if [[ $# -eq 1 ]]; then
 
 case $1 in
   LunarVim)
-    removePackerPackes
+    removePackerPackages
     ln -fsv ~/git/LunarVim ~/.config/nvim
     ;;
   NvChad)
-    removePackerPackes
+    removePackerPackages
     ln -fsv ~/git/NvChad ~/.config/nvim
     ;;
   VapourNvim)
-    removePackerPackes
+    removePackerPackages
     ln -fsv ~/git/VapourNvim ~/.config/nvim
     ;;
   nvim)
-    removePackerPackes
+    removePackerPackages
     ln -fsv ~/git/nvim ~/.config/nvim
     ;;
   nfs)
-    removePackerPackes
+    removePackerPackages
     ln -fsv ~/git/nfs ~/.config/nvim
     ;;
   ray-x)
-    removePackerPackes
+    removePackerPackages
     ln -fsv ~/git/ray-x ~/.config/nvim
     ;;
   scratch)
-    removePackerPackes
+    removePackerPackages
     ln -fsv ~/git/Neovim-from-scratch ~/.config/nvim
     ;;
   *)
