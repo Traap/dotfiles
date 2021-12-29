@@ -10,7 +10,7 @@ fi
 # -------------------------------------------------------------------------- }}}
 # {{{ Linux only machines.
 
-ruby_version='3.0.2'
+ruby_version='3.0.3'
 win10_user='mmspghoward'
 if osType "linux"; then
     prependToPath ${HOME}/.rbenv/bin
