@@ -148,7 +148,7 @@ if [[ $# -eq 1 ]]; then
 # {{{ Create work session
 
       "work")
-        tmux new-session   -c ${HOME}/git/smiths -n Work       -s $1 -d
+        tmux new-session   -c ${HOME}/git/wiki -n Work       -s $1 -d
         tmux new-window    -c ${HOME}/git           -n 'GH Repos' -t $1:2
 
         tmux send-keys     -t $1:1 '$EDITOR index.md'   Enter
