@@ -1,3 +1,59 @@
 #/bin/bash
-sudo mkdir -p /mnt/d
-sudo mount -t drvfs D: /mnt/d
+# {{{ A function to USB drive D or E
+#
+# Name:
+#  mountUsg
+#
+# Use:
+#  mountUsb [ |D|E]
+#
+# Argument:
+#  $1 - [ |D|E]
+#       [ ] or D mounts D
+#       E mounts E
+#
+# -------------------------------------------------------------------------- }}}
+# {{{ Validate argument.
+
+if [[ $# -eq 0  || $# -eq 1 ]]; then
+
+# -------------------------------------------------------------------------- }}}
+# {{{ Mount USB drive
+
+drive=d
+case $1 in
+  d)
+    drive=d
+    ;;
+  D)
+    drive=d
+    ;;
+  e)
+    drive=e
+    ;;
+  E)
+    drive=e
+    ;;
+  *)
+    drive=e
+    ;;
+esac
+
+sudo mkdir -p /mnt/$drive
+sudo mount -t drvfs D: /mnt/$drive
+
+# -------------------------------------------------------------------------- }}}
+# {{{ Report user input error.
+
+else
+  echo "Drive letter [ |D|E] is required." \
+      && exit
+fi
+
+# -------------------------------------------------------------------------- }}}
+# {{{ Exit gracefully
+
+exit 0
+
+# -------------------------------------------------------------------------- }}}
+
