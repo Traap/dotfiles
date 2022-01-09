@@ -20,6 +20,7 @@ else
 fi
 
 # Symlink to my nvim area.
+mkdir -p ~/.config/nvim
 ln -fsv ~/git/nvim ~/.config/nvim
 
 # My neovim installation bootstraps itself.
