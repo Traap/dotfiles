@@ -57,7 +57,13 @@ fi
 # -------------------------------------------------------------------------- }}}
 # {{{ Do the clone or pull operation.
 
-sayAndDo "git $operation $protocol"
+if [ ${operation} = 'pull' ]; then
+  cd ${1}
+  sayAndDo "git $operation"
+  cd ${dir}
+else
+  sayAndDo "git $operation $protocol"
+fi
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Get all tags.
