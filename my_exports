@@ -123,12 +123,13 @@ fi
 # -------------------------------------------------------------------------- }}}
 # {{{ FZF customizations
 
-# export FZF_DEFAULT_COMMAND='rg --files --no-ignore-vcs --hidden'
+export FZF_DEFAULT_COMMAND='rg --files --no-ignore-vcs --hidden'
 
-# -------------------------------------------------------------------------- }}} # {{{ GIT_HOME is needed for test automation framework.
+# -------------------------------------------------------------------------- }}}
+# {{{ GITPATH is root directory I use for all git clone operations.
 
 if dirExists ${HOME}/git; then
-  export GIT_HOME=${HOME}/git
+  export GITPATH=${HOME}/git
 else
   echo "WARNING: ${HOME}/git does not exists."
 fi
