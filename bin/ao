@@ -43,6 +43,7 @@ if ! tmux has-session    -t $1 2>/dev/null; then case $1 in
 # {{{ Create ao session
 
 "ao")
+  getRepository ao
   tmux new-session   -c ${GITPATH}/dotfiles/bin -n ao -s $1 -d
   tmux send-keys     -t $1:1 '$EDITOR ao' Enter
   ;;
@@ -51,6 +52,7 @@ if ! tmux has-session    -t $1 2>/dev/null; then case $1 in
 # {{{ Create bash session
 
 "bash")
+  gitRepository dotfiles
 
   tmux new-session   -c ${GITPATH}/dotfiles  -n dotfiles   -s $1 -d
   tmux new-window    -c ${GITPATH}/dotfiles  -n bashrc     -t $1:2
@@ -75,6 +77,7 @@ if ! tmux has-session    -t $1 2>/dev/null; then case $1 in
 # {{{ Create havasu session
 
 "havasu")
+  gitRepository havasu
   tmux new-session   -c ${GITPATH}/havasu    -n havasu     -s $1 -d
   ;;
 
@@ -82,6 +85,7 @@ if ! tmux has-session    -t $1 2>/dev/null; then case $1 in
 # {{{ Create KJV session
 
 "kjv")
+  getRepository kjv
   tmux new-session   -c ${GITPATH}/kjv       -n kjv        -s $1 -d
   ;;
 
@@ -89,7 +93,7 @@ if ! tmux has-session    -t $1 2>/dev/null; then case $1 in
 # {{{ Create nvim session
 
 "nvim")
-  # nvim pane
+  getRepository nvim
   tmux new-session  -c ${HOME}/.config/nvim -n nvim -s $1 -d
   tmux send-keys -t $1:1 \
     'nvim \
@@ -105,6 +109,8 @@ if ! tmux has-session    -t $1 2>/dev/null; then case $1 in
 # {{{ Create ssh session
 
 "ssh")
+  getRepository ssh
+  getRepository tmux
   tmux new-session   -c ${GITPATH}/ssh       -n ssh        -s $1 -d
   tmux new-window    -c ${GITPATH}/tmux      -n tmux       -t $1:2
 
@@ -116,6 +122,9 @@ if ! tmux has-session    -t $1 2>/dev/null; then case $1 in
 # {{{ Create soup session
 
 "soup")
+  getRepository amber
+  getRepository autodoc
+  getRepository newdoc
   tmux new-session   -c ${GITPATH}/amber     -n amber      -s $1 -d
   tmux new-window    -c ${GITPATH}/autodoc   -n autodoc    -t $1:2
   tmux new-window    -c ${GITPATH}/newdoc    -n newdoc     -t $1:3
