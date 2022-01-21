@@ -121,12 +121,24 @@ if ! tmux has-session    -t $1 2>/dev/null; then case $1 in
 # {{{ Create soup session
 
 "soup")
-  getRepository amber
-  getRepository autodoc
-  getRepository newdoc
-  tmux new-session   -c ${GITPATH}/amber     -n amber      -s $1 -d
-  tmux new-window    -c ${GITPATH}/autodoc   -n autodoc    -t $1:2
-  tmux new-window    -c ${GITPATH}/newdoc    -n newdoc     -t $1:3
+  repos=(amber autodoc newdoc tlc-article)
+  count=0
+  for r in ${repos[@]}
+  do
+    getRepository $r
+    count=$((count+1))
+    if [ $count -eq 1 ]; then
+      tmux new-session -c ${GITPATH}/$r -n $r -s $1 -d
+    else
+      tmux new-window  -c ${GITPATH}/$r -n $r -t $1:$count
+    fi
+  done
+  tmux select-window -t $1:1
+
+  # tmux new-session -c ${GITPATH}/amber       -n amber       -s $1 -d
+  # tmux new-window  -c ${GITPATH}/autodoc     -n autodoc     -t $1:2
+  # tmux new-window  -c ${GITPATH}/newdoc      -n newdoc      -t $1:3
+  # tmux new-window  -c ${GITPATH}/tlc-article -n tlc-article -t $1:4
   ;;
 
 # -------------------------------------------------------------------------- }}}
