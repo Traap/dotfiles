@@ -43,7 +43,6 @@ if ! tmux has-session    -t $1 2>/dev/null; then case $1 in
 # {{{ Create ao session
 
 "ao")
-  getRepository ao
   tmux new-session   -c ${GITPATH}/dotfiles/bin -n ao -s $1 -d
   tmux send-keys     -t $1:1 '$EDITOR ao' Enter
   ;;
