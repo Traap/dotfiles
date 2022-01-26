@@ -19,7 +19,7 @@
 if [[ $# -eq 0  || $# -eq 1 ]]; then
 
 # -------------------------------------------------------------------------- }}}
-# {{{ Set the NeoVim enfironment.
+# {{{ Set the resolve enfironment.
 
 case $1 in
   home)

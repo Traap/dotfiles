@@ -17,7 +17,7 @@ else
 fi
 
 # -------------------------------------------------------------------------- }}}
-# {{{ Vim keybindings.  Troubleshoot tmux + vim + vim-keybindings.
+# {{{ Vim keybindings.
 
 set -o vi
 
