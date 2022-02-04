@@ -39,8 +39,8 @@ case $1 in
     ;;
 esac
 
-sudo mkdir -p /mnt/$drive
-sudo mount -t drvfs D: /mnt/$drive
+sudo mkdir -p /mnt/${drive}
+sudo mount -t drvfs ${drive}: /mnt/${drive}
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Report user input error.
