@@ -100,7 +100,7 @@ if ! tmux has-session    -t $1 2>/dev/null; then case $1 in
   tmux new-session  -c ${HOME}/.config/nvim -n nvim -s $1 -d
   tmux send-keys -t $1:1 \
     'nvim \
-      lua/plugins/init.lua \
+      lua/traap/plugins/init.lua \
       lua/traap/keybindings/init.lua \
       lua/traap/settings/init.lua \
       init.lua \
