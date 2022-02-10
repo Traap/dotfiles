@@ -173,7 +173,7 @@ alias knvim='tmux kill-session -t nvim'
 alias ksoup='tmux kill-session -t soup'
 alias kssh='tmux kill-session -t ssh'
 alias kvim='tmux kill-session -t vim'
-alias kwork='tmux kill-session -t work'
+alias kwork='tmux kill-session -t wiki'
 
 # -------------------------------------------------------------------------- }}}
 # {{{ archlinux tlmgr (texlive manager)
