@@ -31,29 +31,17 @@ if [[ $# -eq 1 ]]; then
 # {{{ Set the NeoVim enfironment.
 
 case $1 in
+  AstroVim)
+    removePackerPackages
+    ln -fsv ~/git/AstroVim ~/.config/nvim
+    ;;
   LunarVim)
     removePackerPackages
     ln -fsv ~/git/LunarVim ~/.config/nvim
     ;;
-  NvChad)
-    removePackerPackages
-    ln -fsv ~/git/NvChad ~/.config/nvim
-    ;;
-  VapourNvim)
-    removePackerPackages
-    ln -fsv ~/git/VapourNvim ~/.config/nvim
-    ;;
   nvim)
     removePackerPackages
     ln -fsv ~/git/nvim ~/.config/nvim
-    ;;
-  nfs)
-    removePackerPackages
-    ln -fsv ~/git/nfs ~/.config/nvim
-    ;;
-  ray-x)
-    removePackerPackages
-    ln -fsv ~/git/ray-x ~/.config/nvim
     ;;
   scratch)
     removePackerPackages
@@ -66,7 +54,7 @@ esac
 # {{{ Report user input error.
 
 else
-  echo "NeoVim name [LunarVim | NvChad | nvim | nfs | x-ray] is required" \
+  echo "NeoVim name [AstroVim | LunarVim | nvim | scratch ] is required" \
       && exit
 fi
 
