@@ -55,7 +55,7 @@ if ! tmux has-session    -t $1 2>/dev/null; then case $1 in
 # {{{ Create bash session
 
 "bash")
-  gitRepository dotfiles
+  getRepository dotfiles
 
   tmux new-session   -c ${GITPATH}/dotfiles  -n dotfiles   -s $1 -d
   tmux new-window    -c ${GITPATH}/dotfiles  -n bashrc     -t $1:2
@@ -80,7 +80,7 @@ if ! tmux has-session    -t $1 2>/dev/null; then case $1 in
 # {{{ Create havasu session
 
 "havasu")
-  gitRepository havasu
+  getRepository havasu
   tmux new-session   -c ${GITPATH}/havasu    -n havasu     -s $1 -d
   ;;
 
