@@ -1,4 +1,11 @@
 #!bin/bash
+# {{{ Description
+#
+# This is the primary .bashrc file for ArcoLinux.  I have added my folding
+# style.  I manually check this file after each major ArcoLinux update or
+# after run skel command.
+#
+# -------------------------------------------------------------------------- }}}
 # {{{ Ibus settings
 
 #type ibus-setup in terminal to change settings and start the daemon
@@ -9,6 +16,7 @@
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Interactive check
+
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
