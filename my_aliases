@@ -4,16 +4,6 @@
 if osType "darwin"; then
   alias la='ls -A'
   alias ll='ls -lahG'
-elif osType "linux" \
-  || osType "cygwin" \
-  || osType "msys"; then
-  d=.dircolors
-  test -r $d && eval "$(dircolors $d)"
-  if fileExists /usr/share/bash-completion/bash_completion; then
-    . /usr/share/bash-completion/bash_completion
-  fi
-else
-    echo "Unknown operating system:" ${OSTYPE}
 fi
 
 # -------------------------------------------------------------------------- }}}

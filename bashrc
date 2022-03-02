@@ -39,6 +39,11 @@ if [ -d "$HOME/.local/bin" ] ;
 fi
 
 # -------------------------------------------------------------------------- }}}
+# {{{ Ignore upper and lowercase when TAB completion
+
+bind "set completion-ignore-case on"
+
+# -------------------------------------------------------------------------- }}}
 # {{{ List
 
 alias la='ls -a'
@@ -192,15 +197,15 @@ alias jctl="journalctl -p 3 -xb"
 # -------------------------------------------------------------------------- }}}
 # {{{ Important configuration files
 
-alias nlightdm="sudo vim /etc/lightdm/lightdm.conf"
-alias npacman="sudo vim /etc/pacman.conf"
-alias ngrub="sudo vim /etc/default/grub"
-alias nmkinitcpio="sudo vim /etc/mkinitcpio.conf"
-alias nslim="sudo vim /etc/slim.conf"
-alias noblogout="sudo vim /etc/oblogout.conf"
-alias nmirrorlist="sudo vim /etc/pacman.d/mirrorlist"
-alias nconfgrub="sudo vim /boot/grub/grub.cfg"
 alias bls="betterlockscreen -u /usr/share/backgrounds/arcolinux/"
+alias nconfgrub="sudo vim /boot/grub/grub.cfg"
+alias ngrub="sudo vim /etc/default/grub"
+alias nlightdm="sudo vim /etc/lightdm/lightdm.conf"
+alias nmirrorlist="sudo vim /etc/pacman.d/mirrorlist"
+alias nmkinitcpio="sudo vim /etc/mkinitcpio.conf"
+alias noblogout="sudo vim /etc/oblogout.conf"
+alias npacman="sudo vim /etc/pacman.conf"
+alias nslim="sudo vim /etc/slim.conf"
 
 # -------------------------------------------------------------------------- }}}
 # {{{ gpg
