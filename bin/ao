@@ -122,7 +122,7 @@ if ! tmux has-session    -t $1 2>/dev/null; then case $1 in
 # {{{ Create soup session
 
 "soup")
-  repos=(amber autodoc emend emend-computer git-client newdoc tlc-article)
+  repos=(amber autodoc docbld emend emend-computer git-client newdoc tlc-article)
   count=0
   for r in ${repos[@]}
   do
