@@ -3,7 +3,7 @@
 #
 # Bash scripting cheatsheet => https://devhints.io/bash
 
-echo ${HOSTNAME} "on" ${OSTYPE}
+echo ${HOSTNAME} "running" ${OSTYPE}
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Disable # Disable ctrl-s and ctrl-q
