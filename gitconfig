@@ -92,5 +92,5 @@
   credentialStore = cache
   interactvie     = false
 
-#[include]
-#  path = ~/git/ssh/gitconfig-private
+[include]
+  path = ~/git/ssh/gitconfig-private
