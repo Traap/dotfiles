@@ -67,11 +67,6 @@ super + space
   bspc node -t {tiled, pseudo_tiled, floating, fullscreen}
 
 # -------------------------------------------------------------------------- }}}
-# {{{ super + alt + ctrl +
-
-" Nothing yet.
-
-# -------------------------------------------------------------------------- }}}
 # {{{ super + alt + ctrl + shift +
 
 " Nothing yet.
@@ -95,7 +90,7 @@ super + ctrl + {e, r, t, y}
   bspc node --focus @{parent, brother, first, second}
 
 super + ctrl + {u, i, o, p}
-  bspc node --presel-dir \~{west, south, north, east}
+  bspc node --presel-dir {west, south, north, east}
 
 super + ctrl + space
   bspc node --presel-dir cancel
