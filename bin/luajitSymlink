@@ -1,0 +1,2 @@
+#!/bin/bash
+sudo ln -sf luajit-2.1.0-beta3 /home/traap/git/neovim/.deps/usr/bin/luajit

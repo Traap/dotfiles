@@ -1,5 +1,4 @@
 #!/bin/bash
-#
 # {{{ AO credits and documentation.
 #
 # Inspired by:
@@ -38,7 +37,8 @@ if [[ $# -eq 1 ]]; then
 # -------------------------------------------------------------------------- }}}
 # {{{ Validate session name.
 
-if ! tmux has-session    -t $1 2>/dev/null; then case $1 in
+if ! tmux has-session    -t $1 2>/dev/null; then
+case $1 in
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Create ao session
