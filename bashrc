@@ -198,14 +198,14 @@ alias jctl="journalctl -p 3 -xb"
 # {{{ Important configuration files
 
 alias bls="betterlockscreen -u /usr/share/backgrounds/arcolinux/"
-alias nconfgrub="sudo vim /boot/grub/grub.cfg"
-alias ngrub="sudo vim /etc/default/grub"
-alias nlightdm="sudo vim /etc/lightdm/lightdm.conf"
-alias nmirrorlist="sudo vim /etc/pacman.d/mirrorlist"
-alias nmkinitcpio="sudo vim /etc/mkinitcpio.conf"
-alias noblogout="sudo vim /etc/oblogout.conf"
-alias npacman="sudo vim /etc/pacman.conf"
-alias nslim="sudo vim /etc/slim.conf"
+alias nconfgrub="sudo nvim /boot/grub/grub.cfg"
+alias ngrub="sudo nvim /etc/default/grub"
+alias nlightdm="sudo nvim /etc/lightdm/lightdm.conf"
+alias nmirrorlist="sudo nvim /etc/pacman.d/mirrorlist"
+alias nmkinitcpio="sudo nvim /etc/mkinitcpio.conf"
+alias noblogout="sudo nvim /etc/oblogout.conf"
+alias npacman="sudo nvim /etc/pacman.conf"
+alias nslim="sudo nvim /etc/slim.conf"
 
 # -------------------------------------------------------------------------- }}}
 # {{{ gpg
