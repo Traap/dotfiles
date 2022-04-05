@@ -1,5 +1,5 @@
 #!/bin/bash
-if [[ $# -eq 0 || $# -eq 1]] then
+if [[ $# -eq 0 || $# -eq 1 ]]; then
   sudo mount -t vboxsf -o uid=1000,gid=1000 $1 /home/traap/Shared
 else
   echo "Shared folder name is required." && exit
