@@ -22,11 +22,8 @@ HISTSIZE= HISTFILESIZE=
 
 if [[ $(uname -r) =~ 'arch' || $(uname -r) =~ 'lts' ]]; then
   numlockx off
-  if [[ $(lspci -nn | rg VGA -c) == 1 ]]; then
+  if [[ $(lspci -nn | rg VirtualBox -c) == '' ]]; then
     setxkbmap -option caps:swapescape
-    echo 'caps:swapescape WAS done.'
-  else
-    echo 'caps:swapescape was NOT done.'
   fi
 fi
 

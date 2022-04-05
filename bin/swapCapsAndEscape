@@ -1,2 +1,7 @@
 #!/bin/bash
-setxkbmap -options caps:swapescape
+if [[ $(lspci -nn | rg VirtualBox -c) == '' ]]; then
+  setxkbmap -option caps:swapescape
+  echo 'caps:swapescape WAS done.'
+else
+  echo 'caps:swapescape was NOT done.'
+fi
