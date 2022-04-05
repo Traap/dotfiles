@@ -6,7 +6,7 @@
 echo ${HOSTNAME} "running" ${OSTYPE}
 
 # -------------------------------------------------------------------------- }}}
-# {{{ Disable # Disable ctrl-s and ctrl-q
+# {{{ Disable ctrl-s and ctrl-q
 
 stty -ixon
 
@@ -21,9 +21,12 @@ HISTSIZE= HISTFILESIZE=
 # Turn off numlock and swap Cap Lock && Escape keys on Arch Linux
 
 if [[ $(uname -r) =~ 'arch' || $(uname -r) =~ 'lts' ]]; then
-   numlockx off
-   if [[ $(xrandr | rg eDP1 -c) == 1 ]]; then
-     setxkbmap -option caps:swapescape
+  numlockx off
+  if [[ $(lspci -nn | rg VGA -c) == 1 ]]; then
+    setxkbmap -option caps:swapescape
+    echo 'caps:swapescape WAS done.'
+  else
+    echo 'caps:swapescape was NOT done.'
   fi
 fi
 
