@@ -49,7 +49,7 @@ super + x
  xfce4-terminal --title=Weather --exec=weather --hold
 
 super + z
- xfce4-terminal --title='htop task manager' --exec=htop
+ xfce4-terminal --title='htop task manager' --exec=htop --hold
 
 super + BackSpace
   bspc monitor -f next
