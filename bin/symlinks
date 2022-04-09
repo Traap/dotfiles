@@ -25,7 +25,7 @@ esac
 createSymLinks() {
   if [[ $createSymLinksFlag == 1 ]]; then
     echo "Creating symbolic links."
-    makdir -p ~/.config
+    makdir -p ~/.config/ranger
     ln -fsv ~/git/dotfiles/bash_logout      ~/.bash_logout
     ln -fsv ~/git/dotfiles/bashrc           ~/.bashrc
     ln -fsv ~/git/dotfiles/bashrc-personal  ~/.bashrc-personal
@@ -50,6 +50,7 @@ createSymLinks() {
       ln -fsv ~/git/dotfiles/bspwm/bspwmrc       ~/.config/bspwm/bspwmrc
       ln -fsv ~/git/dotfiles/bspwm/bspwm-monitor ~/.config/bspwm/bspwm-monitor
       ln -fsv ~/git/dotfiles/bspwm/sxhkdrc       ~/.config/bspwm/sxhkd/sxhkdrc
+      ln -fsv ~/git/dotfiles/ranger/rc.conf      ~/.config/ranger/rc.conf
       ln -fsv ~/git/dotfiles/termite/config      ~/.config/termite/config
     fi
   fi
@@ -85,6 +86,7 @@ deleteSymLinks() {
       rm -fv ~/.config/bspwm/bspwmrc
       rm -fv ~/.config/bspwm/bspwm-monitor
       rm -fv ~/.config/bspwm/sxhkd/sxhkdrc
+      rm -fv ~/.config/ranger/rc.conf
       rm -fv ~/.config/termite/config
     fi
   fi
