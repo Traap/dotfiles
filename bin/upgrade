@@ -29,6 +29,7 @@ elif programExists pacman; then
 
   # Updage Ruby gems
   sayAndDo 'gem update --system --no-document'
+  sayAndDo 'gem update --no-document'
 
   # Update node packages.
   sayAndDo 'sudo npm update --global'
