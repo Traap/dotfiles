@@ -25,7 +25,10 @@ esac
 createSymLinks() {
   if [[ $createSymLinksFlag == 1 ]]; then
     echo "Creating symbolic links."
-    makdir -p ~/.config/ranger
+    mkdir -p ~/.config/bspwm
+    mkdir -p ~/.config/sxhkd
+    mkdir -p ~/.config/nvim
+    mkdir -p ~/.config/ranger
     ln -fsv ~/git/dotfiles/bash_logout      ~/.bash_logout
     ln -fsv ~/git/dotfiles/bashrc           ~/.bashrc
     ln -fsv ~/git/dotfiles/bashrc-personal  ~/.bashrc-personal
@@ -40,7 +43,6 @@ createSymLinks() {
     ln -fsv ~/git/tmux                      ~/.tmux
     ln -fsv ~/git/tmux/tmux.conf            ~/.tmux.conf
     ln -fsv ~/git/vim                       ~/.vim
-    ln -fsv ~/git/vim/coc-package.json      ~/.config/coc/extensions/package.json
     ln -fsv ~/git/nvim                      ~/.config/nvim
     ln -fsv ~/git/vim/vimrc                 ~/.vimrc
     ln -fsv ~/git/vim/vimrc_background      ~/.vimrc_background
@@ -51,7 +53,6 @@ createSymLinks() {
       ln -fsv ~/git/dotfiles/bspwm/bspwm-monitor ~/.config/bspwm/bspwm-monitor
       ln -fsv ~/git/dotfiles/bspwm/sxhkdrc       ~/.config/bspwm/sxhkd/sxhkdrc
       ln -fsv ~/git/dotfiles/ranger/rc.conf      ~/.config/ranger/rc.conf
-      ln -fsv ~/git/dotfiles/termite/config      ~/.config/termite/config
     fi
   fi
 }
@@ -76,7 +77,6 @@ deleteSymLinks() {
     rm -fv ~/.tmux
     rm -fv ~/.tmux.conf
     rm -fv ~/.vim
-    rm -fv ~/.config/coc/extensions/package.json
     rm -fv ~/.config/nvim/init.vim
     rm -fv ~/.vimrc
     rm -fv ~/.vimrc_background
@@ -87,7 +87,6 @@ deleteSymLinks() {
       rm -fv ~/.config/bspwm/bspwm-monitor
       rm -fv ~/.config/bspwm/sxhkd/sxhkdrc
       rm -fv ~/.config/ranger/rc.conf
-      rm -fv ~/.config/termite/config
     fi
   fi
 }
