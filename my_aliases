@@ -37,7 +37,7 @@ fi
 
 alias cls='clear'
 alias encrypt='${HOME}/git/dotfiles/encrypt'
-alias fde='fd --extension'
+alias fde='fd --no-ignore --extension'
 alias fgrep='fgrep --color=auto'
 alias ga='git add'
 alias gc='git commit -m'
