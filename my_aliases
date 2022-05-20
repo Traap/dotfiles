@@ -37,7 +37,11 @@ fi
 
 alias cls='clear'
 alias encrypt='${HOME}/git/dotfiles/encrypt'
-alias fde='fd --no-ignore --extension'
+if [[ $(rg '"Ubuntu"' /etc/os-release -c) == 1 ]]; then
+  alias fde='fdfind --no-ignore --extension'
+else
+  alias fde='fd --no-ignore --extension'
+fi
 alias fgrep='fgrep --color=auto'
 alias ga='git add'
 alias gc='git commit -m'
