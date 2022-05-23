@@ -41,7 +41,7 @@ if [[ $(rg '"Ubuntu"' /etc/os-release -c) == 1 ]]; then
   alias fd='fdfind'
   alias fde='fdfind --no-ignore --extension'
 else
-  alias fde='fdfind --no-ignore --extension'
+  alias fde='fd --no-ignore --extension'
 fi
 alias fgrep='fgrep --color=auto'
 alias ga='git add'
