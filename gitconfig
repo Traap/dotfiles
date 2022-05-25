@@ -87,10 +87,7 @@
   defaultBranch = master
 
 [credential]
-  user            = Traap
-  helper          = manager-core
-  credentialStore = cache
-  interactvie     = false
+  helper = store
 
 [include]
   path = ~/git/ssh/gitconfig-private
