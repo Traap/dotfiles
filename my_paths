@@ -17,7 +17,9 @@ if osType "linux"; then
     prependToPath ${HOME}/.rbenv/versions/${ruby_version}/bin
     prependToPath ${HOME}/.cargo/bin
     prependToPath /mnt/c/Users/${win10_user}/AppData/Local/SumatraPDF
-    [[ ":$PATH:" != *"${HOME}/.rbenv/bin"* ]] && eval "$(rbenv init -)"
+    [[ -f ${HOME}/.rbenv/bin/ ]] && \
+      [[ ":$PATH:" != *"${HOME}/.rbenv/bin"* ]] && \
+      eval "$(rbenv init -)"
     prependToPath ${HOME}/.cargo/bin
 
     # Language Servers
