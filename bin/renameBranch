@@ -1,0 +1,17 @@
+#!/bin/bash
+function renameBranch() {
+ $old=$1
+ $new=$2
+
+ git branch -m $old $new
+ git push origin :$old
+ git push origin $new
+ git push origin -u $new
+}
+
+if [[ -z $1 || -z $2 ]]; then
+  echo "Usage: renameBranch oldName newName"
+  exit;
+else
+ renameBranch "$@"
+fi
