@@ -2,6 +2,7 @@
   br     = branch
   co     = checkout
   db     = branch  -d
+  head   = rev-parse HEAD
   logd   = log  --color  --graph  --abbrev-commit  --pretty=format:'%Cred%h%Creset  -%C(yellow)%d%Creset  %s  %Cgreen(%cD)  %C(bold  blue)<%an>%Creset'
   logg   = log  --color  --graph  --abbrev-commit  --pretty=format:'%Cred%h%Creset  -%C(yellow)%d%Creset  %s  %Cgreen(%cr)  %C(bold  blue)<%an>%Creset'
   logi   = log  --color  --graph  --abbrev-commit  --pretty=format:'%Cred%h%Creset  -%C(yellow)%d%Creset  %s  %Cgreen(%ci)  %C(bold  blue)<%an>%Creset'
