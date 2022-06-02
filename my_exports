@@ -1,8 +1,4 @@
-# {{{ She Bang!
-
 #!/bin/bash
-
-# -------------------------------------------------------------------------- }}}
 # {{{ Default Browers, File Manager, and 256 colors.
 
 export BROWSER=brave
