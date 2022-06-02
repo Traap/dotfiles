@@ -114,7 +114,7 @@ title() { echo -n -e "\033]0;$1\007"; }
 sshkeys() {
   eval "$(ssh-agent -s)"
   for key in $(ls ~/git/ssh/*.pub); do
-    ssh-add "${key%%.*}"
+    ssh-add -q "${key%%.*}"
   done;
 }
 
