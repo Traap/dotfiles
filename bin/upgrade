@@ -14,7 +14,7 @@ if programExists apt-get; then
 
   sudo apt-get -y upgrade && \
   sudo apt-get -y update  && \
-  gem update --system --no-document && \
+  sudo gem update --system --no-document && \
   sudo npm install --global && \
   echo "System updated." || echo "Error:  System update failed."
 

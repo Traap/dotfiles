@@ -43,4 +43,7 @@ done
 # Load my keys.
 sshkeys
 
+# Temporay solution to help troubleshoot a setup problem.
+[[ -f ~/server/clinic-server-functions.sh ]]   && . ~/server/clinic-server-functions.sh
+
 # -------------------------------------------------------------------------- }}}
