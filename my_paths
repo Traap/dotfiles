@@ -1,3 +1,5 @@
+#!/bin/bash
+# {{{ Linux style machines
 
 if osType "darwin" \
 || osType "linux"  \
@@ -11,15 +13,13 @@ fi
 ruby_version='3.0.3'
 win10_user='garya'
 if osType "linux"; then
-    # prependToPath ${HOME}/.rbenv/bin
-    # prependToPath ${HOME}/.rbenv/versions/${ruby_version}/bin
+    prependToPath ${HOME}/.rbenv/bin
+    prependToPath ${HOME}/.rbenv/versions/${ruby_version}/bin
     prependToPath /mnt/c/Users/${win10_user}/AppData/Local/SumatraPDF
     prependToPath ${HOME}/.cargo/bin
-    # [[ -f ${HOME}/.rbenv/bin/ ]] && \
-    #   [[ ":$PATH:" != *"${HOME}/.rbenv/bin"* ]] && \
-
-    # echo "Loading rbenv"
-    # eval "$(rbenv init - n)"
+    [[ -f ${HOME}/.rbenv/bin/ ]] && \
+      [[ ":$PATH:" != *"${HOME}/.rbenv/bin"* ]] && \
+      eval "$(rbenv init - n)"
 
     # Language Servers
     prependToPath ~/.local/share/nvim/lsp_servers/latex
