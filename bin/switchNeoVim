@@ -31,9 +31,9 @@ if [[ $# -eq 1 ]]; then
 # {{{ Set the NeoVim enfironment.
 
 case $1 in
-  AstroVim)
+  cc)
     removePackerPackages
-    ln -fsv ~/git/AstroVim ~/.config/nvim
+    ln -fsv ~/git/ChristianChiarulli ~/.config/nvim
     ;;
   LunarVim)
     removePackerPackages
