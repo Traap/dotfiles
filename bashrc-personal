@@ -22,9 +22,10 @@ HISTSIZE= HISTFILESIZE=
 
 if [[ $(uname -r) =~ 'arch' || $(uname -r) =~ 'lts' ]]; then
   numlockx off
-  if [[ $(lspci -nn | rg VirtualBox -c) == '' ]]; then
+  # TODO; Using lspci & rg to check VirtualBox is slow.
+  # if [[ $(lspci -nn | rg VirtualBox -c) == '' ]]; then
     setxkbmap -option caps:swapescape
-  fi
+  # fi
 fi
 
 # -------------------------------------------------------------------------- }}}

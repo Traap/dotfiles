@@ -1,5 +1,3 @@
-#!/bin/bash
-# {{{ Linux style machines.
 
 if osType "darwin" \
 || osType "linux"  \
