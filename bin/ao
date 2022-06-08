@@ -163,10 +163,13 @@ case $1 in
 
 "wiki")
   getRepository wiki
-  tmux new-session   -c ${GITPATH}/wiki -n Work       -s $1 -d
-  tmux new-window    -c ${GITPATH}           -n 'GH Repos' -t $1:2
+  tmux new-session   -c ${GITPATH}/wiki -n Notebook -s $1 -d
+  tmux new-window    -c ${GITPATH}      -n 'Email'  -t $1:2
+  tmux new-window    -c ${GITPATH}      -n 'Basher' -t $1:3
+  tmux new-window    -c ${GITPATH}      -n 'Remote' -t $1:4
 
   tmux send-keys     -t $1:1 '$EDITOR index.md'   Enter
+  tmux send-keys     -t $1:2 'neomutt'            Enter
   tmux select-window -t $1:1
   ;;
 
