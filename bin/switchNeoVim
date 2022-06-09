@@ -36,6 +36,14 @@ case $1 in
     removePackerPackages
     ln -fsv ~/git/ChristianChiarulli ~/.config/nvim
     ;;
+  doom)
+    removePackerPackages
+    ln -fsv ~/git/doom-nvim ~/.config/nvim
+    ;;
+  luan)
+    removePackerPackages
+    ln -fsv ~/git/luan ~/.config/nvim
+    ;;
   LunarVim)
     removePackerPackages
     ln -fsv ~/git/LunarVim ~/.config/nvim
