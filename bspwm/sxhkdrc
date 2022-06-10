@@ -177,7 +177,7 @@ alt + ctrl + i
   nitrogen
 
 alt + ctrl + l
-  arcolinux-logout
+  archlinux-logout
 
 alt + ctrl + p
   ~/.config/bspwm/scripts/picom-toggle.sh
