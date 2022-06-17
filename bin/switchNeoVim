@@ -52,6 +52,10 @@ case $1 in
     removePackerPackages
     ln -fsv ~/git/LunarVim ~/.config/nvim
     ;;
+  rayx)
+    removePackerPackages
+    ln -fsv ~/git/rayx ~/.config/nvim
+    ;;
   NvChad)
     removePackerPackages
     ln -fsv ~/git/NvChad ~/.config/nvim
