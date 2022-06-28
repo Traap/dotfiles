@@ -11,16 +11,16 @@ bnvim
 # Clone or pull my neovim configuration.
 cloneDir="$HOME/git"
 if [[ -d ${cloneDir}/nvim ]]; then
-  echo "Update nvim sources."
+  echo "Update nvim configuration sources."
   git ${cloneDir}/nvim
   git pull
 else
-  echo "Clone nvim sources."
+  echo "Clone nvim configuration sources."
   gr nvim
 fi
 
 # Symlink to my nvim area.
-mkdir -p ~/.config/nvim
+mkdir -p ~/.config
 ln -fsv ~/git/nvim ~/.config/nvim
 
 # My neovim installation bootstraps itself.
@@ -28,4 +28,3 @@ nvim
 
 # Parting words.
 echo "Exit nvim and restart nvim to allow Treesitter to finish."
-echo "Use LspInstall to install language servers."
