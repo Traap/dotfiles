@@ -275,3 +275,7 @@ export PATH=$PATH:/home/traap/bin
 
 [[ -f /home/traap/lib/azure-cli/az.completion ]] &&  \
     . /home/traap/lib/azure-cli/az.completion
+
+# fnm
+export PATH=/home/traap/.fnm:$PATH
+eval "`fnm env`"
