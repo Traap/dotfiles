@@ -27,7 +27,6 @@ createSymLinks() {
     echo "Creating symbolic links."
     mkdir -p ~/.config/bspwm
     mkdir -p ~/.config/sxhkd
-    mkdir -p ~/.config/nvim
     mkdir -p ~/.config/ranger
     ln -fsv ~/git/dotfiles/bash_logout      ~/.bash_logout
     ln -fsv ~/git/dotfiles/bashrc           ~/.bashrc
@@ -77,7 +76,7 @@ deleteSymLinks() {
     rm -fv ~/.tmux
     rm -fv ~/.tmux.conf
     rm -fv ~/.vim
-    rm -fv ~/.config/nvim/init.vim
+    rm -fv ~/.config/nvim
     rm -fv ~/.vimrc
     rm -fv ~/.vimrc_background
 
