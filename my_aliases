@@ -14,8 +14,8 @@ set -o vi
 # -------------------------------------------------------------------------- }}}
 # {{{ latexrun is defined when present.
 
-if fileExists ${HOME}/git/latexrun/latexrun; then
-  alias latexrun='${HOME}/git/latexrun/latexrun'
+if fileExists ${GITHOME}/latexrun/latexrun; then
+  alias latexrun='${GITHOME}/latexrun/latexrun'
 fi
 
 # -------------------------------------------------------------------------- }}}
@@ -36,7 +36,7 @@ fi
 # {{{ General purpose aliases.
 
 alias cls='clear'
-alias encrypt='${HOME}/git/dotfiles/encrypt'
+alias encrypt='${DOTFILESHOME}/encrypt'
 if [[ $(rg '"Ubuntu"' /etc/os-release -c) == 1 ]]; then
   alias fd='fdfind'
   alias fde='fdfind --no-ignore --extension'
@@ -73,11 +73,11 @@ alias np='nvim +PackerSync'
 alias nano='vim'
 alias pacmann='sudo pacman --noconfirm -S'
 alias rbn='sudo reboot now'
-alias sa='source ${HOME}/git/dotfiles/my_aliases'
+alias sa='source ${DOTFILESHOME}/my_aliases'
 alias sdn='sudo shutdown now'
-alias se='source ${HOME}/git/dotfiles/my_exports'
-alias sf='source ${HOME}/git/dotfiles/my_functions'
-alias sp='source ${HOME}/git/dotfiles/my_paths'
+alias se='source ${DOTFILESHOME}/my_exports'
+alias sf='source ${DOTFILESHOME}/my_functions'
+alias sp='source ${DOTFILESHOME}/my_paths'
 alias ssh='ssh -A'
 alias s='source'
 alias ta='tmux attach'
@@ -87,24 +87,24 @@ alias xz='vi -c "let g:tty='\''$(tty)'\''"'
 # -------------------------------------------------------------------------- }}}
 # {{{ Aliases to folders within my Git root.
 
-alias .b='cd ${HOME}/git/dotfiles/bin'
-alias .d='cd ${HOME}/git/dotfiles'
-alias Cd='cd ${HOME}/git/color'
+alias .b='cd ${DOTFILESHOME}/bin'
+alias .d='cd ${DOTFILESHOME}'
+alias Cd='cd ${GITHOME}/color'
 alias Dc='cd ${HOME}/Documents'
 alias Dd='cd ${HOME}/Downloads'
 alias Ld='cd ${HOME}/.local/share/nvim/lsp_servers'
-alias ac='cd ${HOME}/git/AllanConsulting'
-alias bd='cd ${HOME}/git/bootstrap'
-alias gd='cd ${HOME}/git'
-alias hh='cd ${HOME}/git/HowardHouse'
-alias nd='cd ${HOME}/git/nvim'
+alias ac='cd ${GITHOME}/AllanConsulting'
+alias bd='cd ${GITHOME}/bootstrap'
+alias gd='cd ${GITHOME}'
+alias hh='cd ${GITHOME}/HowardHouse'
+alias nd='cd ${GITHOME}/nvim'
 alias pd='cd ${HOME}/.local/share/nvim/site/pack/packer/start'
-alias rd='cd ${HOME}/git/resume'
-alias sd='cd ${HOME}/git/ssh'
-alias td='cd ${HOME}/git/tmux'
-alias vb='cd ${HOME}/git/vim/bundle'
-alias vd='cd ${HOME}/git/vim'
-alias wd='cd ${HOME}/git/wiki'
+alias rd='cd ${GITHOME}/resume'
+alias sd='cd ${GITHOME}/ssh'
+alias td='cd ${GITHOME}/tmux'
+alias vb='cd ${GITHOME}/vim/bundle'
+alias vd='cd ${GITHOME}/vim'
+alias wd='cd ${GITHOME}/wiki'
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Brew wants me to own usr/local
@@ -132,27 +132,27 @@ fi
 # -------------------------------------------------------------------------- }}}
 # {{{ File I edit frequently.
 
-alias ,eb='${EDITOR} ${HOME}/git/dotfiles/bootstrap.vim'
-alias ,ec='${EDITOR} ${HOME}/git/ssh/config.vim'
-alias ,ed='${EDITOR} ${HOME}/git/vim/custom-dictionary.utf-8.add'
-alias ,eg='${EDITOR} ${HOME}/git/ssh/gitconfig'
-alias ,en='${EDITOR} ${HOME}/git/vim/nvim.vim'
-alias ,ep='${EDITOR} ${HOME}/git/vim/plug.vim'
-alias ,em='${EDITOR} ${HOME}/git/vim/minimal-plug.vim'
-alias ,et='${EDITOR} ${HOME}/git/tmux/tmux.conf'
-alias ,ev='${EDITOR} ${HOME}/git/vim/vimrc'
+alias ,eb='${EDITOR} ${DOTFILESHOME}/bootstrap.vim'
+alias ,ec='${EDITOR} ${GITHOME}/ssh/config.vim'
+alias ,ed='${EDITOR} ${GITHOME}/vim/custom-dictionary.utf-8.add'
+alias ,eg='${EDITOR} ${GITHOME}/ssh/gitconfig'
+alias ,en='${EDITOR} ${GITHOME}/vim/nvim.vim'
+alias ,ep='${EDITOR} ${GITHOME}/vim/plug.vim'
+alias ,em='${EDITOR} ${GITHOME}/vim/minimal-plug.vim'
+alias ,et='${EDITOR} ${GITHOME}/tmux/tmux.conf'
+alias ,ev='${EDITOR} ${GITHOME}/vim/vimrc'
 
-alias ,ma='${EDITOR} ${HOME}/git/dotfiles/my_aliases'
-alias ,mb='${EDITOR} ${HOME}/git/dotfiles/bashrc'
-alias ,mc='${EDITOR} ${HOME}/git/dotfiles/my_completions'
-alias ,me='${EDITOR} ${HOME}/git/dotfiles/my_exports'
-alias ,mf='${EDITOR} ${HOME}/git/dotfiles/my_functions'
-alias ,mp='${EDITOR} ${HOME}/git/dotfiles/my_paths'
-alias ,mt='${EDITOR} ${HOME}/git/dotfiles/my_prompt'
-alias ,mz='${EDITOR} ${HOME}/git/dotfiles/bashrc-personal'
+alias ,ma='${EDITOR} ${DOTFILESHOME}/my_aliases'
+alias ,mb='${EDITOR} ${DOTFILESHOME}/bashrc'
+alias ,mc='${EDITOR} ${DOTFILESHOME}/my_completions'
+alias ,me='${EDITOR} ${DOTFILESHOME}/my_exports'
+alias ,mf='${EDITOR} ${DOTFILESHOME}/my_functions'
+alias ,mp='${EDITOR} ${DOTFILESHOME}/my_paths'
+alias ,mt='${EDITOR} ${DOTFILESHOME}/my_prompt'
+alias ,mz='${EDITOR} ${DOTFILESHOME}/bashrc-personal'
 
-alias ,xb='${EDITOR} ${HOME}/git/dotfiles/bspwmrc'
-alias ,xs='${EDITOR} ${HOME}/git/dotfiles/sxhkdrc'
+alias ,xb='${EDITOR} ${DOTFILESHOME}/bspwmrc'
+alias ,xs='${EDITOR} ${DOTFILESHOME}/sxhkdrc'
 
 # -------------------------------------------------------------------------- }}}
 # {{{ tmux sessions I frequently use.

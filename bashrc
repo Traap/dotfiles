@@ -259,19 +259,26 @@ ex ()
 # create a file called .bashrc-personal and put all your personal aliases
 # in there. They will not be overwritten by skel.
 
-[[ -f ~/.bashrc-personal ]] && . ~/.bashrc-personal
+[[ -f $HOME/.config/dotfiles/bashrc-personal ]] && \
+    . $HOME/.config/dotfiles/bashrc-personal
 
 # Other program keep updating my bashrc.  Oh well!
 
-[[ -f /usr/share/fzf/completion.bash ]]   && . /usr/share/fzf/completion.bash
-[[ -f /usr/share/fzf/key-bindings.bash ]] && . /usr/share/fzf/key-bindings.bash
-[[ -f ~/.fzf.bash ]] && source ~/.fzf.bash
-[[ -f $HOME/.config/lua-language-server/3rd/luamake/luamake ]] \
-   && alias luamake=$HOME/.config/lua-language-server/3rd/luamake/luamake
+[[ -f /usr/share/fzf/completion.bash ]]  && \
+    . /usr/share/fzf/completion.bash
+
+[[ -f /usr/share/fzf/key-bindings.bash ]] && \
+    . /usr/share/fzf/key-bindings.bash
+
+[[ -f ~/.fzf.bash ]] && \
+    . ~/.fzf.bash
+
+[[ -f $HOME/.config/lua-language-server/3rd/luamake/luamake ]] && \
+      alias luamake=$HOME/.config/lua-language-server/3rd/luamake/luamake
 
 # -------------------------------------------------------------------------- }}}
 
 export PATH=$PATH:/home/traap/bin
 
-[[ -f /home/traap/lib/azure-cli/az.completion ]] &&  \
-    . /home/traap/lib/azure-cli/az.completion
+[[ -f $HOME/lib/azure-cli/az.completion ]] && \
+    . $HOME/lib/azure-cli/az.completion

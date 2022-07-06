@@ -6,6 +6,24 @@
 echo ${HOSTNAME} "running" ${OSTYPE}
 
 # -------------------------------------------------------------------------- }}}
+# {{{ Top level exports I used throughout all my scripts.
+
+BBHOME=${HOME}/bb
+export BBHOME
+
+DOTFILESHOME=${HOME}/.config/dotfiles
+export DOTFILESHOME
+
+GITHOME=${HOME}/git
+export GITHOME
+
+GITPATH=${GITHOME}
+export GITPATH
+
+SOUPHOME=${HOME}/soup
+export=SOUPHOME
+
+# -------------------------------------------------------------------------- }}}
 # {{{ Disable ctrl-s and ctrl-q
 
 stty -ixon
@@ -31,13 +49,10 @@ fi
 # -------------------------------------------------------------------------- }}}
 # {{{ Customize my bash experience.
 
-# Define functions and paths for this shell.
-dotfiles=${HOME}/git/dotfiles
-
 # Customize my shell.
 my_array=("functions" "exports" "aliases" "paths" "completions" "prompt" )
 for m in ${my_array[@]}; do
-  x=$dotfiles/my_$m
+  x=${DOTFILESHOME}/my_$m
   source $x
 done
 

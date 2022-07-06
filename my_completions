@@ -1,7 +1,6 @@
-#        !/bin/bash
-# ------------------------------------------------------------------------------
-# Brew => https://brew.sh/
-# ------------------------------------------------------------------------------
+#!/bin/bash
+# {{{ Brew => https://brew.sh/
+
 if osType "darwin"; then
   if [[ -f $(brew --prefix)/etc/bash_completion ]]; then
     . $(brew --prefix)/etc/bash_completion
@@ -14,25 +13,27 @@ else
   fi
 fi
 
-# ------------------------------------------------------------------------------
-# iTerm2 shell integration => https://www.iterm2.com/
-# ------------------------------------------------------------------------------
+# -------------------------------------------------------------------------- }}}
+# {{{ iTerm2 shell integration => https://www.iterm2.com/
+
 if osType "darwin"; then
   if fileExists ${HOME}/.iterm2_shell_integration.bash; then
     source ${HOME}/.iterm2_shell_integration.bash
   fi
 fi
 
-# ------------------------------------------------------------------------------
-# Travis integration
-# ------------------------------------------------------------------------------
+# -------------------------------------------------------------------------- }}}
+# {{{ Travis integration
+
 if fileExists ${HOME}.travis/travis.sh; then
   source ${HOME}.travis/travis.sh
 fi
 
-# ------------------------------------------------------------------------------
-# Stack specific settings.
-# ------------------------------------------------------------------------------
+# -------------------------------------------------------------------------- }}}
+# {{{ Stack specific settings.
+
 if fileExists /usr/local/bin/stack; then
   eval "$(stack --bash-completion-script stack)"
 fi
+
+# -------------------------------------------------------------------------- }}}

@@ -1,7 +1,7 @@
 #!/bin/bash
 # {{{ Set base16 color.  Mom and Dad functions are a simple tribute to my parents.
 
-base16Root=${HOME}/git/color/base16-shell
+base16Root=${GITHOME}/color/base16-shell
 mom() {
   base16Color $1 dark
 }
@@ -113,8 +113,8 @@ title() { echo -n -e "\033]0;$1\007"; }
 
 sshkeys() {
   eval "$(ssh-agent -s)"
-  for key in $(ls ~/git/ssh/*.pub); do
-    ssh-add -q "${key%%.*}"
+  for key in $(ls $HOME/.ssh/*.pub); do 
+    ssh-add -q "${key%.*}"
   done;
 }
 
@@ -156,15 +156,15 @@ sshstop() {
   fi
 }
 
-# {{{ Base16 Shell
 # -------------------------------------------------------------------------- }}}
+# {{{ Base16 Shell
 
 BASE16_SHELL=$HOME/git/color/base16-shell/
 [[ -n $PS1 ]] && [[ -s $BASE16_SHELL/profile_helper.sh ]] && \
   eval "$($BASE16_SHELL/profile_helper.sh)"
 
-# {{{ Make okular shut up on Windows.
 # -------------------------------------------------------------------------- }}}
+# {{{ Make okular shut up on Windows.
 
 okular() {
   /c/ProgramData/chocolatey/bin/okular.exe $1 > /dev/null 2>&1
@@ -188,10 +188,11 @@ repeat() {
   done
 }
 
+# -------------------------------------------------------------------------- }}}
 # {{{ Cxx helper to simplify CxxTest use for C++ software.
 
 cxx() {
-  ${HOME}/git/cxxtest/bin/cxxtestgen --error-printer -o Test$1.cpp Test$1.h
+  ${GITHOME}/cxxtest/bin/cxxtestgen --error-printer -o Test$1.cpp Test$1.h
   g++ -w -o Test$1 Test$1.cpp
   ./Test$1
   rm Test$1.cpp
@@ -246,13 +247,13 @@ bld() {
       bldgem ${AMBERPATH}
       ;;
     emend)
-      bldgem ${HOME}/git/emend
+      bldgem ${GITHOME}/emend
       ;;
     daryn)
-      bldgem ${HOME}/git/daryn
+      bldgem ${GITHOME}/daryn
       ;;
     ametrine)
-      bldgem ${HOME}/git/ametrine
+      bldgem ${GITHOME}/ametrine
       ;;
     *)
       echo "bld: $1 not supported."
@@ -286,14 +287,14 @@ requirements() {
 }
 
 validate-git-client() {
-  cd ${HOME}/git/tool-validation/git-client
+  cd ${GITHOME}/tool-validation/git-client
   rm -rf _build/ test-ouput/
   amber --nodryrun --environment --verbose --plan=command-line
   docbld
 }
 
 validate-git-gui() {
-  cd ${HOME}/git/tool-validation/git-client
+  cd ${GITHOME}/tool-validation/git-client
   rm -rf _build/ test-ouput/
   amber --nodryrun --environment --verbose --plan=command-line \
         --language=en --browser=Chrome

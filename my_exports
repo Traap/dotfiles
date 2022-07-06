@@ -17,12 +17,12 @@ fi
 # -------------------------------------------------------------------------- }}}
 # {{{ amber location.
 
-if dirExists ${HOME}/git/amber; then
-   AMBERPATH=${HOME}/git/amber
-elif dirExists ${HOME}/bb/amber; then
-     AMBERPATH=${HOME}/bb/amber
-elif dirExists ${HOME}/soup/amber; then
-     AMBERPATH=${HOME}/soup/amber
+if dirExists ${GITHOME}/amber; then
+   AMBERPATH=${GITHOME}/amber
+elif dirExists ${BBHOME}/amber; then
+     AMBERPATH=${BBHOME}/amber
+elif dirExists ${SOUPHOME}/amber; then
+     AMBERPATH=${SOUPHOME}/amber
 else
   AMBERPATH=""
   [[ $echoWarning == 1 ]] && echo "WARNING: amber is not installed."
@@ -38,12 +38,12 @@ fi
 # -------------------------------------------------------------------------- }}}
 # {{{ autodoc location.
 
-if  dirExists ${HOME}/git/autodoc; then
-  AUTODOCPATH=${HOME}/git/autodoc
-elif dirExists ${HOME}/bb/autodoc; then
-   AUTODOCPATH=${HOME}/bb/autodoc
-elif dirExists ${HOME}/soup/autodoc; then
-   AUTODOCPATH=${HOME}/soup/autodoc
+if  dirExists ${GITHOME}/autodoc; then
+  AUTODOCPATH=${GITHOME}/autodoc
+elif dirExists ${BBHOME}/autodoc; then
+   AUTODOCPATH=${BBHOME}/autodoc
+elif dirExists ${SOUPHOME}/autodoc; then
+   AUTODOCPATH=${SOUPHOME}/autodoc
 else
   [[ $echoWarning == 1 ]] && echo "WARNING: autodoc is not installed."
   AUTODOCPATH=""
@@ -53,12 +53,12 @@ export AUTODOCPATH
 # -------------------------------------------------------------------------- }}}
 # {{{ docbld location and function.  These must go together.
 
-if dirExists ${HOME}/git/docbld; then
-  DOCBLDPATH=${HOME}/git/docbld
-elif dirExists ${HOME}/bb/docbld; then
-    DOCBLDPATH=${HOME}/bb/docbld
-elif dirExists ${HOME}/soup/docbld; then
-    DOCBLDPATH=${HOME}/soup/docbld
+if dirExists ${GITHOME}/docbld; then
+  DOCBLDPATH=${GITHOME}/docbld
+elif dirExists ${BBHOME}/docbld; then
+    DOCBLDPATH=${BBHOME}/docbld
+elif dirExists ${SOUPHOME}/docbld; then
+    DOCBLDPATH=${SOUPHOME}/docbld
 else
   [[ $echoWarning == 1 ]] && echo "WARNING: docbld is not installed."
   DOCBLDPATH=""
@@ -68,12 +68,12 @@ export DOCBLDPATH
 # -------------------------------------------------------------------------- }}}
 # {{{ emend location.
 
-if dirExists ${HOME}/git/emend; then
-   EMENDPATH=${HOME}/git/emend
-elif dirExists ${HOME}/bb/emend; then
-     EMENDPATH=${HOME}/bb/emend
-elif dirExists ${HOME}/soup/emend; then
-     EMENDPATH=${HOME}/soup/emend
+if dirExists ${GITHOME}/emend; then
+   EMENDPATH=${GITHOME}/emend
+elif dirExists ${BBHOME}/emend; then
+     EMENDPATH=${BBHOME}/emend
+elif dirExists ${SOUPHOME}/emend; then
+     EMENDPATH=${SOUPHOME}/emend
 else
   EMENDPATH=""
   [[ $echoWarning == 1 ]] && echo "WARNING: emend is not installed."
@@ -103,8 +103,8 @@ export EDITOR
 # -------------------------------------------------------------------------- }}}
 # {{{ emend location and function.  These must go together.
 
-if dirExists ${HOME}/git/emend; then
-  EMENDPATH=${HOME}/git/emend
+if dirExists ${GITHOME}/emend; then
+   EMENDPATH=${GITHOME}/emend
 else
   EMENDPATH=""
 fi
@@ -122,15 +122,6 @@ fi
 export FZF_DEFAULT_COMMAND='rg --files --no-ignore-vcs --hidden'
 
 # -------------------------------------------------------------------------- }}}
-# {{{ GITPATH is root directory I use for all git clone operations.
-
-if dirExists ${HOME}/git; then
-  export GITPATH=${HOME}/git
-else
-  echo "WARNING: ${HOME}/git does not exists."
-fi
-
-# -------------------------------------------------------------------------- }}}
 # {{{ HISTCONTROL
 
 export HISTCONTROL=ignoreboth:erasedups
@@ -146,12 +137,12 @@ fi
 # -------------------------------------------------------------------------- }}}
 # {{{ newdoc location and functions.  These must go together.
 
-if dirExists ${HOME}/git/newdoc; then
-  NEWDOCPATH=${HOME}/git/newdoc
-elif dirExists ${HOME}/bb/newdoc; then
-    NEWDOCPATH=${HOME}/bb/newdoc
-elif dirExists ${HOME}/soup/newdoc; then
-    NEWDOCPATH=${HOME}/soup/newdoc
+if dirExists ${GITHOME}/newdoc; then
+   NEWDOCPATH=${GITHOME}/newdoc
+elif dirExists ${BBHOME}/newdoc; then
+   NEWDOCPATH=${BBHOME}/newdoc
+elif dirExists ${SOUPHOME}/newdoc; then
+    NEWDOCPATH=${SOUPHOME}/newdoc
 else
    [[ $echoWarning == 1 ]] && echo "WARNING: newdoc is not installed."
   NEWDOCPATH=""
