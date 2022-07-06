@@ -11,8 +11,13 @@ echo ${HOSTNAME} "running" ${OSTYPE}
 BBHOME=${HOME}/bb
 export BBHOME
 
-DOTFILESHOME=${HOME}/.config/dotfiles
-export DOTFILESHOME
+if [[ -f $HOME/git/dotfiles/bashrc-personal ]]; then
+  DOTFILESHOME=${HOME}/git/dotfiles
+  export DOTFILESHOME
+elif [[ -f $HOME/.config/bashrc-personal ]]; then
+  DOTFILESHOME=${HOME}/.config/dotfiles
+  export DOTFILESHOME
+fi
 
 GITHOME=${HOME}/git
 export GITHOME
