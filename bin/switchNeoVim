@@ -68,6 +68,10 @@ case $1 in
     removePackerPackages
     ln -fsv ~/git/NeoVim-from-scratch ~/.config/nvim
     ;;
+  vapour)
+    removePackerPackages
+    ln -fsv ~/git/VapourNvim ~/.config/nvim
+    ;;
   *)
 esac
 
