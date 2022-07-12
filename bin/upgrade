@@ -33,7 +33,6 @@ elif programExists pacman; then
 
   # Update node packages.
   sayAndDo 'sudo npm update --global'
-  sayAndDo 'sudo npm audit fix'
 
 else
   echo "WARNING: Unknown package management system."

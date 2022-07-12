@@ -1,0 +1,4 @@
+#!/bin/bash
+packages=(nodejs npm node-gyp nodejs-nopt semver yarn)
+sudo pacman -R  --noconfirm ${packages[@]} && sudo rm -rf /usr/lib/node_modules/
+sudo pacman -Sy --noconfirm ${packages[@]}

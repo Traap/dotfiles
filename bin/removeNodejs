@@ -1,2 +1,0 @@
-#!/bin/bash
-sudo pacman -R nodejs npm node-gyp nodejs-nopt semver yarn && sudo rm -rf /usr/lib/node_modules/
