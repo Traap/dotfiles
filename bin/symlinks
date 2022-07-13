@@ -36,13 +36,13 @@ createSymLinks() {
     ln -fsv ~/git/dotfiles/gitignore_global ~/.gitignore_global
     ln -fsv ~/git/dotfiles/inputrc          ~/.inputrc
     ln -fsv ~/git/dotfiles/latexmkrc        ~/.latexmkrc
-    ln -fsv ~/git/dotfiles/minttyrc         ~/.minttyrc
+    ln -fsv ~/git/mutt/muttrc               ~/.muttrc
+    ln -fsv ~/git/nvim                      ~/.config/nvim
     ln -fsv ~/git/ssh                       ~/.ssh
     ln -fsv ~/git/ssh/config.vim            ~/.config.vim
     ln -fsv ~/git/tmux                      ~/.tmux
     ln -fsv ~/git/tmux/tmux.conf            ~/.tmux.conf
     ln -fsv ~/git/vim                       ~/.vim
-    ln -fsv ~/git/nvim                      ~/.config/nvim
     ln -fsv ~/git/vim/vimrc                 ~/.vimrc
     ln -fsv ~/git/vim/vimrc_background      ~/.vimrc_background
 
@@ -70,7 +70,7 @@ deleteSymLinks() {
     rm -fv ~/.gitignore_global
     rm -fv ~/.inputrc
     rm -fv ~/.latexmkrc
-    rm -fv ~/.minttyrc
+    rm -fv ~/.muttrc
     rm -fv ~/.ssh
     rm -fv ~/.config.vim
     rm -fv ~/.tmux
