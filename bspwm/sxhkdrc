@@ -46,10 +46,10 @@ super + w
   brave
 
 super + x
- xfce4-terminal --title=Weather --exec=weather --hold
+ alacritty --title=Weather --exec=weather --hold
 
-super + z
- xfce4-terminal --title='htop task manager' --exec=htop --hold
+supe + z
+ alacritty --title='htop task manager' --exec=htop --hold
 
 super + BackSpace
   bspc monitor -f next
@@ -58,7 +58,7 @@ super + bracket{left,right}
   bspc config -d focused window_gap $((`bspc config -d focused window_gap` {-,+} 1))
 
 super + Return
-  xfce4-terminal
+  alacritty
 
 super + slash
   sxhkd-help
@@ -105,7 +105,7 @@ super + ctrl + {_, shift +}{1-9}
 # {{{ super + shift +
 
 super + shift + b
- xfce4-terminal --title=bspwmrc --exec=editBspWmRc
+ alacritty --title=bspwmrc --exec=editBspWmRc
 
 super + shift + d
   dmenu_run -i -nb '#191919' -nf '#fea63c' -sb '#fea63c' -sf '#191919' -fn 'NotoMonoRegular:bold:pixelsize=14'
@@ -114,7 +114,7 @@ super + shift + r
   pkill -usr1 -x sxhkd; notify-send 'sxhkd' 'Reloaded config'
 
 super + shift + s
- exec xfce4-terminal --title=sxhkdrc --exec=editSxhKdRc
+ exec alacritty --title=sxhkdrc --exec=editSxhKdRc
 
 # super + shift + x
 #   bspc quit
@@ -251,7 +251,7 @@ alt + Tab
 # {{{ ctrl
 
 ctrl + Return
-  xfce4-terminal
+  alacritty
 
 # -------------------------------------------------------------------------- }}}
 # {{{ ctrl + shift +
@@ -278,7 +278,7 @@ Print
   scrot 'ArcoLinux-%Y-%m-%d-%s_screenshot_$wx$h.jpg' -e 'mv $f $$(xdg-user-dir PICTURES)'
 
 F12
-  xfce4-terminal --drop-down
+  alacritty --drop-down
 
 XF86AudioRaiseVolume
   amixer set Master 10%+
