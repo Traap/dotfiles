@@ -42,6 +42,7 @@ bspc rule -a Gnome-disks state=tiled
 bspc rule -a Xfce4-settings-manager state=tiled
 
 # open applications on specific workspaces
-bspc rule -a discord desktop='^4'
-bspc rule -a Slack   desktop='^5' follow=on
-bspc rule -a teams   desktop='^5' follow=on
+bspc rule -a discord desktop='^2'
+bspc rule -a Slack   desktop='^2' follow=on
+bspc rule -a teams   desktop='^3' follow=on
+bspc rule -a thunderbird   desktop='^3' follow=on
