@@ -51,8 +51,8 @@ createSymLinks() {
       ln -fsv ~/git/dotfiles/bspwm/bspwmrc       ~/.config/bspwm/bspwmrc
       ln -fsv ~/git/dotfiles/bspwm/sxhkdrc       ~/.config/bspwm/sxhkd/sxhkdrc
       ln -fsv ~/git/dotfiles/ranger/rc.conf      ~/.config/ranger/rc.conf
-      ln -fsv ~/git/mutt                      ~/.mailcap
-      ln -fsv ~/git/mutt/muttrc               ~/.muttrc
+      ln -fsv ~/git/mutt/mailcap                 ~/.mailcap
+      ln -fsv ~/git/mutt/muttrc                  ~/.muttrc
     fi
   fi
 }
