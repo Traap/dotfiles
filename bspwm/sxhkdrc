@@ -105,19 +105,14 @@ super + ctrl + {_, shift +}{1-9}
 # {{{ super + shift +
 
 super + shift + b
- alacritty --title=bspwmrc --exec=editBspWmRc
+  pkill -usr1 -x sxhkd; notify-send 'sxhkd' 'Reloaded config'; \
+  bspc wm --restart;    notify-send 'bspwm' 'Releaded config'
 
 super + shift + d
   dmenu_run -i -nb '#191919' -nf '#fea63c' -sb '#fea63c' -sf '#191919' -fn 'NotoMonoRegular:bold:pixelsize=14'
 
-super + shift + r
-  pkill -usr1 -x sxhkd; notify-send 'sxhkd' 'Reloaded config'
-
 super + shift + s
- exec alacritty --title=sxhkdrc --exec=editSxhKdRc
-
-# super + shift + x
-#   bspc quit
+  pkill -usr1 -x sxhkd; notify-send 'sxhkd' 'Reloaded config'
 
 super + shift + {h,j,k,l}
   bspc node --focus --swap {west, south, north, east}
@@ -270,6 +265,10 @@ ctrl + shift + s
 
 ctrl + shift + t
   teams
+
+ctrl + shift + z
+  teams;       notify-send 'Teams' 'Started'; \
+  thunderbird; notify-send 'Thunderbird' 'Started'
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Function keys

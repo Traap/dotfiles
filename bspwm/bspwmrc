@@ -43,6 +43,6 @@ bspc rule -a Xfce4-settings-manager state=tiled
 
 # open applications on specific workspaces
 bspc rule -a discord desktop='^2'
-bspc rule -a Slack   desktop='^2' follow=on
-bspc rule -a teams   desktop='^3' follow=on
-bspc rule -a thunderbird   desktop='^3' follow=on
+bspc rule -a Slack   desktop='^2'         follow=on
+bspc rule -a "Microsoft Teams - Preview"  desktop='^10'
+bspc rule -a Thunderbird   desktop='^9'
