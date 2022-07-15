@@ -37,6 +37,9 @@ bspc rule -a Arandr state=floating
 bspc rule -a Arcolinux-tweak-tool.py state=floating
 bspc rule -a Arcolinux-welcome-app.py state=floating
 bspc rule -a xfce4-settings-manager state=floating
+bspc rule -a brave state=floating
+bspc rule -a alacritty state=floating
+bspc rule -a xfce4-terminal state=floating
 
 # Tiled applications
 bspc rule -a Gnome-disks state=tiled
