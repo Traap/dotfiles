@@ -7,10 +7,11 @@ super + {1-9, 0}
 
 # Move window to selected desktop FOR QWERTY KEYBOARDS
 super + shift + {1-9, 0}
-  id=$(bspc query -N -n); bspc node -d '^{1-9, 10}'; bspc node -f ${id}}
+  id=$(bspc query -N -n); \
+  bspc node -d '^{1-9, 10}'; \
+  bspc node -f ${id}}
 
 super + a
-  apple-keyboard-hack
 
 super + b
   polybar-msg cmd toggle
@@ -64,7 +65,7 @@ super + slash
   sxhkd-help
 
 super + space
-  bspc node -t {tiled, pseudo_tiled, floating, fullscreen}
+  bspc node -t {floating, fullscreen, tiled, pseudo_tiled}
 
 # -------------------------------------------------------------------------- }}}
 # {{{ super + alt + ctrl + shift +
@@ -145,7 +146,7 @@ alt + Down
   variety --resume
 
 alt + F2
-  gmrun
+  dmenu
 
 alt + F3
   xfce4-appfinder
@@ -260,6 +261,9 @@ ctrl + shift + d
 ctrl + shift + m
   xfce4-taskmanager
 
+ctrl + shift + r
+  remmina
+
 ctrl + shift + s
   slack
 
@@ -269,7 +273,6 @@ ctrl + shift + t
 ctrl + shift + z
   teams;       notify-send 'Teams' 'Started'; \
   thunderbird; notify-send 'Thunderbird' 'Started'; \
-  bashtop;
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Function keys
