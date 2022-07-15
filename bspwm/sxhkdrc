@@ -59,7 +59,7 @@ super + bracket{left,right}
   bspc config -d focused window_gap $((`bspc config -d focused window_gap` {-,+} 1))
 
 super + Return
-  alacritty
+  xfce4-terminal
 
 super + slash
   sxhkd-help
@@ -145,8 +145,11 @@ alt + Up
 alt + Down
   variety --resume
 
+alt + F1
+  xfce4-taskmanager
+
 alt + F2
-  dmenu
+  dmenu_run -i -nb '#191919' -nf '#fea63c' -sb '#fea63c' -sf '#191919' -fn 'NotoMonoRegular:bold:pixelsize=14'
 
 alt + F3
   xfce4-appfinder
@@ -272,7 +275,7 @@ ctrl + shift + t
 
 ctrl + shift + z
   teams;       notify-send 'Teams' 'Started'; \
-  thunderbird; notify-send 'Thunderbird' 'Started'; \
+  thunderbird; notify-send 'Thunderbird' 'Started'
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Function keys
