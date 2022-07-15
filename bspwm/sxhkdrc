@@ -268,7 +268,8 @@ ctrl + shift + t
 
 ctrl + shift + z
   teams;       notify-send 'Teams' 'Started'; \
-  thunderbird; notify-send 'Thunderbird' 'Started'
+  thunderbird; notify-send 'Thunderbird' 'Started'; \
+  bashtop;
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Function keys

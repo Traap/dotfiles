@@ -24,4 +24,9 @@ run blueberry-tray &
 picom --config $HOME/.config/bspwm/picom.conf &
 /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
 /usr/lib/xfce4/notifyd/xfce4-notifyd &
+
+# Turn off numlock, swap Cap Lock and Escape keys, and left-handed mouse.
 run volumeicon &
+run numlockx off&
+run setxkbmap -option caps:swapescape&
+xmodmap -e "pointer = 3 2 1 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 4 5"

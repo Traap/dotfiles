@@ -39,19 +39,6 @@ stty -ixon
 HISTSIZE= HISTFILESIZE=
 
 # -------------------------------------------------------------------------- }}}
-# {{{ ArchLinux specific keyboard setting.
-
-# Turn off numlock and swap Cap Lock && Escape keys on Arch Linux
-
-if [[ $(uname -r) =~ 'arch' || $(uname -r) =~ 'lts' ]]; then
-  numlockx off
-  # TODO; Using lspci & rg to check VirtualBox is slow.
-  # if [[ $(lspci -nn | rg VirtualBox -c) == '' ]]; then
-    setxkbmap -option caps:swapescape
-  # fi
-fi
-
-# -------------------------------------------------------------------------- }}}
 # {{{ Customize my bash experience.
 
 # Customize my shell.
