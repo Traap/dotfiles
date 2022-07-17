@@ -1,39 +1,71 @@
 #!/bin/bash
-# ------------------------------------------------------------------------------
-# Update everything
-# ------------------------------------------------------------------------------
-
-sayAndDo() {
-    echo '********************'
-    echo $1
-    $1
-    echo
+# {{{ function: Tell them what is about to happen and do it.
+say() {
+  echo '********************'
+  echo $@
 }
 
-if programExists apt-get; then
+sayAndDo() {
+  say $@
+  $@
+  echo
+}
 
-  sudo apt-get -y upgrade && \
-  sudo apt-get -y update  && \
-  sudo gem update --system --no-document && \
-  sudo npm install --global && \
-  echo "System updated." || echo "Error:  System update failed."
+# -------------------------------------------------------------------------- }}}
+# {{{ function: Update system-wide Ruby gems using gem.
 
-elif programExists pacman; then
-  # Use all cores.
-  if fileExists ~/.bin/main/000*; then
-     sh ~/.bin/main/000*
+updateRubyGems() {
+  sayAndDo "sudo gem update --system --no-document"
+}
+
+# -------------------------------------------------------------------------- }}}
+# {{{ function: Update system-wide Node packages using npm.
+
+updateNode() {
+  sayAndDo "sudo npm update --global"
+}
+
+# -------------------------------------------------------------------------- }}}
+# {{{ function: Update system-wide Python packages using pip3.
+
+updatePython() {
+  say "Checking Python for updates."
+
+  if [[ -s $(pip3 list --outdated) ]]; then
+    cmd="pip3 list --outdated --format=freeze | grep -v '^\-e' | cut -d = -f 1 | xargs -n1 pip3 install -U"
+    echo $cmd
+    pip3 list --outdated --format=freeze | grep -v '^\-e' | cut -d = -f 1 | xargs -n1 pip3 install -U
+  else
+    echo "Python is already upto date."
+  fi
+}
+
+# -------------------------------------------------------------------------- }}}
+# {{{ function: Update operating system packages useing apt-get or yay.
+upgrade() {
+  if programExists apt-get; then
+
+    sayAndDo "sudo apt-get -y upgrade"
+    sayAndDo "sudo apt-get -y update"
+    sayAndDo "sudo npm install --global"
+
+  elif programExists pacman; then
+    # Use all cores.
+    if fileExists ~/.bin/main/000*; then
+      sh ~/.bin/main/000*
+    fi
+
+    # Update archlinux and community packages.
+    sayAndDo "yay -Syu --noconfirm"
+  else
+    echo "WARNING: Unknown package management system."
+    exit
   fi
 
-  # Update archlinux and community packages.
-  sayAndDo 'yay -Syu --noconfirm'
+  updateRubyGems
+  updateNode
+  updatePython
+}
 
-  # Updage Ruby gems
-  sayAndDo 'gem update --system --no-document'
-  sayAndDo 'gem update --no-document'
-
-  # Update node packages.
-  sayAndDo 'sudo npm update --global'
-
-else
-  echo "WARNING: Unknown package management system."
-fi
+# -------------------------------------------------------------------------- }}}
+upgrade "$@"
