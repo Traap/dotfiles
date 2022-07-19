@@ -33,20 +33,28 @@ bspc config focused_border_color	"# 5e81ac"
 bspc config presel_feedback_color	"# 5e81ac"
 
 # Floating applications
-bspc rule -a Arandr state=floating
-bspc rule -a Arcolinux-tweak-tool.py state=floating
+bspc rule -a Arandr                   state=floating
+bspc rule -a Arcolinux-tweak-tool.py  state=floating
 bspc rule -a Arcolinux-welcome-app.py state=floating
-bspc rule -a xfce4-settings-manager state=floating
-bspc rule -a brave state=floating
-bspc rule -a alacritty state=floating
-bspc rule -a xfce4-terminal state=floating
+bspc rule -a alacritty                state=floating
+bspc rule -a brave                    state=floating
+bspc rule -a xfce4-settings-manager   state=floating
+bspc rule -a xfce4-terminal           state=floating
 
 # Tiled applications
 bspc rule -a Gnome-disks state=tiled
 bspc rule -a Xfce4-settings-manager state=tiled
 
 # open applications on specific workspaces
+bspc rule -a "Microsoft Teams - Preview" desktop='^1'
+bspc rule -a Thunderbird                 desktop='^1'
+
 bspc rule -a discord desktop='^2'
 bspc rule -a Slack   desktop='^2'
-bspc rule -a "Microsoft Teams - Preview"  desktop='^1'
-bspc rule -a Thunderbird desktop='^1'
+
+bspc rule -a onlyoffice-desktopeditors desktop='^3'
+
+bspc rule -a osb            desktop='^4'
+bspc rule -a osb-ffmpeg-mux desktop='^4'
+
+bspc rule -a dbeaver  desktop='^0'

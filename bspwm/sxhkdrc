@@ -39,7 +39,10 @@ super + t
   Thunar
 
 super + v
-   simplescreenrecorder
+   obs
+
+super + y
+   obs-ffmpeg-mux
 
 super + w
   brave
@@ -253,6 +256,9 @@ ctrl + Return
 # -------------------------------------------------------------------------- }}}
 # {{{ ctrl + shift +
 
+ctrl + shift + b
+  dbeaver
+
 ctrl + shift + e
   thunderbird
 
@@ -261,6 +267,9 @@ ctrl + shift + d
 
 ctrl + shift + m
   xfce4-taskmanager
+
+ctrl + shift + o
+   onlyoffice-desktopeditors
 
 ctrl + shift + r
   remmina
