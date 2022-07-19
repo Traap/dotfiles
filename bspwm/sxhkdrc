@@ -11,13 +11,14 @@ super + shift + {1-9, 0}
   bspc node -d '^{1-9, 10}'; \
   bspc node -f ${id}}
 
-super + a
-
 super + b
   polybar-msg cmd toggle
 
 super + c
   conky-toggle
+
+super + d
+  rofi-theme-selector
 
 super + f
   bspc node --state \~fullscreen
@@ -30,9 +31,6 @@ super + p
 
 super + q
   bspc node -c
-
-super + r
-  rofi-theme-selector
 
 super + s
   xfce4-screenshooter
@@ -130,7 +128,7 @@ alt + {h,j,k,l}
 alt + f
   variety --favorite
 
-alt + t
+  alt + t
   variety --trash
 
 alt + right
