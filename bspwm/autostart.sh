@@ -7,28 +7,28 @@ function run {
   fi
 }
 
+# bspwm specificc
 $HOME/.config/polybar/launch.sh &
-
-
-dex $HOME/.config/autostart/arcolinux-welcome-app.desktop
-run xsetroot -cursor_name left_ptr &
-run sxhkd -c ~/.config/bspwm/sxhkd/sxhkdrc &
-
+picom --config $HOME/.config/bspwm/picom.conf &
+run /usr/lib/xfce4/notifyd/xfce4-notifyd &
 run conky -c $HOME/.config/bspwm/system-overview &
+
+# Common to my window managers.
+run /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
+run dex $HOME/.config/autostart/arcolinux-welcome-app.desktop
+run blueberry-tray &
 run nm-applet &
 run pamac-tray &
+run volumeicon &
 run xfce4-power-manager &
 
-run blueberry-tray &
-picom --config $HOME/.config/bspwm/picom.conf &
-/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
-/usr/lib/xfce4/notifyd/xfce4-notifyd &
-
 # Turn off numlock, swap Cap Lock and Escape keys, and left-handed mouse.
-run volumeicon  &
 run numlockx off &
 run setxkbmap -option caps:swapescape &
 xmodmap -e "pointer = 3 2 1 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 4 5"
 
-#!/bin/bash
+# Simple wallpape.
 feh --bg-scale --slideshow-delay 900 ~/.config/wallpaper/. &
+
+# Keybindings.
+run sxhkd -c ~/.config/bspwm/sxhkd/sxhkdrc &
