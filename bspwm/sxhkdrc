@@ -41,9 +41,6 @@ super + t
 super + v
    obs
 
-super + y
-   obs-ffmpeg-mux
-
 super + w
   brave
 
