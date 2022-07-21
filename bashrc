@@ -260,10 +260,7 @@ ex ()
 # in there. They will not be overwritten by skel.
 
 [[ -f $HOME/git/dotfiles/bashrc-personal ]]     && \
-    . $HOME/git/dotfiles/bashrc-personal        || \
-[[ -f $HOME/.config/dotfiles/bashrc-personal ]] && \
-    . $HOME/.config/dotfiles/bashrc-personal
-
+    . $HOME/git/dotfiles/bashrc-personal
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Other program keep updating my bashrc.  Oh well!
