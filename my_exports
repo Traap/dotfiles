@@ -156,13 +156,6 @@ if [[ -d ${NEWDOCPATH} ]]; then
 fi
 
 # -------------------------------------------------------------------------- }}}
-# {{{ X11 display type.
-
-if osType "linux"; then
-  export DISPLAY=:0
-fi
-
-# -------------------------------------------------------------------------- }}}
 # {{{ Lock my Windows environment variables.  Don't ask, Don't tell!!!
 
 if osType "msys"; then
