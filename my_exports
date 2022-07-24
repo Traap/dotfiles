@@ -1,7 +1,17 @@
 #!/bin/bash
 # {{{ Default Browers, File Manager, and 256 colors.
 
-export BROWSER=brave
+if programExists brave-browser; then
+  export BROWSER=$(which brave-browser)
+elif programExists brave; then
+  export BROWSER=$(which brave)
+elif programExists chrome; then
+  export BROWSER=$(which chrome)
+elif programExists firefox; then
+  export BROWSER=$(which firefox)
+else
+  export BROWSER=""
+fi
 export FILE=ranger
 export TERM=xterm-256color
 echoWarning=0
