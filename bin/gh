@@ -1,0 +1,71 @@
+#!/bin/bash
+# {{{ Program overview.
+#
+# Name:
+#   gr
+#
+# Purpose:
+#   Clone or pull a Git repository using HTTPS or GIT protocol.
+#
+# Arguments:
+#   1 - repository to clone
+#   2 - use HTTPS versus GIT protocol when present.
+#
+# Use:
+#   gr foo
+#   gr bar httpsi
+#
+#   Note:  any 2nd argument uses https
+#
+# -------------------------------------------------------------------------- }}}
+# {{{ Say and Do the command provided.
+# Arguments:
+#   1 - the command provided.
+
+sayAndDo() {
+  echo ${1}
+  ${1}
+}
+
+# -------------------------------------------------------------------------- }}}
+# {{{ Capture current directory.
+
+dir=$(pwd)
+
+# -------------------------------------------------------------------------- }}}
+# {{{ Determine when a clone or pull is needed.
+
+if [ -d ${1} ]; then
+  operation=pull
+else
+  operation=clone
+fi
+
+# -------------------------------------------------------------------------- }}}
+# {{{ Use HTTPS to clone from GitHub
+
+protocol=https://github.com/${1}
+
+# -------------------------------------------------------------------------- }}}
+# {{{ Do the clone or pull operation.
+
+if [ ${operation} = 'pull' ]; then
+  cd ${1}
+  sayAndDo "git $operation"
+  cd ${dir}
+else
+  sayAndDo "git $operation $protocol"
+fi
+
+# -------------------------------------------------------------------------- }}}
+# {{{ Get all tags.
+
+cd ${1}
+sayAndDo "git fetch --all --tags"
+
+# -------------------------------------------------------------------------- }}}
+# {{{ Restore the orginal directory.
+
+cd ${dir}
+
+# -------------------------------------------------------------------------- }}}
