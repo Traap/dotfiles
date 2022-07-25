@@ -1,4 +1,3 @@
 #!/bin/bash
 # ------------------------------------------------------------------------------
-echo $SSH_AGENT_PID
-kill $SSH_AGENT_PID
+killall -q ssh-agent

@@ -1,5 +1,31 @@
 # super is the OS key: Apple,  Windows,  Lunux,  etc.
-# {{{ super +
+# {{{ Terminals
+
+alt + Return
+  kitty
+
+super + Return
+  xfce4-terminal
+
+ctrl + Return
+  alacritty
+
+# -------------------------------------------------------------------------- }}}
+# {{{ Stop and restart applications, and logout.
+
+super + shift + b
+  pkill -usr1 -x sxhkd; notify-send 'sxhkd' 'Reloaded config'; \
+  bspc wm --restart;    notify-send 'bspwm' 'Releaded config'
+
+super + shift + s
+  pkill -usr1 -x sxhkd; notify-send 'sxhkd' 'Reloaded config'
+
+# Logout
+super + q
+  bspc node -c
+
+# -------------------------------------------------------------------------- }}}
+# {{{ Window Manager, Node, and Bar adjustments.
 
 # Focus selected desktop FOR QWERTY KEYBOARDS
 super + {1-9, 0}
@@ -11,8 +37,62 @@ super + shift + {1-9, 0}
   bspc node -d '^{1-9, 10}'; \
   bspc node -f ${id}}
 
+super + f
+  bspc node --state \~fullscreen
+
+super + p
+  bspc node --state \~pseudo_tiled
+
+super + BackSpace
+  bspc monitor -f next
+
+super + space
+  bspc node -t {floating, fullscreen, tiled, pseudo_tiled}
+
+super + bracket{left,right}
+  bspc config -d focused window_gap $((`bspc config -d focused window_gap` {-,+} 1))
+
+super + alt + {_, shift + }{Left, Down, Up, Right}
+  ~/.config/bspwm/scripts/move-window {_, edge-}{west, south, north, east}
+
+super + ctrl + {h, j, k, l}
+  bspc node {@east  -r +10, \
+             @north -r -10, \
+             @south -r +10, \
+             @west  -r -10}
+
+super + ctrl + {e, r, t, y}
+  bspc node --focus @{parent, brother, first, second}
+
+super + ctrl + {u, i, o, p}
+  bspc node --presel-dir {west, south, north, east}
+
+super + ctrl + space
+  bspc node --presel-dir cancel
+
+super + shift + {h,j,k,l}
+  bspc node --focus --swap {west, south, north, east}
+
+super + {_, shift + }a
+  bspc node @/ --flip {vertical, horizontal}
+
+alt + {h,j,k,l}
+  bspc node --{focus} {west,south,north,east}
+
+alt + space
+  bspc node @/ --rotate {90, -90}
+
+alt + shift + {h, j, k, l}
+  bspc node {@west -r -10, @south -r +10, @north -r -10, @east -r +10}
+
 super + b
   polybar-msg cmd toggle
+
+super + ctrl + {_, shift +}{1-9}
+  bspc node {_, @/} --presel-ratio 0.{1-9}
+
+# -------------------------------------------------------------------------- }}}
+# {{{ Start Applications
 
 super + c
   conky-toggle
@@ -20,17 +100,8 @@ super + c
 super + d
   rofi-theme-selector
 
-super + f
-  bspc node --state \~fullscreen
-
 super + n
   nvidia-settings
-
-super + p
-  bspc node --state \~pseudo_tiled
-
-super + q
-  bspc node -c
 
 super + s
   xfce4-screenshooter
@@ -50,208 +121,8 @@ super + x
 supe + z
  alacritty --title='htop task manager' --exec=htop --hold
 
-super + BackSpace
-  bspc monitor -f next
-
-super + bracket{left,right}
-  bspc config -d focused window_gap $((`bspc config -d focused window_gap` {-,+} 1))
-
-super + Return
-  xfce4-terminal
-
 super + slash
   sxhkd-help
-
-super + space
-  bspc node -t {floating, fullscreen, tiled, pseudo_tiled}
-
-# -------------------------------------------------------------------------- }}}
-# {{{ super + alt + ctrl + shift +
-
-" Nothing yet.
-
-# -------------------------------------------------------------------------- }}}
-# {{{ super + alt + shift +
-
-super + alt + {_, shift + }{Left, Down, Up, Right}
-  ~/.config/bspwm/scripts/move-window {_, edge-}{west, south, north, east}
-
-# -------------------------------------------------------------------------- }}}
-# {{{ super + ctrl +
-
-super + ctrl + {h, j, k, l}
-  bspc node {@east  -r +10, \
-             @north -r -10, \
-             @south -r +10, \
-             @west  -r -10}
-
-super + ctrl + {e, r, t, y}
-  bspc node --focus @{parent, brother, first, second}
-
-super + ctrl + {u, i, o, p}
-  bspc node --presel-dir {west, south, north, east}
-
-super + ctrl + space
-  bspc node --presel-dir cancel
-
-# -------------------------------------------------------------------------- }}}
-# {{{ super + ctrl + shift +
-
-super + ctrl + {_, shift +}{1-9}
-  bspc node {_, @/} --presel-ratio 0.{1-9}
-
-# -------------------------------------------------------------------------- }}}
-# {{{ super + shift +
-
-super + shift + b
-  pkill -usr1 -x sxhkd; notify-send 'sxhkd' 'Reloaded config'; \
-  bspc wm --restart;    notify-send 'bspwm' 'Releaded config'
-
-super + shift + d
-  dmenu_run -i -nb '#191919' -nf '#fea63c' -sb '#fea63c' -sf '#191919' -fn 'NotoMonoRegular:bold:pixelsize=14'
-
-super + shift + s
-  pkill -usr1 -x sxhkd; notify-send 'sxhkd' 'Reloaded config'
-
-super + shift + {h,j,k,l}
-  bspc node --focus --swap {west, south, north, east}
-
-super + {_, shift + }a
-  bspc node @/ --flip {vertical, horizontal}
-
-# -------------------------------------------------------------------------- }}}
-# {{{ alt +
-
-alt + {h,j,k,l}
-  bspc node --{focus} {west,south,north,east}
-
-alt + f
-  variety --favorite
-
-  alt + t
-  variety --trash
-
-alt + right
-  variety --next
-
-alt + left
-  variet --previous
-
-alt + Up
-  variety --toggle-pause
-
-alt + Down
-  variety --resume
-
-alt + F1
-  xfce4-taskmanager
-
-alt + F2
-  dmenu_run -i -nb '#191919' -nf '#fea63c' -sb '#fea63c' -sf '#191919' -fn 'NotoMonoRegular:bold:pixelsize=14'
-
-alt + F3
-  xfce4-appfinder
-
-alt + F4
-  arcolinux-tweak-tool
-
-alt + F5
-  xfce4-settings-manager
-
-alt + F6
-  pamac-manager
-
-alt + space
-  bspc node @/ --rotate {90, -90}
-
-# -------------------------------------------------------------------------- }}}
-# {{{ alt + ctrl +
-
-alt + ctrl + e
-  arcolinux-tweak-tool
-
-alt + ctrl + i
-  nitrogen
-
-alt + ctrl + l
-  archlinux-logout
-
-alt + ctrl + p
-  ~/.config/bspwm/scripts/picom-toggle.sh
-
-alt + ctrl + r
-  rofi-theme-selector
-
-alt + ctrl + v
-  vivaldi-stable
-
-alt + ctrl + w
-  arcolinux-welcome-app
-
-alt + ctrl + u
-  pavucontrol
-
-alt + ctrl + Next
-  conky-rotate -n
-
-alt + ctrl + Prior
-  conky-rotate -p
-
-alt + ctrl + Left
-  bspc node --focus west
-
-alt + ctrl + Right
-  bspc node --focus east
-
-alt + ctrl + Up
-  bspc node --focus north
-
-alt + ctrl + Down
-  bspc node --focus south
-
-# -------------------------------------------------------------------------- }}}
-# {{{ alt + ctrl + shift +
-
-" Nothing yet.
-
-# -------------------------------------------------------------------------- }}}
-# {{{ alt + shift +
-
-alt + shift + {h, j, k, l}
-  bspc node {@west -r -10, @south -r +10, @north -r -10, @east -r +10}
-
-alt + shift + t
-  variety -t && wal -i $(cat $HOME/.config/variety/wallpaper/wallpaper.jpg.txt)&
-
-alt + shift + n
-  variety -n && wal -i $(cat $HOME/.config/variety/wallpaper/wallpaper.jpg.txt)&
-
-super + shift + x
-  bspc quit
-
-alt + shift + p
-  variety -p && wal -i $(cat $HOME/.config/variety/wallpaper/wallpaper.jpg.txt)&
-
-alt + shift + f
-  variety -f && wal -i $(cat $HOME/.config/variety/wallpaper/wallpaper.jpg.txt)&
-
-alt + shift + u
-  wall -i $(cat $HOME/.config/variety/wallpaper/wallpaper.jpg.txt)&
-
-alt + shift + Tab
-  bspc desktop -f '^{1-9, 10}'
-
-alt + Tab
-  bspc desktop -f '^{1-9, 10}'
-
-# -------------------------------------------------------------------------- }}}
-# {{{ ctrl
-
-ctrl + Return
-  alacritty
-
-# -------------------------------------------------------------------------- }}}
-# {{{ ctrl + shift +
 
 ctrl + shift + b
   dbeaver
@@ -281,14 +152,31 @@ ctrl + shift + z
   teams;       notify-send 'Teams' 'Started'; \
   thunderbird; notify-send 'Thunderbird' 'Started'
 
+F12
+  alacritty --drop-down
+
 # -------------------------------------------------------------------------- }}}
-# {{{ Function keys
+# {{{ Wallpaper adjustments
+
+alt + shift + t
+  variety -t && wal -i $(cat $HOME/.config/variety/wallpaper/wallpaper.jpg.txt)&
+
+alt + shift + n
+  variety -n && wal -i $(cat $HOME/.config/variety/wallpaper/wallpaper.jpg.txt)&
+alt + shift + p
+  variety -p && wal -i $(cat $HOME/.config/variety/wallpaper/wallpaper.jpg.txt)&
+
+alt + shift + f
+  variety -f && wal -i $(cat $HOME/.config/variety/wallpaper/wallpaper.jpg.txt)&
+
+alt + shift + u
+  wall -i $(cat $HOME/.config/variety/wallpaper/wallpaper.jpg.txt)&
+
+# -------------------------------------------------------------------------- }}}
+# {{{ Sound, brightness, etc
 
 Print
   scrot 'ArcoLinux-%Y-%m-%d-%s_screenshot_$wx$h.jpg' -e 'mv $f $$(xdg-user-dir PICTURES)'
-
-F12
-  alacritty --drop-down
 
 XF86AudioRaiseVolume
   amixer set Master 10%+
