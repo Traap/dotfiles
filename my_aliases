@@ -164,7 +164,7 @@ alias tnvim='ao nvim'
 alias tsoup='ao soup'
 alias tssh='ao ssh'
 alias tvim='ao vim'
-alias tt'ao t'
+alias tt='ao t'
 alias twiki='ao wiki'
 
 alias kao='tmux kill-session -t ao'
