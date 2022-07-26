@@ -27,15 +27,8 @@ super + q
 # -------------------------------------------------------------------------- }}}
 # {{{ Window Manager, Node, and Bar adjustments.
 
-# Focus selected desktop FOR QWERTY KEYBOARDS
-super + {1-9, 0}
-  bspc desktop -f '^{1-9, 10}'
-
-# Move window to selected desktop FOR QWERTY KEYBOARDS
-super + shift + {1-9, 0}
-  id=$(bspc query -N -n); \
-  bspc node -d '^{1-9, 10}'; \
-  bspc node -f ${id}}
+super + b
+  polybar-msg cmd toggle
 
 super + f
   bspc node --state \~fullscreen
@@ -49,11 +42,27 @@ super + BackSpace
 super + space
   bspc node -t {floating, fullscreen, tiled, pseudo_tiled}
 
+# Focus selected desktop.
+super + {1-9, 0}
+  bspc desktop -f '^{1-9, 10}'
+
+# Move window to selected desktop.
+super + shift + {1-9, 0}
+  id=$(bspc query -N -n); \
+  bspc node -d '^{1-9, 10}'; \
+  bspc node -f ${id}}
+
+super + ctrl + {_, shift +}{1-9}
+  bspc node {_, @/} --presel-ratio 0.{1-9}
+
 super + bracket{left,right}
   bspc config -d focused window_gap $((`bspc config -d focused window_gap` {-,+} 1))
 
-super + alt + {_, shift + }{Left, Down, Up, Right}
-  ~/.config/bspwm/scripts/move-window {_, edge-}{west, south, north, east}
+super + alt + {h, j, k, l}
+  bspc node {@east  -r -10, \
+             @north -r +10, \
+             @south -r -10, \
+             @west  -r +10}
 
 super + ctrl + {h, j, k, l}
   bspc node {@east  -r +10, \
@@ -61,35 +70,29 @@ super + ctrl + {h, j, k, l}
              @south -r +10, \
              @west  -r -10}
 
+super + shift + {h,j,k,l}
+  bspc node --focus --swap {west, south, north, east}
+
+alt + {h,j,k,l}
+  bspc node --{focus} {west,south,north,east}
+
 super + ctrl + {e, r, t, y}
   bspc node --focus @{parent, brother, first, second}
 
 super + ctrl + {u, i, o, p}
   bspc node --presel-dir {west, south, north, east}
 
-super + ctrl + space
-  bspc node --presel-dir cancel
-
-super + shift + {h,j,k,l}
-  bspc node --focus --swap {west, south, north, east}
-
 super + {_, shift + }a
   bspc node @/ --flip {vertical, horizontal}
 
-alt + {h,j,k,l}
-  bspc node --{focus} {west,south,north,east}
+super + alt + {_, shift + }{Left, Down, Up, Right}
+  ~/.config/bspwm/scripts/move-window {_, edge-}{west, south, north, east}
+
+super + ctrl + space
+  bspc node --presel-dir cancel
 
 alt + space
   bspc node @/ --rotate {90, -90}
-
-alt + shift + {h, j, k, l}
-  bspc node {@west -r -10, @south -r +10, @north -r -10, @east -r +10}
-
-super + b
-  polybar-msg cmd toggle
-
-super + ctrl + {_, shift +}{1-9}
-  bspc node {_, @/} --presel-ratio 0.{1-9}
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Start Applications
