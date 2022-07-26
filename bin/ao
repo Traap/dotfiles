@@ -51,7 +51,7 @@ case $1 in
 # -------------------------------------------------------------------------- }}}
 # {{{ Create ts session
 
-"ts")
+"t")
   tmux new-session \; split-window;
   ;;
 
@@ -194,7 +194,7 @@ fi
 # {{{ Display usage
 
 else
-  echo "Session name [ao|bash|havasu|kjv|nvim|ssh|soup|ts|vim|work] is required" \
+  echo "Session name [ao|bash|havasu|kjv|nvim|ssh|soup|t|vim|work] is required" \
       && exit
 fi
 
