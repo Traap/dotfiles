@@ -37,7 +37,7 @@ fi
 
 alias cls='clear'
 alias encrypt='${DOTFILESHOME}/encrypt'
-if [[ $(rg --ignore-case '"Ubuntu' /etc/os-release -c) == 1 ]]; then
+if [[ $(rg --ignore-case '"Ubuntu' /etc/os-release -c) -gt 0 ]]; then
   alias fd='fdfind'
   alias fde='fdfind --no-ignore --extension'
 else
