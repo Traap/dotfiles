@@ -1,0 +1,3 @@
+#!/bin/bash
+pkill -usr1 -x sxhkd
+bspc wm --restart
