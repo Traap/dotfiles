@@ -4,14 +4,17 @@
 alt + Return
   kitty
 
-super + Return
-  xfce4-terminal
-
 ctrl + Return
   alacritty
 
+super + Return
+  xfce4-terminal
+
 # -------------------------------------------------------------------------- }}}
 # {{{ Stop and restart applications, and logout.
+
+alt + ctl + l
+  archlinux-logout
 
 super + shift + b
   pkill -usr1 -x sxhkd; notify-send 'sxhkd' 'Reloaded config'; \
@@ -97,35 +100,23 @@ alt + space
 # -------------------------------------------------------------------------- }}}
 # {{{ Start Applications
 
-super + c
-  conky-toggle
+alt + F2
+  dmrun
 
-super + d
-  rofi-theme-selector
+alt + F3
+  xfce4-appfinder
 
-super + n
-  nvidia-settings
+alt + F4
+  arcolinux-tweak-tool
 
-super + s
-  xfce4-screenshooter
+alt + F5
+  xfce4-settings-manager
 
-super + t
-  Thunar
+alt + F6
+  pamac-manager
 
-super + v
-   obs
-
-super + w
-  brave
-
-super + x
- alacritty --title=Weather --exec=weather --hold
-
-supe + z
- alacritty --title='htop task manager' --exec=htop --hold
-
-super + slash
-  sxhkd-help
+alt + F12
+  xfce4-terminal --drop-down
 
 ctrl + shift + b
   dbeaver
@@ -155,8 +146,36 @@ ctrl + shift + z
   teams;       notify-send 'Teams' 'Started'; \
   thunderbird; notify-send 'Thunderbird' 'Started'
 
-F12
-  alacritty --drop-down
+super + c
+  conky-toggle
+
+super + d
+  rofi-theme-selector
+
+super + n
+  nvidia-settings
+
+super + s
+  xfce4-screenshooter
+
+super + t
+  Thunar
+
+super + v
+   obs
+
+super + w
+  brave
+
+super + x
+ alacritty --title=Weather --exec=weather --hold
+
+super + z
+ alacritty --title='htop task manager' --exec=htop --hold
+
+super + slash
+  sxhkd-help
+
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Wallpaper adjustments

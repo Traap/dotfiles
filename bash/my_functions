@@ -112,10 +112,12 @@ title() { echo -n -e "\033]0;$1\007"; }
 #     https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent
 
 sshkeys() {
-  eval "$(ssh-agent -s)"
-  for key in $(ls $HOME/.ssh/*.pub); do 
-    ssh-add -q "${key%.*}"
-  done;
+  if [[ -d $SSHHOME ]]; then
+    eval "$(ssh-agent -s)"
+    for key in $(ls $HOME/.ssh/*.pub); do
+      ssh-add -q "${key%.*}"
+    done;
+  fi
 }
 
 sshlist() {
@@ -127,11 +129,7 @@ sshme() {
 }
 
 sshkill() {
-  if osType "msys"; then
-    for pid in $(ps aux | awk '/ssh-agent/ {print $1}'); do kill -9 $pid; done
-  else
-    for pid in $(ps aux | awk '/ssh-agent/ {print $2}'); do kill -9 $pid; done
-  fi
+  killall ssh-agent
 }
 
 latexmkkill() {

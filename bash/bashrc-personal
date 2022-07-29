@@ -1,4 +1,4 @@
-#!bin/bash
+#!/bin/bash
 # {{{ Stooges: Honoring Larry, Moe, and Curly ... Nyuk, nyuk, nyuk.
 #
 # Bash scripting cheatsheet => https://devhints.io/bash
@@ -8,44 +8,46 @@ echo ${HOSTNAME} "running" ${OSTYPE}
 # -------------------------------------------------------------------------- }}}
 # {{{ Top level exports I used throughout all my scripts.
 
-BBHOME=${HOME}/bb
+BBHOME=$HOME/bb
 export BBHOME
 
-if [[ -f ${HOME}/git/dotfiles/bashrc-personal ]]; then
-  DOTFILESHOME=${HOME}/git/dotfiles
-  export DOTFILESHOME
-elif [[ -f ${HOME}/.config/dotfiles/bashrc-personal ]]; then
-  DOTFILESHOME=${HOME}/.config/dotfiles
-  export DOTFILESHOME
-fi
+CFGHOME=$HOME/.config
+export CFGHOME
 
-GITHOME=${HOME}/git
+GITHOME=$HOME/git
 export GITHOME
 
-GITPATH=${GITHOME}
+GITPATH=$GITHOME
 export GITPATH
 
-SOUPHOME=${HOME}/soup
+SOUPHOME=$HOME/soup
 export=SOUPHOME
 
+DOTHOME=$GITHOME/dotfiles
+export DOTHOME
+
+BASHHOME=$DOTHOME/bash
+export BASHHOME
+
+BINHOME=$BASHHOME/bin
+export BINHOME
+
+SSHHOME=$BASHHOME/ssh
+export SSHHOME
+
 # -------------------------------------------------------------------------- }}}
-# {{{ Disable ctrl-s and ctrl-q
+# {{{ Disable ctrl-s, ctrl-q, and set infinite history.
 
 stty -ixon
-
-# -------------------------------------------------------------------------- }}}
-# {{{ Infanite history
-
 HISTSIZE= HISTFILESIZE=
 
 # -------------------------------------------------------------------------- }}}
-# {{{ Customize my bash experience.
+# {{{ Customize my shell. Array order matters.
 
-# Customize my shell.
-my_array=("functions" "exports" "aliases" "paths" "completions" "prompt" )
+my_array=("functions" "exports" "aliases" "paths" "completions" "prompt")
+
 for m in ${my_array[@]}; do
-  x=${DOTFILESHOME}/my_$m
-  source $x
+  [[ -f $BASHHOME/my_$m ]] && source $BASHHOME/my_$m
 done
 
 # Load my keys.
