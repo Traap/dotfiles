@@ -27,6 +27,7 @@ createSymLinks() {
     echo "Creating symbolic links."
     mkdir -p ~/.config
     ln -fsv ~/git/dotfiles/Thunar                ~/.config/Thunar
+    ln -fsv ~/git/dotfiles/alacritty             ~/.config/alacritty
     ln -fsv ~/git/dotfiles/bspwm                 ~/.config/bspwm
     ln -fsv ~/git/dotfiles/dconf                 ~/.config/dconf
     ln -fsv ~/git/dotfiles/dunst                 ~/.config/dunst
@@ -63,6 +64,7 @@ deleteSymLinks() {
   if [[ $deleteSymLinksFlag == 1 ]]; then
     echo "Deleting symbolic links."
     rm -fv ~/.config/Thunar
+    rm -fv ~/.config/alacritty
     rm -fv ~/.config/bspwm
     rm -fv ~/.config/dconf
     rm -fv ~/.config/dunst

@@ -1,7 +1,7 @@
 #!/bin/bash
 # {{{ Operating system specific settings.
 
-if osType "darwin"; then
+if osType "/darwin"; then
   alias la='ls -A'
   alias ll='ls -lahG'
 fi
@@ -92,6 +92,7 @@ alias .a='cd $BASHHOME'
 alias .b='cd $BINHOME'
 alias .c='cd $CFGHOME'
 alias .d='cd $DOTHOME'
+alias .g='cd $GITHOME'
 alias Cd='cd $GITHOME/color'
 alias Dc='cd $HOME/Documents'
 alias Dd='cd $HOME/Downloads'

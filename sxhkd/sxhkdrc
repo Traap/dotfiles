@@ -2,13 +2,13 @@
 # {{{ Terminals
 
 alt + Return
-  kitty
+  alacritty
 
 ctrl + Return
   alacritty
 
 super + Return
-  xfce4-terminal
+  alacritty
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Stop and restart applications, and logout.
@@ -116,7 +116,7 @@ alt + F6
   pamac-manager
 
 alt + F12
-  xfce4-terminal --drop-down
+  alacritty --drop-down
 
 ctrl + shift + b
   dbeaver
