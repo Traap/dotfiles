@@ -49,8 +49,8 @@ createSymLinks() {
     ln -fsv ~/git/dotfiles/bash/bashrc           ~/.bashrc
     ln -fsv ~/git/dotfiles/bash/bashrc-personal  ~/.bashrc-personal
     ln -fsv ~/git/dotfiles/bash/dircolors        ~/.dircolors
-    ln -fsv ~/git/dotfiles/latex/latexmkrc       ~/.latexmkrc
     ln -fsv ~/git/dotfiles/bash/inputrc          ~/.inputrc
+    ln -fsv ~/git/dotfiles/bash/xinitrc          ~/.xinitrc
     ln -fsv ~/git/dotfiles/git/gitconfig         ~/.gitconfig
     ln -fsv ~/git/dotfiles/git/gitignore_global  ~/.gitignore_global
     ln -fsv ~/git/dotfiles/latex/latexmkrc       ~/.latexmkrc
@@ -107,6 +107,7 @@ deleteSymLinks() {
     rm -fv ~/.vim
     rm -fv ~/.vimrc
     rm -fv ~/.vimrc_background
+    rm -rf ~/.xinitrc
   fi
 }
 
