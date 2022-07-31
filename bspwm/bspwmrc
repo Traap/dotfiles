@@ -24,11 +24,10 @@ fi
 
 # Polybar & Picom
 $HOME/.config/polybar/launch.sh
-picom &
+$HOME/.config/picom/launch.sh
+$HOME/.config/dunst/launch.sh
 
 # Extra programs to launch.
-# /usr/lib/xfce4/notifyd/xfce4-notifyd &
-dunst -c $HOME/.config/dunst/dunstrc &
 conky -c $HOME/.config/bspwm/system-overview &
 /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
 volumeicon &
