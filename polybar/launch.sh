@@ -1,10 +1,17 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 
-# Terminate already running bar instances
-killall polybar
+# More info : https://github.com/jaagr/polybar/wiki
+
+killall -q polybar
 
 # Wait until the processes have been shut down
-while pgrep -u $UID -x polybar >/dev/null; do sleep 1; done
+while pgrep -u $UID -x polybar > /dev/null; do sleep 1; done
 
-# Launch polybar
-polybar main -c $(dirname $0)/config.ini &
+       bar=mainbar-bspwm
+connected=$(xrandr --query | grep " connected" | cut -d" " -f1)
+  desktop=$(echo $DESKTOP_SESSION)
+      ini=~/.config/polybar/config.ini
+
+for m in $connected; do
+  MONITOR=$m polybar --reload $bar -c $ini  &
+done

@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Simple wallpaper.
-feh --bg-scale ~/.config/wallpaper/. &
+feh --bg-scale $HOME/.config/wallpaper/. &
 
 # Swap keys and left handed mouse.
 setxkbmap -option caps:swapescape &
@@ -11,11 +11,32 @@ xmodmap -e "pointer = 3 2 1 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 4 5"
 sxhkd &
 
 # Desktops
-bspc monitor -d 1 2 3 4 5 6 7 8 9 10
+if [[ $HOSTNAME =~ "Monk" ]]; then
+  xrandr --output HDMI-0 --mode 2560x1440 --pos    0x0 --rotate normal \
+         --output DP-0   --mode 2560x1440 --pos 2560x0 --rotate normal \
+         --output DP-2   --mode 2560x1440 --pos 5120x0 --rotate normal
+  bspc monitor HDMI-0 -d 1 2 3 4
+  bspc monitor DP-0   -d 5 6 7
+  bspc monitor DP-2   -d 8 9 10
+else
+  bspc monitor -d 1 2 3 4 5 6 7 8 9 10
+fi
 
 # Polybar & Picom
-~/.config/polybar/launch.sh
+$HOME/.config/polybar/launch.sh
 picom &
+
+# Extra programs to launch.
+# /usr/lib/xfce4/notifyd/xfce4-notifyd &
+dunst -c $HOME/.config/dunst/dunstrc &
+conky -c $HOME/.config/bspwm/system-overview &
+/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
+dex $HOME/.config/autostart/arcolinux-welcome-app.desktop
+blueberry-tray &
+nm-applet &
+# pamac-tray &
+# volumeicon &
+# xfce4-power-manager &
 
 # BSPWM configuration
 # bspc config border_radius       8
@@ -44,7 +65,7 @@ bspc config focused_border_color  "# 5e81ac"
 bspc config presel_feedback_color "# 5e81ac"
 
 # Floating applications
-bspc rule -a Arandr                   state=floating
+bspc rule -a arandr                   state=floating
 bspc rule -a Arcolinux-tweak-tool.py  state=floating
 bspc rule -a Arcolinux-welcome-app.py state=floating
 bspc rule -a alacritty                state=floating
