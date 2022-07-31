@@ -26,6 +26,8 @@ createSymLinks() {
   if [[ $createSymLinksFlag == 1 ]]; then
     echo "Creating symbolic links."
     mkdir -p ~/.config
+
+    # Symlinks at .config
     ln -fsv ~/git/dotfiles/Thunar                ~/.config/Thunar
     ln -fsv ~/git/dotfiles/alacritty             ~/.config/alacritty
     ln -fsv ~/git/dotfiles/bspwm                 ~/.config/bspwm
@@ -35,12 +37,19 @@ createSymLinks() {
     ln -fsv ~/git/dotfiles/picom                 ~/.config/picom
     ln -fsv ~/git/dotfiles/polybar               ~/.config/polybar
     ln -fsv ~/git/dotfiles/ranger                ~/.config/ranger
+    ln -fsv ~/git/dotfiles/remmina               ~/.config/remmina
+    ln -fsv ~/git/dotfiles/rofi                  ~/.config/rofi
     ln -fsv ~/git/dotfiles/sxhkd                 ~/.config/sxhkd
+    ln -fsv ~/git/dotfiles/volumeicon            ~/.config/volumeicon
+    ln -fsv ~/git/dotfiles/wallpaper             ~/.config/wallpaper
     ln -fsv ~/git/nvim                           ~/.config/nvim
+
+    # Symlinks at $HOME
     ln -fsv ~/git/dotfiles/bash/bash_logout      ~/.bash_logout
     ln -fsv ~/git/dotfiles/bash/bashrc           ~/.bashrc
     ln -fsv ~/git/dotfiles/bash/bashrc-personal  ~/.bashrc-personal
     ln -fsv ~/git/dotfiles/bash/dircolors        ~/.dircolors
+    ln -fsv ~/git/dotfiles/latex/latexmkrc       ~/.latexmkrc
     ln -fsv ~/git/dotfiles/bash/inputrc          ~/.inputrc
     ln -fsv ~/git/dotfiles/git/gitconfig         ~/.gitconfig
     ln -fsv ~/git/dotfiles/git/gitignore_global  ~/.gitignore_global
@@ -63,6 +72,8 @@ createSymLinks() {
 deleteSymLinks() {
   if [[ $deleteSymLinksFlag == 1 ]]; then
     echo "Deleting symbolic links."
+
+    # Symlinks at .config
     rm -fv ~/.config/Thunar
     rm -fv ~/.config/alacritty
     rm -fv ~/.config/bspwm
@@ -72,20 +83,25 @@ deleteSymLinks() {
     rm -fv ~/.config/picom
     rm -fv ~/.config/polybar
     rm -fv ~/.config/ranger
+    rm -fv ~/.config/remmina
     rm -fv ~/.config/sxhkd
+    rm -fv ~/.config/volumeicon
+    rm -fv ~/.config/wallpaper
     rm -fv ~/.config/nvim
     rm -fv ~/.bash_logout
+
+    # Symlinks at $HOME
     rm -fv ~/.bashrc
     rm -fv ~/.bashrc-personal
+    rm -fv ~/.config.vim
     rm -fv ~/.dircolors
-    rm -fv ~/.inputrc
     rm -fv ~/.gitconfig
     rm -fv ~/.gitignore_global
+    rm -fv ~/.inputrc
     rm -fv ~/.latexmkrc
     rm -fv ~/.mailcap
     rm -fv ~/.muttrc
     rm -fv ~/.ssh
-    rm -fv ~/.config.vim
     rm -fv ~/.tmux
     rm -fv ~/.tmux.conf
     rm -fv ~/.vim
