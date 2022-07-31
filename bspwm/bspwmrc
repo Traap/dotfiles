@@ -31,15 +31,18 @@ picom &
 dunst -c $HOME/.config/dunst/dunstrc &
 conky -c $HOME/.config/bspwm/system-overview &
 /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
-dex $HOME/.config/autostart/arcolinux-welcome-app.desktop
-blueberry-tray &
-nm-applet &
-# pamac-tray &
-# volumeicon &
-# xfce4-power-manager &
+volumeicon &
+
+# Host specific.
+if [[ $HOSTNAME =~ "Monk" ]]; then
+  dex $HOME/.config/autostart/arcolinux-welcome-app.desktop
+  blueberry-tray &
+  nm-applet &
+  pamac-tray &
+  xfce4-power-manager &
+fi
 
 # BSPWM configuration
-# bspc config border_radius       8
 bspc config border_width         1
 bspc config window_gap           3
 bspc config top_padding          30
