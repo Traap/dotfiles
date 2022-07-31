@@ -29,16 +29,18 @@ $HOME/.config/dunst/launch.sh
 
 # Extra programs to launch.
 conky -c $HOME/.config/bspwm/system-overview &
-/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
 volumeicon &
 
 # Host specific.
 if [[ $HOSTNAME =~ "Monk" ]]; then
+  /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
   dex $HOME/.config/autostart/arcolinux-welcome-app.desktop
   blueberry-tray &
   nm-applet &
   pamac-tray &
   xfce4-power-manager &
+else
+  /usr/lib/polkit-1/polkit-agent-helper-1 &
 fi
 
 # BSPWM configuration
