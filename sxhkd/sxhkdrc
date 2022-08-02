@@ -58,8 +58,9 @@ super + shift + {1-9, 0}
 super + ctrl + {_, shift +}{1-9}
   bspc node {_, @/} --presel-ratio 0.{1-9}
 
-super + bracket{left,right}
-  bspc config -d focused window_gap $((`bspc config -d focused window_gap` {-,+} 1))
+super + bracket{left, right}
+  bspc config -d focused window_gap \
+       $((`bspc config -d focused window_gap` {-,+} 1))
 
 super + alt + {h, j, k, l}
   bspc node {@east  -r -10, \
@@ -73,11 +74,11 @@ super + ctrl + {h, j, k, l}
              @south -r +10, \
              @west  -r -10}
 
-super + shift + {h,j,k,l}
+super + shift + {h, j, k, l}
   bspc node --focus --swap {west, south, north, east}
 
 alt + {h,j,k,l}
-  bspc node --{focus} {west,south,north,east}
+  bspc node --{focus} {west, south, north, east}
 
 super + ctrl + {e, r, t, y}
   bspc node --focus @{parent, brother, first, second}
