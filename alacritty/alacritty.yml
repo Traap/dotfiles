@@ -13,16 +13,16 @@ scrolling:
 
 font:
   normal:
-    family: JetBrains Mono Nerd Font
+    family: Hack
     style:  Medium
   bold:
-    family: JetBrains Mono Nerd Font
+    family: Hack
     style:  Bold
   italic:
-    family: JetBrains Mono Nerd Font
+    family: Hack
     style:  MediumItalic
   bold_italic:
-    family: JetBrains Mono Nerd Font
+    family: Hack
     style: BoldItalic
   size: 8.5
 
