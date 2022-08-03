@@ -26,10 +26,10 @@ fi
 $HOME/.config/polybar/launch.sh
 $HOME/.config/picom/launch.sh
 $HOME/.config/dunst/launch.sh
+$HOME/.config/volumeicon/launch.sh &
 
 # Extra programs to launch.
 conky -c $HOME/.config/bspwm/system-overview &
-volumeicon &
 
 # Host specific.
 if [[ $HOSTNAME =~ "Monk" ]]; then
@@ -74,12 +74,11 @@ bspc rule -a Arcolinux-tweak-tool.py  state=floating
 bspc rule -a Arcolinux-welcome-app.py state=floating
 bspc rule -a alacritty                state=floating
 bspc rule -a brave                    state=floating
-bspc rule -a xfce4-settings-manager   state=floating
 bspc rule -a xfce4-terminal           state=floating
 
 # Tiled applications
 bspc rule -a Gnome-disks state=tiled
-bspc rule -a Xfce4-settings-manager state=tiled
+bspc rule -a xfce4-settings-manager   state=pseudo_tiled flag=sticky
 
 # open applications on specific workspaces
 bspc rule -a "Microsoft Teams - Preview" desktop='^1'

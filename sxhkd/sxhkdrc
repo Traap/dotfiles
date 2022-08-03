@@ -101,6 +101,9 @@ alt + space
 # -------------------------------------------------------------------------- }}}
 # {{{ Start Applications
 
+alt + F1
+  pavucontrol
+
 alt + F2
   dmrun
 
@@ -119,11 +122,14 @@ alt + F6
 alt + F12
   alacritty --drop-down
 
+ctrl + alt + l
+  archlinux-logout
+
 ctrl + shift + b
   dbeaver
 
 ctrl + shift + e
-  evolution
+  thunderbird
 
 ctrl + shift + d
   discord
@@ -144,7 +150,7 @@ ctrl + shift + t
   teams
 
 ctrl + shift + z
-  teams;       notify-send 'Teams' 'Started'; \
+  teams;     notify-send 'Teams' 'Started'; \
   thunderbird; notify-send 'Thunderbird' 'Started'
 
 super + c
