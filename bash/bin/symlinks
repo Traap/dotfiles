@@ -30,6 +30,7 @@ createSymLinks() {
     # Symlinks at .config
     ln -fsv ~/git/dotfiles/Thunar                ~/.config/Thunar
     ln -fsv ~/git/dotfiles/alacritty             ~/.config/alacritty
+    ln -fsv ~/git/dotfiles/awsome                ~/.config/awsome
     ln -fsv ~/git/dotfiles/bspwm                 ~/.config/bspwm
     ln -fsv ~/git/dotfiles/dconf                 ~/.config/dconf
     ln -fsv ~/git/dotfiles/dunst                 ~/.config/dunst
@@ -76,6 +77,7 @@ deleteSymLinks() {
     # Symlinks at .config
     rm -fv ~/.config/Thunar
     rm -fv ~/.config/alacritty
+    rm -fv ~/.config/awsome
     rm -fv ~/.config/bspwm
     rm -fv ~/.config/dconf
     rm -fv ~/.config/dunst

@@ -175,10 +175,11 @@ super + w
   brave
 
 super + x
- alacritty --title=Weather --exec=weather --hold
+  archlinux-logout
+#  alacritty --title=Weather --exec=weather --hold
 
 super + z
- alacritty --title='htop task manager' --exec=htop --hold
+  alacritty --title='htop task manager' --exec=htop --hold
 
 super + slash
   sxhkd-help
