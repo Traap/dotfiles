@@ -1,47 +1,31 @@
 # super is the OS key: Apple,  Windows,  Lunux,  etc.
 # {{{ Terminals
 
-alt + Return
-  alacritty
-
-ctrl + Return
-  alacritty
-
-super + Return
+# Alacritty
+Return + {alt, ctrl, super}
   alacritty
 
 # -------------------------------------------------------------------------- }}}
-# {{{ Stop and restart applications, and logout.
+# {{{ Stop and restart bspwm and sxhd.
 
-alt + ctl + l
-  archlinux-logout
-
+# Restart bspwm
 super + shift + b
   pkill -usr1 -x sxhkd; notify-send 'sxhkd' 'Reloaded config'; \
   bspc wm --restart;    notify-send 'bspwm' 'Releaded config'
 
+# Restart sxhkd
 super + shift + s
   pkill -usr1 -x sxhkd; notify-send 'sxhkd' 'Reloaded config'
 
-# Logout
-super + q
-  bspc node -c
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Window Manager, Node, and Bar adjustments.
 
-super + b
-  polybar-msg cmd toggle
+# Rotate tree.
+super + shift + {d, a}
+  bspc node @/ -C {backward, forward}
 
-super + f
-  bspc node --state \~fullscreen
-
-super + p
-  bspc node --state \~pseudo_tiled
-
-super + BackSpace
-  bspc monitor -f next
-
+# Toggle node state.
 super + space
   bspc node -t {floating, fullscreen, tiled, pseudo_tiled}
 
@@ -51,187 +35,177 @@ super + {1-9, 0}
 
 # Move window to selected desktop.
 super + shift + {1-9, 0}
-  id=$(bspc query -N -n); \
-  bspc node -d '^{1-9, 10}'; \
-  bspc node -f ${id}}
+  bspc node -d '^{1-9, 10}' --follow
 
+# Adjust node ratio.
 super + ctrl + {_, shift +}{1-9}
   bspc node {_, @/} --presel-ratio 0.{1-9}
 
+# Increase or decrease window gap.
 super + bracket{left, right}
   bspc config -d focused window_gap \
        $((`bspc config -d focused window_gap` {-,+} 1))
 
+# East -10, North +10, South -10, West +10.
 super + alt + {h, j, k, l}
   bspc node {@east  -r -10, \
              @north -r +10, \
              @south -r -10, \
              @west  -r +10}
 
+# East +10, North -10, South +10, West -10.
 super + ctrl + {h, j, k, l}
   bspc node {@east  -r +10, \
              @north -r -10, \
              @south -r +10, \
              @west  -r -10}
 
+# Swap West, South, North, East.
 super + shift + {h, j, k, l}
   bspc node --focus --swap {west, south, north, east}
 
-alt + {h,j,k,l}
+# Focus West, South, North, East.
+alt + {h, j, k, l}
   bspc node --{focus} {west, south, north, east}
 
-super + ctrl + {e, r, t, y}
+# Focus parent, brother, first second.
+alt + ctrl + {h, j, k, l}
   bspc node --focus @{parent, brother, first, second}
 
-super + ctrl + {u, i, o, p}
+# Presel-dir West, South, North, East
+alt + shift + {h, j, k, l}
   bspc node --presel-dir {west, south, north, east}
 
+# Flip node
 super + {_, shift + }a
   bspc node @/ --flip {vertical, horizontal}
 
+# Flip node
 super + alt + {_, shift + }{Left, Down, Up, Right}
   ~/.config/bspwm/scripts/move-window {_, edge-}{west, south, north, east}
 
+# Cancel presel
 super + ctrl + space
   bspc node --presel-dir cancel
 
+# Rotate 90 degrees.
 alt + space
   bspc node @/ --rotate {90, -90}
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Start Applications
 
-alt + F1
-  pavucontrol
+# pavucontrol, dmenu_run, xfce4-appfinder, arcolinux-tweak-tool, pamac-manager.
+alt + {F1, F2, F3, F4, F5, F6}
+  { \
+    pavucontrol, \
+    dmenu_run -i -nb '#191919' -nf '#fea63c' -sb '#fea63c' -sf '#191919' -fn 'NotoMonoRegular:bold:pixelsize=14', \
+    xfce4-appfinder, \
+    archlinux-tweak-tool, \
+    xfce4-settings-manager, \
+    pamac-manager \
+  }
 
-alt + F2
-  dmrun
+# Produtivity apps.
+alt + shift + {c, r, m, n}
+  { \
+    conky-toggle, \
+    rofi-theme-selector, \
+    xfce4-taskmanager, \
+    nvidia-settings \
+  }
 
-alt + F3
-  xfce4-appfinder
+# Toggle polybar, node state, and move monitor.
+super + {f, g, p, BackSpace}
+  { \
+    bspc node --state \~fullscreen, \
+    bspc node --state \~floating, \
+    polybar-msg cmd toggle, \
+    bspc monitor -f next \
+  }
 
-alt + F4
-  arcolinux-tweak-tool
-
-alt + F5
-  xfce4-settings-manager
-
-alt + F6
-  pamac-manager
-
-alt + F12
-  alacritty --drop-down
-
-ctrl + alt + l
-  archlinux-logout
-
-ctrl + shift + b
-  dbeaver
-
-ctrl + shift + e
-  thunderbird
-
-ctrl + shift + d
-  discord
-
-ctrl + shift + m
-  xfce4-taskmanager
-
-ctrl + shift + o
-   onlyoffice-desktopeditors
-
-ctrl + shift + r
-  remmina
-
-ctrl + shift + s
-  slack
-
-ctrl + shift + t
-  teams
-
-ctrl + shift + z
-  teams;     notify-send 'Teams' 'Started'; \
-  thunderbird; notify-send 'Thunderbird' 'Started'
-
-super + c
-  conky-toggle
-
-super + d
-  rofi-theme-selector
-
-super + n
-  nvidia-settings
-
-super + s
-  xfce4-screenshooter
-
-super + t
-  Thunar
-
-super + v
-   obs
-
-super + w
-  brave
-
-super + x
-  archlinux-logout
-#  alacritty --title=Weather --exec=weather --hold
-
-super + z
-  alacritty --title='htop task manager' --exec=htop --hold
-
-super + slash
-  sxhkd-help
-
+# Other stuff
+super + {slash, b, d, e, n, o, r, q, s, t, v, w, x, z}
+  { \
+    sxhkd-help, \
+    dbeaver, \
+    discord, \
+    thunderbird, \
+    Thunar, \
+    onlyoffice-desktopeditors, \
+    remmina, \
+    bspc node -c, \
+    xfce4-screenshooter, \
+    teams, \
+    obs, \
+    brave, \
+    archlinux-logout, \
+    teams; thunderbird; \
+  }
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Wallpaper adjustments
 
+# Wallpaper: variety -t
 alt + shift + t
   variety -t && wal -i $(cat $HOME/.config/variety/wallpaper/wallpaper.jpg.txt)&
 
+# Wallpaper: variety -n
 alt + shift + n
   variety -n && wal -i $(cat $HOME/.config/variety/wallpaper/wallpaper.jpg.txt)&
+
+# Wallpaper: variety -p
 alt + shift + p
   variety -p && wal -i $(cat $HOME/.config/variety/wallpaper/wallpaper.jpg.txt)&
 
+# Wallpaper: variety -f
 alt + shift + f
   variety -f && wal -i $(cat $HOME/.config/variety/wallpaper/wallpaper.jpg.txt)&
 
+# Wall ...
 alt + shift + u
   wall -i $(cat $HOME/.config/variety/wallpaper/wallpaper.jpg.txt)&
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Sound, brightness, etc
 
+# Print
 Print
   scrot 'ArcoLinux-%Y-%m-%d-%s_screenshot_$wx$h.jpg' -e 'mv $f $$(xdg-user-dir PICTURES)'
 
+# Audio + 10%
 XF86AudioRaiseVolume
   amixer set Master 10%+
 
+# Audio -10%
 XF86AudioLowerVolume
   amixer set Master 10%-
 
+# Audio Mute
 XF86AudioMute
   amixer -D pulse set Master 1+ toggle
 
+# Audio Play
 XF86AudioPlay
   playerctl play-pause
 
+# Audio Next
 XF86AudioNext
   playerctl next
 
+# Audio Prev
 XF86AudioPrev
   playerctl previous
 
+# Audio Stop
 XF86AudioStop
   playerctl stop
 
+# Brightness +10%
 XF86MonBrightnessUp
   xbacklight -inc 10
 
+# Brightness -10%
 XF86MonBrightnessDown
   xbacklight -dec 10
 
