@@ -26,7 +26,7 @@ if fileExists /usr/bin/tmux; then
 fi
 
 # -------------------------------------------------------------------------- }}}
-# {{{ List
+# {{{ Use bat and exa when they are installed.
 
 [   -f /usr/bin/bat ] && alias 'cat=bat -p'
 [   -f /usr/bin/exa ] && alias ls='exa'
@@ -52,7 +52,6 @@ alias gl7='git logg -7'
 alias glgg='git logg'
 alias glg='git log'
 alias glgi='git logi'
-alias gitv='gits vim'
 alias gP='git pull'
 alias gp='git push'
 alias grep='grep --color=auto'
@@ -69,21 +68,21 @@ alias l24='find . -newermt "-24 hours" -ls'
 alias me='clear && exec bash'
 alias mv='mv -v'
 alias n='nvim'
-alias nano='vim'
+alias nano='nvim'
 alias np='nvim +PackerSync'
 alias pacmann='sudo pacman --noconfirm -S'
 alias rbe='eval "$(rbenv init - n)"'
 alias rbn='sudo reboot now'
+alias s='source'
 alias sa='source $BASHHOME/my_aliases'
 alias sdn='sudo shutdown now'
 alias se='source $BASHHOME/my_exports'
 alias sf='source $BASHHOME/my_functions'
 alias sp='source $BASHHOME/my_paths'
 alias ssh='ssh -A'
-alias s='source'
 alias ta='tmux attach'
-alias yayn='yay --noconfirm -S'
-alias xz='vi -c "let g:tty='\''$(tty)'\''"'
+alias v='nvim'
+alias xz='nvim -c "let g:tty='\''$(tty)'\''"'
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Aliases to folders I visit frequently.
@@ -110,10 +109,12 @@ alias vb='cd $GITHOME/vim/bundle'
 alias vd='cd $GITHOME/vim'
 alias wd='cd $GITHOME/wiki'
 
+alias cal='cd $CFGHOME/alacritty'
 alias cbs='cd $CFGHOME/bspwm'
 alias cdc='cd $CFGHOME/dconf'
 alias cdu='cd $CFGHOME/dunst'
 alias cki='cd $CFGHOME/kitty'
+alias cnv='cd $CFGHOME/nvim'
 alias cpi='cd $CFGHOME/picom'
 alias cpo='cd $CFGHOME/polybar'
 alias cra='cd $CFGHOME/ranger'
