@@ -98,7 +98,7 @@ alt + space
 alt + {F1, F2, F3, F4, F5, F6}
   { \
     pavucontrol, \
-    dmenu_run -i -nb '#191919' -nf '#fea63c' -sb '#fea63c' -sf '#191919' -fn 'NotoMonoRegular:bold:pixelsize=14', \
+    rofi -show run, \
     xfce4-appfinder, \
     archlinux-tweak-tool, \
     xfce4-settings-manager, \
