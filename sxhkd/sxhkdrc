@@ -105,7 +105,7 @@ alt + {F1, F2, F3, F4, F5, F6}
     pamac-manager \
   }
 
-# Produtivity apps.
+# Desktop enviornment tweaking.
 alt + shift + {c, r, m, n}
   { \
     conky-toggle, \
@@ -123,7 +123,7 @@ super + {f, g, p, BackSpace}
     bspc monitor -f next \
   }
 
-# Other stuff
+# Apps: DB, Discord, Email, Files, Office, etc
 super + {slash, b, d, e, n, o, r, q, s, t, v, w, x, z}
   { \
     sxhkd-help, \
@@ -141,6 +141,15 @@ super + {slash, b, d, e, n, o, r, q, s, t, v, w, x, z}
     archlinux-logout, \
     teams; evolution; \
   }
+
+# Thunar
+ctrl + n
+  notify-send 'sxhkd' 'Simulating Super + n'; \
+  # xdo key_press -k 133; \
+  # xdo key_press -k 57; \
+  # sleep 0.2;
+  xdo key_press -k 133; \
+  xdo key_release -k 57
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Wallpaper adjustments

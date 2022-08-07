@@ -7,9 +7,6 @@ feh --bg-scale $HOME/.config/wallpaper/. &
 setxkbmap -option caps:swapescape &
 xmodmap -e "pointer = 3 2 1 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 4 5"
 
-# Hotkeys
-sxhkd &
-
 # Desktops
 if [[ $HOSTNAME =~ "Monk" ]]; then
   xrandr --output HDMI-0 --mode 2560x1440 --pos    0x0 --rotate normal \
@@ -26,7 +23,8 @@ fi
 $HOME/.config/polybar/launch.sh
 $HOME/.config/picom/launch.sh
 $HOME/.config/dunst/launch.sh
-$HOME/.config/volumeicon/launch.sh &
+$HOME/.config/volumeicon/launch.sh
+$HOME/.config/sxhkd/launch.sh
 
 # Extra programs to launch.
 conky -c $HOME/.config/bspwm/system-overview &
