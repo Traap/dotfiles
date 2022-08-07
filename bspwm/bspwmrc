@@ -28,18 +28,12 @@ $HOME/.config/sxhkd/launch.sh
 
 # Extra programs to launch.
 conky -c $HOME/.config/bspwm/system-overview &
-
-# Host specific.
-if [[ $HOSTNAME =~ "Monk" ]]; then
-  /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
-  dex $HOME/.config/autostart/arcolinux-welcome-app.desktop
-  blueberry-tray &
-  nm-applet &
-  pamac-tray &
-  xfce4-power-manager &
-else
-  /usr/lib/polkit-1/polkit-agent-helper-1 &
-fi
+/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
+dex $HOME/.config/autostart/arcolinux-welcome-app.desktop
+blueberry-tray &
+nm-applet &
+pamac-tray &
+xfce4-power-manager &
 
 # BSPWM configuration
 bspc config border_width         1
