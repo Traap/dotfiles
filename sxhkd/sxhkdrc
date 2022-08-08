@@ -1,9 +1,12 @@
 # super is the OS key: Apple,  Windows,  Lunux,  etc.
-# {{{ Terminals
+# {{{ Terminal and quit nodes.
 
 # Alacritty
 Return + {alt, ctrl, super}
   alacritty
+
+q + {alt, ctrl, super}
+    bspc node -c
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Stop and restart bspwm and sxhd.
@@ -97,12 +100,12 @@ alt + space
 # pavucontrol, dmenu_run, xfce4-appfinder, arcolinux-tweak-tool, pamac-manager.
 alt + {F1, F2, F3, F4, F5, F6}
   { \
-    pavucontrol, \
     rofi -show run, \
     xfce4-appfinder, \
-    archlinux-tweak-tool, \
     xfce4-settings-manager, \
-    pamac-manager \
+    pamac-manager, \
+    pavucontrol, \
+    archlinux-tweak-tool \
   }
 
 # Desktop enviornment tweaking.
@@ -124,7 +127,7 @@ super + {f, g, p, BackSpace}
   }
 
 # Apps: DB, Discord, Email, Files, Office, etc
-super + {slash, b, d, e, n, o, r, q, s, t, v, w, x, z}
+super + {slash, b, d, e, n, o, r, s, t, v, w, x, z}
   { \
     sxhkd-help, \
     dbeaver, \
@@ -133,7 +136,6 @@ super + {slash, b, d, e, n, o, r, q, s, t, v, w, x, z}
     Thunar, \
     onlyoffice-desktopeditors, \
     remmina, \
-    bspc node -c, \
     xfce4-screenshooter, \
     teams, \
     obs, \
