@@ -145,13 +145,13 @@ super + {slash, b, d, e, n, o, r, s, t, v, w, x, z}
   }
 
 # Thunar
-ctrl + n
-  notify-send 'sxhkd' 'Simulating Super + n'; \
-  # xdo key_press -k 133; \
-  # xdo key_press -k 57; \
-  # sleep 0.2;
-  xdo key_press -k 133; \
-  xdo key_release -k 57
+#ctrl + n
+#  notify-send 'sxhkd' 'Simulating Super + n'; \
+#  xdo key_press -k 133; \
+#  xdo key_press -k 57; \
+#  sleep 0.2;
+#  xdo key_press -k 133; \
+#  xdo key_release -k 57
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Wallpaper adjustments
