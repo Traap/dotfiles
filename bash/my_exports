@@ -14,6 +14,8 @@ else
 fi
 export FILE=ranger
 export TERM=xterm-256color
+
+# I enable warning when I am debugging .bashrc
 echoWarning=0
 
 # -------------------------------------------------------------------------- }}}
@@ -29,10 +31,6 @@ fi
 
 if dirExists ${GITHOME}/amber; then
    AMBERPATH=${GITHOME}/amber
-elif dirExists ${BBHOME}/amber; then
-     AMBERPATH=${BBHOME}/amber
-elif dirExists ${SOUPHOME}/amber; then
-     AMBERPATH=${SOUPHOME}/amber
 else
   AMBERPATH=""
   [[ $echoWarning == 1 ]] && echo "WARNING: amber is not installed."
@@ -50,10 +48,6 @@ fi
 
 if  dirExists ${GITHOME}/autodoc; then
   AUTODOCPATH=${GITHOME}/autodoc
-elif dirExists ${BBHOME}/autodoc; then
-   AUTODOCPATH=${BBHOME}/autodoc
-elif dirExists ${SOUPHOME}/autodoc; then
-   AUTODOCPATH=${SOUPHOME}/autodoc
 else
   [[ $echoWarning == 1 ]] && echo "WARNING: autodoc is not installed."
   AUTODOCPATH=""
@@ -65,10 +59,6 @@ export AUTODOCPATH
 
 if dirExists ${GITHOME}/docbld; then
   DOCBLDPATH=${GITHOME}/docbld
-elif dirExists ${BBHOME}/docbld; then
-    DOCBLDPATH=${BBHOME}/docbld
-elif dirExists ${SOUPHOME}/docbld; then
-    DOCBLDPATH=${SOUPHOME}/docbld
 else
   [[ $echoWarning == 1 ]] && echo "WARNING: docbld is not installed."
   DOCBLDPATH=""
@@ -80,10 +70,6 @@ export DOCBLDPATH
 
 if dirExists ${GITHOME}/emend; then
    EMENDPATH=${GITHOME}/emend
-elif dirExists ${BBHOME}/emend; then
-     EMENDPATH=${BBHOME}/emend
-elif dirExists ${SOUPHOME}/emend; then
-     EMENDPATH=${SOUPHOME}/emend
 else
   EMENDPATH=""
   [[ $echoWarning == 1 ]] && echo "WARNING: emend is not installed."
@@ -104,11 +90,11 @@ if osType "msys"; then
   EDITOR=$(which vim)
 elif programExists nvim; then
   EDITOR=$(which nvim)
-  export MANPAGER='nvim +Man!'
 else
   EDITOR=$(which vim)
 fi
 export EDITOR
+export MANPAGER='$EDITOR +Man!'
 
 # -------------------------------------------------------------------------- }}}
 # {{{ emend location and function.  These must go together.
@@ -149,10 +135,6 @@ fi
 
 if dirExists ${GITHOME}/newdoc; then
    NEWDOCPATH=${GITHOME}/newdoc
-elif dirExists ${BBHOME}/newdoc; then
-   NEWDOCPATH=${BBHOME}/newdoc
-elif dirExists ${SOUPHOME}/newdoc; then
-    NEWDOCPATH=${SOUPHOME}/newdoc
 else
    [[ $echoWarning == 1 ]] && echo "WARNING: newdoc is not installed."
   NEWDOCPATH=""
