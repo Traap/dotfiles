@@ -6,7 +6,7 @@ Return + {alt, ctrl, super}
   alacritty
 
 q + {alt, ctrl, super}
-    bspc node -c
+  bspc node -c
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Stop and restart bspwm and sxhd.
@@ -108,6 +108,7 @@ alt + {F1, F2, F3, F4, F5, F6}
     archlinux-tweak-tool \
   }
 
+
 # Desktop enviornment tweaking.
 alt + shift + {c, r, m, n}
   { \
@@ -143,6 +144,21 @@ super + {slash, b, d, e, n, o, r, s, t, v, w, x, z}
     archlinux-logout, \
     teams; evolution; \
   }
+
+# super + F1
+#   notify-send 'sxhkd' 'Attempt ssho to Larry'
+
+super + F1
+  notify-send 'sxhkd' 'ssh to Curly'; \
+  alacritty --command ssh clinic-admin@curly -i ~/.ssh/blink-once
+
+super + F2
+  notify-send 'sxhkd' 'ssh to Larry'; \
+  alacritty --command ssh clinic-admin@larry -i ~/.ssh/blink-once
+
+super + F3
+  notify-send 'sxhkd' 'ssh to Moe'; \
+  alacritty --command ssh clinic-admin@moe -i ~/.ssh/blink-once
 
 # Thunar
 #ctrl + n

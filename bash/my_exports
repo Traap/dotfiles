@@ -94,7 +94,7 @@ else
   EDITOR=$(which vim)
 fi
 export EDITOR
-export MANPAGER='$EDITOR +Man!'
+export MANPAGER=${EDITOR}' +Man!'
 
 # -------------------------------------------------------------------------- }}}
 # {{{ emend location and function.  These must go together.
