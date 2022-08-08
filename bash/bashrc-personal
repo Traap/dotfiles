@@ -20,9 +20,6 @@ export GITHOME
 GITPATH=$GITHOME
 export GITPATH
 
-SOUPHOME=$HOME/soup
-export=SOUPHOME
-
 DOTHOME=$GITHOME/dotfiles
 export DOTHOME
 
@@ -32,7 +29,7 @@ export BASHHOME
 BINHOME=$BASHHOME/bin
 export BINHOME
 
-SSHHOME=$BASHHOME/ssh
+SSHHOME=$GITHOME/ssh
 export SSHHOME
 
 # -------------------------------------------------------------------------- }}}

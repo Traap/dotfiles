@@ -114,7 +114,7 @@ title() { echo -n -e "\033]0;$1\007"; }
 sshkeys() {
   if [[ -d $SSHHOME ]]; then
     eval "$(ssh-agent -s)"
-    for key in $(ls $HOME/.ssh/*.pub); do
+    for key in $(ls $SSHHOME/*.pub); do
       ssh-add -q "${key%.*}"
     done;
   fi
