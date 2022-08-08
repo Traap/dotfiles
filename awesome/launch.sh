@@ -22,7 +22,7 @@ fi
 
 # Extra programs to launch.
 run /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
-run conky -c $HOME/.config/bspwm/system-overview &
+run conky -c $HOME/.config/bspwm/system-overview
 dex $HOME/.config/autostart/arcolinux-welcome-app.desktop
 run blueberry-tray
 run nm-apple

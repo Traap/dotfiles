@@ -1,11 +1,13 @@
 #!/bin/sh
+run() { if ! pgrep -f "$1"; then "$@"& fi }
 
 # Simple wallpaper.
-feh --bg-scale $HOME/.config/wallpaper/. &
+run feh --bg-scale $HOME/.config/wallpaper/*
 
 # Swap keys and left handed mouse.
-setxkbmap -option caps:swapescape &
-xmodmap -e "pointer = 3 2 1 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 4 5"
+run numlockx off
+run setxkbmap -option caps:swapescape
+run xmodmap -e "pointer = 3 2 1 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 4 5"
 
 # Desktops
 if [[ $HOSTNAME =~ "Monk" ]]; then
@@ -27,13 +29,13 @@ $HOME/.config/volumeicon/launch.sh
 $HOME/.config/sxhkd/launch.sh
 
 # Extra programs to launch.
-conky -c $HOME/.config/bspwm/system-overview &
-/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
-dex $HOME/.config/autostart/arcolinux-welcome-app.desktop
-blueberry-tray &
-nm-applet &
-pamac-tray &
-xfce4-power-manager &
+run /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
+run conky -c $HOME/.config/bspwm/system-overview
+run dex $HOME/.config/autostart/arcolinux-welcome-app.desktop
+run blueberry-tray
+run nm-applet
+run pamac-tray
+run xfce4-power-manager
 
 # BSPWM configuration
 bspc config border_width         1
