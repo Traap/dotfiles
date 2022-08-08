@@ -86,6 +86,7 @@ deleteSymLinks() {
     rm -fv ~/.config/polybar
     rm -fv ~/.config/ranger
     rm -fv ~/.config/remmina
+    rm -fv ~/.config/rofi
     rm -fv ~/.config/sxhkd
     rm -fv ~/.config/volumeicon
     rm -fv ~/.config/wallpaper
