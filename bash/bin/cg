@@ -1,8 +1,8 @@
 #!/bin/bash
-# {{{ Program overview.
+# {{{ Procgam overview.
 #
 # Name:
-#   gr
+#   cg
 #
 # Purpose:
 #   Clone or pull a Git repository using HTTPS or GIT protocol.
@@ -12,8 +12,8 @@
 #   2 - use HTTPS versus GIT protocol when present.
 #
 # Use:
-#   gr foo
-#   gr bar httpsi
+#   cg foo
+#   cg bar httpsi
 #
 #   Note:  any 2nd argument uses https
 #
