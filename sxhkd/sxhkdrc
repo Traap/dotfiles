@@ -147,9 +147,9 @@ super + {slash, b, d, e, n, o, r, s, t, v, w, x, z}
 
 super + {F10, F11}
   { \
-    notify-send 'sxhkd' 'F10'; \
+    notify-send 'ssh' 'Curly'; \
       alacritty --command ssh clinic-admin@curly -i ~/.ssh/blink-once, \
-    notify-send 'sxhkd' 'F11'; \
+    notify-send 'ssh' 'Larry'; \
       alacritty --command ssh clinic-admin@larry -i ~/.ssh/blink-once  \
   }
 
