@@ -47,6 +47,7 @@ createSymLinks() {
 
     # Symlinks at $HOME
     ln -fsv ~/git/dotfiles/bash/bash_logout      ~/.bash_logout
+    ln -fsv ~/git/dotfiles/bash/bash_profile     ~/.bash_profile
     ln -fsv ~/git/dotfiles/bash/bashrc           ~/.bashrc
     ln -fsv ~/git/dotfiles/bash/bashrc-personal  ~/.bashrc-personal
     ln -fsv ~/git/dotfiles/bash/dircolors        ~/.dircolors
@@ -94,6 +95,8 @@ deleteSymLinks() {
     rm -fv ~/.bash_logout
 
     # Symlinks at $HOME
+    rm -fv ~/.bash_logout
+    rm -fv ~/.bash_profile
     rm -fv ~/.bashrc
     rm -fv ~/.bashrc-personal
     rm -fv ~/.config.vim

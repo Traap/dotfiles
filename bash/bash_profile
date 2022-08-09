@@ -1,0 +1,32 @@
+# ~/.bash_profile
+
+BBHOME=$HOME/bb
+export BBHOME
+
+CFGHOME=$HOME/.config
+export CFGHOME
+
+GITHOME=$HOME/git
+export GITHOME
+
+GITPATH=$GITHOME
+export GITPATH
+
+DOTHOME=$GITHOME/dotfiles
+export DOTHOME
+
+BASHHOME=$DOTHOME/bash
+export BASHHOME
+
+BINHOME=$BASHHOME/bin
+export BINHOME
+
+SSHHOME=$GITHOME/ssh
+export SSHHOME
+
+ABC=abc
+export ABC
+
+source $BASHHOME/my_functions
+sshkeys
+[[ -f ~/.bashrc ]] && . ~/.bashrc

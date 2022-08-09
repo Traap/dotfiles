@@ -6,33 +6,6 @@
 echo ${HOSTNAME} "running" ${OSTYPE}
 
 # -------------------------------------------------------------------------- }}}
-# {{{ Top level exports I used throughout all my scripts.
-
-BBHOME=$HOME/bb
-export BBHOME
-
-CFGHOME=$HOME/.config
-export CFGHOME
-
-GITHOME=$HOME/git
-export GITHOME
-
-GITPATH=$GITHOME
-export GITPATH
-
-DOTHOME=$GITHOME/dotfiles
-export DOTHOME
-
-BASHHOME=$DOTHOME/bash
-export BASHHOME
-
-BINHOME=$BASHHOME/bin
-export BINHOME
-
-SSHHOME=$GITHOME/ssh
-export SSHHOME
-
-# -------------------------------------------------------------------------- }}}
 # {{{ Disable ctrl-s, ctrl-q, and set infinite history.
 
 stty -ixon
@@ -48,6 +21,6 @@ for m in ${my_array[@]}; do
 done
 
 # Load my keys.
-sshkeys
+# sshkeys
 
 # -------------------------------------------------------------------------- }}}

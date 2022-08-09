@@ -44,9 +44,9 @@ super + ctrl + {_, shift +}{1-9}
   bspc node {_, @/} --presel-ratio 0.{1-9}
 
 # Increase or decrease window gap.
-super + bracket{left, right}
-  bspc config -d focused window_gap \
-       $((`bspc config -d focused window_gap` {-,+} 1))
+# super + bracket{left, right}
+#   bspc config -d focused window_gap \
+#        $((`bspc config -d focused window_gap` {-,+} 1))
 
 # East -10, North +10, South -10, West +10.
 super + alt + {h, j, k, l}
@@ -145,19 +145,14 @@ super + {slash, b, d, e, n, o, r, s, t, v, w, x, z}
     teams; evolution; \
   }
 
-super + F11
-  notify-send 'sxhkd' 'F11'; \
-  alacritty  --command ssh clinic-admin@curly -i ~/.ssh/blink-once
-
-super + F12
-  notify-send 'sxhkd' 'F12'; \
-  alacritty  --command ssh clinic-admin@larry -i ~/.ssh/blink-once
-
-super + {F9, F10}
+super + {F10, F11}
   { \
-    alacritty --hold --command ssh clinic-admin@curly -i ~/.ssh/blink-once, \
-    alacritty --hold --command ssh clinic-admin@larry -i ~/.ssh/blink-once  \
+    notify-send 'sxhkd' 'F10'; \
+      alacritty --command ssh clinic-admin@curly -i ~/.ssh/blink-once, \
+    notify-send 'sxhkd' 'F11'; \
+      alacritty --command ssh clinic-admin@larry -i ~/.ssh/blink-once  \
   }
+
 
 # Thunar
 #ctrl + n
