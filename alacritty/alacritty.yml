@@ -24,7 +24,7 @@ font:
   bold_italic:
     family: Hack
     style: BoldItalic
-  size: 10.0
+  size: 7.5
 
 draw_bold_text_with_bright_colors: true
 

@@ -145,12 +145,18 @@ super + {slash, b, d, e, n, o, r, s, t, v, w, x, z}
     teams; evolution; \
   }
 
-super + {F9, F10, F11, F12}
+super + F11
+  notify-send 'sxhkd' 'F11'; \
+  alacritty  --command ssh clinic-admin@curly -i ~/.ssh/blink-once
+
+super + F12
+  notify-send 'sxhkd' 'F12'; \
+  alacritty  --command ssh clinic-admin@larry -i ~/.ssh/blink-once
+
+super + {F9, F10}
   { \
-    alacritty --hold --command ~/.ssh/remote clinic-admin curley blink-once , \
     alacritty --hold --command ssh clinic-admin@curly -i ~/.ssh/blink-once, \
-    alacritty --hold --command ssh clinic-admin@larry -i ~/.ssh/blink-once, \
-    alacritty --hold --command ssh clinic-admin@moe -i ~/.ssh/blink-once    \
+    alacritty --hold --command ssh clinic-admin@larry -i ~/.ssh/blink-once  \
   }
 
 # Thunar

@@ -1,3 +1,3 @@
 #!/usr/bin/env sh
 killall -q sxhkd
-sxhkd &
+sxhkd   -r sxhkd.log &
