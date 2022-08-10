@@ -56,7 +56,7 @@ upgrade() {
     fi
 
     # Update archlinux and community packages.
-    sayAndDo "yay -Syu --noconfirm"
+    sayAndDo "yay -Syyu --noconfirm"
   else
     echo "WARNING: Unknown package management system."
     exit

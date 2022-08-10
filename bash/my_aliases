@@ -69,9 +69,10 @@ alias lass='find . -type l -printf "%p -> %l\n" | sort'
 alias l24='find . -newermt "-24 hours" -ls'
 alias me='clear && exec bash'
 alias mv='mv -v'
-alias n='nvim'
-alias nano='nvim'
-alias np='nvim +PackerSync'
+alias n='$EDITOR'
+alias nano='$EDITOR'
+alias ng='$EDITOR +G'
+alias np='$EDITOR +PackerSync'
 alias pacmann='sudo pacman --noconfirm -S'
 alias rbe='eval "$(rbenv init - n)"'
 alias rbn='sudo reboot now'
@@ -83,7 +84,7 @@ alias sf='source $BASHHOME/my_functions'
 alias sp='source $BASHHOME/my_paths'
 alias ssh='ssh -A'
 alias ta='tmux attach'
-alias xz='nvim -c "let g:tty='\''$(tty)'\''"'
+alias xz='$EDITOR -c "let g:tty='\''$(tty)'\''"'
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Aliases to folders I visit frequently.
@@ -146,14 +147,14 @@ if osType "linux"; then
 fi
 
 # -------------------------------------------------------------------------- }}}
-# {{{ File I edit frequently.
+# {{{ File I edit frequently.  These aliases mirror keybinds used in Vim.
 
 alias ,eb='$EDITOR $BASHHOME/bootstrap.vim'
 alias ,ec='$EDITOR $GITHOME/ssh/config.vim'
 alias ,ed='$EDITOR $GITHOME/vim/custom-dictionary.utf-8.add'
 alias ,eg='$EDITOR $GITHOME/ssh/gitconfig'
-alias ,en='$EDITOR $GITHOME/vim/nvim.vim'
-alias ,ep='$EDITOR $GITHOME/vim/plug.vim'
+alias ,en='$EDITOR $GITHOME/nvim/init.lua'
+alias ,ep='$EDITOR $GITHOME/nvim/lua/traap/plugins/init.lua'
 alias ,em='$EDITOR $GITHOME/vim/minimal-plug.vim'
 alias ,et='$EDITOR $GITHOME/tmux/tmux.conf'
 alias ,ev='$EDITOR $GITHOME/vim/vimrc'
