@@ -43,6 +43,7 @@ createSymLinks() {
     ln -fsv ~/git/dotfiles/sxhkd                 ~/.config/sxhkd
     ln -fsv ~/git/dotfiles/volumeicon            ~/.config/volumeicon
     ln -fsv ~/git/dotfiles/wallpaper             ~/.config/wallpaper
+    ln -fsv ~/git/lvim                           ~/.config/lvim
     ln -fsv ~/git/nvim                           ~/.config/nvim
 
     # Symlinks at $HOME
@@ -91,6 +92,7 @@ deleteSymLinks() {
     rm -fv ~/.config/sxhkd
     rm -fv ~/.config/volumeicon
     rm -fv ~/.config/wallpaper
+    rm -fv ~/.config/lvim
     rm -fv ~/.config/nvim
     rm -fv ~/.bash_logout
 
