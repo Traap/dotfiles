@@ -24,7 +24,7 @@ super + shift + s
 # {{{ Window Manager, Node, and Bar adjustments.
 
 # Rotate tree.
-super + shift + {d, a}
+super + shift + {a, d}
   bspc node @/ -C {backward, forward}
 
 # Toggle node state.
@@ -74,7 +74,7 @@ alt + {h, j, k, l}
 alt + ctrl + {h, j, k, l}
   bspc node --focus @{parent, brother, first, second}
 
-# Presel-dir West, South, North, East
+# Pre-set direction West, South, North, East
 alt + shift + {h, j, k, l}
   bspc node --presel-dir {west, south, north, east}
 
@@ -86,7 +86,7 @@ super + {_, shift + }a
 super + alt + {_, shift + }{Left, Down, Up, Right}
   ~/.config/bspwm/scripts/move-window {_, edge-}{west, south, north, east}
 
-# Cancel presel
+# Cancel pre-set direction.
 super + ctrl + space
   bspc node --presel-dir cancel
 
