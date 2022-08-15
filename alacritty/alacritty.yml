@@ -1,3 +1,11 @@
+import:
+  - ~/.config/alacritty/fonts.yml
+  - ~/.config/alacritty/themes/.default.yml
+
+env:
+  TERM: alacritty
+  WINT_X11_SCALE_FACTOR: '1.0'
+
 window:
   padding:
     x: 2
@@ -5,26 +13,11 @@ window:
   class:
     instance: Alacritty
     general: Alacritty
-  opacity: 1.00
+  opacity: 0.965
 
 scrolling:
   history: 10000
   multiplier: 3
-
-font:
-  normal:
-    family: Hack
-    style:  Medium
-  bold:
-    family: Hack
-    style:  Bold
-  italic:
-    family: Hack
-    style:  MediumItalic
-  bold_italic:
-    family: Hack
-    style: BoldItalic
-  size: 9.5
 
 draw_bold_text_with_bright_colors: true
 

@@ -1,0 +1,14 @@
+font:
+  normal:
+    family: Hack
+    style:  Medium
+  bold:
+    family: Hack
+    style:  Bold
+  italic:
+    family: Hack
+    style:  MediumItalic
+  bold_italic:
+    family: Hack
+    style: BoldItalic
+  size: 7.5

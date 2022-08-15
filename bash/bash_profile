@@ -25,9 +25,6 @@ export BINHOME
 SSHHOME=$GITHOME/ssh
 export SSHHOME
 
-ABC=abc
-export ABC
-
 # Define functions and paths.
 my_array=("functions" "paths")
 for m in ${my_array[@]}; do
