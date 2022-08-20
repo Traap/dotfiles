@@ -11,9 +11,12 @@ _themes=(
   "tomorrow-night"
 )
 
-if [[ "${_themes[*]}" =~ "$1" ]]; then
+theme=${1%.*}
+
+if [[ "${_themes[*]}" =~ $theme ]]; then
+  echo "Theme changed to [${theme}]."
   path=~/.config/alacritty/themes
-  cp $path/"$1".yml $path/.default.yml
+  cp $path/$theme.yml $path/.default.yml
 else
-  echo "Theme was not changed."
+  echo "Theme [$theme] is not supported."
 fi
