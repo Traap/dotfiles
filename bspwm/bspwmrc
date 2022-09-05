@@ -74,7 +74,7 @@ bspc rule -a brave                    state=floating
 bspc rule -a xfce4-terminal           state=floating
 
 # Tiled applications
-bspc rule -a Gnome-disks state=tiled
+bspc rule -a xfce4-appfinder          state=floating flag=sticky
 bspc rule -a xfce4-settings-manager   state=pseudo_tiled flag=sticky
 
 # open applications on specific workspaces
