@@ -28,7 +28,7 @@ createSymLinks() {
     mkdir -p ~/.config
 
     # Symlinks at .config
-    ln -fsv ~/git/dotfiles/Thunar                ~/.config/Thunar
+#    ln -fsv ~/git/dotfiles/Thunar                ~/.config/Thunar
     ln -fsv ~/git/dotfiles/alacritty             ~/.config/alacritty
     ln -fsv ~/git/dotfiles/awesome              ~/.config/awesome
     ln -fsv ~/git/dotfiles/bspwm                 ~/.config/bspwm
@@ -77,45 +77,45 @@ deleteSymLinks() {
     echo "Deleting symbolic links."
 
     # Symlinks at .config
-    rm -fv ~/.config/Thunar
-    rm -fv ~/.config/alacritty
-    rm -fv ~/.config/awesome
-    rm -fv ~/.config/bspwm
-    rm -fv ~/.config/dconf
-    rm -fv ~/.config/dunst
-    rm -fv ~/.config/kitty
-    rm -fv ~/.config/picom
-    rm -fv ~/.config/polybar
-    rm -fv ~/.config/ranger
-    rm -fv ~/.config/remmina
-    rm -fv ~/.config/rofi
-    rm -fv ~/.config/sxhkd
-    rm -fv ~/.config/volumeicon
-    rm -fv ~/.config/wallpaper
-    rm -fv ~/.config/lvim
-    rm -fv ~/.config/nvim
-    rm -fv ~/.bash_logout
+#    rm -rfv ~/.config/Thunar
+    rm -rfv ~/.config/alacritty
+    rm -rfv ~/.config/awesome
+    rm -rfv ~/.config/bspwm
+    rm -rfv ~/.config/dconf
+    rm -rfv ~/.config/dunst
+    rm -rfv ~/.config/kitty
+    rm -rfv ~/.config/picom
+    rm -rfv ~/.config/polybar
+    rm -rfv ~/.config/ranger
+    rm -rfv ~/.config/remmina
+    rm -rfv ~/.config/rofi
+    rm -rfv ~/.config/sxhkd
+    rm -rfv ~/.config/volumeicon
+    rm -rfv ~/.config/wallpaper
+    rm -rfv ~/.config/lvim
+    rm -rfv ~/.config/nvim
+    rm -rfv ~/.bash_logout
 
     # Symlinks at $HOME
-    rm -fv ~/.bash_logout
-    rm -fv ~/.bash_profile
-    rm -fv ~/.bashrc
-    rm -fv ~/.bashrc-personal
-    rm -fv ~/.config.vim
-    rm -fv ~/.dircolors
-    rm -fv ~/.gitconfig
-    rm -fv ~/.gitignore_global
-    rm -fv ~/.inputrc
-    rm -fv ~/.latexmkrc
-    rm -fv ~/.mailcap
-    rm -fv ~/.muttrc
-    rm -fv ~/.ssh
-    rm -fv ~/.tmux
-    rm -fv ~/.tmux.conf
-    rm -fv ~/.vim
-    rm -fv ~/.vimrc
-    rm -fv ~/.vimrc_background
-    rm -rf ~/.xinitrc
+    rm -rfv ~/.bash_logout
+    rm -rfv ~/.bash_profile
+    rm -rfv ~/.bashrc
+    rm -rfv ~/.bashrc-personal
+    rm -rfv ~/.config.vim
+    rm -rfv ~/.dircolors
+    rm -rfv ~/.gitconfig
+    rm -rfv ~/.gitignore_global
+    rm -rfv ~/.inputrc
+    rm -rfv ~/.latexmkrc
+    rm -rfv ~/.mailcap
+    rm -rfv ~/.muttrc
+    rm -rfv ~/.ssh
+    rm -rfv ~/.tmux
+    rm -rfv ~/.tmux.conf
+    rm -rfv ~/.vim
+    rm -rfv ~/.vimrc
+    rm -rfv ~/.vimrc_background
+    rm -rrf ~/.xinitrc
   fi
 }
 
