@@ -1,25 +1,21 @@
 #!/bin/bash
 # {{{ Local settings.
 
-ruby_version='3.0.3'
-win10_user='garya'
+wsl_user='garya'
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Linux only machines.
-#
-# prependToPath only prepends to the path when the directory exists.
 
+# Ruby Environment Manager
+if [[ -f $(which rbenv) ]]; then
+  eval "$(rbenv init - n)"
+fi
+
+# prependToPath only prepends to the path when the directory exists.
 prependToPath $BASHHOME/bin
-prependToPath $HOME/.rbenv/bin
-prependToPath $HOME/.rbenv/versions/$ruby_version/bin
-prependToPath /mnt/c/Users/$win10_user/AppData/Local/SumatraPDF
+prependToPath /mnt/c/Users/$wsl_user/AppData/Local/SumatraPDF
 prependToPath $HOME/.cargo/bin
 
-if [[ -f $HOME/.rbenv/bin/ ]]; then
-  if [[ ":$PATH:" != *"$HOME/.rbenv/bin"* ]]; then
-    eval "$(rbenv init - n)"
-  fi
-fi
 
 # Language Servers
 prependToPath ~/.local/share/nvim/lsp_servers/latex
