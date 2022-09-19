@@ -42,11 +42,11 @@ run xfce4-power-manager
 
 # BSPWM configuration
 bspc config border_width         1
-bspc config window_gap           3
-bspc config top_padding          30
-bspc config bottom_padding       3
-bspc config left_padding         3
-bspc config right_padding        3
+bspc config window_gap           4
+bspc config top_padding          33
+bspc config bottom_padding       2
+bspc config left_padding         2
+bspc config right_padding        2
 bspc config single_monocle       truew
 bspc config split_ratio          0.50
 bspc config borderless_monocle   true
