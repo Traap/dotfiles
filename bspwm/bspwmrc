@@ -89,3 +89,5 @@ bspc rule -a onlyoffice-desktopeditors desktop='^3'
 bspc rule -a obs desktop='^4'
 
 bspc rule -a dbeaver  desktop='^0'
+
+bspc rule -a scpad sticky=on state=floating rectangle=1000x800+750+450
