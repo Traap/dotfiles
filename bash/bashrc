@@ -86,14 +86,18 @@ alias uac="sh ~/.bin/main/000*"
 # continue download
 alias wget="wget -c"
 
+#iso and version used to install ArcoLinux
+alias iso="cat /etc/dev-rel | awk -F '=' '/ISO/ {print $2}'"
+alias isoo="cat /etc/dev-rel"
+
 # userlist
 alias userlist="cut -d: -f1 /etc/passwd"
 
 # merge new settings
 alias merge="xrdb -merge ~/.Xresources"
 
+
 # Aliases for software managment
-# pacman or pm
 alias pacman='sudo pacman --color auto'
 alias update='sudo pacman -Syyu'
 
