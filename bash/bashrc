@@ -56,8 +56,8 @@ alias l.="ls -A | egrep '^\.'"
 
 alias cd..='cd ..'
 alias pdw="pwd"
+alias pacman='pacman --color auto'
 alias udpate='sudo pacman -Syyu'
-alias upate='sudo pacman -Syyu'
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Grep
@@ -97,9 +97,9 @@ alias merge="xrdb -merge ~/.Xresources"
 alias pacman='sudo pacman --color auto'
 alias update='sudo pacman -Syyu'
 
-# yay as aur helper - updates everything
-alias pksyua="yay -Syu --noconfirm"
-alias upall="yay -Syu --noconfirm"
+# paru and yay as aur helper - updates everything
+alias yallall="yay -Syu --noconfirm"
+alias paruall="paru -Syu --noconfirm"
 
 # ps
 alias psa="ps auxf"
@@ -108,11 +108,11 @@ alias psgrep="ps aux | grep -v grep | grep -i -e VSZ -e"
 # grub update
 alias update-grub="sudo grub-mkconfig -o /boot/grub/grub.cfg"
 
+#grub issue 08/2022
+alias install-grub-efi="sudo grub-install --target=x86_64-efi --efi-directory=/boot/efi"
+
 # add new fonts
 alias update-fc='sudo fc-cache -fv'
-
-# copy/paste all content of /etc/skel over to home folder - backup of config created - beware
-alias skel='cp -Rf ~/.config ~/.config-backup-$(date +%Y.%m.%d-%H.%M.%S) && cp -rf /etc/skel/* ~'
 
 # backup contents of /etc/skel to hidden backup folder in home/user
 alias bupskel='cp -Rf /etc/skel ~/.skel-backup-$(date +%Y.%m.%d-%H.%M.%S)'
@@ -127,8 +127,21 @@ alias cb='sudo cp /etc/skel/.bashrc ~/.bashrc && source ~/.bashrc'
 alias tobash="sudo chsh $USER -s /bin/bash && echo 'Now log out.'"
 alias tozsh="sudo chsh $USER -s /bin/zsh && echo 'Now log out.'"
 
+#switch between lightdm and sddm
+alias tolightdm="sudo pacman -S lightdm lightdm-gtk-greeter lightdm-gtk-greeter-settings --noconfirm --needed ; sudo systemctl enable lightdm.service -f ; echo 'Lightm is active - reboot now'"
+alias tosddm="sudo pacman -S sddm --noconfirm --needed ; sudo systemctl enable sddm.service -f ; echo 'Sddm is active - reboot now'"
+alias toly="sudo pacman -S ly --noconfirm --needed ; sudo systemctl enable ly.service -f ; echo 'Ly is active - reboot now'"
+alias togdm="sudo pacman -S gdm --noconfirm --needed ; sudo systemctl enable gdm.service -f ; echo 'Gdm is active - reboot now'"
+alias tolxdm="sudo pacman -S lxdm --noconfirm --needed ; sudo systemctl enable lxdm.service -f ; echo 'Lxdm is active - reboot now'"
+
 # quickly kill conkies
 alias kc='killall conky'
+
+# quickly kill polybar
+alias kp='killall polybar'
+
+# quickly kill picom
+alias kpi='killall picom'
 
 # hardware info --short
 alias hw="hwinfo --short"
@@ -168,15 +181,11 @@ shopt -s expand_aliases # expand aliases
 # -------------------------------------------------------------------------- }}}
 # {{{ Youtube
 
-alias yta-aac="youtube-dl --extract-audio --audio-format aac "
-alias yta-best="youtube-dl --extract-audio --audio-format best "
-alias yta-flac="youtube-dl --extract-audio --audio-format flac "
-alias yta-m4a="youtube-dl --extract-audio --audio-format m4a "
-alias yta-mp3="youtube-dl --extract-audio --audio-format mp3 "
-alias yta-opus="youtube-dl --extract-audio --audio-format opus "
-alias yta-vorbis="youtube-dl --extract-audio --audio-format vorbis "
-alias yta-wav="youtube-dl --extract-audio --audio-format wav "
-alias ytv-best="youtube-dl -f bestvideo+bestaudio "
+alias yta-aac="yt-dlp --extract-audio --audio-format aac "
+alias yta-best="yt-dlp --extract-audio --audio-format best "
+alias yta-flac="yt-dlp --extract-audio --audio-format flac "
+alias yta-mp3="yt-dlp --extract-audio --audio-format mp3 "
+alias ytv-best="yt-dlp -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/bestvideo+bestaudio' --merge-output-format mp4 "
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Packages
@@ -197,7 +206,6 @@ alias jctl="journalctl -p 3 -xb"
 # -------------------------------------------------------------------------- }}}
 # {{{ Important configuration files
 
-alias bls="betterlockscreen -u /usr/share/backgrounds/arcolinux/"
 alias nconfgrub="sudo nvim /boot/grub/grub.cfg"
 alias ngrub="sudo nvim /etc/default/grub"
 alias nlightdm="sudo nvim /etc/lightdm/lightdm.conf"
@@ -217,10 +225,11 @@ alias gpg-check="gpg2 --keyserver-options auto-key-retrieve --verify"
 alias gpg-retrieve="gpg2 --keyserver-options auto-key-retrieve --receive-keys"
 
 # -------------------------------------------------------------------------- }}}
-# {{{ shutdown or reboot
+# {{{ shutdown or reboot or lock screen.
 
 alias ssn="sudo shutdown now"
 alias sr="sudo reboot"
+alias bls="betterlockscreen -u /usr/share/backgrounds/arcolinux/"
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Archvie extractor
