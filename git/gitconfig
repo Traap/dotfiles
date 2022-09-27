@@ -92,3 +92,5 @@
 
 [include]
   path = ~/git/ssh/gitconfig-private
+[diff]
+	tool = meld
