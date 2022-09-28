@@ -1,0 +1,2 @@
+#!/bin/bash
+wc $(find . -type f | grep -E "\.(vimrc|vim|lua)" )
