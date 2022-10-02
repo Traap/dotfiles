@@ -154,11 +154,7 @@ super + {F10, F11}
   }
 
 alt + s
-  notify-send 'spad' '[Alt-S] Scratch Pad toggled.'; \
-    scratchpad
-
-alt + shift + s
-  notify-send 'spad' '[Alt-Shift-S] Scratch Pad toggled.'; \
+  notify-send 'spad' 'Scratch Pad toggled.'; \
     scratchpad
 
 # Thunar

@@ -90,4 +90,4 @@ bspc rule -a obs desktop='^4'
 
 bspc rule -a dbeaver  desktop='^0'
 
-bspc rule -a scratchpad flag=stick state=floating rectangle=800x600+540+220
+bspc rule -a scratchpad flag=stick state=floating rectangle=800x600+558+239
