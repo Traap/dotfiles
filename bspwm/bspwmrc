@@ -84,10 +84,10 @@ bspc rule -a Thunderbird                 desktop='^1'
 bspc rule -a discord desktop='^2'
 bspc rule -a Slack   desktop='^2'
 
-bspc rule -a onlyoffice-desktopeditors desktop='^3'
+bspc rule -a DesktopEditors desktop='^3'
 
 bspc rule -a obs desktop='^4'
 
 bspc rule -a dbeaver  desktop='^0'
 
-bspc rule -a scpad sticky=on state=floating rectangle=1000x800+750+450
+bspc rule -a scratchpad flag=stick state=floating rectangle=800x600+540+220

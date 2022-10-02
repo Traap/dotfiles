@@ -89,12 +89,12 @@ export MANWIDTH=76
 if osType "msys"; then
   EDITOR=$(which vim)
 elif programExists nvim; then
-  EDITOR=$(which nvim)
+  EDITOR=$(which lvim)
 else
   EDITOR=$(which vim)
 fi
 export EDITOR
-export MANPAGER=${EDITOR}' +Man!'
+# export MANPAGER=/usr/bin/vim
 
 # -------------------------------------------------------------------------- }}}
 # {{{ emend location and function.  These must go together.
