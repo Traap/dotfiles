@@ -1,27 +1,36 @@
 #!/bin/bash
+
 # {{{ Set base16 color.  Mom and Dad functions are a simple tribute to my parents.
 
-base16Root=${GITHOME}/color/base16-shell
-mom() {
-  base16Color $1 dark
-}
+useBase16=false
 
-dad() {
-  base16Color $1 light
-}
+if [[ useBase16 == true ]]; then
+  base16Root=${GITHOME}/color/base16-shell
+  [[ -n $PS1 ]] && \
+    [[ -s $base16Root/profile_helper.sh ]] && \
+      source $base16Root/profile_helper.sh
 
-base16Color() {
-  if [[ -f ${base16Root}/scripts/base16-$1-$2.sh ]]; then
-    file=base16-$1-$2.sh
-  else
-    file=base16-$1.sh
-  fi
-  cd ${base16Root} && ./colortest ${file} && cd -
-}
+  mom() {
+    base16Color $1 dark
+  }
 
-ct() {
-  cd ${base16Root}  && ./colortest && cd -
-}
+  dad() {
+    base16Color $1 light
+  }
+
+  base16Color() {
+    if [[ -f ${base16Root}/scripts/base16-$1-$2.sh ]]; then
+      file=base16-$1-$2.sh
+    else
+      file=base16-$1.sh
+    fi
+    cd ${base16Root} && ./colortest ${file} && cd -
+  }
+
+  ct() {
+    cd ${base16Root}  && ./colortest && cd -
+  }
+fi
 
 # -------------------------------------------------------------------------- }}}
 # {{{ A check for the existence of a directory.
@@ -153,14 +162,6 @@ sshstop() {
     sudo /etc/init.d/ssh stop
   fi
 }
-
-# -------------------------------------------------------------------------- }}}
-# {{{ Base16 Shell
-
-BASE16_SHELL=$HOME/git/color/base16-shell/
-[[ -n $PS1 ]] && \
-  [[ -s $BASE16_SHELL/profile_helper.sh ]] && \
-    source $BASE16_SHELL/profile_helper.sh
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Make okular shut up on Windows.
