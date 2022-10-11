@@ -94,7 +94,8 @@ else
   EDITOR=$(which vim)
 fi
 export EDITOR
-# export MANPAGER=/usr/bin/vim
+# TODO: figure out why nvim is displaying graphic characters.
+# export MANPAGER=${EDITOR}' +Man!'
 
 # -------------------------------------------------------------------------- }}}
 # {{{ emend location and function.  These must go together.
