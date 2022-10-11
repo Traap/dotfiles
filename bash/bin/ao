@@ -52,7 +52,7 @@ case $1 in
 # {{{ Create ts session
 
 "t")
-  tmux new-session \; split-window;
+  tmux new-session \; split-window -h
   ;;
 
 # -------------------------------------------------------------------------- }}}
