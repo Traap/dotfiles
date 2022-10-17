@@ -7,7 +7,7 @@ wsl_user='garya'
 # {{{ Linux only machines.
 
 # Ruby Environment Manager
-if [[ -f $(which rbenv) ]]; then
+if [[ -f $(which rbenv 2&>1) ]]; then
   eval "$(rbenv init - n)"
 fi
 
