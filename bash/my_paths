@@ -7,7 +7,7 @@ wsl_user='garya'
 # {{{ Linux only machines.
 
 # Ruby Environment Manager
-if [[ $(which rbenv) ]]; then
+if programExists rbenv; then
   eval "$(rbenv init - n)"
 fi
 
