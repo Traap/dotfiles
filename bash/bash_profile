@@ -25,14 +25,17 @@ export BINHOME
 SSHHOME=$GITHOME/ssh
 export SSHHOME
 
-# Define functions and paths.
-my_array=("functions" "paths")
-for m in ${my_array[@]}; do
-  [[ -f $BASHHOME/my_$m ]] && source $BASHHOME/my_$m
-done
+# msys work-around.
+if [[ ${OSTYPE} =~ "linux" ]]; then
+  # Define functions and paths.
+  my_array=("functions" "paths")
+  for m in ${my_array[@]}; do
+    [[ -f $BASHHOME/my_$m ]] && source $BASHHOME/my_$m
+  done
 
-# Load my keys.
-sshkeys
+  # Load my keys.
+  # sshkeys
 
-# Hook into interactive bash.
-[[ -f ~/.bashrc ]] && . ~/.bashrc
+  # Hook into interactive bash.
+  [[ -f ~/.bashrc ]] && . ~/.bashrc
+fi
