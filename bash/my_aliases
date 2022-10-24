@@ -28,9 +28,14 @@ fi
 # -------------------------------------------------------------------------- }}}
 # {{{ Use bat and exa when they are installed.
 
-[   -f /usr/bin/bat ] && alias 'cat=bat -p'
-[   -f /usr/bin/exa ] && alias ls='exa'
-[ ! -f /usr/bin/exa ] && alias ls='ls --color=auto'
+if osType "msys"; then
+  alias cat='bat -p'
+  ls='ls --color=auto'
+else
+  [   -f /usr/bin/bat ] && alias cat='bat -p'
+  [   -f /usr/bin/exa ] && alias ls='exa'
+  [ ! -f /usr/bin/exa ] && alias ls='ls --color=auto'
+fi
 
 # -------------------------------------------------------------------------- }}}
 # {{{ General purpose aliases.
