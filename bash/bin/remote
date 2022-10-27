@@ -1,0 +1,7 @@
+#!/bin/bash
+# 1 - user name
+# 2 - host
+# 3 - key
+eval "$(ssh-agent -s)"
+ssh-add -q ~/git/ssh/$3.pub
+ssh $1@$2 -i ~/.ssh/$3
