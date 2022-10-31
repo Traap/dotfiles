@@ -1,0 +1,4 @@
+#!/bin/bash
+vim +PlugUpdate
+nvim +PackerSync
+lvim +PackerSync
