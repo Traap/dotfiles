@@ -1,26 +1,25 @@
-rem echo on
+rem echo OFF
 
-rem mklink    c:\Users\%USERNAME%\.bash_logout        c:\Users\%USERNAME%\git\dotfiles\bash\bash_logout
-rem mklink    c:\Users\%USERNAME%\.bash_profile       c:\Users\%USERNAME%\git\dotfiles\bash\bash_profile
-rem mklink    c:\Users\%USERNAME%\.bashrc             c:\Users\%USERNAME%\git\dotfiles\bash\bashrc
-rem mklink    c:\Users\%USERNAME%\.bashrc-personal    c:\Users\%USERNAME%\git\dotfiles\bash\bashrc-personal
-rem mklink    c:\Users\%USERNAME%\.config.vim         c:\Users\%USERNAME%\git\ssh\config.vim
-rem mklink    c:\Users\%USERNAME%\.dircolors          c:\Users\%USERNAME%\git\dotfiles/bash\dircolors
-mklink    c:\Users\%USERNAME%\.gitconfig          c:\Users\%USERNAME%\git\dotfiles\git\gitconfig
-mklink    c:\Users\%USERNAME%\.gitignore_global   c:\Users\%USERNAME%\git\dotfiles\git\gitignore_global
-rem mklink    c:\Users\%USERNAME%\.inputrc            c:\Users\%USERNAME%\git\dotfiles\bash\inputrc
-rem mklink    c:\Users\%USERNAME%\.minttyrc           c:\Users\%USERNAME%\git\dotfiles/bash\minttyrc
-rem mklink    c:\Users\%USERNAME%\.mutt               c:\Users\%USERNAME%\git\mutt-office365
-rem mklink    c:\Users\%USERNAME%\.muttrc             c:\Users\%USERNAME%\git\mutt-office365\muttrc
-rem mklink    c:\Users\%USERNAME%\.tmux.conf          c:\Users\%USERNAME%\git\tmux\tmux.conf
-rem mklink    c:\Users\%USERNAME%\.viminfo            c:\Users\%USERNAME%\git\vim\viminfo
-rem mklink    c:\Users\%USERNAME%\.vim                c:\Users\%USERNAME%\git\vim\vim
-rem mklink    c:\Users\%USERNAME%\_vimrc              c:\Users\%USERNAME%\git\vim\vimrc
-rem mklink    c:\Users\%USERNAME%\.vimrc_background   c:\Users\%USERNAME%\git\vim\vimrc_background
-rem mklink    c:\Users\%USERNAME%\AppData\Local\nvim\init.vim c:\Users\%USERNAME%\git\vim\vimrc
-rem mklink /D c:\Users\%USERNAME%\.ssh                c:\Users\%USERNAME%\git\ssh
-rem mklink /D c:\Users\%USERNAME%\.tmux               c:\Users\%USERNAME%\git\tmux
-rem mklink /D c:\Users\%USERNAME%\.vim                c:\Users\%USERNAME%\git\vim
+rem mklink    %USERPROFILE%\.bash_logout        %USERPROFILE%\git\dotfiles\bash\bash_logout
+rem mklink    %USERPROF:ILE%\.bash_profile       %USERPROFILE%\git\dotfiles\bash\bash_profile
+rem mklink    %USERPROFILE%\.bashrc             %USERPROFILE%\git\dotfiles\bash\bashrc
+rem mklink    %USERPROFILE%\.bashrc-personal    %USERPROFILE%\git\dotfiles\bash\bashrc-personal
+rem mklink    %USERPROFILE%\.config.vim         %USERPROFILE%\git\ssh\config.vim
+rem mklink    %USERPROFILE%\.dircolors          %USERPROFILE%\git\dotfiles/bash\dircolors
+rem mklink    %USERPROFILE%\.gitconfig          %USERPROFILE%\git\dotfiles\git\gitconfig
+rem mklink    %USERPROFILE%\.gitignore_global   %USERPROFILE%\git\dotfiles\git\gitignore_global
+rem mklink    %USERPROFILE%\.inputrc            %USERPROFILE%\git\dotfiles\bash\inputrc
+rem mklink    %USERPROFILE%\.minttyrc           %USERPROFILE%\git\dotfiles/bash\minttyrc
+rem mklink    %USERPROFILE%\.mutt               %USERPROFILE%\git\mutt-office365
+rem mklink    %USERPROFILE%\.muttrc             %USERPROFILE%\git\mutt-office365\muttrc
+rem mklink    %USERPROFILE%\.tmux.conf          %USERPROFILE%\git\tmux\tmux.conf
+rem mklink    %USERPROFILE%\.viminfo            %USERPROFILE%\git\vim\viminfo
+rem mklink    %USERPROFILE%\_vimrc              %USERPROFILE%\git\vim\vimrc
+rem mklink    %USERPROFILE%\.vimrc_background   %USERPROFILE%\git\vim\vimrc_background
+rem mklink    %USERPROFILE%\AppData\Local\nvim\init.vim %USERPROFILE%\git\vim\vimrc
+rem mklink /D %USERPROFILE%\.ssh                %USERPROFILE%\git\ssh
+rem mklink /D %USERPROFILE%\.tmux               %USERPROFILE%\git\tmux
+mklink /D %USERPROFILE%\.vim                %USERPROFILE%\git\vim
 
 rem echo off
 
@@ -28,4 +27,4 @@ rem # I do this to force my ssh dir to my window home directory.  I'm tired of
 rem # fighting corporate networks, vpn, and other stuff. Note: I may not have
 rem # privileges to create a link on the hdrive.
 rem
-rem # mklink /D h:\.ssh c:\Users\%USERNAME%\git\ssh
+rem # mklink /D h:\.ssh %USERPROFILE%\git\ssh
