@@ -12,6 +12,7 @@ if programExists rbenv; then
 fi
 
 # prependToPath only prepends to the path when the directory exists.
+prependToPath $HOME/bin
 prependToPath $BASHHOME/bin
 prependToPath /mnt/c/Users/$wsl_user/AppData/Local/SumatraPDF
 prependToPath $HOME/.cargo/bin

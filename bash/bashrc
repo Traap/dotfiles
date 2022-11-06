@@ -295,9 +295,10 @@ ex ()
 [[ -f $HOME/.config/lua-language-server/3rd/luamake/luamake ]] && \
       alias luamake=$HOME/.config/lua-language-server/3rd/luamake/luamake
 
-export PATH=$PATH:/home/traap/bin
-
 [[ -f $HOME/lib/azure-cli/az.completion ]] && \
     . $HOME/lib/azure-cli/az.completion
+
+[[ -f $HOME/.cargo/env ]] && \
+   .  $HOME/.cargo/env
 
 # -------------------------------------------------------------------------- }}}

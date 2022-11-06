@@ -1,4 +1,5 @@
 #!/bin/bash
+. "$HOME/.cargo/env"
 
 # Define directory exports that my_functions use.
 BBHOME=$HOME/bb
@@ -32,9 +33,6 @@ if [[ ${OSTYPE} =~ "linux" ]]; then
   for m in ${my_array[@]}; do
     [[ -f $BASHHOME/my_$m ]] && source $BASHHOME/my_$m
   done
-
-  # Load my keys.
-  # sshkeys
 
   # Hook into interactive bash.
   [[ -f ~/.bashrc ]] && . ~/.bashrc
