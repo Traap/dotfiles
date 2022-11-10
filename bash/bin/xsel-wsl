@@ -14,14 +14,14 @@ do
   case "$i" in
   -i )
     # for copy we'll direct stdin to clip.exe
-    tee <&0 | /mnt/c/Windows/System32/clip.exe
+    tee <&0 | clip.exe
     exit 0
     ;;
   -o )
     # for paste we will grab contents from powershell.exe
     # powershell.exe Get-Clipboard always adds an extra
     # line break so we will added sed with -z
-    /mnt/c/Windows/System32/WindowsPowerShell/v1.0/powershell.exe Get-Clipboard | sed 's/\r$//' | sed -z '$ s/\n$//'
+    powershell.exe Get-Clipboard | sed 's/\r$//' | sed -z '$ s/\n$//'
     exit 0
     ;;
   esac
