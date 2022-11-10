@@ -42,7 +42,7 @@ fi
 
 alias cls='clear'
 alias encrypt='$BINHOME/encrypt'
-if [[ $(rg --ignore-case '"Ubuntu' /etc/os-release -c 2&>1) -gt 0 ]]; then
+if [[ $(rg --ignore-case '"Ubuntu' /etc/os-release -c 2>/dev/null) -gt 0 ]]; then
   alias fd='fdfind'
   alias fde='fdfind --no-ignore --extension'
 else

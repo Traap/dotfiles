@@ -1,6 +1,4 @@
 #!/bin/bash
-. "$HOME/.cargo/env"
-
 # Define directory exports that my_functions use.
 BBHOME=$HOME/bb
 export BBHOME
