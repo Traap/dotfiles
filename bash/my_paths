@@ -17,9 +17,4 @@ prependToPath $BASHHOME/bin
 prependToPath /mnt/c/Users/$wsl_user/AppData/Local/SumatraPDF
 prependToPath $HOME/.cargo/bin
 
-
-# Language Servers
-prependToPath ~/.local/share/nvim/lsp_servers/latex
-prependToPath ~/.local/share/nvim/lsp_servers/sumneko_lua/extension/server/bin
-
 # -------------------------------------------------------------------------- }}}
