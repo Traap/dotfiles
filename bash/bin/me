@@ -4,5 +4,5 @@ function sourceMyFile() {
   [[ -f $1 ]] && source $1 && echo "Sourced: " $1
 }
 
-sourceMyFile /home/$USER/git/dotfiles/bashrc
-sourceMyFile /home/$USER/git/dotfiles/bashrc-personal
+sourceMyFile /home/$USER/git/dotfiles/bash/bashrc
+sourceMyFile /home/$USER/git/dotfiles/bash/bashrc-personal
