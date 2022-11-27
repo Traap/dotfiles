@@ -66,6 +66,17 @@ fi
 export DOCBLDPATH
 
 # -------------------------------------------------------------------------- }}}
+# {{{ dotnet
+
+if dirExists ${HOME}/.dotnet; then
+  DOTNET_ROOT=${HOME}/.dotnet
+  export PATH=$PATH:$DOTNET_ROOT:$DOTNET_ROOT/tools
+else
+  DOTNET_ROOT=""
+fi
+export DOTNET_ROOT
+
+# -------------------------------------------------------------------------- }}}
 # {{{ emend location.
 
 if dirExists ${GITHOME}/emend; then
