@@ -18,6 +18,9 @@
   suo    = push  --set-upstream  origin
   cma    = commit  --all  -m
   gm     = "!git  checkout  $1;git  merge  @{1-}"
+  sl     = stash list
+  sp     = stash pop
+  ss     = stash save
   st     = status  --short  --branch
   undo   = "!f()  {  git  reset  --hard  $(git  rev-parse  --abbrev-ref  HEAD)@{${1-1}};  };  f"
   pushup = push  -u  origin  HEAD
