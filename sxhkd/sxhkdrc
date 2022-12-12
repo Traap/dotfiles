@@ -128,12 +128,13 @@ super + {f, g, p, BackSpace}
   }
 
 # Apps: DB, Discord, Email, Files, Office, etc
-super + {slash, b, d, e, n, o, r, s, t, v, w, x, z}
+super + {slash, b, d, e, k, n, o, r, s, t, v, w, x, z}
   { \
     sxhkd-help, \
     dbeaver, \
     discord, \
     thunderbird, \
+    screenkey, \
     Thunar, \
     onlyoffice-desktopeditors, \
     remmina, \
