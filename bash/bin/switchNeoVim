@@ -32,29 +32,9 @@ if [[ $# -eq 1 ]]; then
 # {{{ Set the NeoVim enfironment.
 
 case $1 in
-  cc)
+  kick)
     removePackerPackages
-    ln -fsv ~/git/ChristianChiarulli ~/.config/nvim
-    ;;
-  doom)
-    removePackerPackages
-    ln -fsv ~/git/doom-nvim ~/.config/nvim
-    ;;
-  dots)
-    removePackerPackages
-    ln -fsv ~/git/nvimdots ~/.config/nvim
-    ;;
-  luan)
-    removePackerPackages
-    ln -fsv ~/git/luan ~/.config/nvim
-    ;;
-  LunarVim)
-    removePackerPackages
-    ln -fsv ~/git/lvim ~/.config/nvim
-    ;;
-  rayx)
-    removePackerPackages
-    ln -fsv ~/git/rayx ~/.config/nvim
+    ln -fsv ~/git/kickstart.nvim ~/.config/nvim
     ;;
   NvChad)
     removePackerPackages
@@ -64,13 +44,9 @@ case $1 in
     removePackerPackages
     ln -fsv ~/git/nvim ~/.config/nvim
     ;;
-  scratch)
+  prime)
     removePackerPackages
-    ln -fsv ~/git/NeoVim-from-scratch ~/.config/nvim
-    ;;
-  vapour)
-    removePackerPackages
-    ln -fsv ~/git/VapourNvim ~/.config/nvim
+    ln -fsv ~/git/prime ~/.config/nvim
     ;;
   *)
 esac
