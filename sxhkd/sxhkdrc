@@ -1,4 +1,4 @@
-# super is the OS key: Apple,  Windows,  Lunux,  etc.
+ super is the OS key: Apple,  Windows,  Lunux,  etc.
 # {{{ Terminal and quit nodes.
 
 # Alacritty
@@ -146,12 +146,14 @@ super + {slash, b, d, e, k, n, o, r, s, t, v, w, x, z}
     teams; thunderbird; onlyoffice-desktopeditors; \
   }
 
-super + {F10, F11}
+super + {F10, F11, F12}
   { \
     notify-send 'ssh' 'Curly'; \
       alacritty --command ssh clinic-admin@curly -i ~/.ssh/blink-once, \
     notify-send 'ssh' 'Larry'; \
-      alacritty --command ssh clinic-admin@larry -i ~/.ssh/blink-once  \
+      alacritty --command ssh clinic-admin@larry -i ~/.ssh/blink-once, \
+    notify-send 'ssh' 'DarkKnight'; \
+      alacritty --command ssh traap@DarkKnight   -i ~/.ssh/slyder  \
   }
 
 alt + s
