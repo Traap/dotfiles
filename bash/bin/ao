@@ -155,9 +155,8 @@ case $1 in
   tmux send-keys     -t $1:1 \
     'vim \
       plug.vim \
-      bundle/im-bundle-keybindings/plugin/bundle-keybindings.vim \
-      bundle/cim-bundle-settings/plugin/bundle-settings.vim \
-      bundle/vim-bundle-terminal/plugin/bundle-terminal.vim \
+      bundle/vim-bundle-keybindings/plugin/bundle-keybindings.vim \
+      bundle/vim-bundle-settings/plugin/bundle-settings.vim \
       vimrc \
       bootstrap.vim \
     ' Enter
