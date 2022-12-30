@@ -49,7 +49,11 @@ case $1 in
   ;;
 
 # -------------------------------------------------------------------------- }}}
-# {{{ Create ts session
+# {{{ Create r or t session
+
+"r")
+  tmux new-session \; split-window -v\; split-window -h
+  ;;
 
 "t")
   tmux new-session \; split-window -h
@@ -61,8 +65,8 @@ case $1 in
 "bash")
   getRepository dotfiles
 
-  tmux new-session   -c ${GITPATH}/dotfiles  -n dotfiles   -s $1 -d
-  tmux new-window    -c ${GITPATH}/dotfiles  -n bashrc     -t $1:2
+  tmux new-session   -c ${BASHHOME}  -n dotfiles   -s $1 -d
+  tmux new-window    -c ${BASHHOME}  -n bashrc     -t $1:2
 
   tmux send-keys     -t $1:2 \
     '$EDITOR \
