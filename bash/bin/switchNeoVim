@@ -36,6 +36,10 @@ case $1 in
     removePackerPackages
     ln -fsv ~/git/kickstart.nvim ~/.config/nvim
     ;;
+  lazy)
+    removePackerPackages
+    ln -fsv ~/git/lazyvim ~/.config/nvim
+    ;;
   NvChad)
     removePackerPackages
     ln -fsv ~/git/NvChad ~/.config/nvim
