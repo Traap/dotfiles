@@ -1,4 +1,19 @@
- super is the OS key: Apple,  Windows,  Lunux,  etc.
+# {{{ Physical keyboard notes.
+#
+# super is the OS key: Apple,  Windows,  Lunux,  etc.
+#
+# My alt, ctrl, fn, and super keys are in different locations on my keyboards.
+#
+# Apple min wireless: |fn  |ctrl |alt  |super|space|super|alt
+# Rupublic of Gamers: |ctrl|fn   |super|alt  |space|alt  |PrtSc|ctrl
+#              Razer: |ctrl|super|alt  |space|alt  |fn   |menu |ctrl
+#          ZaReason : |ctrl|fn   |super|alt  |space|alt  |menu |ctrl
+#
+# You may notice what appears to be duplicate keybinding actions.  Good
+# observation.  It do this to accommodate muscle memory.  For example, the left
+# key closes to the space bar + return will create start a terminal. 
+#
+# -------------------------------------------------------------------------- }}}
 # {{{ Terminal and quit nodes.
 
 # Alacritty
