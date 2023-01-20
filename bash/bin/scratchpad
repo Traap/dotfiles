@@ -1,4 +1,4 @@
-j!/bin/bash
+#!/bin/bash
 verbose=false
 winclass=$(xdotool search --class scratchpad);
 
@@ -6,6 +6,7 @@ winclass=$(xdotool search --class scratchpad);
 
 if [ -z "$winclass" ]; then
 [ $verbose == true ] && notify-send 'scratchpad' 'Create scratchpad'
+   cd $WIKIHOME
    alacritty --class scratchpad,scratchpad -e nvim +WikiJournal
 else
   if [ ! -f /tmp/scratchpad ]; then
