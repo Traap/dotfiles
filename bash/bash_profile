@@ -24,6 +24,9 @@ export BINHOME
 SSHHOME=$GITHOME/ssh
 export SSHHOME
 
+WIKIHOME=$GITHOME/wiki
+export WIKIHOME
+
 # msys work-around.
 if [[ ${OSTYPE} =~ "linux" ]]; then
   # Define functions and paths.
