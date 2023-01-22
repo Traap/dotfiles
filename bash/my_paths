@@ -1,7 +1,7 @@
 #!/bin/bash
 # {{{ Local settings.
 
-wsl_user='garya'
+wsl_user='Traap'
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Linux only machines.
@@ -14,7 +14,11 @@ fi
 # prependToPath only prepends to the path when the directory exists.
 prependToPath $HOME/bin
 prependToPath $BASHHOME/bin
-prependToPath /mnt/c/Users/$wsl_user/AppData/Local/SumatraPDF
 prependToPath $HOME/.cargo/bin
+
+if [[ -n $WSL_DISTRO_NAME ]]; then
+  prependToPath /mnt/c/Program\ Files/SumatraPDF
+  prependToPath /mnt/c/Users/$wsl_user/AppData/Local/BraveSoftware/Brave-Browser/Application
+fi
 
 # -------------------------------------------------------------------------- }}}

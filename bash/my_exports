@@ -1,16 +1,19 @@
 #!/bin/bash
 # {{{ Default Browers, File Manager, and 256 colors.
-
-if programExists brave-browser; then
-  export BROWSER=$(which brave-browser)
-elif programExists brave; then
-  export BROWSER=$(which brave)
-elif programExists chrome; then
-  export BROWSER=$(which chrome)
-elif programExists firefox; then
-  export BROWSER=$(which firefox)
+if [[ -z $WSL_DISTRO_NAME ]]; then
+  if programExists brave-browser; then
+    export BROWSER=$(which brave-browser)
+  elif programExists brave; then
+    export BROWSER=$(which brave)
+  elif programExists chrome; then
+    export BROWSER=$(which chrome)
+  elif programExists firefox; then
+    export BROWSER=$(which firefox)
+  else
+    export BROWSER=""
+  fi
 else
-  export BROWSER=""
+  export BROWSER=brave.exe
 fi
 export FILE=ranger
 export TERM=xterm-256color
