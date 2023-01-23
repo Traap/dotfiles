@@ -38,7 +38,7 @@ case $1 in
     ;;
   lazy)
     removePackerPackages
-    ln -fsv ~/git/lazyvim ~/.config/nvim
+    ln -fsv ~/git/lzvim.starter ~/.config/nvim
     ;;
   NvChad)
     removePackerPackages
