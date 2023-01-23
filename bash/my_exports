@@ -103,13 +103,13 @@ export MANWIDTH=76
 if osType "msys"; then
   EDITOR=$(which vim)
 elif programExists nvim; then
+  EDITOR=$(which nvim)
+elif programExists lvim; then
   EDITOR=$(which lvim)
 else
   EDITOR=$(which vim)
 fi
 export EDITOR
-# TODO: figure out why nvim is displaying graphic characters.
-# export MANPAGER=${EDITOR}' +Man!'
 
 # -------------------------------------------------------------------------- }}}
 # {{{ emend location and function.  These must go together.
