@@ -30,7 +30,7 @@ createSymLinks() {
     # Symlinks at .config
 #    ln -fsv ~/git/dotfiles/Thunar                ~/.config/Thunar
     ln -fsv ~/git/dotfiles/alacritty             ~/.config/alacritty
-    ln -fsv ~/git/dotfiles/awesome              ~/.config/awesome
+    ln -fsv ~/git/dotfiles/awesome               ~/.config/awesome
     ln -fsv ~/git/dotfiles/bspwm                 ~/.config/bspwm
     ln -fsv ~/git/dotfiles/dconf                 ~/.config/dconf
     ln -fsv ~/git/dotfiles/dunst                 ~/.config/dunst
@@ -40,6 +40,7 @@ createSymLinks() {
     ln -fsv ~/git/dotfiles/ranger                ~/.config/ranger
     ln -fsv ~/git/dotfiles/remmina               ~/.config/remmina
     ln -fsv ~/git/dotfiles/rofi                  ~/.config/rofi
+    ln -fsv ~/git/dotfiles/sk/screenkey.json     ~/.config/screenkey.json
     ln -fsv ~/git/dotfiles/sxhkd                 ~/.config/sxhkd
     ln -fsv ~/git/dotfiles/volumeicon            ~/.config/volumeicon
     ln -fsv ~/git/dotfiles/wallpaper             ~/.config/wallpaper
@@ -78,23 +79,24 @@ deleteSymLinks() {
 
     # Symlinks at .config
 #    rm -rfv ~/.config/Thunar
+    rm -rfv ~/.bash_logout
     rm -rfv ~/.config/alacritty
     rm -rfv ~/.config/awesome
     rm -rfv ~/.config/bspwm
     rm -rfv ~/.config/dconf
     rm -rfv ~/.config/dunst
     rm -rfv ~/.config/kitty
+    rm -rfv ~/.config/lvim
+    rm -rfv ~/.config/nvim
     rm -rfv ~/.config/picom
     rm -rfv ~/.config/polybar
     rm -rfv ~/.config/ranger
     rm -rfv ~/.config/remmina
     rm -rfv ~/.config/rofi
+    rm -rfv ~/.config/screenkey.json
     rm -rfv ~/.config/sxhkd
     rm -rfv ~/.config/volumeicon
     rm -rfv ~/.config/wallpaper
-    rm -rfv ~/.config/lvim
-    rm -rfv ~/.config/nvim
-    rm -rfv ~/.bash_logout
 
     # Symlinks at $HOME
     rm -rfv ~/.bash_logout
