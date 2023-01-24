@@ -32,10 +32,10 @@ small_toolbutton=false
 view_file_mode=0
 resolutions=640x480,800x600,1024x768,1152x864,1280x960,1400x1050
 keystrokes=Send hello world§hello world\\n
-main_width=1268
-main_height=1350
+main_width=2542
+main_height=1348
 main_maximize=false
-main_sort_column_id=3
+main_sort_column_id=5
 main_sort_order=0
 expanded_group=
 toolbar_pin_down=false
@@ -89,6 +89,7 @@ rdp_quality_9=80
 rdp_deviceScaleFactor=0
 rdp_desktopScaleFactor=0
 rdp_desktopOrientation=0
+always_show_notes=false
 
 [ssh_colors]
 background=rgb(213,204,186)
