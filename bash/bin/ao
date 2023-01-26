@@ -197,8 +197,9 @@ fi
 # {{{ Display usage
 
 else
-  echo "Session name [ao|bash|havasu|kjv|nvim|ssh|soup|t|vim|work] is required" \
-      && exit
+  echo \
+    "Session name [ao|bash|havasu|kjv|nvim|r|ssh|soup|t|vim|work] is required" \
+    && exit
 fi
 
 # -------------------------------------------------------------------------- }}}
