@@ -11,7 +11,7 @@
 #
 # You may notice what appears to be duplicate keybinding actions.  Good
 # observation.  It do this to accommodate muscle memory.  For example, the left
-# key closes to the space bar + return will create start a terminal. 
+# key closes to the space bar + return will create start a terminal.
 #
 # -------------------------------------------------------------------------- }}}
 # {{{ Terminal and quit nodes.
@@ -174,15 +174,6 @@ super + {F10, F11, F12}
 alt + s
   notify-send 'spad' 'Scratch Pad toggled.'; \
     scratchpad
-
-# Thunar
-#ctrl + n
-#  notify-send 'sxhkd' 'Simulating Super + n'; \
-#  xdo key_press -k 133; \
-#  xdo key_press -k 57; \
-#  sleep 0.2;
-#  xdo key_press -k 133; \
-#  xdo key_release -k 57
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Wallpaper adjustments
