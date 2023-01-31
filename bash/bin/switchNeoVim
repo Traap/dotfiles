@@ -52,6 +52,10 @@ case $1 in
     removePackerPackages
     ln -fsv ~/git/prime ~/.config/nvim
     ;;
+  tj)
+    removePackerPackages
+    ln -fsv ~/git/tjdevries/xdg_config/nvim ~/.config/nvim
+    ;;
   *)
 esac
 
