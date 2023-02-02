@@ -40,6 +40,7 @@ fi
 # -------------------------------------------------------------------------- }}}
 # {{{ General purpose aliases.
 
+alias cgits='clear && gits'
 alias cls='clear'
 alias encrypt='$BINHOME/encrypt'
 if [[ $(rg --ignore-case '"Ubuntu' /etc/os-release -c 2>/dev/null) -gt 0 ]]; then
