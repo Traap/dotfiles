@@ -1,6 +1,4 @@
-#!/bin/bash
-# {{{ Operating system specific settings.
-
+#!/bin/bash # {{{ Operating system specific settings.
 if osType "/darwin"; then
   alias la='ls -A'
   alias ll='ls -lahG'
@@ -205,5 +203,14 @@ alias kwiki='tmux kill-session -t wiki'
 
 export TEXMFDIST='/usr/share/texmf-dist'
 alias tlmgr='${TEXMFDIST}/scripts/texlive/tlmgr.pl --usermode'
+
+# -------------------------------------------------------------------------- }}}
+# {{{ WSL (Windows Subsystem for Linux)
+
+# Windows paths are appended to PATH when WSL is present.
+
+if [[ -n $WSL_DISTRO_NAME ]]; then
+  alias wsl=wsl.exe
+fi
 
 # -------------------------------------------------------------------------- }}}

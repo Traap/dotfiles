@@ -17,8 +17,9 @@ prependToPath $BASHHOME/bin
 prependToPath $HOME/.cargo/bin
 
 if [[ -n $WSL_DISTRO_NAME ]]; then
-  prependToPath /mnt/c/Program\ Files/SumatraPDF
-  prependToPath /mnt/c/Users/$wsl_user/AppData/Local/BraveSoftware/Brave-Browser/Application
+  appendToPath /mnt/c/Program\ Files/SumatraPDF
+  appendToPath /mnt/c/Users/$wsl_user/AppData/Local/BraveSoftware/Brave-Browser/Application
+  appendToPath /mnt/c/Windows/System32
 fi
 
 # -------------------------------------------------------------------------- }}}
