@@ -94,6 +94,7 @@ alias v='vim'
 alias vg='vim +G'
 alias vp='vim +PlugUpdate'
 alias xz='$EDITOR -c "let g:tty='\''$(tty)'\''"'
+alias yd='cd ~/youtube/wiki'
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Aliases to folders I visit frequently.
