@@ -52,11 +52,11 @@ case $1 in
 # {{{ Create r or t session
 
 "r")
-  tmux new-session \; split-window -v\; split-window -h
+  tmux new-session -n Triple\; split-window -v\; split-window -h
   ;;
 
 "t")
-  tmux new-session \; split-window -h
+  tmux new-session -n Double\; split-window -h
   ;;
 
 # -------------------------------------------------------------------------- }}}
@@ -169,9 +169,9 @@ case $1 in
   ;;
 
 # -------------------------------------------------------------------------- }}}
-# {{{ Create wiki session
+# {{{ Create work session
 
-"wiki")
+"work")
   getRepository wiki
   tmux new-session   -c ${GITPATH}/wiki -n Notebook -s $1 -d
   tmux new-window    -c ${GITPATH}      -n 'Email'  -t $1:2
@@ -179,7 +179,7 @@ case $1 in
   tmux new-window    -c ${GITPATH}      -n 'Remote' -t $1:4
 
   tmux send-keys     -t $1:1 '$EDITOR index.md'   Enter
-  tmux send-keys     -t $1:2 'neomutt'            Enter
+  # tmux send-keys     -t $1:2 'neomutt'            Enter
   tmux select-window -t $1:1
   ;;
 
