@@ -7,16 +7,16 @@
 #  switchNeoVim LunarVim
 #
 # Argument:
-#  $1 - Different NeoNvim envirements I have isntalled.
+#  $1 - Different Neovim environments I have installed.
 #
 # Note:
 #   1. This function changes the symbolic link to NeoVim only.
-#   2. Install the experimental NeoVim enviroment first.
+#   2. Install the experimental NeoVim environment first.
 #
 # -------------------------------------------------------------------------- }}}
-# {{{ removePackerPackages
+# {{{ removePackages
 
-removePackerPackages() {
+removePackages() {
   rm -rf ~/.cache/nvim
   rm -rf ~/.config/nvim
   rm -rf ~/.local/share/nvim
@@ -32,29 +32,25 @@ if [[ $# -eq 1 ]]; then
 # {{{ Set the NeoVim enfironment.
 
 case $1 in
-  kick)
-    removePackerPackages
-    ln -fsv ~/git/kickstart.nvim ~/.config/nvim
-    ;;
   lazy)
-    removePackerPackages
+    removePackages
     ln -fsv ~/git/lzvim.starter ~/.config/nvim
     ;;
-  NvChad)
-    removePackerPackages
-    ln -fsv ~/git/NvChad ~/.config/nvim
-    ;;
   nvim)
-    removePackerPackages
-    ln -fsv ~/git/nvim ~/.config/nvim
+    removePackages
+    echo 'Neovim without plugins.'
     ;;
   prime)
-    removePackerPackages
+    removePackages
     ln -fsv ~/git/prime ~/.config/nvim
     ;;
   tj)
-    removePackerPackages
-    ln -fsv ~/git/tjdevries/xdg_config/nvim ~/.config/nvim
+    removePackages
+    ln -fsv ~/git/kickstart.nvim ~/.config/nvim
+    ;;
+  traap)
+    removePackages
+    ln -fsv ~/git/nvim ~/.config/nvim
     ;;
   *)
 esac
@@ -63,7 +59,7 @@ esac
 # {{{ Report user input error.
 
 else
-  echo "NeoVim name [AstroVim | LunarVim | nvim | scratch ] is required" \
+  echo "NeoVim name [kick|nvim|prime|tj|traap] is required" \
       && exit
 fi
 
