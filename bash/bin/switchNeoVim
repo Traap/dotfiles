@@ -1,5 +1,5 @@
 #!/bin/bash
-# {{{ Test function to swap NeoVim environments
+# {{{ Swap NeoVim environments
 #
 # Name: switchNeoVim
 #
@@ -42,6 +42,7 @@ case $1 in
     ;;
   prime)
     removePackages
+    rm -rf  ~/git/prime/plugin
     ln -fsv ~/git/prime ~/.config/nvim
     ;;
   tj)
@@ -51,6 +52,11 @@ case $1 in
   traap)
     removePackages
     ln -fsv ~/git/nvim ~/.config/nvim
+    ;;
+  zulu)
+    removePackages
+    rm -rf  ~/git/nvim2/plugin
+    ln -fsv ~/git/nvim2 ~/.config/nvim
     ;;
   *)
 esac
