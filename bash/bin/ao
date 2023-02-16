@@ -52,11 +52,11 @@ case $1 in
 # {{{ Create r or t session
 
 "r")
-  tmux new-session -n Triple\; split-window -v\; split-window -h
+  tmux new-session -n Triple -s $1\; split-window -v\; split-window -h
   ;;
 
 "t")
-  tmux new-session -n Double\; split-window -h
+  tmux new-session -n Double -s $1\; split-window -h
   ;;
 
 # -------------------------------------------------------------------------- }}}
