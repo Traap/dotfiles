@@ -1,0 +1,91 @@
+#!/bin/bash
+# {{{ Switch Neovim environments
+#
+# Name: switchNeoVim
+#
+# Use:
+#  switchNeovim [name]
+#
+# Argument:
+#  $1 - Different Neovim environments I have installed.
+#
+# Note:
+#   1. This function changes the symbolic link to Neovim only.
+#   2. Clone the experimental Neovim environment first.
+#
+# -------------------------------------------------------------------------- }}}
+# {{{ Set Neovim Environment
+#     $1 is the path to the new environment:  ~/git/nvim.traap
+
+setNeovimEnvironment() {
+  removeNeovimConfiguration
+  echo "Neovim configuration is $1"
+  ln -fsv $1 ~/.config/nvim
+  removePackageTrackingFiles
+}
+
+# -------------------------------------------------------------------------- }}}
+# {{{ Recursively remove directory if present.
+
+removeDirIfPresent() {
+  if [[ -d "$1" ]]; then
+    echo "Removed $1"
+    rm -rf $1
+  fi
+}
+
+# -------------------------------------------------------------------------- }}}
+# {{{ Remove Neovim Configuration
+
+removeNeovimConfiguration() {
+  removeDirIfPresent ~/.cache/nvim
+  removeDirIfPresent ~/.config/nvim
+  removeDirIfPresent ~/.local/share/nvim
+  removeDirIfPresent ~/.local/state/nvim
+}
+
+# -------------------------------------------------------------------------- }}}
+# {{{ Remove package Tracking Files
+
+removePackageTrackingFiles() {
+  rm -rfv ~/.config/nvim/lazy-lock.json
+  rm -rfv ~/.config/nvim/package-lock.json
+  rm -rfv ~/.config/nvim/plugin
+}
+
+# -------------------------------------------------------------------------- }}}
+# {{{ Validate argument.
+
+if [[ $# -eq 0 ]]; then
+
+  echo "Neovim name [default|lazy|nvim|prime|tj|traap|vapour|zulu] is required" \
+      && exit
+
+# -------------------------------------------------------------------------- }}}
+# {{{ Chose the Neovim environment to set.
+
+else
+  case $1 in
+       lazy) setNeovimEnvironment ~/git/lzvim.starter ;;
+      prime) setNeovimEnvironment ~/git/nvim.prime ;;
+         tj) setNeovimEnvironment ~/git/nvim.kickstart ;;
+      traap) setNeovimEnvironment ~/git/nvim.traap ;;
+     vapour) setNeovimEnvironment ~/git/nvim.vapour ;;
+       zulu) setNeovimEnvironment ~/git/nvim.zulu ;;
+    default)
+      removeNeovimConfiguration
+      echo 'Neovim without plugins.'
+      ;;
+    *)
+      echo "WARN: $1 is not supported.  Neovim environment did not change."
+      exit 0
+     ;;
+  esac
+fi
+
+# -------------------------------------------------------------------------- }}}
+# {{{ Exit gracefully
+
+exit 0
+
+# -------------------------------------------------------------------------- }}}
