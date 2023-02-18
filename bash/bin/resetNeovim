@@ -4,13 +4,12 @@
 #
 # {{{ Here's what happening:
 
-# 1. Use switchNeovim to swith to my neovim configuration.
-# 2. Use bnvim rebuild neovim from source.
-# 3. Bootstrap neovim.
+# 1. Use bnvim rebuild neovim from source.
+# 2. Use switchNeovim to swith to my neovim configuration and bootstrap neovim.
+# 3. Tell'em what to do next.
 
-switchNeovim traap
 bnvim
-nvim
-echo "Exit nvim and restart nvim to allow Treesitter to finish."
+switchNeovim traap
+echo "Restart nvim to allow Treesitter to finish."
 
 # -------------------------------------------------------------------------- }}}
