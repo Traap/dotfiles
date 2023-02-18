@@ -58,19 +58,21 @@ removePackageTrackingFiles() {
 
 if [[ $# -eq 0 ]]; then
 
-  echo "Neovim name [default|lazy|nvim|prime|tj|traap|vapour|zulu] is required" \
-      && exit
+  echo "A Neovim configuration: "
+  echo "  [default|lazy|nvim|prime|tj|traap|vapour|yankee|zulu] is required"
+  exit
 
 # -------------------------------------------------------------------------- }}}
-# {{{ Chose the Neovim environment to set.
+# {{{ Choose the Neovim environment to set.
 
 else
   case $1 in
-       lazy) setNeovimEnvironment ~/git/lzvim.starter ;;
+       lazy) setNeovimEnvironment ~/git/lazy.starter ;;
       prime) setNeovimEnvironment ~/git/nvim.prime ;;
          tj) setNeovimEnvironment ~/git/nvim.kickstart ;;
       traap) setNeovimEnvironment ~/git/nvim.traap ;;
      vapour) setNeovimEnvironment ~/git/nvim.vapour ;;
+     yankee) setNeovimEnvironment ~/git/lazy.traap ;;
        zulu) setNeovimEnvironment ~/git/nvim.zulu ;;
     default)
       removeNeovimConfiguration
