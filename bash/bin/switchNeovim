@@ -22,6 +22,7 @@ setNeovimEnvironment() {
   echo "Neovim configuration is $1"
   ln -fsv $1 ~/.config/nvim
   removePackageTrackingFiles
+  recordNeovimInUse $1
 }
 
 # -------------------------------------------------------------------------- }}}
@@ -54,6 +55,22 @@ removePackageTrackingFiles() {
 }
 
 # -------------------------------------------------------------------------- }}}
+# {{{ Record neovim in use.
+
+recordNeovimInUse() {
+  echo $1 > ~/.neovim_in_use_okay_to_delete
+}
+
+# -------------------------------------------------------------------------- }}}
+# {{{ Default configuration in use
+
+defaultNeovimEnvironment() {
+  removeNeovimConfiguration
+  recordNeovimInUse '.config/nvim'
+  echo 'Neovim without plugins.'
+}
+
+# -------------------------------------------------------------------------- }}}
 # {{{ Validate argument.
 
 if [[ $# -eq 0 ]]; then
@@ -67,17 +84,14 @@ if [[ $# -eq 0 ]]; then
 
 else
   case $1 in
-       lazy) setNeovimEnvironment ~/git/lazy.starter ;;
-      prime) setNeovimEnvironment ~/git/nvim.prime ;;
-         tj) setNeovimEnvironment ~/git/nvim.kickstart ;;
-      traap) setNeovimEnvironment ~/git/nvim.traap ;;
-     vapour) setNeovimEnvironment ~/git/nvim.vapour ;;
-     yankee) setNeovimEnvironment ~/git/lazy.traap ;;
-       zulu) setNeovimEnvironment ~/git/nvim.zulu ;;
-    default)
-      removeNeovimConfiguration
-      echo 'Neovim without plugins.'
-      ;;
+       lazy) setNeovimEnvironment     ~/git/lazy.starter ;;
+      prime) setNeovimEnvironment     ~/git/nvim.prime ;;
+         tj) setNeovimEnvironment     ~/git/nvim.kickstart ;;
+      traap) setNeovimEnvironment     ~/git/nvim.traap ;;
+     vapour) setNeovimEnvironment     ~/git/nvim.vapour ;;
+     yankee) setNeovimEnvironment     ~/git/lazy.traap ;;
+       zulu) setNeovimEnvironment     ~/git/nvim.zulu ;;
+    default) defaultNeovimEnvironment ~/.config/nvim ;;
     *)
       echo "WARN: $1 is not supported.  Neovim environment did not change."
       exit 0
@@ -88,6 +102,6 @@ fi
 # -------------------------------------------------------------------------- }}}
 # {{{ Exit gracefully
 
-exit 0
+#exit 0
 
 # -------------------------------------------------------------------------- }}}
