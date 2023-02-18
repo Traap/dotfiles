@@ -1,0 +1,16 @@
+#!/bin/bash
+#
+# Backups are not done.  You have been warned.
+#
+# {{{ Here's what happening:
+
+# 1. Use switchNeovim to swith to my neovim configuration.
+# 2. Use bnvim rebuild neovim from source.
+# 3. Bootstrap neovim.
+
+switchNeovim traap
+bnvim
+nvim
+echo "Exit nvim and restart nvim to allow Treesitter to finish."
+
+# -------------------------------------------------------------------------- }}}

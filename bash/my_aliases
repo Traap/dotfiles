@@ -94,6 +94,7 @@ alias ta='tmux attach'
 alias v='vim'
 alias vg='vim +G'
 alias vp='vim +PlugUpdate'
+alias wnv='cat ~/.neovim_in_use_okay_to_delete'
 alias xz='$EDITOR -c "let g:tty='\''$(tty)'\''"'
 alias yd='cd ~/youtube/wiki'
 
