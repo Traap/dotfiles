@@ -58,7 +58,7 @@ removePackageTrackingFiles() {
 # {{{ Record Neovim in use.
 
 recordNeovimInUse() {
-  echo "$1 > ~/.neovim_in_use_okay_to_delete
+  echo "$1" > ~/.neovim_in_use_okay_to_delete
 }
 
 # -------------------------------------------------------------------------- }}}
