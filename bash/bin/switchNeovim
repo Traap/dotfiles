@@ -20,9 +20,9 @@
 setNeovimEnvironment() {
   removeNeovimConfiguration
   echo "Neovim configuration is $1"
-  ln -fsv $1 ~/.config/nvim
+  ln -fsv "$1" ~/.config/nvim
   removePackageTrackingFiles
-  recordNeovimInUse $1
+  recordNeovimInUse "$1"
 }
 
 # -------------------------------------------------------------------------- }}}
@@ -31,7 +31,7 @@ setNeovimEnvironment() {
 removeDirIfPresent() {
   if [[ -d "$1" ]]; then
     echo "Removed $1"
-    rm -rf $1
+    rm -rf "$1"
   fi
 }
 
@@ -58,7 +58,7 @@ removePackageTrackingFiles() {
 # {{{ Record Neovim in use.
 
 recordNeovimInUse() {
-  echo $1 > ~/.neovim_in_use_okay_to_delete
+  echo "$1 > ~/.neovim_in_use_okay_to_delete
 }
 
 # -------------------------------------------------------------------------- }}}
