@@ -55,14 +55,14 @@ removePackageTrackingFiles() {
 }
 
 # -------------------------------------------------------------------------- }}}
-# {{{ Record neovim in use.
+# {{{ Record Neovim in use.
 
 recordNeovimInUse() {
   echo $1 > ~/.neovim_in_use_okay_to_delete
 }
 
 # -------------------------------------------------------------------------- }}}
-# {{{ Default configuration in use
+# {{{ Default Neovim environment is in use.
 
 defaultNeovimEnvironment() {
   removeNeovimConfiguration
@@ -71,29 +71,35 @@ defaultNeovimEnvironment() {
 }
 
 # -------------------------------------------------------------------------- }}}
+# {{{ Show Neovim Configurations
+
+showNeovimConfigurations() {
+  echo "Neovim configurations are: "
+  echo "  switchNeovim [default|folke|prime|tj|traap|vapour|zulu]"
+}
+
+# -------------------------------------------------------------------------- }}}
 # {{{ Validate argument.
 
 if [[ $# -eq 0 ]]; then
-
-  echo "A Neovim configuration: "
-  echo "  [default|lazy|nvim|prime|tj|traap|vapour|yankee|zulu] is required"
-  exit
+  showNeovimConfigurations
+  exit 0
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Choose the Neovim environment to set.
 
 else
   case $1 in
-       lazy) setNeovimEnvironment     ~/git/lazy.starter ;;
+      folke) setNeovimEnvironment     ~/git/lazy.starter ;;
       prime) setNeovimEnvironment     ~/git/nvim.prime ;;
          tj) setNeovimEnvironment     ~/git/nvim.kickstart ;;
       traap) setNeovimEnvironment     ~/git/nvim.traap ;;
      vapour) setNeovimEnvironment     ~/git/nvim.vapour ;;
-     yankee) setNeovimEnvironment     ~/git/lazy.traap ;;
        zulu) setNeovimEnvironment     ~/git/nvim.zulu ;;
     default) defaultNeovimEnvironment ~/.config/nvim ;;
     *)
-      echo "WARN: $1 is not supported.  Neovim environment did not change."
+      echo "WARN: $1 is not supported."
+      showNeovimConfigurations
       exit 0
      ;;
   esac
