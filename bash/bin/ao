@@ -184,6 +184,16 @@ case $1 in
   ;;
 
 # -------------------------------------------------------------------------- }}}
+# {{{ Create Youtube session
+
+"youtube")
+  tmux new-session   -c ${HOME}/youtube/wiki -n Wiki -s $1 -d
+  tmux new-window    -c ${HOME}/youtube      -n Youtube  -t $1:2
+  tmux send-keys     -t $1:1 '$EDITOR index.md'   Enter
+  tmux select-window -t $1:1
+  ;;
+
+# -------------------------------------------------------------------------- }}}
 # {{{ Session name not supported error.
 
   *)
