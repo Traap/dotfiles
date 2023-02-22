@@ -102,11 +102,12 @@ bspc rule -a Thunderbird                 desktop='^1'
 bspc rule -a discord desktop='^2'
 bspc rule -a Slack   desktop='^2'
 
-bspc rule -a DesktopEditors desktop='^3'
+# bspc rule -a DesktopEditors desktop='^3'
+bspc rule -a "ONLYOFFICE Desktop Editors" desktop='^3'
 
 bspc rule -a obs desktop='^4'
 
-bspc rule -a shotcut desktop='^7'
+bspc rule -a Shotcut desktop='^6'
 
 bspc rule -a dbeaver  desktop='^0'
 
