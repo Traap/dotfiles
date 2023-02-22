@@ -11,7 +11,6 @@
 ]]
 
 conky.config = {
-j
   --Various settings
   background = true,             -- forked to background
   cpu_avg_samples = 2,           -- The number of samples to average for CPU monitoring.
