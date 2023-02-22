@@ -143,7 +143,7 @@ super + {f, g, p, BackSpace}
   }
 
 # Apps: DB, Discord, Email, Files, Office, etc
-super + {slash, b, d, e, k, n, o, r, s, t, v, w, x, z}
+super + {slash, b, d, e, k, n, o, r, s, t, u, v, w, x, z}
   { \
     sxhkd-help, \
     dbeaver, \
@@ -155,10 +155,11 @@ super + {slash, b, d, e, k, n, o, r, s, t, v, w, x, z}
     remmina, \
     xfce4-screenshooter, \
     teams, \
+    shotcut, \
     obs, \
     brave, \
     archlinux-logout, \
-    teams; thunderbird; onlyoffice-desktopeditors; \
+    teams; thunderbird \
   }
 
 super + {F10, F11, F12}
