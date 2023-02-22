@@ -14,12 +14,24 @@
 #   2. Clone the experimental Neovim environment first.
 #
 # -------------------------------------------------------------------------- }}}
+# {{{ Set LunarVim Environment
+#     $1 is the path to the new environment:  ~/git/lvim.traap
+
+setLunarVimEnvironment() {
+  echo "Lunar configuration is $1"
+  removeDirIfPresent ~/.config/lvim
+  removeDirIfPresent ~/.local/share/lunarvim/site
+  ln -fsv "$1" ~/.config/lvim
+  recordLunarVimInUse "$1"
+}
+
+# -------------------------------------------------------------------------- }}}
 # {{{ Set Neovim Environment
 #     $1 is the path to the new environment:  ~/git/nvim.traap
 
 setNeovimEnvironment() {
-  removeNeovimConfiguration
   echo "Neovim configuration is $1"
+  removeNeovimConfiguration
   ln -fsv "$1" ~/.config/nvim
   removePackageTrackingFiles
   recordNeovimInUse "$1"
@@ -55,19 +67,28 @@ removePackageTrackingFiles() {
 }
 
 # -------------------------------------------------------------------------- }}}
+# {{{ Record LunarVim in use.
+
+recordLunarVimInUse() {
+  echo "$1" > ~/.lunarvim_in_use_okay_to_delete
+  use_neovim = 0
+}
+
+# -------------------------------------------------------------------------- }}}
 # {{{ Record Neovim in use.
 
 recordNeovimInUse() {
   echo "$1" > ~/.neovim_in_use_okay_to_delete
+  use_neovim=1
 }
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Default Neovim environment is in use.
 
 defaultNeovimEnvironment() {
+  echo 'Neovim without plugins.'
   removeNeovimConfiguration
   recordNeovimInUse '.config/nvim'
-  echo 'Neovim without plugins.'
 }
 
 # -------------------------------------------------------------------------- }}}
@@ -75,7 +96,7 @@ defaultNeovimEnvironment() {
 
 showNeovimConfigurations() {
   echo "Neovim configurations are: "
-  echo "  switchNeovim [default|folke|prime|tj|traap|vapour|zulu]"
+  echo "  switchNeovim [default|folke|prime|tj|traap|vapour|whiskey|xray|yankee|zulu]"
 }
 
 # -------------------------------------------------------------------------- }}}
@@ -96,6 +117,11 @@ else
       traap) setNeovimEnvironment     ~/git/nvim.traap ;;
      vapour) setNeovimEnvironment     ~/git/nvim.vapour ;;
        zulu) setNeovimEnvironment     ~/git/nvim.zulu ;;
+
+    whiskey) setLunarVimEnvironment   ~/git/lvim.default ;;
+       xray) setLunarVimEnvironment   ~/git/lvim.cc ;;
+     yankee) setLunarVimEnvironment   ~/git/lvim.traap ;;
+
     default) defaultNeovimEnvironment ~/.config/nvim ;;
     *)
       echo "WARN: $1 is not supported."
@@ -106,8 +132,12 @@ else
 fi
 
 # -------------------------------------------------------------------------- }}}
-# {{{ Launch neovim
+# {{{ Launch LunarVim or Neovim
 
-nvim
+if [[ $use_neovim == 1 ]]; then
+  nvim
+else
+  lvim
+fi
 
 # -------------------------------------------------------------------------- }}}
