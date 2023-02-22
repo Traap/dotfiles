@@ -71,7 +71,7 @@ removePackageTrackingFiles() {
 
 recordLunarVimInUse() {
   echo "$1" > ~/.lunarvim_in_use_okay_to_delete
-  use_neovim = 0
+  use_neovim=0
 }
 
 # -------------------------------------------------------------------------- }}}
