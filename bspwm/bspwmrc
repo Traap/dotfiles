@@ -47,12 +47,14 @@ run feh --bg-scale "$HOME"/.config/wallpaper/*
 # {{{ Extra programs to launch.
 
 run /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
-run conky -c "$HOME"/.config/bspwm/system-overview
 run dex "$HOME"/.config/autostart/arcolinux-welcome-app.desktop
 run blueberry-tray
 run nm-applet
 run pamac-tray
 run xfce4-power-manager
+
+# 2022.02.22 - Disable conky.  See if you miss it.
+# run conky -c "$HOME"/.config/bspwm/system-overview
 
 # -------------------------------------------------------------------------- }}}
 # {{{ BSPWM configuration
