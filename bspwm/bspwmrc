@@ -1,10 +1,10 @@
-#!/bin/sh
-# {{{ Simple run function.
+#!/bin/sh {{{ Simple run function.
 
 run() { if ! pgrep -f "$1"; then "$@"& fi }
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Simple wallpaper.
+
 run feh --bg-scale $HOME/.config/wallpaper/*
 
 # -------------------------------------------------------------------------- }}}
