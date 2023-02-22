@@ -1,18 +1,18 @@
-#!/bin/sh {{{ Simple run function.
+#!/bin/bash
+# {{{ Simple run function.
 
 run() { if ! pgrep -f "$1"; then "$@"& fi }
 
 # -------------------------------------------------------------------------- }}}
-# {{{ Simple wallpaper.
+# {{{ Start Super X Hot Key Deamon (sxhkd) and mouse settings first.
 
-run feh --bg-scale $HOME/.config/wallpaper/*
-
-# -------------------------------------------------------------------------- }}}
-# {{{ Swap keys and left handed mouse.
-
+"$HOME"/.config/sxhkd/launch.sh
 run numlockx off
 run setxkbmap -option caps:swapescape
 run xmodmap -e "pointer = 3 2 1 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 4 5"
+
+# -------------------------------------------------------------------------- }}}
+# {{{ Configure physical displays.
 
 # Desktops
 if [[ $HOSTNAME =~ "DarkKnight" \
@@ -29,21 +29,26 @@ else
   bspc monitor -d 1 2 3 4 5 6 7 8 9 10
 fi
 
-# -------------------------------------------------------------------------- }}}
-# {{{ Polybar and Picom
 
-$HOME/.config/polybar/launch.sh
-$HOME/.config/picom/launch.sh
-$HOME/.config/dunst/launch.sh
-$HOME/.config/volumeicon/launch.sh
-$HOME/.config/sxhkd/launch.sh
+# -------------------------------------------------------------------------- }}}
+# {{{ Simple wallpaper.
+
+run feh --bg-scale "$HOME"/.config/wallpaper/*
+
+# -------------------------------------------------------------------------- }}}
+# {{{ Polybar, Picom, dunst, and volumicon
+
+"$HOME"/.config/polybar/launch.sh
+"$HOME"/.config/picom/launch.sh
+"$HOME"/.config/dunst/launch.sh
+"$HOME"/.config/volumeicon/launch.sh
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Extra programs to launch.
 
 run /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
-run conky -c $HOME/.config/bspwm/system-overview
-run dex $HOME/.config/autostart/arcolinux-welcome-app.desktop
+run conky -c "$HOME"/.config/bspwm/system-overview
+run dex "$HOME"/.config/autostart/arcolinux-welcome-app.desktop
 run blueberry-tray
 run nm-applet
 run pamac-tray
