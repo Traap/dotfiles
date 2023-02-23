@@ -16,7 +16,7 @@ else
   export BROWSER=brave.exe
 fi
 export FILE=ranger
-export TERM=tmux-256color
+export TERM=xterm-256color
 
 # I enable warning when I am debugging .bashrc
 echoWarning=0
