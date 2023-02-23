@@ -1,13 +1,16 @@
 #!/bin/bash
 
 _themes=(
+  "afterglow"
   "dracula"
   "grubox-dark"
   "konsole-dark-pastels"
   "nord"
   "onedark"
+  "rose-pine"
   "solarized-dark"
-  "tokyonight"
+  "tokyo-night"
+  "tokyo-night-storm"
   "tomorrow-night"
 )
 
