@@ -171,24 +171,6 @@ okular() {
 }
 
 # -------------------------------------------------------------------------- }}}
-# {{{ Repeat a command until a key is pressed.  The read command waits 1sec
-#     before timing out .
-
-repeat() {
-  let passNo=0;
-  while [ true ]; do
-    read -t 1 -n 1
-    if [ $? -gt 0 ]; then
-      let passNo=$((passNo+1))
-      clear
-      echo Repeating [$@]  Ctrl-C to stop.  Pass: $passNo
-      $@
-      sleep 5
-    fi
-  done
-}
-
-# -------------------------------------------------------------------------- }}}
 # {{{ Cxx helper to simplify CxxTest use for C++ software.
 
 cxx() {
