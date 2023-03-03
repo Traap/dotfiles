@@ -6,16 +6,22 @@ wsl_user='Traap'
 # -------------------------------------------------------------------------- }}}
 # {{{ Linux only machines.
 
+# NOTE: When order matters:  PrependToPath (beginn) and appendToPath (end).
+
+# Programming languages.
+prependToPath "$HOME"/.cargo/bin
+
 # Ruby Environment Manager
 if programExists rbenv; then
   eval "$(rbenv init - n)"
 fi
 
 # prependToPath only prepends to the path when the directory exists.
-prependToPath $HOME/bin
-prependToPath $BASHHOME/bin
-prependToPath $HOME/.cargo/bin
+prependToPath "$HOME"/.local/share/nvim/mason/bin
+prependToPath "$HOME"/bin
+prependToPath "$BASHHOME"/bin
 
+# NOTE: Don't forget to set wsl_user correctly.
 if [[ -n $WSL_DISTRO_NAME ]]; then
   appendToPath /mnt/c/Program\ Files/SumatraPDF
   appendToPath /mnt/c/Users/$wsl_user/AppData/Local/BraveSoftware/Brave-Browser/Application
