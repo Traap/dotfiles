@@ -1,7 +1,7 @@
 #!/bin/bash # {{{ Operating system specific settings.
 if osType "/darwin"; then
-  alias la='ls -A'
-  alias ll='ls -lahG'
+	alias la='ls -A'
+	alias ll='ls -lahG'
 fi
 
 # -------------------------------------------------------------------------- }}}
@@ -13,26 +13,26 @@ set -o vi
 # {{{ latexrun is defined when present.
 
 if fileExists $GITHOME/latexrun/latexrun; then
-  alias latexrun='$GITHOME/latex/latexrun/latexrun'
+	alias latexrun='$GITHOME/latex/latexrun/latexrun'
 fi
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Tmux setup.
 
 if fileExists /usr/bin/tmux; then
-  alias tmux='tmux -2'
+	alias tmux='tmux -2'
 fi
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Use bat and exa when they are installed.
 
 if osType "msys"; then
-  alias cat='bat -p'
-  ls='ls --color=auto'
+	alias cat='bat -p'
+	ls='ls --color=auto'
 else
-  [   -f /usr/bin/bat ] && alias cat='bat -p'
-  [   -f /usr/bin/exa ] && alias ls='exa'
-  [ ! -f /usr/bin/exa ] && alias ls='ls --color=auto'
+	[ -f /usr/bin/bat ] && alias cat='bat -p'
+	[ -f /usr/bin/exa ] && alias ls='exa'
+	[ ! -f /usr/bin/exa ] && alias ls='ls --color=auto'
 fi
 
 # -------------------------------------------------------------------------- }}}
@@ -42,10 +42,10 @@ alias cgits='clear && gits'
 alias cls='clear'
 alias encrypt='$BINHOME/encrypt'
 if [[ $(rg --ignore-case '"Ubuntu' /etc/os-release -c 2>/dev/null) -gt 0 ]]; then
-  alias fd='fdfind'
-  alias fde='fdfind --no-ignore --extension'
+	alias fd='fdfind'
+	alias fde='fdfind --no-ignore --extension'
 else
-  alias fde='fd --no-ignore --extension'
+	alias fde='fd --no-ignore --extension'
 fi
 alias fgrep='fgrep --color=auto'
 alias ga='git add'
@@ -99,7 +99,6 @@ alias vp='vim +PlugUpdate'
 alias wlv='cat ~/.lunarvim_in_use_okay_to_delete'
 alias wnv='cat ~/.neovim_in_use_okay_to_delete'
 alias xz='$EDITOR -c "let g:tty='\''$(tty)'\''"'
-alias yd='cd ~/youtube/wiki'
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Aliases to folders I visit frequently.
@@ -125,6 +124,7 @@ alias td='cd $GITHOME/tmux'
 alias vb='cd $GITHOME/vim/bundle'
 alias vd='cd $GITHOME/vim'
 alias wd='cd $GITHOME/wiki'
+alias yd='cd $GITHOME/youtube'
 
 alias cal='cd $CFGHOME/alacritty'
 alias cbs='cd $CFGHOME/bspwm'
@@ -142,7 +142,7 @@ alias cth='cd $CFGHOME/Thunar'
 # {{{ Brew wants me to own usr/local
 
 if osType "darwin"; then
-  alias ulo='sudo chown -R $(whoami) /usr/local'
+	alias ulo='sudo chown -R $(whoami) /usr/local'
 fi
 
 # -------------------------------------------------------------------------- }}}
@@ -155,10 +155,10 @@ alias rgs='repeat git status --short'
 # {{{ Perforce defaults.
 
 if osType "linux"; then
-  if hostName "Ryder"; then
-    alias p4='${P4DISK}/2013.1/p4'
-    alias p4d='${P4DISK}/2013.1/p4d'
-  fi
+	if hostName "Ryder"; then
+		alias p4='${P4DISK}/2013.1/p4'
+		alias p4d='${P4DISK}/2013.1/p4d'
+	fi
 fi
 
 # -------------------------------------------------------------------------- }}}
@@ -225,7 +225,7 @@ alias tlmgr='${TEXMFDIST}/scripts/texlive/tlmgr.pl --usermode'
 # Windows paths are appended to PATH when WSL is present.
 
 if [[ -n $WSL_DISTRO_NAME ]]; then
-  alias wsl=wsl.exe
+	alias wsl=wsl.exe
 fi
 
 # -------------------------------------------------------------------------- }}}
