@@ -1,4 +1,4 @@
-#!bin/bash
+#!/bin/bash
 # {{{ Description
 #
 # This is the primary .bashrc file for ArcoLinux.  I have added my folding
@@ -19,7 +19,7 @@
 
 # msys work-around.
 if [[ ${OSTYPE} =~ "msys" ]]; then
-  [[ -f $HOME/.bash_profile ]] && source $HOME/.bash_profile
+	[[ -f $HOME/.bash_profile ]] && source $HOME/.bash_profile
 fi
 
 # If not running interactively, don't do anything
@@ -35,12 +35,12 @@ PS1='[\u@\h \W]\$ '
 # -------------------------------------------------------------------------- }}}
 # {{{ Path adjustments
 
-if [ -d "$HOME/.bin" ] ;
-  then PATH="$HOME/.bin:$PATH"
+if [ -d "$HOME/.bin" ]; then
+	PATH="$HOME/.bin:$PATH"
 fi
 
-if [ -d "$HOME/.local/bin" ] ;
-  then PATH="$HOME/.local/bin:$PATH"
+if [ -d "$HOME/.local/bin" ]; then
+	PATH="$HOME/.local/bin:$PATH"
 fi
 
 # -------------------------------------------------------------------------- }}}
@@ -100,7 +100,6 @@ alias userlist="cut -d: -f1 /etc/passwd"
 
 # merge new settings
 alias merge="xrdb -merge ~/.Xresources"
-
 
 # Aliases for software managment
 alias pacman='sudo pacman --color auto'
@@ -246,29 +245,28 @@ alias bls="betterlockscreen -u /usr/share/backgrounds/arcolinux/"
 # ex = EXtractor for all kinds of archives
 # usage: ex <file>
 
-ex ()
-{
-  if [ -f $1 ] ; then
-    case $1 in
-      *.tar.bz2)   tar xjf $1   ;;
-      *.tar.gz)    tar xzf $1   ;;
-      *.bz2)       bunzip2 $1   ;;
-      *.rar)       unrar x $1   ;;
-      *.gz)        gunzip $1    ;;
-      *.tar)       tar xf $1    ;;
-      *.tbz2)      tar xjf $1   ;;
-      *.tgz)       tar xzf $1   ;;
-      *.zip)       unzip $1     ;;
-      *.Z)         uncompress $1;;
-      *.7z)        7z x $1      ;;
-      *deb)       ar x $1      ;;
-      *.tar.xz)    tar xf $1    ;;
-      *.tar.zst)   unzstd $1    ;;
-      *)           echo "'$1' cannot be extracted via ex()" ;;
-    esac
-  else
-    echo "'$1' is not a valid file"
-  fi
+ex() {
+	if [ -f $1 ]; then
+		case $1 in
+		*.tar.bz2) tar xjf $1 ;;
+		*.tar.gz) tar xzf $1 ;;
+		*.bz2) bunzip2 $1 ;;
+		*.rar) unrar x $1 ;;
+		*.gz) gunzip $1 ;;
+		*.tar) tar xf $1 ;;
+		*.tbz2) tar xjf $1 ;;
+		*.tgz) tar xzf $1 ;;
+		*.zip) unzip $1 ;;
+		*.Z) uncompress $1 ;;
+		*.7z) 7z x $1 ;;
+		*deb) ar x $1 ;;
+		*.tar.xz) tar xf $1 ;;
+		*.tar.zst) unzstd $1 ;;
+		*) echo "'$1' cannot be extracted via ex()" ;;
+		esac
+	else
+		echo "'$1' is not a valid file"
+	fi
 }
 
 # -------------------------------------------------------------------------- }}}
@@ -277,7 +275,11 @@ ex ()
 # create a file called .bashrc-personal and put all your personal aliases
 # in there. They will not be overwritten by skel.
 
-[[ -f $HOME/.bashrc-personal ]]     && \
-    . $HOME/.bashrc-personal
+[[ -f $HOME/.bashrc-personal ]] &&
+	. $HOME/.bashrc-personal
 
 # -------------------------------------------------------------------------- }}}
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+
+[ -f "/home/traap/.ghcup/env" ] && source "/home/traap/.ghcup/env" # ghcup-env
