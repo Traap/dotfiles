@@ -23,10 +23,10 @@
 # {{{ function to clone or pull a repository as needed.
 
 getRepository() {
-  dir=$(pwd)
-  cd ${GITPATH}
-  gr ${1}
-  cd ${dir}
+	dir=$(pwd)
+	cd "$GITPATH" || echo "GITPATH is not defined." && exit
+	gr "$1"
+	cd "$dir" || exit
 }
 
 # -------------------------------------------------------------------------- }}}
@@ -34,42 +34,46 @@ getRepository() {
 
 if [[ $# -eq 1 ]]; then
 
-# -------------------------------------------------------------------------- }}}
-# {{{ Validate session name.
+	# ------------------------------------------------------------------------ }}}
+	# {{{ Validate session name.
 
-if ! tmux has-session    -t $1 2>/dev/null; then
-case $1 in
+	if ! tmux has-session -t "$1" 2>/dev/null; then
+		case $1 in
 
-# -------------------------------------------------------------------------- }}}
-# {{{ Create ao session
+		# ----------------------------------------------------------------------- }}}
+		# {{{ Create ao session
 
-"ao")
-  tmux new-session   -c ${GITPATH}/dotfiles/bin -n ao -s $1 -d
-  tmux send-keys     -t $1:1 '$EDITOR ao' Enter
-  ;;
+		"ao")
+			tmux new-session -c "$GITPATH"/dotfiles/bin -n ao -s "$1" -d
+			tmux send-keys -t "$1":1 "$EDITOR ao" Enter
+			;;
 
-# -------------------------------------------------------------------------- }}}
-# {{{ Create r or t session
+		# ----------------------------------------------------------------------- }}}
+		# {{{ Create d, h, t
 
-"r")
-  tmux new-session -n Triple -s $1\; split-window -v\; split-window -h
-  ;;
+		"d")
+			tmux new-session -n Double -s "$1"\; split-window -bh
+			;;
 
-"t")
-  tmux new-session -n Double -s $1\; split-window -h
-  ;;
+		"h")
+			tmux new-session -n HomeRun -s "$1"\; split-window -bh\; split-window -bv -t 2\; split-window -bv -t 1
+			;;
 
-# -------------------------------------------------------------------------- }}}
-# {{{ Create bash session
+		"t")
+			tmux new-session -n HomeRun -s "$1"\; split-window -v\; split-window -bfh
+			;;
 
-"bash")
-  getRepository dotfiles
+		# ----------------------------------------------------------------------- }}}
+		# {{{ Create bash session
 
-  tmux new-session   -c ${BASHHOME}  -n dotfiles   -s $1 -d
-  tmux new-window    -c ${BASHHOME}  -n bashrc     -t $1:2
+		"bash")
+			getRepository dotfiles
 
-  tmux send-keys     -t $1:2 \
-    '$EDITOR \
+			tmux new-session -c "$BASHHOME" -n dotfiles -s "$1" -d
+			tmux new-window -c "$BASHHOME" -n bashrc -t "$1":2
+
+			tmux send-keys -t "$1":2 \
+				"$EDITOR \
       bashrc \
       bashrc-personal \
       bash_logout \
@@ -79,143 +83,140 @@ case $1 in
       my_functions \
       my_paths \
       my_prompt \
-    ' Enter
+    " Enter
 
-  tmux select-window -t $1:1
-  ;;
+			tmux select-window -t "$1":1
+			;;
 
-# -------------------------------------------------------------------------- }}}
-# {{{ Create havasu session
+		# ----------------------------------------------------------------------- }}}
+		# {{{ Create havasu session
 
-"havasu")
-  getRepository havasu
-  tmux new-session   -c ${GITPATH}/havasu    -n havasu     -s $1 -d
-  ;;
+		"havasu")
+			getRepository havasu
+			tmux new-session -c "$GITPATH"/havasu -n havasu -s "$1" -d
+			;;
 
-# -------------------------------------------------------------------------- }}}
-# {{{ Create KJV session
+		# ---------------------------------------------------------------------- }}}
+		# {{{ Create KJV session
 
-"kjv")
-  getRepository kjv
-  tmux new-session   -c ${GITPATH}/kjv       -n kjv        -s $1 -d
-  ;;
+		"kjv")
+			getRepository kjv
+			tmux new-session -c "$GITPATH"/kjv -n kjv -s "$1" -d
+			;;
 
-# -------------------------------------------------------------------------- }}}
-# {{{ Create nvim session
+		# ----------------------------------------------------------------------- }}}
+		# {{{ Create nvim session
 
-"nvim")
-  getRepository nvim
-  tmux new-session  -c ${HOME}/.config/nvim -n nvim -s $1 -d
-  tmux send-keys -t $1:1 \
-    'nvim \
+		"nvim")
+			getRepository nvim
+			tmux new-session -c "$HOME"/.config/nvim -n nvim -s "$1" -d
+			tmux send-keys -t "$1":1 \
+				'nvim \
       lua/traap/plugins/init.lua \
       lua/traap/keybindings/init.lua \
       lua/traap/settings/init.lua \
       init.lua \
     ' Enter
-  tmux select-window -t $1:1
-  ;;
+			tmux select-window -t "$1":1
+			;;
 
-# -------------------------------------------------------------------------- }}}
-# {{{ Create ssh session
+		# ----------------------------------------------------------------------- }}}
+		# {{{ Create ssh session
 
-"ssh")
-  getRepository ssh
-  getRepository tmux
-  tmux new-session   -c ${GITPATH}/ssh       -n ssh        -s $1 -d
-  tmux new-window    -c ${GITPATH}/tmux      -n tmux       -t $1:2
+		"ssh")
+			getRepository ssh
+			getRepository tmux
+			tmux new-session -c "$GITPATH"/ssh -n ssh -s "$1" -d
+			tmux new-window -c "$GITPATH"/tmux -n tmux -t "$1":2
 
-  tmux send-keys     -t $1:1 '$EDITOR -O config gitconfig' Enter
-  tmux send-keys     -t $1:2 '$EDITOR tmux.conf' Enter
-  ;;
+			tmux send-keys -t "$1":1 "$EDITOR -O config gitconfig" Enter
+			tmux send-keys -t "$1":2 "$EDITOR tmux.conf" Enter
+			;;
 
-# -------------------------------------------------------------------------- }}}
-# {{{ Create soup session
+		# ----------------------------------------------------------------------- }}}
+		# {{{ Create soup session
 
-"soup")
-  repos=(amber autodoc docbld emend emend-computer git-client newdoc tlc-article)
-  count=0
-  for r in ${repos[@]}
-  do
-    getRepository $r
-    count=$((count+1))
-    if [ $count -eq 1 ]; then
-      tmux new-session -c ${GITPATH}/$r -n $r -s $1 -d
-    else
-      tmux new-window  -c ${GITPATH}/$r -n $r -t $1:$count
-    fi
-  done
-  tmux select-window -t $1:1
+		"soup")
+			repos=(amber autodoc docbld emend emend-computer git-client newdoc tlc-article)
+			count=0
+			for r in "${repos[@]}"; do
+				getRepository "$r"
+				count=$((count + 1))
+				if [ $count -eq 1 ]; then
+					tmux new-session -c "$GITPATH"/"$r" -n "$r" -s "$1" -d
+				else
+					tmux new-window -c "$GITPATH"/"$r" -n "$r" -t "$1":$count
+				fi
+			done
+			tmux select-window -t "$1":1
+			;;
 
-  ;;
+		# ----------------------------------------------------------------------- }}}
+		# {{{ Create vim session
 
-# -------------------------------------------------------------------------- }}}
-# {{{ Create vim session
+		"vim")
+			getRepository vim
+			tmux new-session -c "$GITPATH"/vim -n vim -s "$1" -d
 
-"vim")
-  getRepository vim
-  tmux new-session   -c ${GITPATH}/vim      -n vim        -s $1 -d
-
-  tmux send-keys     -t $1:1 \
-    'vim \
+			tmux send-keys -t "$1":1 \
+				"vim \
       plug.vim \
       bundle/vim-bundle-keybindings/plugin/bundle-keybindings.vim \
       bundle/vim-bundle-settings/plugin/bundle-settings.vim \
       vimrc \
       bootstrap.vim \
-    ' Enter
+    " Enter
 
-  tmux select-window -t $1:1
-  ;;
+			tmux select-window -t "$1":1
+			;;
 
-# -------------------------------------------------------------------------- }}}
-# {{{ Create work session
+		# ----------------------------------------------------------------------- }}}
+		# {{{ Create work session
 
-"work")
-  getRepository wiki
-  tmux new-session   -c ${GITPATH}/wiki -n Notebook -s $1 -d
-  tmux new-window    -c ${GITPATH}      -n 'Email'  -t $1:2
-  tmux new-window    -c ${GITPATH}      -n 'Basher' -t $1:3
-  tmux new-window    -c ${GITPATH}      -n 'Remote' -t $1:4
+		"work")
+			getRepository wiki
+			tmux new-session -c "$GITPATH"/wiki -n Notebook -s "$1" -d
+			tmux new-window -c "$GITPATH" -n 'Email' -t "$1":2
+			tmux new-window -c "$GITPATH" -n 'Basher' -t "$1":3
+			tmux new-window -c "$GITPATH" -n 'Remote' -t "$1":4
 
-  tmux send-keys     -t $1:1 '$EDITOR index.md'   Enter
-  # tmux send-keys     -t $1:2 'neomutt'            Enter
-  tmux select-window -t $1:1
-  ;;
+			tmux send-keys -t "$1":1 "$EDITOR index.md" Enter
+			tmux select-window -t "$1":1
+			;;
 
-# -------------------------------------------------------------------------- }}}
-# {{{ Create Youtube session
+		# ----------------------------------------------------------------------- }}}
+		# {{{ Create Youtube session
 
-"youtube")
-  tmux new-session   -c ${HOME}/youtube/wiki -n Wiki -s $1 -d
-  tmux new-window    -c ${HOME}/youtube      -n Youtube  -t $1:2
-  tmux send-keys     -t $1:1 '$EDITOR index.md'   Enter
-  tmux select-window -t $1:1
-  ;;
+		"youtube")
+			tmux new-session -c "$HOME"/youtube/wiki -n Wiki -s "$1" -d
+			tmux new-window -c "$HOME"/youtube -n Youtube -t "$1":2
+			tmux send-keys -t "$1":1 "$EDITOR index.md" Enter
+			tmux select-window -t "$1":1
+			;;
 
-# -------------------------------------------------------------------------- }}}
-# {{{ Session name not supported error.
+			# --------------------------------------------------------------------- }}}
+			# {{{ Session name not supported error.
 
-  *)
-    echo "Session name $1 is not supported."
-    exit
-    ;;
-  esac
-fi
+		*)
+			echo "Session name $1 is not supported."
+			exit
+			;;
+		esac
+	fi
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Display usage
 
 else
-  echo \
-    "Session name [ao|bash|havasu|kjv|nvim|r|ssh|soup|t|vim|work] is required" \
-    && exit
+	echo \
+		"Session name [ao|bash|d|h|havasu|kjv|nvim||ssh|soup|t|vim|work] is required" &&
+		exit
 fi
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Attach to tmux session.
 
-[[ ! -n $TMUX ]] && tmux attach -t $1
-  exit 0
+[[ -z $TMUX ]] && tmux attach -t "$1"
+exit 0
 
 # -------------------------------------------------------------------------- }}}
