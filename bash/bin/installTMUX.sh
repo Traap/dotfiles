@@ -1,4 +1,15 @@
 #!/bin/bash
+# {{{ Define global constants.
+
+tmuxSrc="https://GitHub.com/Traap/tmux.git"
+tmuxDst="$GITHOME/tmux"
+
+tmuxPluginsSrc="https://github.com/tmux-plugins/tpm.git"
+tmuxPluginsDst="$tmuxDst/plugins/tpm"
+
+tmuxPluginsInstall="$tmuxPluginsDst/bin/install_plugins"
+
+# -------------------------------------------------------------------------- }}}
 # {{{ main
 
 main() {
@@ -10,30 +21,8 @@ main() {
 	cloneTmuxRepos
 	cloneTmuxPlugins
 
-	# Install editors and terminal multiplexers.
+	# Install TMUX plugins.
 	loadTmuxPlugins
-}
-
-# -------------------------------------------------------------------------- }}}
-# {{{ cloneTmuxRepos
-
-cloneTmuxRepos() {
-	say 'Cloning TMUX repositories.'
-	src=https://github.com/Traap/tmux.git
-	dst="$GITHOME/tmux"
-	rm -rf "$dst"
-	git clone "$src" "$dst"
-	echo ""
-}
-
-# -------------------------------------------------------------------------- }}}
-# {{{ cloneTmuxPlugins
-
-cloneTmuxPlugins() {
-	say 'Cloning TMUX plugins.'
-	src=https://github.com/tmux-plugins/tpm.git
-	dst="$GITHOME"/tmux/plugins/tpm
-	git clone "$src" "$dst"
 }
 
 # -------------------------------------------------------------------------- }}}
@@ -50,8 +39,26 @@ deleteSymLinks() {
 
 createSymLinks() {
 	say 'Creating symbolic links.'
-	ln -fsv ~/git/tmux ~/.tmux
-	ln -fsv ~/git/tmux/tmux.conf ~/.tmux.conf
+	ln -fsv "$tmuxDst" ~/.tmux
+	ln -fsv "$tmuxDst"/tmux.conf ~/.tmux.conf
+}
+
+# -------------------------------------------------------------------------- }}}
+# {{{ cloneTmuxRepos
+
+cloneTmuxRepos() {
+	say 'Cloning TMUX repositories.'
+	rm -rf "$tmuxDst"
+	git clone "$tmuxSrc" "$tmuxDst"
+	echo ""
+}
+
+# -------------------------------------------------------------------------- }}}
+# {{{ cloneTmuxPlugins
+
+cloneTmuxPlugins() {
+	say 'Cloning TMUX plugins.'
+	git clone "$tmuxPluginsSrc" "$tmuxPluginsDst"
 }
 
 # -------------------------------------------------------------------------- }}}
@@ -59,7 +66,7 @@ createSymLinks() {
 
 loadTmuxPlugins() {
 	say 'Loading TMUX plugins.'
-	~/.tmux/plugins/tpm/bin/install_plugins
+	"$tmuxPluginsInstall"
 }
 
 # -------------------------------------------------------------------------- }}}
