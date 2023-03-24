@@ -162,14 +162,12 @@ super + {slash, b, d, e, k, n, o, r, s, t, u, v, w, x, z}
     teams; thunderbird \
   }
 
-super + {F10, F11, F12}
+super + {F10, F11}
   { \
-    notify-send 'ssh' 'Curly'; \
-      alacritty --command ssh clinic-admin@curly -i ~/.ssh/blink-once, \
-    notify-send 'ssh' 'Larry'; \
-      alacritty --command ssh clinic-admin@larry -i ~/.ssh/blink-once, \
+    notify-send 'ssh' 'Ninja'; \
+      alacritty --command ssh traap@Ninja -i ~/.ssh/DarkKnight, \
     notify-send 'ssh' 'DarkKnight'; \
-      alacritty --command ssh traap@DarkKnight   -i ~/.ssh/slyder  \
+      alacritty --command ssh traap@DarkKnight   -i ~/.ssh/Ninja  \
   }
 
 alt + s
