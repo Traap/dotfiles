@@ -8,22 +8,21 @@ PS1_END='\n\[\033[01;36m\]\$\[\033[00m\] '
 export PS1=${PS1_START}${PS1_END}
 
 prompt() {
-  GIT_PROMPT_ONLY_IN_REPO=1
-  GIT_PROMPT_START=${PS1_START}
-  GIT_PROMPT_END=${PS1_END}
+	export GIT_PROMPT_ONLY_IN_REPO=1
+	export GIT_PROMPT_START=${PS1_START}
+	export GIT_PROMPT_END=${PS1_END}
 }
 
 if [[ ${OSTYPE} =~ "linux" ]] ||
-   [[ ${OSTYPE} =~ "cygwin" ]] ||
-   [[ ${OSTYPE} =~ "msys" ]]; then
-  if fileExists ${HOME}/.bash-git-prompt/gitprompt.sh; then
-    prompt
-    source ${HOME}/.bash-git-prompt/gitprompt.sh
-  fi
+	[[ ${OSTYPE} =~ "cygwin" ]] ||
+	[[ ${OSTYPE} =~ "msys" ]]; then
+	if fileExists "$HOME"/.bash-git-prompt/gitprompt.sh; then
+		prompt
+		source "$HOME"/.bash-git-prompt/gitprompt.sh
+	fi
 elif [[ ${OSTYPE} =~ "darwin" ]]; then
-  if [[ -f $(brew --prefix)/opt/bash-git-prompt/share/gitprompt.sh ]]; then
-    prompt
-    source "$(brew --prefix)/opt/bash-git-prompt/share/gitprompt.sh"
-  fi
+	if [[ -f $(brew --prefix)/opt/bash-git-prompt/share/gitprompt.sh ]]; then
+		prompt
+		source "$(brew --prefix)/opt/bash-git-prompt/share/gitprompt.sh"
+	fi
 fi
-
