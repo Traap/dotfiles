@@ -54,11 +54,11 @@ super + {1-9, 0}
 super + shift + {1-9, 0}
   bspc node -d '^{1-9, 10}' --follow
 
-# Move window to selected desktop.
+# Move window to selected desktop and do not follow.
 super + alt + {1-9, 0}
   bspc node -d '^{1-9, 10}'
 
-# Move window to selected desktop
+# Move window to selected desktop and do not follow.
 super + ctrl + {1-9, 0}
   bspc node -d '^{1-9, 10}'
 
