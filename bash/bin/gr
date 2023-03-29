@@ -13,7 +13,7 @@
 #
 # Use:
 #   gr foo
-#   gr bar httpsi
+#   gr bar https
 #
 #   Note:  any 2nd argument uses https
 #
@@ -23,8 +23,8 @@
 #   1 - the command provided.
 
 sayAndDo() {
-  echo ${1}
-  ${1}
+	echo "$1"
+	${1}
 }
 
 # -------------------------------------------------------------------------- }}}
@@ -35,41 +35,41 @@ dir=$(pwd)
 # -------------------------------------------------------------------------- }}}
 # {{{ Determine when a clone or pull is needed.
 
-if [ -d ${1} ]; then
-  operation=pull
+if [ -d "$1" ]; then
+	operation=pull
 else
-  operation=clone
+	operation=clone
 fi
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Determine when HTTPS or GIT protocol is used.
 
 if [ "$#" -eq 1 ]; then
-  protocol=git@github.com:Traap/${1}.git
+	protocol=git@github.com:Traap/"$1".git
 else
-  protocol=https://github.com/Traap/${1}
+	protocol=https://github.com/Traap/"$1"
 fi
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Do the clone or pull operation.
 
 if [ ${operation} = 'pull' ]; then
-  cd ${1}
-  sayAndDo "git $operation"
-  cd ${dir}
+	cd "$1" || exit
+	sayAndDo "git $operation"
+	cd "$dir" || exit
 else
-  sayAndDo "git $operation $protocol"
+	sayAndDo "git $operation $protocol"
 fi
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Get all tags.
 
-cd ${1}
+cd "$1" || exit
 sayAndDo "git fetch --all --tags"
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Restore the orginal directory.
 
-cd ${dir}
+cd "$dir" || exit
 
 # -------------------------------------------------------------------------- }}}
