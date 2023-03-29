@@ -1,0 +1,91 @@
+#!/bin/bash
+# {{{ Define Neovim applications you want to experiment with.
+
+# Youtube: junegunn/vim-easy-align keeps the table aligned.
+
+# alias name | github repository name | branch
+readonly neovim_apps=(
+  "default        | none                    | none"
+  "lazy.astro     | AstroNvim/AstroNvim     | default"
+  "lazy.kickstart | nvim-lua/kickstart.nvim | default"
+  "lazy.traap     | Traap/nvim              | default"
+  "lazy.vim       | LazyVim/LazyVim         | default"
+  "lazy.nvchad    | NvChad/NvChad           | default"
+  "pack.prime     | Traap/init.lua          | default"
+  "pack.vapour    | Traap/VapourNvim        | default"
+  "pack.zulu      | Traap/nvim              | v0.6.8-packer"
+)
+readonly file=nvim_appnames
+items=()
+
+# -------------------------------------------------------------------------- }}}
+# {{{ Remove all spaces from parameter 1.
+
+removeSpaces() {
+  var="$(echo -e "$1" | tr -d '[:space:]')"
+  echo "$var"
+}
+
+# -------------------------------------------------------------------------- }}}
+# {{{ Extract fields from neovim_app array.
+
+processNeovimApps() {
+  for fields in "${neovim_apps[@]}"; do
+    IFS=$'|' read -r alias url branch <<< "$fields"
+
+    alias="$(removeSpaces "$alias")"
+    url="$(removeSpaces "$url")"
+    branch="$(removeSpaces "$branch")"
+
+    items+=("$alias")
+  done
+}
+
+# -------------------------------------------------------------------------- }}}
+# {{{ Write neovim aliases to a file that can be souced.
+
+makeAliasesFile() {
+  echo "#!/bin/bash" >$file
+  echo "# NVIM_APPNAME aliases" >>$file
+  for item in "${items[@]}"; do
+    if [[ "default" != "$item" ]]; then
+      echo alias nvim-"${item,,}"=\"NVIM_APPNAME="$item" nvim\" >>$file
+    fi
+  done
+}
+
+# -------------------------------------------------------------------------- }}}
+# {{{ Select Neovim app to switch to.
+
+selectNeovimApp() {
+  config=$(
+    printf "%s\n" "${items[@]}" |
+      fzf --prompt=" Neovim Config  " \
+          --height=20% --layout=reverse --border --exit-0
+  )
+
+  if [[ -z $config ]]; then
+    echo "Nothing selected"
+    return 0
+  elif [[ $config == "default" ]]; then
+    config=""
+  fi
+  echo "$config"
+}
+
+# -------------------------------------------------------------------------- }}}
+# {{{ Main
+
+processNeovimApps
+makeAliasesFile
+# cat "./$file"
+source "./$file"
+
+choice="$(selectNeovimApp)"
+
+echo "You chose: $choice"
+
+# -------------------------------------------------------------------------- }}}
+
+# NVIM_APPNAME=$config nvim "$@"
+# $bind -s ^a "nvims\n"
