@@ -6,13 +6,13 @@
 #
 set -e
 
-main() {
+fuz() {
   previous_file="$1"
-  file_to_edit=`select_file $previous_file`
+  file_to_edit=$(select_file "$previous_file")
 
-  if [ -n "$file_to_edit" ] ; then
+  if [ -n "$file_to_edit" ]; then
     "$EDITOR" "$file_to_edit"
-    main "$file_to_edit"
+    fuz "$file_to_edit"
   fi
 }
 
@@ -24,4 +24,4 @@ select_file() {
 }
 
 # Kick start Note-Taking
-main ""
+fuz "$@"
