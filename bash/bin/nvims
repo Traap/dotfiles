@@ -15,8 +15,9 @@ readonly neovim_apps=(
   "pack.vapour    | Traap/VapourNvim        | default"
   "pack.zulu      | Traap/nvim              | v0.6.8-packer"
 )
-readonly file=nvim_appnames
-items=()
+
+readonly file=nvim-appnames
+nvapps=()
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Remove all spaces from parameter 1.
@@ -31,13 +32,13 @@ removeSpaces() {
 
 processNeovimApps() {
   for fields in "${neovim_apps[@]}"; do
-    IFS=$'|' read -r alias url branch <<< "$fields"
+    IFS=$'|' read -r alias url branch <<<"$fields"
 
     alias="$(removeSpaces "$alias")"
     url="$(removeSpaces "$url")"
     branch="$(removeSpaces "$branch")"
 
-    items+=("$alias")
+    nvapps+=("$alias")
   done
 }
 
@@ -47,9 +48,9 @@ processNeovimApps() {
 makeAliasesFile() {
   echo "#!/bin/bash" >$file
   echo "# NVIM_APPNAME aliases" >>$file
-  for item in "${items[@]}"; do
-    if [[ "default" != "$item" ]]; then
-      echo alias nvim-"${item,,}"=\"NVIM_APPNAME="$item" nvim\" >>$file
+  for nvapp in "${nvapps[@]}"; do
+    if [[ "default" != "$nvapp" ]]; then
+      echo alias nvim-"${nvapp,,}"=\"NVIM_APPNAME="$nvapp" nvim\" >>$file
     fi
   done
 }
@@ -59,9 +60,9 @@ makeAliasesFile() {
 
 selectNeovimApp() {
   config=$(
-    printf "%s\n" "${items[@]}" |
+    printf "%s\n" "${nvapps[@]}" |
       fzf --prompt=" Neovim Config  " \
-          --height=20% --layout=reverse --border --exit-0
+        --height=20% --layout=reverse --border --exit-0
   )
 
   if [[ -z $config ]]; then
