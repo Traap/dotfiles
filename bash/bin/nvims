@@ -1,92 +1,160 @@
 #!/bin/bash
 # {{{ Define Neovim applications you want to experiment with.
 
-# Youtube: junegunn/vim-easy-align keeps the table aligned.
+# Youtube: Review variables controlling output.
 
-# alias name | github repository name | branch
+# File name that is overwritten with nvim appname aliases.
+readonly nvimAppNameFile="$BASHHOME"/nvim_appnames
+
+# nvapp names extracted from neovim_apps array.
+nvapps=()
+
+# alias      | Github repository       | default or branch name
 readonly neovim_apps=(
-  "default        | none                    | none"
-  "lazy.astro     | AstroNvim/AstroNvim     | default"
-  "lazy.kickstart | nvim-lua/kickstart.nvim | default"
-  "lazy.traap     | Traap/nvim              | default"
-  "lazy.vim       | LazyVim/LazyVim         | default"
-  "lazy.nvchad    | NvChad/NvChad           | default"
-  "pack.prime     | Traap/init.lua          | default"
-  "pack.vapour    | Traap/VapourNvim        | default"
-  "pack.zulu      | Traap/nvim              | v0.6.8-packer"
+	"astro     | AstroNvim/AstroNvim     | default"
+	"default   | none                    | none"
+	"kickstart | nvim-lua/kickstart.nvim | default"
+	"lazy      | LazyVim/LazyVim         | default"
+	"nvchad    | NvChad/NvChad           | default"
+	"prime     | Traap/init.lua          | default"
+	"traap     | Traap/nvim              | default"
+	"vapour    | Traap/VapourNvim        | default"
+	"zulu      | Traap/nvim              | v0.6.8-packer"
 )
 
-readonly file=nvim-appnames
-nvapps=()
+# Working directory
+dir=$(pwd)
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Remove all spaces from parameter 1.
 
 removeSpaces() {
-  var="$(echo -e "$1" | tr -d '[:space:]')"
-  echo "$var"
+	var="$(echo -e "$1" | tr -d '[:space:]')"
+	echo "$var"
 }
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Extract fields from neovim_app array.
 
-processNeovimApps() {
-  for fields in "${neovim_apps[@]}"; do
-    IFS=$'|' read -r alias url branch <<<"$fields"
+buildNeovimAppArray() {
+	for fields in "${neovim_apps[@]}"; do
+		IFS=$'|' read -r alias _url _branch <<<"$fields"
+		alias="$(removeSpaces "$alias")"
+		nvapps+=("$alias")
+	done
+}
 
-    alias="$(removeSpaces "$alias")"
-    url="$(removeSpaces "$url")"
-    branch="$(removeSpaces "$branch")"
+# -------------------------------------------------------------------------- }}}
+# {{{ Clone or Pull selected nvapp
 
-    nvapps+=("$alias")
-  done
+cloneOrPullNvApp() {
+	for fields in "${neovim_apps[@]}"; do
+		IFS=$'|' read -r alias url branch <<<"$fields"
+
+		alias="$(removeSpaces "$alias")"
+		if [[ "$1" == "$alias" ]]; then
+			url="$(removeSpaces "$url")"
+			branch="$(removeSpaces "$branch")"
+			location=$HOME/.config/$alias
+			if [[ -d "$location" ]]; then
+				pullRepository "$alias"
+			else
+				cloneRepository "$alias" "$url" "$branch"
+			fi
+			return
+		fi
+	done
+}
+
+# -------------------------------------------------------------------------- }}}
+# {{{ Pull repository
+
+pullRepository() {
+	alias="$1"
+	location=$HOME/.config/$alias
+	runCommandFromDirectory "$location" "git pull"
+}
+
+# -------------------------------------------------------------------------- }}}
+# {{{ Clone Repository
+
+cloneRepository() {
+	alias="$1"
+	url="$2"
+	branch="$3"
+	location=$HOME/.config/$alias
+
+	# Clear clone depth when a branch is needed.
+	if [[ $branch == "default" ]]; then
+		git clone --depth 1 https://github.com/"$url" "$location"
+	else
+		git clone https://github.com/"$url" "$location"
+		runCommandFromDirectory "$location" "git checkout $branch"
+	fi
+}
+
+# -------------------------------------------------------------------------- }}}
+# {{{ Run a command from another directory.
+
+runCommandFromDirectory() {
+	location="$1"
+	command="$2"
+	cd "$location" || return
+	echo "$command"
+	$command
+	toWorkingDirectory
+}
+
+# -------------------------------------------------------------------------- }}}
+# {{{ Move to working directory.
+
+toWorkingDirectory() {
+	cd "$dir" || (echo "Returning to working directory failed." && exit)
 }
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Write neovim aliases to a file that can be souced.
 
-makeAliasesFile() {
-  echo "#!/bin/bash" >$file
-  echo "# NVIM_APPNAME aliases" >>$file
-  for nvapp in "${nvapps[@]}"; do
-    if [[ "default" != "$nvapp" ]]; then
-      echo alias nvim-"${nvapp,,}"=\"NVIM_APPNAME="$nvapp" nvim\" >>$file
-    fi
-  done
+writeAlisesFile() {
+	echo "#!/bin/bash" >"$nvimAppNameFile"
+	echo "# NVIM_APPNAME aliases" >>"$nvimAppNameFile"
+	for nvapp in "${nvapps[@]}"; do
+		if [[ "default" != "$nvapp" ]]; then
+			echo alias nvim-"${nvapp,,}"=\"NVIM_APPNAME="$nvapp" nvim\" >>"$nvimAppNameFile"
+		fi
+	done
 }
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Select Neovim app to switch to.
 
 selectNeovimApp() {
-  config=$(
-    printf "%s\n" "${nvapps[@]}" |
-      fzf --prompt=" Neovim Config  " \
-        --height=20% --layout=reverse --border --exit-0
-  )
+	config=$(
+		printf "%s\n" "${nvapps[@]}" |
+			fzf --prompt=" Neovim Config  " \
+				--height=20% --layout=reverse --border --exit-0
+	)
 
-  if [[ -z $config ]]; then
-    echo "Nothing selected"
-    return 0
-  elif [[ $config == "default" ]]; then
-    config=""
-  fi
-  echo "$config"
+	if [[ -z $config ]]; then
+		echo "Nothing selected"
+		return 0
+	elif [[ $config == "default" ]]; then
+		config=""
+	fi
+	echo "$config"
 }
 
 # -------------------------------------------------------------------------- }}}
-# {{{ Main
+# {{{ Main logic
 
-processNeovimApps
-makeAliasesFile
-# cat "./$file"
-source "./$file"
-
-choice="$(selectNeovimApp)"
-
-echo "You chose: $choice"
-
+main() {
+	buildNeovimAppArray
+	writeAlisesFile
+	choice="$(selectNeovimApp)"
+	cloneOrPullNvApp "$choice"
+	NVIM_APPNAME="$choice" nvim "$@"
+	source "$nvimAppNameFile"
+}
 # -------------------------------------------------------------------------- }}}
-
-# NVIM_APPNAME=$config nvim "$@"
+main "$@"
 # $bind -s ^a "nvims\n"
