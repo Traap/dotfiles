@@ -11,15 +11,15 @@ nvapps=()
 
 # alias      | Github repository       | default or branch name
 readonly neovim_apps=(
-	"astro     | AstroNvim/AstroNvim     | default"
-	"default   | none                    | none"
-	"kickstart | nvim-lua/kickstart.nvim | default"
-	"lazy      | LazyVim/LazyVim         | default"
-	"nvchad    | NvChad/NvChad           | default"
-	"prime     | Traap/init.lua          | default"
-	"traap     | Traap/nvim              | default"
-	"vapour    | Traap/VapourNvim        | default"
-	"zulu      | Traap/nvim              | v0.6.8-packer"
+  "astro     | AstroNvim/AstroNvim     | default"
+  "default   | none                    | none"
+  "kickstart | nvim-lua/kickstart.nvim | default"
+  "lazy      | LazyVim/LazyVim         | default"
+  "nvchad    | NvChad/NvChad           | default"
+  "prime     | Traap/init.lua          | default"
+  "traap     | Traap/nvim              | default"
+  "vapour    | Traap/VapourNvim        | default"
+  "zulu      | Traap/nvim              | v0.6.8-packer"
 )
 
 # Working directory
@@ -29,131 +29,131 @@ dir=$(pwd)
 # {{{ Remove all spaces from parameter 1.
 
 removeSpaces() {
-	var="$(echo -e "$1" | tr -d '[:space:]')"
-	echo "$var"
+  var="$(echo -e "$1" | tr -d '[:space:]')"
+  echo "$var"
 }
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Extract fields from neovim_app array.
 
 buildNeovimAppArray() {
-	for fields in "${neovim_apps[@]}"; do
-		IFS=$'|' read -r alias _url _branch <<<"$fields"
-		alias="$(removeSpaces "$alias")"
-		nvapps+=("$alias")
-	done
+  for fields in "${neovim_apps[@]}"; do
+    IFS=$'|' read -r alias _url _branch <<<"$fields"
+    alias="$(removeSpaces "$alias")"
+    nvapps+=("$alias")
+  done
 }
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Clone or Pull selected nvapp
 
 cloneOrPullNvApp() {
-	for fields in "${neovim_apps[@]}"; do
-		IFS=$'|' read -r alias url branch <<<"$fields"
+  for fields in "${neovim_apps[@]}"; do
+    IFS=$'|' read -r alias url branch <<<"$fields"
 
-		alias="$(removeSpaces "$alias")"
-		if [[ "$1" == "$alias" ]]; then
-			url="$(removeSpaces "$url")"
-			branch="$(removeSpaces "$branch")"
-			location=$HOME/.config/$alias
-			if [[ -d "$location" ]]; then
-				pullRepository "$alias"
-			else
-				cloneRepository "$alias" "$url" "$branch"
-			fi
-			return
-		fi
-	done
+    alias="$(removeSpaces "$alias")"
+    if [[ "$1" == "$alias" ]]; then
+      url="$(removeSpaces "$url")"
+      branch="$(removeSpaces "$branch")"
+      location=$HOME/.config/$alias
+      if [[ -d "$location" ]]; then
+        pullRepository "$alias"
+      else
+        cloneRepository "$alias" "$url" "$branch"
+      fi
+      return
+    fi
+  done
 }
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Pull repository
 
 pullRepository() {
-	alias="$1"
-	location=$HOME/.config/$alias
-	runCommandFromDirectory "$location" "git pull"
+  alias="$1"
+  location=$HOME/.config/$alias
+  runCommandFromDirectory "$location" "git pull"
 }
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Clone Repository
 
 cloneRepository() {
-	alias="$1"
-	url="$2"
-	branch="$3"
-	location=$HOME/.config/$alias
+  alias="$1"
+  url="$2"
+  branch="$3"
+  location=$HOME/.config/$alias
 
-	# Clear clone depth when a branch is needed.
-	if [[ $branch == "default" ]]; then
-		git clone --depth 1 https://github.com/"$url" "$location"
-	else
-		git clone https://github.com/"$url" "$location"
-		runCommandFromDirectory "$location" "git checkout $branch"
-	fi
+  # Clear clone depth when a branch is needed.
+  if [[ $branch == "default" ]]; then
+    git clone --depth 1 https://github.com/"$url" "$location"
+  else
+    git clone https://github.com/"$url" "$location"
+    runCommandFromDirectory "$location" "git checkout $branch"
+  fi
 }
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Run a command from another directory.
 
 runCommandFromDirectory() {
-	location="$1"
-	command="$2"
-	cd "$location" || return
-	echo "$command"
-	$command
-	toWorkingDirectory
+  location="$1"
+  command="$2"
+  cd "$location" || return
+  echo "$command"
+  $command
+  toWorkingDirectory
 }
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Move to working directory.
 
 toWorkingDirectory() {
-	cd "$dir" || (echo "Returning to working directory failed." && exit)
+  cd "$dir" || (echo "Returning to working directory failed." && exit)
 }
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Write neovim aliases to a file that can be souced.
 
 writeAlisesFile() {
-	echo "#!/bin/bash" >"$nvimAppNameFile"
-	echo "# NVIM_APPNAME aliases" >>"$nvimAppNameFile"
-	for nvapp in "${nvapps[@]}"; do
-		if [[ "default" != "$nvapp" ]]; then
-			echo alias nvim-"${nvapp,,}"=\"NVIM_APPNAME="$nvapp" nvim\" >>"$nvimAppNameFile"
-		fi
-	done
+  echo "#!/bin/bash" >"$nvimAppNameFile"
+  echo "# NVIM_APPNAME aliases" >>"$nvimAppNameFile"
+  for nvapp in "${nvapps[@]}"; do
+    if [[ "default" != "$nvapp" ]]; then
+      echo alias nvim-"${nvapp,,}"=\"NVIM_APPNAME="$nvapp" nvim\" >>"$nvimAppNameFile"
+    fi
+  done
 }
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Select Neovim app to switch to.
 
 selectNeovimApp() {
-	config=$(
-		printf "%s\n" "${nvapps[@]}" |
-			fzf --prompt=" Neovim Config  " \
-				--height=20% --layout=reverse --border --exit-0
-	)
+  config=$(
+    printf "%s\n" "${nvapps[@]}" |
+      fzf --prompt=" Neovim Config  " \
+        --height=20% --layout=reverse --border --exit-0
+  )
 
-	if [[ -z $config ]]; then
-		echo "Nothing selected"
-		return 0
-	elif [[ $config == "default" ]]; then
-		config=""
-	fi
-	echo "$config"
+  if [[ -z $config ]]; then
+    echo "Nothing selected"
+    return 0
+  elif [[ $config == "default" ]]; then
+    config=""
+  fi
+  echo "$config"
 }
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Main logic
 
 main() {
-	buildNeovimAppArray
-	writeAlisesFile
-	choice="$(selectNeovimApp)"
-	cloneOrPullNvApp "$choice"
-	NVIM_APPNAME="$choice" nvim "$@"
-	source "$nvimAppNameFile"
+  buildNeovimAppArray
+  writeAlisesFile
+  choice="$(selectNeovimApp)"
+  cloneOrPullNvApp "$choice"
+  NVIM_APPNAME="$choice" nvim "$@"
+  source "$nvimAppNameFile"
 }
 # -------------------------------------------------------------------------- }}}
 main "$@"
