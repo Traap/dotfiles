@@ -6,8 +6,6 @@ BASE=$(git merge-base @ "$UPSTREAM")
 
 if [[ "$LOCAL" == "$REMOTE" ]]; then
     echo "Up-to-date"
-elif [[ "$REMOTE" == "$BASE" && "$LOCAL" == "$BASE" ]]; then
-    echo "Need to push and pull"
 elif [[ "$REMOTE" == "$BASE" ]]; then
     echo "Need to push"
 elif [[ "$LOCAL" == "$BASE" ]]; then
