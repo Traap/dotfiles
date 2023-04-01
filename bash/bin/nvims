@@ -1,4 +1,16 @@
 #!/bin/bash
+# {{{ Youtube: Demonstrate and checkoff items below.
+#
+#   1. [-] Open tmux-runner and send compand to run nvims executable script
+#   2. [-] Make a choice that is cloned
+#   3. [-] Make a choice that is pulled
+#   4. [-] Make a choice that does not need to pull
+#   5. [-] Code walk through
+#   6. [-] Discuss nvim_appnames
+#   7. [-] Hook nbvim_apnames into bashrc, aka, my_aliases
+#   8. [-] Hook into sxhkd
+#
+# -- ----------------------------------------------------------------------- }}}
 # {{{ Define Neovim applications you want to experiment with.
 
 # Youtube: Review variables controlling output.
@@ -9,6 +21,9 @@ readonly nvimAppNameFile="$BASHHOME"/nvim_appnames
 # nvapp names extracted from neovim_apps array.
 nvapps=()
 
+# The repository clonded must bootstrap itself.  In otherwords, clone and nvim
+# is all tha tis needed.
+#
 # alias      | Github repository       | default or branch name
 readonly neovim_apps=(
   "astro     | AstroNvim/AstroNvim     | default"
@@ -17,13 +32,36 @@ readonly neovim_apps=(
   "lazy      | LazyVim/LazyVim         | default"
   "nvchad    | NvChad/NvChad           | default"
   "prime     | Traap/init.lua          | default"
+  "starter   | LazyVim/starter         | default"
   "traap     | Traap/nvim              | default"
   "vapour    | Traap/VapourNvim        | default"
   "zulu      | Traap/nvim              | v0.6.8-packer"
+  "void      | nvoid-lua/nvoid         | default"
 )
 
 # Working directory
 dir=$(pwd)
+
+# -------------------------------------------------------------------------- }}}
+# {{{ Determine if a pull is needed.
+
+gitcheck() {
+  # Git variables used to determine if a pull is needed.
+  UPSTREAM=${1:-'@{u}'}
+  LOCAL=$(git rev-parse @)
+  REMOTE=$(git rev-parse "$UPSTREAM")
+  BASE=$(git merge-base @ "$UPSTREAM")
+
+  if [[ "$LOCAL" == "$REMOTE" ]]; then
+      echo "Up-to-date"
+  elif [[ "$REMOTE" == "$BASE" ]]; then
+      echo "Need-to-Push"
+  elif [[ "$LOCAL" == "$BASE" ]]; then
+      echo "Need-to-Pull"
+  else
+      echo "Diverged"
+  fi
+}
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Remove all spaces from parameter 1.
@@ -99,10 +137,31 @@ cloneRepository() {
 runCommandFromDirectory() {
   location="$1"
   command="$2"
+
   cd "$location" || return
-  echo "$command"
-  $command
+
+  if [[ "$(runCommandCheck "$command")" == true ]]; then
+      echo "$command"
+      $command
+  fi
+
   toWorkingDirectory
+}
+
+# -------------------------------------------------------------------------- }}}
+# {{{ Avoid unnecessary pull commands.
+
+runCommandCheck(){
+  command="$1"
+  run_command=true
+
+  if [[ "$command" == "git pull" ]]; then
+    if [[ "$(gitcheck)" != "Need-to-Pull" ]]; then
+      run_command=false
+    fi
+  fi
+
+  echo "$run_command"
 }
 
 # -------------------------------------------------------------------------- }}}
@@ -153,8 +212,7 @@ main() {
   choice="$(selectNeovimApp)"
   cloneOrPullNvApp "$choice"
   NVIM_APPNAME="$choice" nvim "$@"
-  source "$nvimAppNameFile"
 }
+
 # -------------------------------------------------------------------------- }}}
 main "$@"
-# $bind -s ^a "nvims\n"
