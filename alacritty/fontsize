@@ -1,5 +1,5 @@
 #!/bin/bash
-hostFont="$HOME"/.config/alacritty/font-s"$HOSTHAME".yml
+hostFont="$HOME"/.config/alacritty/fonts-"$HOSTNAME".yml
 noHostFont="$HOME"/.config/alacritty/fonts-Default.yml
 activeFont="$HOME"/.config/alacritty/fonts.yml
 
