@@ -47,19 +47,19 @@ dir=$(pwd)
 
 gitcheck() {
   # Git variables used to determine if a pull is needed.
-  UPSTREAM=${1:-'@{u}'}
-  LOCAL=$(git rev-parse @)
-  REMOTE=$(git rev-parse "$UPSTREAM")
-  BASE=$(git merge-base @ "$UPSTREAM")
+  upstream=${1:-'@{u}'}
+  local=$(git rev-parse @)
+  remote=$(git rev-parse "$upstream")
+  base=$(git merge-base @ "$upstream")
 
-  if [[ "$LOCAL" == "$REMOTE" ]]; then
-      echo "Up-to-date"
-  elif [[ "$REMOTE" == "$BASE" ]]; then
-      echo "Need-to-Push"
-  elif [[ "$LOCAL" == "$BASE" ]]; then
-      echo "Need-to-Pull"
+  if [[ "$local" == "$remote" ]]; then
+    echo "Up-to-date"
+  elif [[ "$remote" == "$base" ]]; then
+    echo "Need-to-Push"
+  elif [[ "$local" == "$base" ]]; then
+    echo "Need-to-Pull"
   else
-      echo "Diverged"
+    echo "Diverged"
   fi
 }
 
@@ -141,8 +141,8 @@ runCommandFromDirectory() {
   cd "$location" || return
 
   if [[ "$(runCommandCheck "$command")" == true ]]; then
-      echo "$command"
-      $command
+    echo "$command"
+    $command
   fi
 
   toWorkingDirectory
@@ -151,7 +151,7 @@ runCommandFromDirectory() {
 # -------------------------------------------------------------------------- }}}
 # {{{ Avoid unnecessary pull commands.
 
-runCommandCheck(){
+runCommandCheck() {
   command="$1"
   run_command=true
 

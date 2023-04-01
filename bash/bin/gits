@@ -1,30 +1,31 @@
 #!/bin/bash
 # {{{ list directory names in current folder
 
-lsd() { ls -d */ | tr -d '/' ; }
+lsd() { ls -d */ | tr -d '/'; }
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Get repo project folder.
 #     $1 => [bb | git | vim | soup]
 
 repo() {
-  case $1 in
-    bb)
-      repoName=bb
-      ;;
-    git)
-      repoName=git
-      ;;
-    vim)
-      repoName=git/vim/bundle
-      ;;
-    soup)
-      repoName=soup
-      ;;
-    *)
-      repoName=git
+  case "$1" in
+  bb)
+    repoName=bb
+    ;;
+  git)
+    repoName=git
+    ;;
+  vim)
+    repoName=git/vim/bundle
+    ;;
+  soup)
+    repoName=soup
+    ;;
+  *)
+    repoName=git
+    ;;
   esac
-  echo $repoName
+  echo "$repoName"
 
 }
 
@@ -44,22 +45,22 @@ repo() {
 # https://stackoverflow.com/questions/3258243/check-if-pull-needed-in-git
 
 gitPull() {
-  case $2 in
-    pull)
+  case "$2" in
+  pull)
 
-      git fetch --quiet
-      upstream='@{u}'
-         local=$(git rev-parse @)
-        remote=$(git rev-parse "$upstream")
-          base=$(git merge-base @ "$upstream")
+    git fetch --quiet
+    upstream='@{u}'
+    local=$(git rev-parse @)
+    remote=$(git rev-parse "$upstream")
+    base=$(git merge-base @ "$upstream")
 
-      if [[ $local != $remote && $local == $base ]]; then
-        echo $base
-        gitSetUserAndEmail $1 $2
-        git pull
-        echo
-      fi
-      ;;
+    if [[ "$local" != "$remote" && "$local" == "$base" ]]; then
+      echo "$base"
+      gitSetUserAndEmail "$1" "$2"
+      git pull
+      echo
+    fi
+    ;;
 
   esac
 }
@@ -70,14 +71,15 @@ gitPull() {
 # $1 => repoType
 # $2 => pull
 
-gitSetUserAndEmail(){
-  case $2 in
-    pull)
-    case $1 in
-      bb)   gce work ;;
-      soup) gce work ;;
-      *)    gce traap ;;
+gitSetUserAndEmail() {
+  case "$2" in
+  pull)
+    case "$1" in
+    bb) gce work ;;
+    soup) gce work ;;
+    *) gce traap ;;
     esac
+    ;;
   esac
 }
 
@@ -87,41 +89,40 @@ gitSetUserAndEmail(){
 # $1 => repoType
 # $2 => pull
 
-gits(){
+gits() {
 
   # command to check if we are inside a git repository.
 
   # Save current directory.
   dir=$(pwd)
 
-  repoName=$(repo $1)
-  cd ${HOME}/${repoName} > /dev/null;
+  repoName=$(repo "$1")
+  cd "${HOME}"/"${repoName}" || exit
 
   for i in $(lsd); do
     # move to subdirectory
     d=${HOME}/${repoName}/${i%%}
-    cd $d > /dev/null
+    cd "$d" || exit
 
     # Do work if were are inside a git repository.
     if [[ $(git rev-parse --is-inside-work-tree 2>/dev/null) ]]; then
 
-      if [[ -z $(git status --porcelain 2>/dev/null \
-         && git stash list 2>/dev/null)  ]]; then
-        gitPull $1 $2
+      if [[ -z $(git status --porcelain 2>/dev/null && git stash list 2>/dev/null) ]]; then
+        gitPull "$1" "$2"
       else
         echo "*** $d ***"
         gdr
         git status --porcelain
         echo ""
       fi
-   fi
+    fi
 
     # move up a directory
-    cd - > /dev/null;
-  done;
+    cd - > /dev/null || exit
+  done
 
   # Restore current director.
-  cd $dir
+  cd "$dir" || exit
 }
 # -------------------------------------------------------------------------- }}}
 # {{{ Kick start the show.
