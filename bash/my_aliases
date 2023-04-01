@@ -231,7 +231,7 @@ if [[ -n $WSL_DISTRO_NAME ]]; then
 fi
 
 # -------------------------------------------------------------------------- }}}
-# {{{ Neovim appname alises
+# {{{ Youtube: nvims: Neovim appname alises
 
 if [[ -f "$BASHHOME"/nvim_appnames ]]; then
 	source "$BASHHOME"/nvim_appnames
