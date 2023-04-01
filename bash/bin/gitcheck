@@ -4,12 +4,20 @@ LOCAL=$(git rev-parse @)
 REMOTE=$(git rev-parse "$UPSTREAM")
 BASE=$(git merge-base @ "$UPSTREAM")
 
-if [[ "$LOCAL" == "$REMOTE" ]]; then
-    echo "Up-to-date"
-elif [[ "$REMOTE" == "$BASE" ]]; then
-    echo "Need to push"
-elif [[ "$LOCAL" == "$BASE" ]]; then
-    echo "Need to pull"
-else
-    echo "Diverged"
-fi
+echo "  LOCAL: $LOCAL"
+echo "   BASE: $BASE"
+echo " REMOTE: $REMOTE"
+
+gitcheck() {
+  if [[ "$LOCAL" == "$REMOTE" ]]; then
+      echo "Up-to-date"
+  elif [[ "$REMOTE" == "$BASE" ]]; then
+      echo "Need-to-Push"
+  elif [[ "$LOCAL" == "$BASE" ]]; then
+      echo "Need-to-Pulll"
+  else
+      echo "Diverged"
+  fi
+}
+
+gitcheck
