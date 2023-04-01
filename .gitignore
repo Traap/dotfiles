@@ -3,3 +3,4 @@ startuptime
 Thunar/accels.scm
 dconf/user
 *.bak
+alacritty/fonts.yml

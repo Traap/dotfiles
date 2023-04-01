@@ -1,0 +1,10 @@
+#!/bin/bash
+hostFont="$HOME"/.config/alacritty/font-s"$HOSTHAME".yml
+noHostFont="$HOME"/.config/alacritty/fonts-Default.yml
+activeFont="$HOME"/.config/alacritty/fonts.yml
+
+if [[ -f "$hostFont" ]]; then
+	cp "$hostFont" "$activeFont"
+else
+	cp "$noHostFont" "$activeFont"
+fi

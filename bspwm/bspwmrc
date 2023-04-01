@@ -1,7 +1,7 @@
 #!/bin/bash
 # {{{ Simple run function.
 
-run() { if ! pgrep -f "$1"; then "$@"& fi }
+run() { if ! pgrep -f "$1"; then "$@" & fi }
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Start Super X Hot Key Deamon (sxhkd) and mouse settings first.
@@ -10,25 +10,25 @@ run() { if ! pgrep -f "$1"; then "$@"& fi }
 run numlockx off
 run setxkbmap -option caps:swapescape
 run xmodmap -e "pointer = 3 2 1 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 4 5"
+"$HOME/.config/alacritty/fontsize"
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Configure physical displays.
 
 # Desktops
-if [[ $HOSTNAME =~ "DarkKnight" \
-   || $HOSTNAME =~ "Monk" \
-   || $HOSTNAME =~ "Warrior" \
-   ]]; then
-  xrandr --output HDMI-A-0      --mode 2560x1440 --pos    0x0 --rotate normal \
-         --output DisplayPort-1 --mode 2560x1440 --pos 2560x0 --rotate normal \
-         --output DisplayPort-2 --mode 2560x1440 --pos 5120x0 --rotate normal
-  bspc monitor HDMI-A-0        -d 1 2 3 4
-  bspc monitor DisplayPort-1   -d 5 6 7
-  bspc monitor DisplayPort-2   -d 8 9 10
+if [[ $HOSTNAME =~ "DarkKnight" ||
+	$HOSTNAME =~ "Monk" ||
+	$HOSTNAME =~ "Warrior" ]] \
+	; then
+	xrandr --output HDMI-A-0 --mode 2560x1440 --pos 0x0 --rotate normal \
+		--output DisplayPort-1 --mode 2560x1440 --pos 2560x0 --rotate normal \
+		--output DisplayPort-2 --mode 2560x1440 --pos 5120x0 --rotate normal
+	bspc monitor HDMI-A-0 -d 1 2 3 4
+	bspc monitor DisplayPort-1 -d 5 6 7
+	bspc monitor DisplayPort-2 -d 8 9 10
 else
-  bspc monitor -d 1 2 3 4 5 6 7 8 9 10
+	bspc monitor -d 1 2 3 4 5 6 7 8 9 10
 fi
-
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Simple wallpaper.
@@ -59,16 +59,16 @@ run xfce4-power-manager
 # -------------------------------------------------------------------------- }}}
 # {{{ BSPWM configuration
 
-bspc config border_width         1
-bspc config window_gap           4
-bspc config top_padding          33
-bspc config bottom_padding       2
-bspc config left_padding         2
-bspc config right_padding        2
-bspc config single_monocle       true
-bspc config split_ratio          0.50
-bspc config borderless_monocle   true
-bspc config gapless_monocle      true
+bspc config border_width 1
+bspc config window_gap 4
+bspc config top_padding 33
+bspc config bottom_padding 2
+bspc config left_padding 2
+bspc config right_padding 2
+bspc config single_monocle true
+bspc config split_ratio 0.50
+bspc config borderless_monocle true
+bspc config gapless_monocle true
 bspc config focus_follows_pointer true
 bspc config pointer_modifier mod4
 bspc config pointer_action1 move
@@ -80,34 +80,34 @@ bspc config merge_overlapping_monitors true
 # -------------------------------------------------------------------------- }}}
 # {{{ BSPWM coloring
 
-bspc config active_border_color   "#4682B4"
-bspc config focused_border_color  "#5e81ac"
+bspc config active_border_color "#4682B4"
+bspc config focused_border_color "#5e81ac"
 bspc config presel_feedback_color "#5e81ac"
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Floating applications
 
-bspc rule -a arandr                   state=floating
-bspc rule -a Arcolinux-tweak-tool.py  state=floating
+bspc rule -a arandr state=floating
+bspc rule -a Arcolinux-tweak-tool.py state=floating
 bspc rule -a Arcolinux-welcome-app.py state=floating
-bspc rule -a alacritty                state=floating
-bspc rule -a brave                    state=floating
-bspc rule -a xfce4-terminal           state=floating
+bspc rule -a alacritty state=floating
+bspc rule -a brave state=floating
+bspc rule -a xfce4-terminal state=floating
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Tiled applications
 
-bspc rule -a xfce4-appfinder          state=floating flag=sticky
-bspc rule -a xfce4-settings-manager   state=pseudo_tiled flag=sticky
+bspc rule -a xfce4-appfinder state=floating flag=sticky
+bspc rule -a xfce4-settings-manager state=pseudo_tiled flag=sticky
 
 # -------------------------------------------------------------------------- }}}
 # {{{ open applications on specific workspaces
 
 bspc rule -a "Microsoft Teams - Preview" desktop='^1'
-bspc rule -a Thunderbird                 desktop='^1'
+bspc rule -a Thunderbird desktop='^1'
 
 bspc rule -a discord desktop='^2'
-bspc rule -a Slack   desktop='^2'
+bspc rule -a Slack desktop='^2'
 
 # bspc rule -a DesktopEditors desktop='^3'
 bspc rule -a "ONLYOFFICE Desktop Editors" desktop='^3'
@@ -116,7 +116,7 @@ bspc rule -a obs desktop='^4'
 
 bspc rule -a Shotcut desktop='^6'
 
-bspc rule -a dbeaver  desktop='^0'
+bspc rule -a dbeaver desktop='^0'
 
 bspc rule -a scratchpad flag=stick state=floating rectangle=800x600+558+239
 
