@@ -14,7 +14,7 @@ gitcheck() {
   elif [[ "$REMOTE" == "$BASE" ]]; then
       echo "Need-to-Push"
   elif [[ "$LOCAL" == "$BASE" ]]; then
-      echo "Need-to-Pulll"
+      echo "Need-to-Pull"
   else
       echo "Diverged"
   fi
