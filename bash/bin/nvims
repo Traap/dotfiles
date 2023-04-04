@@ -1,25 +1,7 @@
 #!/bin/bash
-# {{{ Youtube: nvims: Demonstrate and checkoff items below.
-#
-#   1. [-] Open tmux-runner and send compand to run nvims executable script
-#   2. [-] Make a choice that is cloned
-#   3. [-] Make a choice that is pulled
-#   4. [-] Make a choice that does not need to pull
-#   5. [-] Code walk through
-#   6. [-] Discuss nvim_appnames
-#   7. [-] Hook nbvim_apnames into bashrc, aka, my_aliases
-#   8. [-] Hook into sxhkd
-#
-# -- ----------------------------------------------------------------------- }}}
 # {{{ Define Neovim applications you want to experiment with.
 
 # Youtube: nvims: Review variables controlling output.
-
-# File name that is overwritten with nvim appname aliases.
-readonly nvimAppNameFile="$BASHHOME"/nvim_appnames
-
-# nvapp names extracted from neovim_apps array.
-nvapps=()
 
 # The repository clonded must bootstrap itself.  In otherwords, clone and nvim
 # is all tha tis needed.
@@ -39,13 +21,19 @@ readonly neovim_apps=(
   "void      | nvoid-lua/nvoid         | default"
 )
 
+# File name that is overwritten with nvim appname aliases.
+readonly nvimAppNameFile="$BASHHOME"/nvim_appnames
+
+# nvapp names extracted from neovim_apps array.
+nvapps=()
+
 # Working directory
 dir=$(pwd)
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Determine if a pull is needed.
 
-# Youtube: Demonstrate suppressed shellcheck error.
+# Yo huutube: nvims: Demonstrate suppressed shellcheck error.
 # shellcheck disable=SC2120
 gitcheck() {
 
