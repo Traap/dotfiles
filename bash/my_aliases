@@ -1,4 +1,5 @@
-#!/bin/bash # {{{ Operating system specific settings.
+#!/bin/bash
+## {{{ Operating system specific settings.
 if osType "/darwin"; then
 	alias la='ls -A'
 	alias ll='ls -lahG'
