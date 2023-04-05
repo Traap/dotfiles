@@ -193,7 +193,7 @@ toWorkingDirectory() {
 }
 
 # -------------------------------------------------------------------------- }}}
-# {{{ Write neovim aliases to a file that can be souced.
+# {{{ Write neovim aliases to a file that can be sourced.
 
 writeAlisesFile() {
   echo "#!/bin/bash" >"$nvimAppNameFile"
@@ -217,7 +217,6 @@ selectNeovimApp() {
 
   if [[ -z $config ]]; then
     echo "Nothing selected"
-    return 0
   elif [[ $config == "default" ]]; then
     config=""
   fi
