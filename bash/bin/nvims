@@ -42,6 +42,7 @@ gitcheck() {
   local=$(git rev-parse @)
   remote=$(git rev-parse "$upstream")
   base=$(git merge-base @ "$upstream")
+  git fetch
 
   if [[ "$local" == "$remote" ]]; then
     echo "Up-to-date"
@@ -211,7 +212,7 @@ selectNeovimApp() {
   config=$(
     printf "%s\n" "${nvapps[@]}" |
       fzf --prompt=" Neovim Config  " \
-        --height=20% --layout=reverse --border --exit-0
+        --height=35% --layout=reverse --border --exit-0
   )
 
   if [[ -z $config ]]; then
