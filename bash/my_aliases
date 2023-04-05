@@ -1,4 +1,6 @@
-#!/bin/bash hu# {{{ Operating system specific settings.
+#!/bin/bash
+# {{{ Operating system specific settings.
+
 if osType "/darwin"; then
 	alias la='ls -A'
 	alias ll='ls -lahG'
@@ -12,7 +14,7 @@ set -o vi
 # -------------------------------------------------------------------------- }}}
 # {{{ latexrun is defined when present.
 
-if fileExists $GITHOME/latexrun/latexrun; then
+if fileExists "$GITHOME"/latexrun/latexrun; then
 	alias latexrun='$GITHOME/latex/latexrun/latexrun'
 fi
 
