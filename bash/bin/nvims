@@ -254,6 +254,11 @@ main() {
   buildNeovimAppArray
   writeAlisesFile
   choice="$(selectNeovimApp)"
+
+  if [[ "$choice" == "Nothing selected" ]]; then
+    echo "Invalid choice. Exiting" && exit
+  fi
+
   if [[ $deleteNvimAppFlag == true ]]; then
     deleteNvimApp "$choice"
   else
