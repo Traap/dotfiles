@@ -174,7 +174,7 @@ super + {F10, F11}
       alacritty --command ssh traap@DarkKnight   -i ~/.ssh/Ninja  \
   }
 
-# Youtube: nvims: Setup alt+n to start Neovim config switcher.
+# Youtube: Setup alt+n to start Neovim config switcher.
 alt + n
   notify-send 'nvims' 'Alt-n Neovim config switcher'; \
     alacritty --command nvims
