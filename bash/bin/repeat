@@ -9,7 +9,7 @@ repeat() {
     if [ $? -gt 0 ]; then
       let passNo=$((passNo+1))
       clear
-      echo "Repeating [*@]  Ctrl-C to stop.  Pass: $passNo"
+      echo "Repeating [$@]  Ctrl-C to stop.  Pass: $passNo"
       "$@"
       sleep 5
     fi
