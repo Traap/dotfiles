@@ -1,7 +1,7 @@
 #!/bin/bash
 # {{{ Define Neovim applications you want to experiment with.
 
-# Youtube: nvims: Review variables controlling output.
+# Youtube: nvims Code walkthrough.
 
 # The repository clonded must bootstrap itself.  In otherwords, clone and nvim
 # is all tha tis needed.
