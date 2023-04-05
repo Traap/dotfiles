@@ -152,6 +152,14 @@ if [[ $# -eq 1 ]]; then
       ;;
 
     # ---------------------------------------------------------------------- }}}
+    # {{{ Create tmux session
+
+    "tmux")
+      tmux new-session -c "$GITPATH"/tmux -n tmux -s "$1" -d
+      tmux send-keys -t "$1":1 "$EDITOR tmux.conf" Enter
+      ;;
+
+    # ---------------------------------------------------------------------- }}}
     # {{{ Create vim session
 
     "vim")
@@ -185,11 +193,9 @@ if [[ $# -eq 1 ]]; then
     # ---------------------------------------------------------------------- }}}
     # {{{ Create Youtube session
 
-    "youtube")
-      tmux new-session -c "$HOME"/youtube/wiki -n Wiki -s "$1" -d
-      tmux new-window -c "$HOME"/youtube -n Youtube -t "$1":2
-      tmux send-keys -t "$1":1 "$EDITOR index.md" Enter
-      tmux select-window -t "$1":1
+    "YouTube")
+      tmux new-session -c "$GITHOME" -n YouTube -s "$1" -d
+      tmux send-keys -t "$1":1 "$EDITOR $GITHOME"/youtube/wiki/index.md Enter
       ;;
 
     # ---------------------------------------------------------------------- }}}
@@ -207,7 +213,7 @@ if [[ $# -eq 1 ]]; then
 
 else
   echo \
-    "Session name [ao|bash|d|h|havasu|kjv|nvim|ssh|soup|t|vim|wiki] is required" &&
+    "Session name [ao|bash|d|h|havasu|kjv|nvim|ssh|soup|t|vim|wiki|YouTube] is required" &&
     exit
 fi
 
