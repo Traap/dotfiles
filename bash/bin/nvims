@@ -38,11 +38,11 @@ dir=$(pwd)
 gitcheck() {
 
   # Git variables used to determine if a pull is needed.
+  git fetch
   upstream=${1:-'@{u}'}
   local=$(git rev-parse @)
   remote=$(git rev-parse "$upstream")
   base=$(git merge-base @ "$upstream")
-  git fetch
 
   if [[ "$local" == "$remote" ]]; then
     echo "Up-to-date"
