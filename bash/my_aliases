@@ -30,7 +30,7 @@ fi
 
 if osType "msys"; then
 	alias cat='bat -p'
-	ls='ls --color=auto'
+	alias ls='ls --color=auto'
 else
 	[ -f /usr/bin/bat ] && alias cat='bat -p'
 	[ -f /usr/bin/exa ] && alias ls='exa'
