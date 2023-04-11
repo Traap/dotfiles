@@ -195,7 +195,7 @@ toWorkingDirectory() {
 # -------------------------------------------------------------------------- }}}
 # {{{ Write neovim aliases to a file that can be sourced.
 
-writeAlisesFile() {
+writeAliasesFile() {
   echo "#!/bin/bash" >"$nvimAppNameFile"
   echo "# NVIM_APPNAME aliases" >>"$nvimAppNameFile"
   for nvapp in "${nvapps[@]}"; do
@@ -251,7 +251,7 @@ done
 
 main() {
   buildNeovimAppArray
-  writeAlisesFile
+  writeAliasesFile
   choice="$(selectNeovimApp)"
 
   if [[ "$choice" == "Nothing selected" ]]; then
