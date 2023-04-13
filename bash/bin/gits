@@ -51,6 +51,7 @@ gitPull() {
 
   case "$action" in
     pull)
+      git fetch
       upstream='@{u}'
       local=$(git rev-parse @)
       remote=$(git rev-parse "$upstream")
