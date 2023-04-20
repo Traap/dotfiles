@@ -111,6 +111,9 @@ gits() {
     d=${HOME}/${repoName}/${i%%}
     cd "$d" || exit
 
+    echo
+    echo "### $d ###"
+
     # Do work if were are inside a git repository.
     if [[ $(git rev-parse --is-inside-work-tree 2>/dev/null) ]]; then
       if [[ -z $(git status --porcelain 2>/dev/null && git stash list 2>/dev/null) ]]; then
