@@ -51,13 +51,14 @@ gitPull() {
 
   case "$action" in
     pull)
-      git fetch
       upstream='@{u}'
+      git fetch
       local=$(git rev-parse @)
       remote=$(git rev-parse "$upstream")
       base=$(git merge-base @ "$upstream")
 
       if [[ "$local" != "$remote" && "$local" == "$base" ]]; then
+        echo "*** $(pwd) ***"
         echo "$base"
         gitSetUserAndEmail "$repoType" "$action"
         git pull
