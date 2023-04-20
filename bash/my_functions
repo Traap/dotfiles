@@ -193,8 +193,8 @@ fi
 # {{{ Perforce defaults.
 
 if [[ ${OSTYPE} =~ "linux" ]]; then
-  if [[ ${HOSTNAME} =~ "Ryder" ]]; then
-    export P4DISK=/Volumes/Larry
+  if [[ ${HOSTNAME} =~ "DarkKnight" ]]; then
+    export P4DISK=${HOME}
     export P4HOST=localhost
     export P4PORT=1666
     export P4ROOT=${P4DISK}/p4root
