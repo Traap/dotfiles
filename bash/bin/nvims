@@ -1,8 +1,6 @@
 #!/bin/bash
 # {{{ Define Neovim applications you want to experiment with.
 
-# Youtube: nvims Code walkthrough.
-
 # The repository clonded must bootstrap itself.  In otherwords, clone and nvim
 # is all tha tis needed.
 #
@@ -11,7 +9,6 @@ readonly neovim_apps=(
   "astro     | AstroNvim/AstroNvim     | default"
   "default   | none                    | none"
   "kickstart | nvim-lua/kickstart.nvim | default"
-  "lazy      | LazyVim/LazyVim         | default"
   "nvchad    | NvChad/NvChad           | default"
   "prime     | Traap/init.lua          | default"
   "starter   | LazyVim/starter         | default"
