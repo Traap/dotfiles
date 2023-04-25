@@ -5,7 +5,3 @@ echo "Vim plugins updated. Powered by Plug."
 echo "Update Neovim nvim.traap plugins powedred by Lazy.nvim"
 nvim --headless '+Lazy! update' +qa
 nvim --headless '+Mason' +qa
-
-echo "Update Neovim LunarVim plugins powedred by Lazy.nvim"
-lvim --headless '+Lazy! update' +qa
-lvim --headless '+Mason' +qa
