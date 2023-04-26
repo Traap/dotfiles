@@ -90,15 +90,13 @@ bspc config presel_feedback_color "#5e81ac"
 bspc rule -a arandr state=floating
 bspc rule -a Arcolinux-tweak-tool.py state=floating
 bspc rule -a Arcolinux-welcome-app.py state=floating
-bspc rule -a alacritty state=floating
-bspc rule -a brave state=floating
-bspc rule -a xfce4-terminal state=floating
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Tiled applications
 
 bspc rule -a xfce4-appfinder state=floating flag=sticky
-bspc rule -a xfce4-settings-manager state=pseudo_tiled flag=sticky
+bspc rule -a xfce4-settings-manager state=pseudo_tiled flag=ticky
+bspc rule -a okular state=tiled flag=sticky
 
 # -------------------------------------------------------------------------- }}}
 # {{{ open applications on specific workspaces
