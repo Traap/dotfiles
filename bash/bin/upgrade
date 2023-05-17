@@ -65,8 +65,14 @@ upgrade() {
   updateRubyGems
   updateNode
   updatePython
+
+  # Reuse external functions.
+  # build Neovim
+  bnvim
+
+  # Update vim and Neovim plugins.
+  updatePlugins
 }
 
-draw_bold_text_with_bright_colors: true
 # -------------------------------------------------------------------------- }}}
 upgrade "$@"
