@@ -1,0 +1,12 @@
+#!/bin/bash
+# {{{ Tell them what is about to happen.
+# Arguments:
+#   1 - the message.
+
+say() {
+  echo '********************'
+  echo "${1}"
+}
+
+# -------------------------------------------------------------------------- }}}
+say "$@"

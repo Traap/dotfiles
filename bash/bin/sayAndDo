@@ -1,0 +1,12 @@
+#!/bin/bash
+# {{{ Say and Do the command provided.
+# Arguments:
+#   1 - the command provided.
+
+sayAndDo() {
+  echo "${1}"
+  ${1}
+}
+
+# -------------------------------------------------------------------------- }}}
+sayAndDo "$@"
