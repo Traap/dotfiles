@@ -18,16 +18,6 @@
 #   Note:  any 2nd argument uses https
 #
 # -------------------------------------------------------------------------- }}}
-# {{{ Say and Do the command provided.
-# Arguments:
-#   1 - the command provided.
-
-sayAndDo() {
-	echo "$1"
-	${1}
-}
-
-# -------------------------------------------------------------------------- }}}
 # {{{ Capture current directory.
 
 dir=$(pwd)

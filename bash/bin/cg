@@ -18,16 +18,6 @@
 #   Note:  any 2nd argument uses https
 #
 # -------------------------------------------------------------------------- }}}
-# {{{ Say and Do the command provided.
-# Arguments:
-#   1 - the command provided.
-
-sayAndDo() {
-  echo ${1}
-  ${1}
-}
-
-# -------------------------------------------------------------------------- }}}
 # {{{ Capture current directory.
 
 dir=$(pwd)
@@ -35,7 +25,7 @@ dir=$(pwd)
 # -------------------------------------------------------------------------- }}}
 # {{{ Determine when a clone or pull is needed.
 
-if [ -d ${1} ]; then
+if [[ -d ${1} ]]; then
   operation=pull
 else
   operation=clone
@@ -49,10 +39,10 @@ protocol=https://github.com/${1}
 # -------------------------------------------------------------------------- }}}
 # {{{ Do the clone or pull operation.
 
-if [ ${operation} = 'pull' ]; then
-  cd ${1}
+if [[ ${operation} = 'pull' ]]; then
+  cd "${1}" || exit
   sayAndDo "git $operation"
-  cd ${dir}
+  cd "${dir }" || exit
 else
   sayAndDo "git $operation $protocol"
 fi
@@ -60,12 +50,12 @@ fi
 # -------------------------------------------------------------------------- }}}
 # {{{ Get all tags.
 
-cd ${1}
+cd "${1}" || exit
 sayAndDo "git fetch --all --tags"
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Restore the orginal directory.
 
-cd ${dir}
+cd "${dir}" || exit
 
 # -------------------------------------------------------------------------- }}}

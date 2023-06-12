@@ -1,17 +1,4 @@
 #!/bin/bash
-# {{{ function: Tell them what is about to happen and do it.
-say() {
-  echo '********************'
-  echo $@
-}
-
-sayAndDo() {
-  say $@
-  $@
-  echo
-}
-
-# -------------------------------------------------------------------------- }}}
 # {{{ function: Update system-wide Ruby gems using gem.
 
 updateRubyGems() {

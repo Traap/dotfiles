@@ -29,7 +29,7 @@ main() {
 # {{{ deleteSymLinks
 
 deleteSymLinks() {
-	echo "Deleting symbolic links."
+	say "Deleting symbolic links."
 	rm -rfv ~/.tmux
 	rm -rfv ~/.tmux.conf
 }
@@ -76,15 +76,6 @@ say() {
 	echo
 	echo '**********************'
 	echo "$@"
-}
-
-# -------------------------------------------------------------------------- }}}
-# {{{ Echo a command and then execute it.
-
-sayAndDo() {
-	say "$@"
-	"$@"
-	echo
 }
 
 # -------------------------------------------------------------------------- }}}
