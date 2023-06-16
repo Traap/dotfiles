@@ -8,11 +8,11 @@ cloneDir="$HOME/git"
 
 if [[ -d ${cloneDir}/neovim ]]; then
   echo "Update neovim sources."
-  cd ${cloneDir}/neovim
+  cd "${cloneDir}/neovim" || exit
   git pull
 else
   echo "Clone neovim sources."
-  cd ${cloneDir}
+  cd "${cloneDir}" || exit
   git clone --depth 1 https://github.com/neovim/neovim
 fi
 
@@ -20,7 +20,7 @@ fi
 # {{{ Build and install neovim.
 
 echo "Build neovim."
-cd ${cloneDir}/neovim
+cd "${cloneDir}/neovim" || exit
 sudo make CMAKE_BUILD_TYPE=Release install
 
 # -------------------------------------------------------------------------- }}}
