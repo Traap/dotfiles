@@ -2,18 +2,20 @@
 # {{{ Program overview.
 #
 # Name:
-#   gr
+#   gr nvim [https] [nvin.traap]
 #
 # Purpose:
 #   Clone or pull a Git repository using HTTPS or GIT protocol.
 #
 # Arguments:
 #   1 - repository to clone
-#   2 - use HTTPS versus GIT protocol when present.
+#   2 - optionl: use HTTPS versus GIT protocol when present.
+#   3 - d
 #
 # Use:
-#   gr foo
-#   gr bar https
+#   gr nvim
+#   gr nvim  https
+#   gr nvim https nvim.traap
 #
 #   Note:  any 2nd argument uses https
 #
@@ -25,16 +27,24 @@ dir=$(pwd)
 # -------------------------------------------------------------------------- }}}
 # {{{ Determine when a clone or pull is needed.
 
-if [ -d "$1" ]; then
-	operation=pull
+if [ "$#" -eq 1 ]; then
+  if [ -d "$1" ]; then
+    operation=pull
+  else
+    operation=clone
+  fi
 else
-	operation=clone
+  if [ -d "$2" ]; then
+    operation=pull
+  else
+    operation=clone
+  fi
 fi
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Determine when HTTPS or GIT protocol is used.
 
-if [ "$#" -eq 1 ]; then
+if [ "$#" -eq 3 ]; then
 	protocol=git@github.com:Traap/"$1".git
 else
 	protocol=https://github.com/Traap/"$1"
@@ -48,7 +58,11 @@ if [ ${operation} = 'pull' ]; then
 	sayAndDo "git $operation"
 	cd "$dir" || exit
 else
-	sayAndDo "git $operation $protocol"
+  if [ "$#" -eq 2 ]; then
+  	sayAndDo "git $operation $protocol $2"
+  else
+  	sayAndDo "git $operation $protocol"
+  fi
 fi
 
 # -------------------------------------------------------------------------- }}}
