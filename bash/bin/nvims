@@ -7,6 +7,7 @@
 # alias      | Github repository       | default or branch name
 readonly neovim_apps=(
   "astro     | AstroNvim/AstroNvim     | default"
+  "asyncedd  | asyncedd/dots.nvim      | default"
   "default   | none                    | none"
   "kickstart | nvim-lua/kickstart.nvim | default"
   "nvchad    | NvChad/NvChad           | default"
