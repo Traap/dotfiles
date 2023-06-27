@@ -9,12 +9,12 @@
 #
 # Arguments:
 #   1 - repository to clone
-#   2 - optionl: use HTTPS versus GIT protocol when present.
-#   3 - d
+#   2 - optional: use HTTPS versus GIT protocol when present.
+#   3 - optional: output director name
 #
 # Use:
 #   gr nvim
-#   gr nvim  https
+#   gr nvim https
 #   gr nvim https nvim.traap
 #
 #   Note:  any 2nd argument uses https
@@ -27,41 +27,53 @@ dir=$(pwd)
 # -------------------------------------------------------------------------- }}}
 # {{{ Determine when a clone or pull is needed.
 
-if [ "$#" -eq 1 ]; then
-  if [ -d "$1" ]; then
-    operation=pull
-  else
-    operation=clone
-  fi
-else
-  if [ -d "$2" ]; then
-    operation=pull
-  else
-    operation=clone
-  fi
-fi
+# HACK:  Convert this to a function.
+case "$#" in
+  1 | 2)
+    if [ -d "$1" ]; then
+      operation=pull
+    else
+      operation=clone
+    fi
+    ;;
+  3)
+    if [ -d "$3" ]; then
+      operation=pull
+    else
+      operation=clone
+    fi
+    ;;
+esac
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Determine when HTTPS or GIT protocol is used.
 
-if [ "$#" -eq 3 ]; then
-	protocol=git@github.com:Traap/"$1".git
-else
-	protocol=https://github.com/Traap/"$1"
-fi
+# HACK:  Convert this to a function.
+case "$#" in
+  1)
+    protocol=git@github.com:Traap/"$1".git
+    ;;
+  2 | 3)
+    if [ "$2" = "https" ]; then
+      protocol=git@github.com:Traap/"$1".git
+    else
+      protocol=https://github.com/Traap/"$1"
+    fi
+    ;;
+esac
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Do the clone or pull operation.
 
-if [ ${operation} = 'pull' ]; then
-	cd "$1" || exit
-	sayAndDo "git $operation"
-	cd "$dir" || exit
+if [ "$operation" = "pull" ]; then
+  cd "$1" || exit
+  sayAndDo "git $operation"
+  cd "$dir" || exit
 else
   if [ "$#" -eq 2 ]; then
-  	sayAndDo "git $operation $protocol $2"
+    sayAndDo "git $operation $protocol $2"
   else
-  	sayAndDo "git $operation $protocol"
+    sayAndDo "git $operation $protocol"
   fi
 fi
 
