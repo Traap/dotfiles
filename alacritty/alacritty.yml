@@ -24,7 +24,7 @@ window:
   class:
     general: Alacritty
     instance: Alacritty
-  opacity: 0.400
+  opacity: 0.200
   padding:
     x: 2
     y: 2
