@@ -26,12 +26,10 @@ createSymLinks() {
   if [[ $createSymLinksFlag == 1 ]]; then
     echo "Creating symbolic links."
     mkdir -p ~/.config
-    mkdir -p ~/.config/bspwm
-    mkdir -p ~/.config/sxhkd
     mkdir -p ~/.config/ranger
 
     # Symlinks at .config
-#    ln -fsv ~/git/dotfiles/Thunar                ~/.config/Thunar
+    ln -fsv ~/git/dotfiles/Thunar                ~/.config/Thunar
     ln -fsv ~/git/dotfiles/alacritty             ~/.config/alacritty
     ln -fsv ~/git/dotfiles/awesome               ~/.config/awesome
     ln -fsv ~/git/dotfiles/bspwm                 ~/.config/bspwm
