@@ -96,7 +96,6 @@ bspc rule -a Arcolinux-welcome-app.py state=floating
 bspc rule -a xfce4-appfinder state=floating flag=sticky
 bspc rule -a xfce4-settings-manager state=floating flag=sticky
 bspc rule -a Zathura state=tiled
-bspc rule -a Okular state=tiled flag=sticky
 
 # -------------------------------------------------------------------------- }}}
 # {{{ open applications on specific workspaces
