@@ -27,6 +27,9 @@ export SSHHOME
 WIKIHOME=$GITHOME/wiki
 export WIKIHOME
 
+PDF_VIEWER=okular
+export PDF_VIEWER
+
 # msys work-around.
 if [[ ${OSTYPE} =~ "linux" ]]; then
   # Define functions and paths.
