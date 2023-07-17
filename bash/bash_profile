@@ -41,3 +41,6 @@ if [[ ${OSTYPE} =~ "linux" ]]; then
   # Hook into interactive bash.
   [[ -f ~/.bashrc ]] && . ~/.bashrc
 fi
+
+# opam configuration
+test -r /home/traap/.opam/opam-init/init.sh && . /home/traap/.opam/opam-init/init.sh > /dev/null 2> /dev/null || true
