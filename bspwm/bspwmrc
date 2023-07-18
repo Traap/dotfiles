@@ -30,6 +30,7 @@ if [[ $HOSTNAME =~ "DarkKnight" ||
 else
 	bspc monitor -d 1 2 3 4 5 6 7 8 9 10
   bspc rule -a scratchpad flag=stick state=floating rectangle=800x600+560+240
+  bspc rule -a okular flag=stick state=floating rectangle=950x1035+962+37
 fi
 
 # -------------------------------------------------------------------------- }}}
@@ -101,7 +102,8 @@ bspc rule -a Zathura state=tiled
 # {{{ open applications on specific workspaces
 
 bspc rule -a "Microsoft Teams - Preview" desktop='^1'
-bspc rule -a Thunderbird desktop='^1'
+# bspc rule -a Thunderbird desktop='^1'
+bspc rule -a HEY desktop='^1'
 
 bspc rule -a discord desktop='^2'
 bspc rule -a Slack desktop='^2'
