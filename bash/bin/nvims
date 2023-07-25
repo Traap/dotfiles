@@ -8,6 +8,7 @@
 readonly neovim_apps=(
   "astro     | AstroNvim/AstroNvim     | default"
   "asyncedd  | asyncedd/dots.nvim      | default"
+  "barebones | Traap/barebones         | default"
   "default   | none                    | none"
   "kickstart | nvim-lua/kickstart.nvim | default"
   "nvchad    | NvChad/NvChad           | default"
