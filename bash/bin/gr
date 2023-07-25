@@ -26,12 +26,15 @@ getTags() {
  sayAndDo "git fetch --all --tags"
 }
 
+# -------------------------------------------------------------------------- }}}
 # {{{ Determine if a pull is needed.
 
 # shellcheck disable=SC2120
 gitCheck() {
   # Git variables used to determine if a pull is needed.
-  git fetch
+
+  # HACK: git fetch is slow.  Disable it for now.
+  # git fetch
   upstream=${1:-'@{u}'}
   local=$(git rev-parse @)
   remote=$(git rev-parse "$upstream")
