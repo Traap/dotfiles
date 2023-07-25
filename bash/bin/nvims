@@ -31,7 +31,6 @@ dir=$(pwd)
 # -------------------------------------------------------------------------- }}}
 # {{{ Determine if a pull is needed.
 
-# Yo huutube: nvims: Demonstrate suppressed shellcheck error.
 # shellcheck disable=SC2120
 gitcheck() {
 
