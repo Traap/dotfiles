@@ -182,12 +182,14 @@ if [[ $# -eq 1 ]]; then
     # {{{ Create wiki session
 
     "wiki")
+
+      # TODO:  Disable email.  Does hey-mail support neomutt?
       getRepository wiki
       tmux new-session -c "$GITPATH"/wiki -n Notebook -s "$1" -d
-      tmux new-window -c "$GITPATH" -n 'Email' -t "$1":2
+      # tmux new-window -c "$GITPATH" -n 'Email' -t "$1":2
 
       tmux send-keys -t "$1":1 "$EDITOR index.md" Enter
-      tmux select-window -t "$1":1
+      # tmux select-window -t "$1":1
       ;;
 
     # ---------------------------------------------------------------------- }}}
