@@ -121,19 +121,6 @@ if [[ $# -eq 1 ]]; then
       ;;
 
     # ---------------------------------------------------------------------- }}}
-    # {{{ Create ssh session
-
-    "ssh")
-      getRepository ssh
-      getRepository tmux
-      tmux new-session -c "$GITPATH"/ssh -n ssh -s "$1" -d
-      tmux new-window -c "$GITPATH"/tmux -n tmux -t "$1":2
-
-      tmux send-keys -t "$1":1 "$EDITOR -O config gitconfig" Enter
-      tmux send-keys -t "$1":2 "$EDITOR tmux.conf" Enter
-      ;;
-
-    # ---------------------------------------------------------------------- }}}
     # {{{ Create soup session
 
     "soup")
