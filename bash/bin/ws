@@ -1,0 +1,2 @@
+#!/bin/bash
+clear && rg -i -e "$1" && rg -i -e "$1" -c
