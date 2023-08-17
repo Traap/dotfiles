@@ -1,0 +1,17 @@
+#!/bin/bash
+# Compile a Rust program, run it, and delete it.
+#
+# Use:  filename.rs
+#       filename
+
+# Full file name.
+src="${1##*/}"
+
+# File name without extension.
+exe="${src%.*}"
+
+# Rebuild src file name.
+src="$exe".rs
+
+# Do the work or error.
+rustc "$src" && ./"$exe" && rm -v "$exe" || echo "Bag Dog! No bisquite"
