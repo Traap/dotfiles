@@ -108,15 +108,18 @@ if [[ $# -eq 1 ]]; then
     # {{{ Create nvim session
 
     "nvim")
-      getRepository nvim
-      tmux new-session -c "$HOME"/.config/nvim -n nvim -s "$1" -d
+      tmux new-session -c "$GITPATH/nvim.traap" -n Coder -s "$1" -d
       tmux send-keys -t "$1":1 \
         'nvim \
-      lua/traap/plugins/init.lua \
-      lua/traap/keybindings/init.lua \
-      lua/traap/settings/init.lua \
-      init.lua \
-    ' Enter
+          init.lua \
+          lua/config/lazy.lua \
+          lua/config/traap/autocmds.lua \
+          lua/config/traap/constants.lua \
+          lua/config/traap/customize.lua \
+          lua/config/traap/globals.lua \
+          lua/config/traap/keymaps.lua \
+          lua/config/traap/options.lua \
+        ' Enter
       tmux select-window -t "$1":1
       ;;
 
