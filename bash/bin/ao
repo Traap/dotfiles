@@ -121,37 +121,6 @@ if [[ $# -eq 1 ]]; then
       ;;
 
     # ---------------------------------------------------------------------- }}}
-    # {{{ Create ssh session
-
-    "ssh")
-      getRepository ssh
-      getRepository tmux
-      tmux new-session -c "$GITPATH"/ssh -n ssh -s "$1" -d
-      tmux new-window -c "$GITPATH"/tmux -n tmux -t "$1":2
-
-      tmux send-keys -t "$1":1 "$EDITOR -O config gitconfig" Enter
-      tmux send-keys -t "$1":2 "$EDITOR tmux.conf" Enter
-      ;;
-
-    # ---------------------------------------------------------------------- }}}
-    # {{{ Create soup session
-
-    "soup")
-      repos=(amber autodoc docbld emend emend-computer git-client newdoc tlc-article)
-      count=0
-      for r in "${repos[@]}"; do
-        getRepository "$r"
-        count=$((count + 1))
-        if [ $count -eq 1 ]; then
-          tmux new-session -c "$GITPATH"/"$r" -n "$r" -s "$1" -d
-        else
-          tmux new-window -c "$GITPATH"/"$r" -n "$r" -t "$1":$count
-        fi
-      done
-      tmux select-window -t "$1":1
-      ;;
-
-    # ---------------------------------------------------------------------- }}}
     # {{{ Create tmux session
 
     "tmux")
@@ -164,7 +133,7 @@ if [[ $# -eq 1 ]]; then
 
     "vim")
       getRepository vim
-      tmux new-session -c "$GITPATH"/vim -n vim -s "$1" -d
+      tmux new-session -c "$GITPATH"/vim -n Coder -s "$1" -d
 
       tmux send-keys -t "$1":1 \
         "vim \
