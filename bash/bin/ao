@@ -23,6 +23,8 @@
 # -------------------------------------------------------------------------- }}}
 # {{{ function to clone or pull a repository as needed.
 
+# Note:  In practice, I only clone repositories that are infrequencly used.
+
 getRepository() {
   dir=$(pwd)
 
@@ -67,8 +69,6 @@ if [[ $# -eq 1 ]]; then
     # {{{ Create bash session
 
     "bash")
-      getRepository dotfiles
-
       tmux new-session -c "$BASHHOME" -n dotfiles -s "$1" -d
       tmux new-window -c "$BASHHOME" -n bashrc -t "$1":2
 
@@ -100,7 +100,6 @@ if [[ $# -eq 1 ]]; then
     # {{{ Create KJV session
 
     "kjv")
-      getRepository kjv
       tmux new-session -c "$GITPATH"/kjv -n av -s "$1" -d
       ;;
 
