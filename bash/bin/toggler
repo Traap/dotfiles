@@ -1,0 +1,44 @@
+#!/bin/bash
+
+# Parameters:
+# 1 - winclass to toggle.
+# 2 - working directory
+
+toggle_winclass() {
+  verbose=false
+  winclass=$(xdotool search --class "$1");
+
+  [ $verbose == true ] && notify-send "$1" "$winclass"
+
+  if [[ -z "$winclass" ]]; then
+    [[ $verbose == true ]] && notify-send "$1" "Create $1"
+    cd "$2" || exit
+    if [[ "$1" == "scratchpad" ]]; then
+      alacritty --class scratchpad,scratchpad -e nvim +WikiJournal
+    else
+      alacritty --class "$1,$1" --command ao "$1"
+    fi
+  else
+    if [[ ! -f /tmp/"$1" ]]; then
+      [[ $verbose == true ]] && notify-send '"$1"' 'Hide "$1"'
+      touch /tmp/"$1" && xdo hide "$winclass"
+    elif [[ -f /tmp/"$1" ]]; then
+      [[ $verbose == true ]] && notify-send '"$1"' 'Show "$1"'
+      rm /tmp/"$1" && xdo show "$winclass"
+    fi
+  fi
+}
+
+if [[ $# -eq 1 ]]; then
+  case "$1" in
+    "scratchpad") toggle_winclass "$1" "$WIKIHOME" ;;
+    "Wiki") toggle_winclass "$1" "$WIKIHOME" ;;
+    "YouTube") toggle_winclass "$1" "$GITHOME/youtube" ;;
+    *)
+      echo "Toggling option not supported"
+      exit
+      ;;
+  esac
+else
+  echo "toggler [scratchpad|"$1"|YuoTube]"
+fi

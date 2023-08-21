@@ -152,8 +152,7 @@ if [[ $# -eq 1 ]]; then
     # ---------------------------------------------------------------------- }}}
     # {{{ Create wiki session
 
-    "wiki")
-      getRepository wiki
+    "Wiki")
       tmux new-session -c "$GITPATH"/wiki -n Notebook -s "$1" -d
       tmux new-window -c "$GITPATH" -n 'Coder' -t "$1":2
 
@@ -190,7 +189,7 @@ if [[ $# -eq 1 ]]; then
 
 else
   echo \
-    "Session name [ao|bash|d|h|havasu|kjv|nvim|ssh|soup|t|vim|wiki|YouTube] is required" &&
+    "Session name [ao|bash|d|h|havasu|kjv|nvim|ssh|soup|t|vim|Wiki|YouTube] is required" &&
     exit
 fi
 

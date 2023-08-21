@@ -178,17 +178,15 @@ alt + n
   notify-send 'nvims' 'Alt-n Neovim config switcher'; \
     alacritty --hold --command nvims
 
-alt + s
-  notify-send 'spad' 'Scratch Pad toggled.'; \
-    scratchpad
-
-alt + w
-  notify-send 'Wiki' 'Wiki Content toggled.'; \
-    wiki
-
-alt + y
-  notify-send 'Youtube' 'YouTube Content toggled.'; \
-    youtube
+alt + {s, w, y}
+  { \
+    notify-send 'spad' 'Scratch Pad toggled.'; \
+      toggler scratchpad, \
+    notify-send 'Wiki' 'Wiki Content toggled.'; \
+      toggler Wiki, \
+    notify-send 'Youtube' 'YouTube Content toggled.'; \
+      toggler YouTube
+  }
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Wallpaper adjustments
