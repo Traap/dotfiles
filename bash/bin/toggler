@@ -13,11 +13,7 @@ toggle_winclass() {
   if [[ -z "$winclass" ]]; then
     [[ $verbose == true ]] && notify-send "$1" "Create $1"
     cd "$2" || exit
-    if [[ "$1" == "scratchpad" ]]; then
-      alacritty --class scratchpad,scratchpad -e nvim +WikiJournal
-    else
-      alacritty --class "$1,$1" --command ao "$1"
-    fi
+    alacritty --class "$1,$1" --command ao "$1"
   else
     if [[ ! -f /tmp/"$1" ]]; then
       [[ $verbose == true ]] && notify-send '"$1"' 'Hide "$1"'
@@ -31,7 +27,7 @@ toggle_winclass() {
 
 if [[ $# -eq 1 ]]; then
   case "$1" in
-    "scratchpad") toggle_winclass "$1" "$WIKIHOME" ;;
+    "Scratchpad") toggle_winclass "$1" "$WIKIHOME" ;;
     "Wiki") toggle_winclass "$1" "$WIKIHOME" ;;
     "YouTube") toggle_winclass "$1" "$GITHOME/youtube" ;;
     *)
