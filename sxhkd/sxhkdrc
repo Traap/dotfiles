@@ -176,11 +176,15 @@ super + {F10, F11}
 
 alt + n
   notify-send 'nvims' 'Alt-n Neovim config switcher'; \
-    alacritty --command nvims
+    alacritty --hold --command nvims
 
 alt + s
   notify-send 'spad' 'Scratch Pad toggled.'; \
     scratchpad
+
+alt + y
+  notify-send 'Youtube' 'YouTube Content toggled.'; \
+    youtube
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Wallpaper adjustments

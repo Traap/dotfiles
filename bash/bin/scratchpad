@@ -2,11 +2,11 @@
 verbose=false
 winclass=$(xdotool search --class scratchpad);
 
-[ $verbose == true ] && notify-send 'scratchpad' '$winclass'
+[ $verbose == true ] && notify-send 'scratchpad' "$winclass"
 
 if [ -z "$winclass" ]; then
 [ $verbose == true ] && notify-send 'scratchpad' 'Create scratchpad'
-   cd $WIKIHOME
+   cd "$WIKIHOME" || exit
    alacritty --class scratchpad,scratchpad -e nvim +WikiJournal
 else
   if [ ! -f /tmp/scratchpad ]; then
