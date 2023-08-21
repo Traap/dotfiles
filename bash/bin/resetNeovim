@@ -4,10 +4,12 @@
 #
 # {{{ Here's what happening:
 
+# 0. Remove neovim source code.
 # 1. Use bnvim rebuild neovim from source.
 # 2. Use switchNeovim to swith to my neovim configuration and bootstrap neovim.
 # 3. Tell'em what to do next.
 
+sudo rm -rf "$GITHOME/neovim"
 bnvim
 switchNeovim traap
 echo "Restart nvim to allow Treesitter to finish."
