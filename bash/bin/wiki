@@ -1,0 +1,19 @@
+#!/bin/bash
+verbose=false
+winclass=$(xdotool search --class Wiki);
+
+[ $verbose == true ] && notify-send 'Wiki' "$winclass"
+
+if [ -z "$winclass" ]; then
+[ $verbose == true ] && notify-send 'Wiki' 'Create Wiki'
+   cd "$WIKIHOME" || exit
+   alacritty --class Wiki,Wiki --command ao wiki
+else
+  if [ ! -f /tmp/Wiki ]; then
+    [ $verbose == true ] && notify-send 'Wiki' 'Hide Wiki'
+    touch /tmp/Wiki && xdo hide "$winclass"
+  elif [ -f /tmp/Wiki ]; then
+    [ $verbose == true ] && notify-send 'Wiki' 'Show Wiki'
+    rm /tmp/Wiki && xdo show "$winclass"
+  fi
+fi

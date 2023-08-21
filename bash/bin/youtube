@@ -6,7 +6,7 @@ winclass=$(xdotool search --class YouTube);
 
 if [ -z "$winclass" ]; then
 [ $verbose == true ] && notify-send 'YouTube' 'Create YouTube'
-   cd "$GITIHOME/youtube" || exit
+   cd "$GITHOME/youtube" || exit
    alacritty --class YouTube,YouTube --command ao YouTube
 else
   if [ ! -f /tmp/YouTube ]; then

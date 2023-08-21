@@ -182,6 +182,10 @@ alt + s
   notify-send 'spad' 'Scratch Pad toggled.'; \
     scratchpad
 
+alt + w
+  notify-send 'Wiki' 'Wiki Content toggled.'; \
+    wiki
+
 alt + y
   notify-send 'Youtube' 'YouTube Content toggled.'; \
     youtube
