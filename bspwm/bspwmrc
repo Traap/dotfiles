@@ -63,7 +63,7 @@ run xfce4-power-manager
 # {{{ BSPWM configuration
 
 bspc config border_width 2
-bspc config borderless_monocle true
+bspc config borderless_monocle false
 bspc config bottom_padding 0
 bspc config focus_follows_pointer true
 bspc config gapless_monocle true
