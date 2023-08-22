@@ -1,5 +1,17 @@
 #!/bin/bash
-
+# {{{ Create and toggle a winclass.
+#
+# Shout out:
+#   Jake@Linux
+#   https://www.youtube.com/watch?v=Zmx9fia1PTA&t=443s
+#
+# -------------------------------------------------------------------------- }}}
+# {{{ toggle winclass function.
+#
+# This function gets winclass and uses it when alacritty is started to run the
+# ao (alpha omega) script with a parameter.  The first innovation runs alacrity.
+# Thereafter the winclass in toggled: hidden or showed..
+#
 # Parameters:
 # 1 - winclass to toggle.
 # 2 - working directory
@@ -25,9 +37,12 @@ toggle_winclass() {
   fi
 }
 
+# -------------------------------------------------------------------------- }}}
+# {{{ Use valid input to toggle a winclass.
+
 if [[ $# -eq 1 ]]; then
   case "$1" in
-    "Scratchpad") toggle_winclass "$1" "$WIKIHOME" ;;
+    "scratchpad") toggle_winclass "$1" "$WIKIHOME" ;;
     "Wiki") toggle_winclass "$1" "$WIKIHOME" ;;
     "YouTube") toggle_winclass "$1" "$GITHOME/youtube" ;;
     *)
@@ -38,3 +53,5 @@ if [[ $# -eq 1 ]]; then
 else
   echo "toggler [scratchpad|"$1"|YuoTube]"
 fi
+
+# -------------------------------------------------------------------------- }}}
