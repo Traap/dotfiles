@@ -62,23 +62,23 @@ run xfce4-power-manager
 # -------------------------------------------------------------------------- }}}
 # {{{ BSPWM configuration
 
-bspc config border_width 1
+bspc config border_width 2
 bspc config borderless_monocle true
-bspc config bottom_padding 2
+bspc config bottom_padding 0
 bspc config focus_follows_pointer true
 bspc config gapless_monocle true
-bspc config left_padding 2
+bspc config left_padding 0
 bspc config merge_overlapping_monitors true
 bspc config pointer_action1 move
 bspc config pointer_action2 resize_side
 bspc config pointer_action3 resize_corner
 bspc config pointer_modifier mod4
 bspc config remove_disabled_monitors true
-bspc config right_padding 2
+bspc config right_padding 0
 bspc config single_monocle true
 bspc config split_ratio 0.50
 bspc config top_padding 33
-bspc config window_gap 4
+bspc config window_gap 0
 
 # -------------------------------------------------------------------------- }}}
 # {{{ BSPWM coloring
