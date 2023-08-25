@@ -42,7 +42,7 @@ toggle_winclass() {
 
 if [[ $# -eq 1 ]]; then
   case "$1" in
-    "scratchpad") toggle_winclass "$1" "$WIKIHOME" ;;
+    "Scratchpad") toggle_winclass "$1" "$WIKIHOME" ;;
     "Wiki") toggle_winclass "$1" "$WIKIHOME" ;;
     "YouTube") toggle_winclass "$1" "$GITHOME/youtube" ;;
     *)
