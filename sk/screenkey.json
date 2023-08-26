@@ -7,7 +7,7 @@
     "position": "fixed",
     "persist": true,
     "window": null,
-    "font_desc": "JetBrainsMono Nerd Font Bold 10",
+    "font_desc": "JetBrainsMono Nerd Font Ultra-Bold 10",
     "font_size": "medium",
     "font_color": "white",
     "bg_color": "#3d3d38384646",
@@ -20,10 +20,10 @@
     "vis_shift": true,
     "vis_space": true,
     "geometry": [
-        3468,
+        710,
         0,
-        732,
-        28
+        496,
+        32
     ],
     "screen": 0,
     "start_disabled": false,
