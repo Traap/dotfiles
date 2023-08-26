@@ -110,7 +110,7 @@ bspc rule -a obs desktop='^4'
 
 bspc rule -a Shotcut desktop='^6'
 
-bspc rule -a "Microsoft Teams - Preview" desktop='^d'
+bspc rule -a "Microsoft Teams - Preview" desktop='^8'
 
 bspc rule -a discord desktop='^9'
 bspc rule -a Slack desktop='^9'
