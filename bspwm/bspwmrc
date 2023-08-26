@@ -101,12 +101,8 @@ bspc rule -a Zathura state=tiled
 # -------------------------------------------------------------------------- }}}
 # {{{ open applications on specific workspaces
 
-bspc rule -a "Microsoft Teams - Preview" desktop='^1'
-# bspc rule -a Thunderbird desktop='^1'
-bspc rule -a HEY desktop='^1'
 
-bspc rule -a discord desktop='^2'
-bspc rule -a Slack desktop='^2'
+bspc rule -a HEY desktop='^2'
 
 bspc rule -a "ONLYOFFICE Desktop Editors" desktop='^3'
 
@@ -114,7 +110,11 @@ bspc rule -a obs desktop='^4'
 
 bspc rule -a Shotcut desktop='^6'
 
-bspc rule -a dbeaver desktop='^0'
+bspc rule -a "Microsoft Teams - Preview" desktop='^d'
 
+bspc rule -a discord desktop='^9'
+bspc rule -a Slack desktop='^9'
+
+bspc rule -a dbeaver desktop='^0'
 
 # -------------------------------------------------------------------------- }}}
