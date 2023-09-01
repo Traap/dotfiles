@@ -10,7 +10,7 @@ run() { if ! pgrep -f "$1"; then "$@" & fi }
 run numlockx off
 run setxkbmap -option caps:swapescape
 run xmodmap -e "pointer = 3 2 1 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 4 5"
-"$HOME/.config/alacritty/fontsize"
+"$HOME"/.config/alacritty/fontsize
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Configure physical displays.
@@ -64,7 +64,7 @@ run xfce4-power-manager
 
 bspc config border_width 1
 bspc config borderless_monocle false
-bspc config bottom_padding 0
+bspc config bottom_padding 1
 bspc config focus_follows_pointer true
 bspc config gapless_monocle true
 bspc config left_padding 0
