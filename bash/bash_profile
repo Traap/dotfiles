@@ -6,6 +6,9 @@ export BBHOME
 CFGHOME=$HOME/.config
 export CFGHOME
 
+EDITOR=$(which nvim)
+export EDITOR
+
 GITHOME=$HOME/git
 export GITHOME
 
