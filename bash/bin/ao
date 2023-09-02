@@ -54,15 +54,21 @@ if [[ $# -eq 1 ]]; then
     # {{{ Create d (double), h (homerun), t (triple)
 
     "d")
-      tmux new-session -n Double -s "$1"\; split-window -bh
+      tmux new-session -n Double -s "$1" -d
+      tmux split-window -bh
       ;;
 
     "h")
-      tmux new-session -n HomeRun -s "$1"\; split-window -bh\; split-window -bv -t 2\; split-window -bv -t 1
+      tmux new-session -n HomeRun -s "$1" -d
+      tmux split-window -bh
+      tmux split-window -bv -t 2
+      tmux split-window -bv -t 1
       ;;
 
     "t")
-      tmux new-session -n Triple -s "$1"\; split-window -v\; split-window -bfh
+      tmux new-session -n Triple -s "$1" -d
+      split-window -v
+      split-window -bfh
       ;;
 
     # ---------------------------------------------------------------------- }}}
@@ -100,7 +106,7 @@ if [[ $# -eq 1 ]]; then
     # {{{ Create KJV session
 
     "kjv")
-      tmux new-session -c "$GITPATH"/kjv -n av -s "$1" -d
+      tmux new-session -c "$GITPATH"/kjv -n 1611 -s "$1" -d
       ;;
 
     # ---------------------------------------------------------------------- }}}
@@ -166,7 +172,9 @@ if [[ $# -eq 1 ]]; then
     "Upgrade")
       tmux new-session -c "$BASHHOME"/bin -n Admin -s "$1" -d
       tmux split-window -bh
-      tmux send-keys -t "$1":1 "upgrade" enter
+
+      tmux send-keys -t 1 "upgrade" enter
+      tmux send-keys -t 2 "gits" enter
       ;;
 
     # ---------------------------------------------------------------------- }}}
