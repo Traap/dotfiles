@@ -112,22 +112,6 @@ fi
 export EDITOR
 
 # -------------------------------------------------------------------------- }}}
-# {{{ emend location and function.  These must go together.
-
-if dirExists ${GITHOME}/emend; then
-   EMENDPATH=${GITHOME}/emend
-else
-  EMENDPATH=""
-fi
-export EMENDPATH
-
-if [[ -d ${EMENDPATH} ]]; then
-  newcomponent() {
-    ${EMENDPATH}/bin/newcomponent "$@"
-  }
-fi
-
-# -------------------------------------------------------------------------- }}}
 # {{{ FZF customizations
 
 export FZF_DEFAULT_COMMAND='rg --files --no-ignore-vcs --hidden'
