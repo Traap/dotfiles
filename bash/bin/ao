@@ -51,7 +51,7 @@ if [[ $# -eq 1 ]]; then
       ;;
 
     # ---------------------------------------------------------------------- }}}
-    # {{{ Create d (doub le), h (homerun), t (triple)
+    # {{{ Create d (double), h (homerun), t (triple)
 
     "d")
       tmux new-session -n Double -s "$1"\; split-window -bh
@@ -104,9 +104,10 @@ if [[ $# -eq 1 ]]; then
       ;;
 
     # ---------------------------------------------------------------------- }}}
-    # {{{ Create nvim session
+    # {{{ Create Nvim session
 
-    "nvim")
+    # YouTube: Discuss what files edited when Nvim session is started.
+    "Nvim")
       tmux new-session -c "$GITPATH/nvim.traap" -n Coder -s "$1" -d
       tmux send-keys -t "$1":1 \
         'nvim \
@@ -159,7 +160,17 @@ if [[ $# -eq 1 ]]; then
       ;;
 
     # ---------------------------------------------------------------------- }}}
-    # {{{ Create wiki session
+    # {{{ Create Upgrade session
+
+    # YouTube: A session with a horizontal spilt.
+    "Upgrade")
+      tmux new-session -c "$BASHHOME"/bin -n Admin -s "$1" -d
+      tmux split-window -bh
+      tmux send-keys -t "$1":1 "upgrade" enter
+      ;;
+
+    # ---------------------------------------------------------------------- }}}
+    # {{{ Create Wiki session
 
     "Wiki")
       tmux new-session -c "$WIKIHOME" -n Notebook -s "$1" -d
@@ -170,7 +181,7 @@ if [[ $# -eq 1 ]]; then
       ;;
 
     # ---------------------------------------------------------------------- }}}
-    # {{{ Create Youtube session
+    # {{{ Create YouTube session
 
     "YouTube")
       tmux new-session -c "$GITHOME" -n 'Notes' -s "$1" -d
@@ -182,7 +193,7 @@ if [[ $# -eq 1 ]]; then
       ;;
 
     # ---------------------------------------------------------------------- }}}
-    # {{{ Session name not supported error.
+    # {{{ Session name noot supported error.
 
     *)
       echo "Session name $1 is not supported."
@@ -198,7 +209,7 @@ if [[ $# -eq 1 ]]; then
 
 else
   echo \
-    "Session name [ao|bash|d|h|havasu|kjv|nvim|Scratchpad|ssh|soup|t|vim|Wiki|YouTube] is required" &&
+    "Session name [ao|bash|d|h|havasu|kjv|Nvim|Scratchpad|t|Upgrade|vim|Wiki|YouTube] is required" &&
     exit
 fi
 

@@ -40,9 +40,13 @@ toggle_winclass() {
 # -------------------------------------------------------------------------- }}}
 # {{{ Use valid input to toggle a winclass.
 
+# YouTube: Update input choices.
+
 if [[ $# -eq 1 ]]; then
   case "$1" in
+    "Nvim") toggle_winclass "$1" "$GITHOME/nvim.traap" ;;
     "Scratchpad") toggle_winclass "$1" "$WIKIHOME" ;;
+    "Upgrade") toggle_winclass "$1" "$HOME" ;;
     "Wiki") toggle_winclass "$1" "$WIKIHOME" ;;
     "YouTube") toggle_winclass "$1" "$GITHOME/youtube" ;;
     *)

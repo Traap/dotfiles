@@ -174,17 +174,20 @@ super + {F10, F11}
       alacritty --command ssh traap@DarkKnight   -i ~/.ssh/Ninja  \
   }
 
-alt + n
-  notify-send 'nvims' 'Alt-n Neovim config switcher'; \
-    alacritty --hold --command nvims
-
-alt + {s, w, y}
+# YouTube: Demonstrate adding new application hot-key.
+alt + {e, n, s, u, w, y}
   { \
-    notify-send 'Scratchpad' 'Scratch Pad toggled.'; \
+    notify-send 'nvims' 'Alt-n Neovim config switcher'; \
+      alacritty --hold --command nvims, \
+    notify-send 'Neovim' 'Neovim session toggled.'; \
+      toggler Nvim, \
+    notify-send 'Scratchpad' 'Scratch Pad session toggled.'; \
       toggler Scratchpad, \
-    notify-send 'Wiki' 'Wiki Content toggled.'; \
+    notify-send 'Upgrade' 'Update Operating System session toggled.'; \
+      toggler Upgrade, \
+    notify-send 'Wiki' 'Wiki Content session toggled.'; \
       toggler Wiki, \
-    notify-send 'Youtube' 'YouTube Content toggled.'; \
+    notify-send 'YouTube' 'YouTube Content session toggled.'; \
       toggler YouTube
   }
 
