@@ -174,7 +174,7 @@ super + {F10, F11}
       alacritty --command ssh traap@DarkKnight   -i ~/.ssh/Ninja  \
   }
 
-# YouTube: Demonstrate adding new application hot-key.
+# YouTube: Discuss Upgrade, YouTube, and Nvim.
 alt + {e, n, s, u, w, y}
   { \
     notify-send 'nvims' 'Alt-n Neovim config switcher'; \
