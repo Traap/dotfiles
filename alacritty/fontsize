@@ -1,10 +1,46 @@
 #!/bin/bash
-hostFont="$HOME"/.config/alacritty/fonts-"$HOSTNAME".yml
-noHostFont="$HOME"/.config/alacritty/fonts-Default.yml
-activeFont="$HOME"/.config/alacritty/fonts.yml
+# {{{ Description
+#
+# Alacrity font size is host name specific unless argument 1 is used.
+# Valid range is 5 >= $1 <= 29.
+# Font sizes:
+#   5 is the smalles font that works on many of my monitors.
+#   29 is the larges font that displays 80 columns with out shifting text.
+#
+# ---------------------------------------------------------------------------}}}
+# {{{ Change font size when argument 1 is valid.
 
-if [[ -f "$hostFont" ]]; then
-	cp "$hostFont" "$activeFont"
+changeFontSize() {
+  alacritty="$HOME/.config/alacritty"
+  in=$alacritty/fonts-template.yml
+  out=$alacritty/fonts.yml
+
+  if [[ "$1" -ge 5 ]] && [[ "$1" -le 29 ]]; then
+    sed -E "s/size:[[:space:]]*[0-9]+\.[0-9]+/size: $1/g" $in > $out
+  else
+    echo "Valid font size is between 5 and 29. Size $1 is invalid."
+    exit
+  fi
+}
+
+# ---------------------------------------------------------------------------}}}
+# {{{ Alacrity font size is host name specific unless argument 1 is used.
+#     Valid range is 5 >= $1 <= 29.
+
+if [[ $# -eq 1 ]]; then
+  # Validate argument 1 is numeric.
+  if [[ "$1" =~ ^[0-9]+$ ]]; then
+    changeFontSize $1
+  else
+    echo "Valid font size is between 5 and 29. $1 is invalid."
+  fi
 else
-	cp "$noHostFont" "$activeFont"
+  # Host name specific font size.
+  case "$HOSTNAME" in
+    "DarkKnight") changeFontSize 10 ;;
+    "Ninja")      changeFontSize 7 ;;
+    *)            changeFontSize 5 ;;
+  esac
 fi
+
+# ---------------------------------------------------------------------------}}}
