@@ -191,6 +191,7 @@ if [[ $# -eq 1 ]]; then
     # ---------------------------------------------------------------------- }}}
     # {{{ Create YouTube session
 
+    # YouTube: This is the YouTube tmux session.
     "YouTube")
       tmux new-session -c "$GITHOME" -n 'Notes' -s "$1" -d
       tmux new-window -c "$GITPATH" -n 'Coder' -t "$1":2
