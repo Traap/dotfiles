@@ -37,7 +37,7 @@ if [[ $# -eq 1 ]]; then
 else
   # Host name specific font size.
   case "$HOSTNAME" in
-    "DarkKnight") changeFontSize 10 ;;
+    "DarkKnight") changeFontSize 12 ;;
     "Ninja")      changeFontSize 7 ;;
     *)            changeFontSize 5 ;;
   esac
