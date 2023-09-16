@@ -327,7 +327,7 @@ pm() {
 }
 
 # -------------------------------------------------------------------------- }}}
-# {{{ cj & gh are functions that I rewrite all the time to simplify my life.
+# {{{ cj,dh,& gh are functions that I rewrite all the time to simplify my life.
 
 cj() {
   newdoc --dir=$1/$2 --file=$2 --title=$2 $3 $4
@@ -336,6 +336,11 @@ cj() {
 dh() {
   clear && docbld clobber && docbld texx && ll && zathura $1
 }
+
+gh() {
+  echo "my_functions:gh() is available."
+}
+
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Use LaTeX make to generate a document.
