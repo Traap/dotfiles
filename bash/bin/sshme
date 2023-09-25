@@ -1,0 +1,5 @@
+#!/bin/bash
+sshme() {
+  echo "My ssh-agent PID ${SSH_AGENT_PID}"
+}
+sshme "$@"

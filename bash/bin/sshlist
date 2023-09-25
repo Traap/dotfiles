@@ -1,0 +1,5 @@
+#!/bin/bash
+sshlist() {
+  ps aux | awk '/ssh-agent -s/'
+}
+sshlist "$@"

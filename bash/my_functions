@@ -117,29 +117,7 @@ fi
 title() { echo -n -e "\033]0;$1\007"; }
 
 # -------------------------------------------------------------------------- }}}
-# {{{ Generating a new SSH key and adding it to the ssh-agent
-#     https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent
-
-sshkeys() {
-  if [[ -d $SSHHOME ]]; then
-    eval "$(ssh-agent -s)"
-    for key in $(ls $SSHHOME/*.pub); do
-      ssh-add -q "${key%.*}"
-    done;
-  fi
-}
-
-sshlist() {
-  ps aux | awk '/ssh-agent -s/'
-}
-
-sshme() {
-  echo "My ssh-agent PID ${SSH_AGENT_PID}"
-}
-
-sshkill() {
-  killall ssh-agent
-}
+# {{{ kill latexmk processes
 
 latexmkkill() {
   if osType "msys"; then
@@ -148,18 +126,6 @@ latexmkkill() {
   else
     for pid in $(ps aux | awk '/latexmk/ {print $2}'); do kill -9 $pid; done
     for pid in $(ps aux | awk '/perl/    {print $2}'); do kill -9 $pid; done
-  fi
-}
-
-sshstart() {
-  if programExists /etc/init.d/ssh; then
-    sudo /etc/init.d/ssh start
-  fi
-}
-
-sshstop() {
-  if programExists /etc/init.d/ssh; then
-    sudo /etc/init.d/ssh stop
   fi
 }
 

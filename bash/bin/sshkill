@@ -1,0 +1,5 @@
+#!/bin/bash
+sshkill() {
+  killall ssh-agent
+}
+sshkill "$@"

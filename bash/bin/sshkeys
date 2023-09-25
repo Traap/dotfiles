@@ -1,0 +1,12 @@
+#!/bin/bash
+sshkeys () {
+  if [[ -d $SSHHOME ]]; then
+    eval "$(ssh-agent -s)"
+    for key in $(ls $SSHHOME/*.pub); do
+      ssh-add -q "${key%.*}"
+    done;
+  else
+    echo "ERROR: SSHHOME is not defined."
+  fi
+}
+sshkeys "$@"
