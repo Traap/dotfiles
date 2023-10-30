@@ -32,7 +32,11 @@ if osType "msys"; then
 	alias cat='bat -p'
 	alias ls='ls --color=auto'
 else
-	[ -f /usr/bin/bat ] && alias cat='bat -p'
+  if osName "Ubuntu"; then
+	  [ -f /usr/bin/batcat ] && alias cat='batcat -p'
+  else
+	  [ -f /usr/bin/bat ] && alias cat='bat -p'
+  fi
 	[ -f /usr/bin/exa ] && alias ls='exa'
 	[ ! -f /usr/bin/exa ] && alias ls='ls --color=auto'
 fi
