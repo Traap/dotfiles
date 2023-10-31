@@ -14,6 +14,8 @@ if [[ -z $WSL_DISTRO_NAME ]]; then
   fi
 else
   export BROWSER=brave.exe
+  export TEXMFDIST=/usr/share/texlive/texmf-dist
+  export TEXMFHOME=/usr/share/texlive/texmf-dist
 fi
 export FILE=ranger
 export TERM=xterm-256color

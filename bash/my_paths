@@ -1,7 +1,7 @@
 #!/bin/bash
 # {{{ Local settings.
 
-wsl_user='Traap'
+wsl_user='135272'
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Linux only machines.
@@ -17,15 +17,13 @@ if programExists rbenv; then
 fi
 
 # prependToPath only prepends to the path when the directory exists.
-prependToPath "$HOME"/.local/share/nvim/mason/bin
 prependToPath "$HOME"/bin
 prependToPath "$BASHHOME"/bin
 
 # NOTE: Don't forget to set wsl_user correctly.
 if [[ -n $WSL_DISTRO_NAME ]]; then
-  appendToPath /mnt/c/Program\ Files/SumatraPDF
-  appendToPath /mnt/c/Users/$wsl_user/AppData/Local/BraveSoftware/Brave-Browser/Application
-  appendToPath /mnt/c/Windows/System32
+  appendToPath /mnt/c/Users/$wsl_user/AppData/Local/SumatraPDF
 fi
+
 
 # -------------------------------------------------------------------------- }}}
