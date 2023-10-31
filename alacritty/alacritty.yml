@@ -26,5 +26,5 @@ window:
     instance: Alacritty
   opacity: 0.850
   padding:
-    x: 2
-    y: 2
+    x: 0
+    y: 0
