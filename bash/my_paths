@@ -1,12 +1,25 @@
 #!/bin/bash
 # {{{ Local settings.
 
-wsl_user='135272'
+wsl_user='traap'
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Linux only machines.
 
-# NOTE: When order matters:  PrependToPath (beginn) and appendToPath (end).
+# NOTE: When order matters:  PrependToPath (beginng) and appendToPath (end).
+
+
+# NOTE: Don't forget to set wsl_user correctly.
+if [[ -n $WSL_DISTRO_NAME ]]; then
+  export PATH=""
+  appendToPath "/usr/local/sbin"
+  appendToPath "/usr/local/bin"
+  appendToPath "/usr/sbin"
+  appendToPath "/usr/bin"
+  appendToPath "/sbin"
+  appendToPath "/bin"
+  appendToPath /mnt/c/Users/$wsl_user/AppData/Local/SumatraPDF
+fi
 
 # Programming languages.
 prependToPath "$HOME"/.cargo/bin
@@ -20,10 +33,6 @@ fi
 prependToPath "$HOME"/bin
 prependToPath "$BASHHOME"/bin
 
-# NOTE: Don't forget to set wsl_user correctly.
-if [[ -n $WSL_DISTRO_NAME ]]; then
-  appendToPath /mnt/c/Users/$wsl_user/AppData/Local/SumatraPDF
-fi
 
 
 # -------------------------------------------------------------------------- }}}
