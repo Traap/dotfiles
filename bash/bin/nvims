@@ -11,6 +11,7 @@ readonly neovim_apps=(
   "barebones | Traap/barebones         | default"
   "baretmux  | Traap/barebones         | tmux"
   "default   | none                    | none"
+  "exos      | exosyphon/nvim          | none"
   "kickstart | nvim-lua/kickstart.nvim | default"
   "nvchad    | NvChad/NvChad           | default"
   "prime     | Traap/init.lua          | default"
