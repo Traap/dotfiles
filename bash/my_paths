@@ -11,7 +11,7 @@ wsl_user='traap'
 
 # NOTE: Don't forget to set wsl_user correctly.
 if [[ -n $WSL_DISTRO_NAME ]]; then
-  export PATH=""
+  export PATH="$BASHHOME"
   appendToPath "/usr/local/sbin"
   appendToPath "/usr/local/bin"
   appendToPath "/usr/sbin"
