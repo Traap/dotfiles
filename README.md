@@ -8,7 +8,7 @@ the repository was bloated.
 ### bin
 I map this directory to my path.
 
-#### bin/xsel 
+#### bin/xsel
 xsel should never be pushed to this repository.  I forgot to add .gitignore.
 
 #### bin/xsel-wsl
@@ -21,4 +21,4 @@ Setup has various scripts I use to personalize a setup.  These scripts are
 designed to run once, or as trouble shooting aids.
 
 Traap
-2021-02-20
+2023-11-23
