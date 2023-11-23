@@ -242,8 +242,8 @@ fi
 # -------------------------------------------------------------------------- }}}
 # {{{ Neovim appname aliases
 
-if [[ -f "$BASHHOME"/nvim_appnames ]]; then
-	source "$BASHHOME"/nvim_appnames
+if [[ -f "$HOME"/.config/nvim_appnames ]]; then
+	source "$HOME"/./confgn/vim_appnames
 fi
 
 # -------------------------------------------------------------------------- }}}
