@@ -8,7 +8,6 @@ wsl_user='traap'
 
 # NOTE: When order matters:  PrependToPath (beginng) and appendToPath (end).
 
-
 # NOTE: Don't forget to set wsl_user correctly.
 if [[ -n $WSL_DISTRO_NAME ]]; then
   export PATH="$BASHHOME"
@@ -30,9 +29,8 @@ if programExists rbenv; then
 fi
 
 # prependToPath only prepends to the path when the directory exists.
+prependToPath "$GITHOME/nvims"
 prependToPath "$HOME"/bin
 prependToPath "$BASHHOME"/bin
-
-
 
 # -------------------------------------------------------------------------- }}}
