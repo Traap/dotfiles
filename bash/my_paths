@@ -17,7 +17,9 @@ if [[ -n $WSL_DISTRO_NAME ]]; then
   appendToPath "/usr/bin"
   appendToPath "/sbin"
   appendToPath "/bin"
-  appendToPath /mnt/c/Users/$wsl_user/AppData/Local/SumatraPDF
+  appendToPath "/mnt/c/Windows/system32"
+  appendToPath "/mnt/c/Windows/system32/WindowsPowerShell/v1.0"
+  appendToPath "/mnt/c/Users/$wsl_user/AppData/Local/SumatraPDF"
 fi
 
 # Programming languages.
@@ -29,8 +31,8 @@ if programExists rbenv; then
 fi
 
 # prependToPath only prepends to the path when the directory exists.
-prependToPath "$GITHOME/nvims"
 prependToPath "$HOME"/bin
 prependToPath "$BASHHOME"/bin
+prependToPath "$GITHOME"/nvims
 
 # -------------------------------------------------------------------------- }}}
