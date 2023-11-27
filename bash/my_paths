@@ -1,17 +1,17 @@
 #!/bin/bash
 # {{{ Local settings.
 
-wsl_user='traap'
+wsl_user='135272'
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Linux only machines.
 
-# NOTE: When order matters:  PrependToPath (beginng) and appendToPath (end).
+# NOTE: When order matters:  prependToPath (beginng) and appendToPath (end).
+#       Neither function adjusts the path when the directory already exits.
 
 # NOTE: Don't forget to set wsl_user correctly.
 if [[ -n $WSL_DISTRO_NAME ]]; then
-  export PATH="$BASHHOME"
-  appendToPath "/usr/local/sbin"
+  export  PATH="/usr/local/sbin"
   appendToPath "/usr/local/bin"
   appendToPath "/usr/sbin"
   appendToPath "/usr/bin"
@@ -30,9 +30,8 @@ if programExists rbenv; then
   eval "$(rbenv init - n)"
 fi
 
-# prependToPath only prepends to the path when the directory exists.
-prependToPath "$HOME"/bin
-prependToPath "$BASHHOME"/bin
-prependToPath "$GITHOME"/nvims
+# Personal executables
+appendToPath "$HOME/bin"
+appendToPath "$BASHHOME/bin"
 
 # -------------------------------------------------------------------------- }}}
