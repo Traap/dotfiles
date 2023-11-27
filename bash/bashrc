@@ -280,8 +280,6 @@ ex() {
 
 # -------------------------------------------------------------------------- }}}
 
+# Sometime other programs automagically update my bashrc.
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
-
 [ -f "/home/traap/.ghcup/env" ] && source "/home/traap/.ghcup/env" # ghcup-env
-export PATH="$HOME/.rbenv/bin:$PATH"
-eval "$(rbenv init -)"
