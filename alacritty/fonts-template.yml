@@ -1,14 +1,14 @@
 font:
   normal:
-    family: "Hack Nerf Font Mono"
+    family: "JetBrainsMono Nerd Font Mono"
     style:  Medium
   bold:
-    family: "Hack Nerf Font Mono"
+    family: "JetBrainsMono Nerd Font Mono"
     style:  Bold
   italic:
-    family: "Hack Nerf Font Mono"
+    family: "JetBrainsMono Nerd Font Mono"
     style:  MediumItalic
   bold_italic:
-    family: "Hack Nerf Font Mono"
+    family: "JetBrainsMono Nerd Font Mono"
     style: BoldItalic
   size: 10.00
