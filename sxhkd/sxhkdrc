@@ -70,11 +70,6 @@ super + ctrl + {1-9, 0}
 super + ctrl + {_, shift +}{1-9}
   bspc node {_, @/} --presel-ratio 0.{1-9}
 
-# Increase or decrease window gap.
-# super + bracket{left, right}
-#   bspc config -d focused window_gap \
-#        $((`bspc config -d focused window_gap` {-,+} 1))
-
 # East -10, North +10, South -10, West +10.
 super + alt + {h, j, k, l}
   bspc node {@east  -r -10, \
@@ -157,7 +152,7 @@ super + {slash, b, d, e, k, n, o, r, s, t, u, v, w, x, z}
     Thunar, \
     onlyoffice-desktopeditors, \
     remmina, \
-    xfce4-screenshooter, \
+    flameshot, \
     teams, \
     shotcut, \
     obs, \
