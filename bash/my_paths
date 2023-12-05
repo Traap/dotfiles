@@ -1,6 +1,7 @@
 #!/bin/bash
 # {{{ Local settings.
 
+# TODO: Need a better a way to dynamically find Windows User name.
 wsl_user='traap'
 
 # -------------------------------------------------------------------------- }}}
