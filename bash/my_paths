@@ -1,7 +1,7 @@
 #!/bin/bash
 # {{{ Local settings.
 
-wsl_user='135272'
+wsl_user='traap'
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Linux only machines.
@@ -20,6 +20,7 @@ if [[ -n $WSL_DISTRO_NAME ]]; then
   appendToPath "/mnt/c/Windows/system32"
   appendToPath "/mnt/c/Windows/system32/WindowsPowerShell/v1.0"
   appendToPath "/mnt/c/Users/$wsl_user/AppData/Local/SumatraPDF"
+  appendToPath "/mnt/c/Users/$wsl_user/AppData/Local/Microsoft/WinGet/Links"
 fi
 
 # Programming languages.
