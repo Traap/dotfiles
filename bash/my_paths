@@ -1,8 +1,11 @@
 #!/bin/bash
 # {{{ Local settings.
 
-# TODO: Need a better a way to dynamically find Windows User name.
-wsl_user='traap'
+if [[ -f "$BASHHOME"/wsl_user ]]; then
+  source "$BASHHOME"/wsl_user
+else
+  wsl_user='Traap'
+fi
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Linux only machines.
