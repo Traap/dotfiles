@@ -131,8 +131,9 @@ alias sd='cd $GITHOME/ssh'
 alias td='cd $GITHOME/tmux'
 alias vb='cd $GITHOME/vim/bundle'
 alias vd='cd $GITHOME/vim'
-alias wd='cd $GITHOME/wiki'
-alias yd='cd $GITHOME/youtube'
+alias wd='cd $WIKIHOME'
+alias wk='cd $WORKHOME'
+alias yd='cd $YOUTUBEHOME'
 
 alias cal='cd $CFGHOME/alacritty'
 alias cbs='cd $CFGHOME/bspwm'
@@ -171,13 +172,12 @@ fi
 
 # -------------------------------------------------------------------------- }}}
 # {{{ File I edit frequently.  These aliases mirror keybinds used in Vim.
+#     TODO: 2023.12.22 Consider pruning this list.
 
-alias ,eb='$EDITOR $BASHHOME/bootstrap.vim'
 alias ,ec='$EDITOR $GITHOME/ssh/config.vim'
 alias ,ed='$EDITOR $GITHOME/vim/custom-dictionary.utf-8.add'
 alias ,eg='$EDITOR $GITHOME/ssh/gitconfig'
 alias ,en='$EDITOR $GITHOME/nvim.traap/init.lua'
-alias ,ep='$EDITOR $GITHOME/nvim.traap/lua/traap/plugins/init.lua'
 alias ,em='$EDITOR $GITHOME/vim/minimal-plug.vim'
 alias ,et='$EDITOR $GITHOME/tmux/tmux.conf'
 alias ,ev='$EDITOR $GITHOME/vim/vimrc'
@@ -191,8 +191,8 @@ alias ,mp='$EDITOR $BASHHOME/my_paths'
 alias ,mt='$EDITOR $BASHHOME/my_prompt'
 alias ,mz='$EDITOR $BASHHOME/bashrc-personal'
 
-alias ,xb='$EDITOR $BASHHOME/bspwmrc'
-alias ,xs='$EDITOR $BASHHOME/sxhkdrc'
+alias ,xb='$EDITOR $DOTHOME/bspwm/bspwmrc'
+alias ,xs='$EDITOR $DOTHOME/sxhkd/sxhkdrc'
 
 # -------------------------------------------------------------------------- }}}
 # {{{ tmux sessions I frequently use.
