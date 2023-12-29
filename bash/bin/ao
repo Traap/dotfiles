@@ -118,13 +118,12 @@ if [[ $# -eq 1 ]]; then
       tmux send-keys -t "$1":1 \
         'nvim \
           init.lua \
-          lua/config/lazy.lua \
-          lua/config/traap/autocmds.lua \
-          lua/config/traap/constants.lua \
-          lua/config/traap/customize.lua \
-          lua/config/traap/globals.lua \
-          lua/config/traap/keymaps.lua \
-          lua/config/traap/options.lua \
+          lua/traap/config/autocmds.lua \
+          lua/traap/config/keymaps.lua \
+          lua/traap/config/lazy.lua \
+          lua/traap/config/options.lua \
+          lua/traap/core/constants.lua \
+          lua/traap/core/globals.lua \
         ' Enter
       tmux select-window -t "$1":1
       ;;
@@ -185,6 +184,17 @@ if [[ $# -eq 1 ]]; then
       tmux new-window -c "$GITPATH" -n 'Coder' -t "$1":2
 
       tmux send-keys -t "$1":1 "$EDITOR $WIKIHOME/index.md" Enter
+      tmux select-window -t "$1":1
+      ;;
+
+    # ---------------------------------------------------------------------- }}}
+    # {{{ Create Work session
+
+    "Work")
+      tmux new-session -c "$WORKHOME/wiki" -n Notebook -s "$1" -d
+      tmux new-window -c "$WORKHOME" -n 'Coder' -t "$1":2
+
+      tmux send-keys -t "$1":1 "$EDITOR $WORKHOME/wiki/index.md" Enter
       tmux select-window -t "$1":1
       ;;
 
