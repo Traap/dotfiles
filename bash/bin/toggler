@@ -17,7 +17,7 @@
 # 2 - working directory
 
 toggle_winclass() {
-  verbose=false
+  verbose=true
   winclass=$(xdotool search --class "$1");
 
   [ $verbose == true ] && notify-send "$1" "$winclass"
@@ -28,10 +28,10 @@ toggle_winclass() {
     alacritty --class "$1,$1" --command ao "$1"
   else
     if [[ ! -f /tmp/"$1" ]]; then
-      [[ $verbose == true ]] && notify-send '"$1"' 'Hide "$1"'
+      [[ $verbose == true ]] && notify-send "$1" "Hide $1"
       touch /tmp/"$1" && xdo hide "$winclass"
     elif [[ -f /tmp/"$1" ]]; then
-      [[ $verbose == true ]] && notify-send '"$1"' 'Show "$1"'
+      [[ $verbose == true ]] && notify-send "$1" "Show $1"
       rm /tmp/"$1" && xdo show "$winclass"
     fi
   fi
@@ -44,7 +44,7 @@ toggle_winclass() {
 
 if [[ $# -eq 1 ]]; then
   case "$1" in
-    "Nvim") toggle_winclass "$1" "$GITHOME/nvim.traap" ;;
+    "Neovim") toggle_winclass "$1" "$GITHOME/nvim.traap" ;;
     "Scratchpad") toggle_winclass "$1" "$WIKIHOME" ;;
     "Upgrade") toggle_winclass "$1" "$HOME" ;;
     "Wiki") toggle_winclass "$1" "$WIKIHOME" ;;

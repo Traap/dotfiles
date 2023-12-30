@@ -178,7 +178,7 @@ alt + {e, n, s, u, w, y}
     notify-send 'nvims' 'Alt-n Neovim config switcher'; \
       alacritty --hold --command nvims, \
     notify-send 'Neovim' 'Neovim session toggled.'; \
-      toggler Nvim, \
+      toggler Neovim, \
     notify-send 'Scratchpad' 'Scratch Pad session toggled.'; \
       toggler Scratchpad, \
     notify-send 'Upgrade' 'Update Operating System session toggled.'; \

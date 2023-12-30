@@ -112,8 +112,8 @@ if [[ $# -eq 1 ]]; then
     # ---------------------------------------------------------------------- }}}
     # {{{ Create Nvim session
 
-    # TODO: -> YouTube Discuss what files edited when Nvim session is started.
-    "Nvim")
+    # TODO: -> YouTube Discuss what files edited when Neovim session is started.
+    "Neovim")
       tmux new-session -c "$GITPATH/nvim.traap" -n Coder -s "$1" -d
       tmux send-keys -t "$1":1 \
         'nvim \
