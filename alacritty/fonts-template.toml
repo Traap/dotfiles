@@ -1,0 +1,18 @@
+[font]
+size = 7
+
+[font.bold]
+family = "JetBrainsMono Nerd Font Mono"
+style = "Bold"
+
+[font.bold_italic]
+family = "JetBrainsMono Nerd Font Mono"
+style = "BoldItalic"
+
+[font.italic]
+family = "JetBrainsMono Nerd Font Mono"
+style = "MediumItalic"
+
+[font.normal]
+family = "JetBrainsMono Nerd Font Mono"
+style = "Medium"

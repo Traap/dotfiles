@@ -19,7 +19,7 @@ theme=${1%.*}
 if [[ "${_themes[*]}" =~ $theme ]]; then
   echo "Theme changed to [${theme}]."
   path=~/.config/alacritty/themes
-  cp $path/$theme.yml $path/.default.yml
+  cp $path/$theme.toml $path/.default.toml
 else
   echo "Theme [$theme] is not supported."
 fi

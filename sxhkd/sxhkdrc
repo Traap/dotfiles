@@ -17,8 +17,11 @@
 # {{{ Terminal and quit nodes.
 
 # Alacritty
-Return + {alt, ctrl, super}
+Return + {alt, super}
   alacritty
+
+Return + {ctrl}
+  kitty
 
 q + {super}
   bspc node -c
