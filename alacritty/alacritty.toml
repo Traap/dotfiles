@@ -1,4 +1,7 @@
-import = ["/home/traap/.config/alacritty/fonts.toml", "/home/traap/.config/alacritty/themes/.default.toml"]
+import = [
+    "/home/traap/.config/alacritty/fonts.toml"
+  , "/home/traap/.config/alacritty/themes/.default.toml"
+]
 live_config_reload = true
 
 [colors]

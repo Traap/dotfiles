@@ -12,11 +12,12 @@
 
 changeFontSize() {
   alacritty="$HOME/.config/alacritty"
-  in=$alacritty/fonts-template.yml
-  out=$alacritty/fonts.yml
+  in=$alacritty/fonts-template.toml
+  out=$alacritty/fonts.toml
 
   if [[ "$1" -ge 5 ]] && [[ "$1" -le 29 ]]; then
-    sed -E "s/size:[[:space:]]*[0-9]+\.[0-9]+/size: $1/g" $in > $out
+    sed "s/size\s*=\s*[0-9.]\+$/size = $1/" $in > $out
+    # sed -E "s/size:[[:space:]]*[0-9]+\.[0-9]+/size: $1/g" $in > $out
   else
     echo "Valid font size is between 5 and 29. Size $1 is invalid."
     exit
