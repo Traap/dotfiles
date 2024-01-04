@@ -98,6 +98,7 @@ awful.layout.layouts = {
 myawesomemenu = {
   { "hotkeys", function() hotkeys_popup.show_help(nil, awful.screen.focused()) end },
   { "Alacritty", alacritty },
+  { "Kitty", kitty },
   { "Terminal", terminal },
   { "edit config", editor_cmd .. " " .. awesome.conffile },
   { "manual", terminal .. " -e man awesome" },
