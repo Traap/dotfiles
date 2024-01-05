@@ -22,12 +22,8 @@ save_to_clipboard = true
 program = "/usr/bin/bash"
 
 [window]
-opacity = 0.9
+opacity = 0.8
 
 [window.class]
 general = "Alacritty"
 instance = "Alacritty"
-
-# [window.plladding]
-# x = 0
-# y = 0
