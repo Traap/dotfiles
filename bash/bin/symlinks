@@ -59,15 +59,17 @@ createSymLinks() {
     ln -fsv ~/git/dotfiles/git/gitconfig         ~/.gitconfig
     ln -fsv ~/git/dotfiles/git/gitignore_global  ~/.gitignore_global
     ln -fsv ~/git/dotfiles/latex/latexmkrc       ~/.latexmkrc
-    ln -fsv ~/git/mutt/mailcap                   ~/.mailcap
-    ln -fsv ~/git/mutt/muttrc                    ~/.muttrc
+    ln -fsv ~/git/dotfiles/wezterm/wezterm.lua  ~/.wezterm.lua
+    # ln -fsv ~/git/mutt/mailcap                   ~/.mailcap
+    # ln -fsv ~/git/mutt/muttrc                    ~/.muttrc
     ln -fsv ~/git/ssh                            ~/.ssh
     ln -fsv ~/git/ssh/config.vim                 ~/.config.vim
     ln -fsv ~/git/tmux                           ~/.tmux
     ln -fsv ~/git/tmux/tmux.conf                 ~/.tmux.conf
     ln -fsv ~/git/vim                            ~/.vim
     ln -fsv ~/git/vim/vimrc                      ~/.vimrc
-    ln -fsv ~/git/vim/vimrc_background           ~/.vimrc_background
+    # ln -fsv ~/git/vim/vimrc_background           ~/.vimrc_background
+    # ln -fsv ~/git/vim/vimrc_background           ~/.vimrc_background
   fi
 }
 
