@@ -1,18 +1,14 @@
 local wezterm = require "wezterm"
 local act = wezterm.action
 
--- {{{ Show which key table is active in the status area
+-- {{{ Event funcdtions
 
 wezterm.on('update-right-status', function(window, pane)
-  local name = window:active_key_table()
-  if name then
-    name = 'TABLE: ' .. name
-  end
-  window:set_right_status(name or '')
+  window:set_right_status(window:active_workspace())
 end)
 
 -- ------------------------------------------------------------------------- }}}
--- {{{ config builder helper
+-- {{{ Config builder helper
 
 local config = wezterm.config_builder()
 config.automatically_reload_config = true
@@ -39,24 +35,26 @@ config.keys = {
   { key = "[", mods = "LEADER", action = act.ActivateTabRelative(-1) },
   { key = "]", mods = "LEADER", action = act.ActivateTabRelative(1) },
   { key = "w", mods = "LEADER", action = act.ShowTabNavigator },
-
-  {
-    key = ",",
-    mods = "LEADER",
-    action = act.PromptInputLine {
-      description = wezterm.format {
-        { Attribute = { Intensity = "Bold" } },
-        { Foreground = { AnsiColor = "Fuchsia" } },
-        { Text = "Renaming Tab Title...:" },
-      },
-      action = wezterm.action_callback(function(window, pane, line)
-        if line then
-          window:active_tab():set_title(line)
-        end
-      end)
-    }
-  },
 }
+
+table.insert(config.keys, {
+  key = 'y', mods = 'LEADER', action = act.SwitchToWorkspace{ name = 'default', }
+})
+
+table.insert(config.keys, {
+  key = 'u', mods = 'LEADER', action = act.SwitchToWorkspace{ name = 'top', }
+})
+
+table.insert(config.keys, {
+  key = 'i', mods = 'LEADER', action = act.SwitchToWorkspace
+})
+
+table.insert(config.keys, {
+   key = 'w'
+  ,mods = 'ALT'
+  ,action = act.ShowLauncherArgs {flags="FUZZY|WORKSPACES"}
+})
+
 
 -- ------------------------------------------------------------------------- }}}
 -- {{{ Initial size and color scheme
@@ -69,6 +67,7 @@ config.initial_cols = 100
 
 config.enable_tab_bar = true
 config.use_fancy_tab_bar = true
+config.tab_bar_at_bottom = true
 
 -- ------------------------------------------------------------------------- }}}
 -- {{{ Mouse bindings
@@ -106,9 +105,12 @@ config.integrated_title_button_alignment = "Right"
 config.integrated_title_button_color = "Auto"
 config.integrated_title_button_style = "Windows"
 config.window_decorations = "RESIZE"
-
--- ------------------------------------------------------------------------- }}}
--- {{{ Tab Bar Appearance & Colors
+config.window_padding = {
+  left=0,
+  right=0,
+  top=0,
+  bottom=0,
+}
 
 config.window_frame = {
   font = wezterm.font { family = 'Roboto', weight = 'Bold' },
@@ -117,11 +119,43 @@ config.window_frame = {
   inactive_titlebar_bg = '#333333',
 }
 
+-- ------------------------------------------------------------------------- }}}
+-- {{{ Tab Bar Appearance & Colors
+
+table.insert(config.keys, {
+  key = ",",
+  mods = "LEADER",
+  action = act.PromptInputLine {
+    description = wezterm.format {
+      { Attribute = { Intensity = "Bold" } },
+      { Foreground = { AnsiColor = "Fuchsia" } },
+      { Text = "Renaming Tab Title...:" },
+    },
+    action = wezterm.action_callback(function(window, pane, line)
+      if line then
+        window:active_tab():set_title(line)
+      end
+    end)
+  }
+})
+
+for i = 1, 8 do
+  table.insert(config.keys, {
+    key = tostring(i),
+    mods = "LEADER",
+    action = act.ActivateTab(i - 1),
+  })
+end
+
 config.colors = {
   tab_bar = {
     inactive_tab_edge = '#575757',
   },
 }
+
+config.mouse_wheel_scrolls_tabs = false
+
+
 
 -- ------------------------------------------------------------------------- }}}
 -- {{{ WSL domains
