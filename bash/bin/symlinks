@@ -45,7 +45,6 @@ createSymLinks() {
     ln -fsv ~/git/dotfiles/sxhkd                 ~/.config/sxhkd
     ln -fsv ~/git/dotfiles/volumeicon            ~/.config/volumeicon
     ln -fsv ~/git/dotfiles/wallpaper             ~/.config/wallpaper
-    ln -fsv ~/git/lvim.traap                     ~/.config/lvim
     ln -fsv ~/git/nvim.traap                     ~/.config/nvim
     ln -fsv ~/git/dotfiles/wezterm               ~/.config/wezterm
 
@@ -68,7 +67,6 @@ createSymLinks() {
     ln -fsv ~/git/tmux/tmux.conf                 ~/.tmux.conf
     ln -fsv ~/git/vim                            ~/.vim
     ln -fsv ~/git/vim/vimrc                      ~/.vimrc
-    # ln -fsv ~/git/vim/vimrc_background           ~/.vimrc_background
     # ln -fsv ~/git/vim/vimrc_background           ~/.vimrc_background
   fi
 }
@@ -100,6 +98,7 @@ deleteSymLinks() {
     rm -rfv ~/.config/sxhkd
     rm -rfv ~/.config/volumeicon
     rm -rfv ~/.config/wallpaper
+    rm -rfv ~/.config/wezterm
 
     # Symlinks at $HOME
     rm -rfv ~/.bash_logout
