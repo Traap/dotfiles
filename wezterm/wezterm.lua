@@ -1,7 +1,7 @@
 local wezterm = require "wezterm"
 local act = wezterm.action
 
--- {{{ Event funcdtions
+-- {{{ Event functions
 
 -- wezterm.on('update-right-status', function(window, pane)
 --   window:set_right_status(window:active_workspace())
@@ -36,8 +36,10 @@ config.automatically_reload_config = true
 -- ------------------------------------------------------------------------- }}}
 -- {{{ Keybindings
 
-config.disable_default_key_bindings = false
+config.disable_default_key_bindings = true
+
 config.leader = { key = 'Space', mods = 'CTRL', timeout_millisecons = 1000 }
+
 config.keys = {
   { key = "l", mods = "LEADER", action = act.SplitHorizontal { domain = "CurrentPaneDomain" } },
   { key = "j", mods = "LEADER", action = act.SplitVertical { domain = "CurrentPaneDomain" } },
@@ -57,31 +59,15 @@ config.keys = {
 }
 
 -- ------------------------------------------------------------------------- }}}
--- {{{ Workspaces
+-- {{{ Fonts
 
-table.insert(config.keys, {
-  key = 'k', mods = 'LEADER', action = act.SwitchToWorkspace{ name = 'Work', }
+config.font_size = 12.0
+
+config.font = wezterm.font('JetBrains Mono', {
+  weight = 'DemiBold',
+  italic = true,
 })
 
-table.insert(config.keys, {
-  key = 'n', mods = 'LEADER', action = act.SwitchToWorkspace{ name = 'Neovim', }
-})
-
-table.insert(config.keys, {
-  key = 'W', mods = 'LEADER', action = act.SwitchToWorkspace{ name = 'Wiki', }
-})
-
-table.insert(config.keys, {
-  key = 'u', mods = 'LEADER', action = act.SwitchToWorkspace{ name = 'Upgrade', }
-})
-
-table.insert(config.keys, {
-  key = 'y', mods = 'LEADER', action = act.SwitchToWorkspace{ name = 'YouTube', }
-})
-
-table.insert(config.keys, {
-   key = 'w' ,mods = 'LEADER', action = act.ShowLauncherArgs {flags="WORKSPACES"}
-})
 
 -- ------------------------------------------------------------------------- }}}
 -- {{{ Initial size and color scheme
@@ -127,7 +113,34 @@ config.mouse_bindings = {
 }
 
 -- ------------------------------------------------------------------------- }}}
--- {{{ Window frame
+-- {{{ Workspaces
+
+table.insert(config.keys, {
+  key = 'k', mods = 'LEADER', action = act.SwitchToWorkspace{ name = 'Work', }
+})
+
+table.insert(config.keys, {
+  key = 'n', mods = 'LEADER', action = act.SwitchToWorkspace{ name = 'Neovim', }
+})
+
+table.insert(config.keys, {
+  key = 'W', mods = 'LEADER', action = act.SwitchToWorkspace{ name = 'Wiki', }
+})
+
+table.insert(config.keys, {
+  key = 'u', mods = 'LEADER', action = act.SwitchToWorkspace{ name = 'Upgrade', }
+})
+
+table.insert(config.keys, {
+  key = 'y', mods = 'LEADER', action = act.SwitchToWorkspace{ name = 'YouTube', }
+})
+
+table.insert(config.keys, {
+   key = 'w' ,mods = 'LEADER', action = act.ShowLauncherArgs {flags="WORKSPACES"}
+})
+
+-- ------------------------------------------------------------------------- }}}
+-- {{{ Window
 
 config.integrated_title_button_alignment = "Right"
 config.integrated_title_button_color = "Auto"
@@ -141,17 +154,14 @@ config.window_padding = {
 }
 
 config.window_frame = {
-  font = wezterm.font { family = 'Roboto', weight = 'Bold' },
-  font_size = 12.0,
+  font = wezterm.font { family = 'JetBrains Mono', weight = 'Bold' },
+  font_size = 9.0,
 
-  inactive_titlebar_bg = '#1a1b26',
-  active_titlebar_bg   = '#1a1b26',
-
-  inactive_titlebar_fg = '#c0caf5',
-  active_titlebar_fg   = '#c0caf5',
+  active_titlebar_border_bottom  = 'purple',
+  active_titlebar_bg             = '#1a1b26',
 
   inactive_titlebar_border_bottom = '#1a1b26',
-  active_titlebar_border_bottom   = '#1a1b26',
+  inactive_titlebar_bg            = '#1a1b26',
 
   button_bg = '#1a1b26',
   button_fg = '#c0caf5',
@@ -175,7 +185,7 @@ config.inactive_pane_hsb = {
 }
 
 -- ------------------------------------------------------------------------- }}}
--- {{{ Tab Bar Appearance & Colors
+-- {{{ Tab Bar
 
 table.insert(config.keys, {
   key = ",",
@@ -211,6 +221,8 @@ config.colors = {
 config.mouse_wheel_scrolls_tabs = false
 config.hide_tab_bar_if_only_one_tab = true
 config.hide_mouse_cursor_when_typing = true
+config.show_tab_index_in_tab_bar = false
+config.tab_max_width = 25
 
 -- ------------------------------------------------------------------------- }}}
 -- {{{ WSL domains
