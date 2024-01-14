@@ -86,30 +86,22 @@ config.tab_bar_at_bottom = true
 -- ------------------------------------------------------------------------- }}}
 -- {{{ Mouse bindings
 
-config.disable_default_mouse_bindings = false
+config.disable_default_mouse_bindings = true
 
 config.mouse_bindings = {
-  -- Right click sends "woot" to the terminal
-  {
-    event = { Down = { streak = 1, button = 'Right' } },
-    mods = 'NONE',
-    action = act.SendString 'ls -la',
-  },
-
-  -- Change the default click behavior so that it only selects
-  -- text and doesn't open hyperlinks
-  {
-    event = { Up = { streak = 1, button = 'Left' } },
-    mods = 'NONE',
-    action = act.CompleteSelection 'ClipboardAndPrimarySelection',
-  },
-
-  -- and make CTRL-Click open hyperlinks
-  {
-    event = { Up = { streak = 1, button = 'Left' } },
-    mods = 'CTRL',
-    action = act.OpenLinkAtMouseCursor,
-  },
+	{
+		event = { Down = { streak = 1, button = "Middle" } },
+		mods = "NONE",
+		action = wezterm.action_callback(function(window, pane)
+			local has_selection = window:get_selection_text_for_pane(pane) ~= ""
+			if has_selection then
+				window:perform_action(act.CopyTo("ClipboardAndPrimarySelection"), pane)
+				window:perform_action(act.ClearSelection, pane)
+			else
+				window:perform_action(act({ PasteFrom = "Clipboard" }), pane)
+			end
+		end),
+	},
 }
 
 -- ------------------------------------------------------------------------- }}}
