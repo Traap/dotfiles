@@ -158,7 +158,7 @@ super + {slash, b, d, e, k, n, o, r, s, t, u, v, w, x, z}
     Thunar, \
     onlyoffice-desktopeditors, \
     remmina, \
-    flameshot, \
+    flameshot gui, \
     teams, \
     shotcut, \
     obs, \
