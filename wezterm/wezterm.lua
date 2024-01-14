@@ -24,7 +24,6 @@ wezterm.on('update-right-status', function(window, pane)
   else
     window:set_right_status("!nvim")
   end
-  -- window:set_right_status(basename(pane:get_foreground_process_name()))
 end)
 
 -- ------------------------------------------------------------------------- }}}
@@ -32,6 +31,19 @@ end)
 
 local config = wezterm.config_builder()
 config.automatically_reload_config = true
+
+-- ------------------------------------------------------------------------- }}}
+-- {{{ General settings.
+
+config.color_scheme = "Tokyo Night"
+config.window_background_opacity = 0.90
+config.text_background_opacity = 1.0
+
+config.initial_rows = 45
+config.initial_cols = 90
+
+config.enable_tab_bar = true
+config.exit_behavior = "CloseOnCleanExit"
 
 -- ------------------------------------------------------------------------- }}}
 -- {{{ Keybindings
@@ -55,7 +67,6 @@ config.keys = {
   { key = "a", mods = "LEADER", action = act.SpawnTab("CurrentPaneDomain") },
   { key = "[", mods = "LEADER", action = act.ActivateTabRelative(-1) },
   { key = "]", mods = "LEADER", action = act.ActivateTabRelative(1) },
-  { key = "t", mods = "LEADER", action = act.ShowTabNavigator },
 }
 
 -- ------------------------------------------------------------------------- }}}
@@ -68,20 +79,6 @@ config.font = wezterm.font('JetBrains Mono', {
   italic = true,
 })
 
-
--- ------------------------------------------------------------------------- }}}
--- {{{ Initial size and color scheme
-
-config.color_scheme = "Tokyo Night"
-config.window_background_opacity = 0.90
-config.text_background_opacity = 1.0
-
-config.initial_rows = 40
-config.initial_cols = 100
-
-config.enable_tab_bar = true
-config.use_fancy_tab_bar = true
-config.tab_bar_at_bottom = true
 
 -- ------------------------------------------------------------------------- }}}
 -- {{{ Mouse bindings
@@ -137,7 +134,7 @@ table.insert(config.keys, {
 config.integrated_title_button_alignment = "Right"
 config.integrated_title_button_color = "Auto"
 config.integrated_title_button_style = "Windows"
-config.window_decorations = "RESIZE"
+config.window_decorations = "TITLE|RESIZE"
 config.window_padding = {
   left=0,
   right=0,
@@ -161,11 +158,17 @@ config.window_frame = {
   button_hover_fg = '#c0caf5',
   button_hover_bg = '#cacaf5',
 
-  -- border_left_colo   = 'purple',
+  -- border_left_color   = 'purple',
   -- border_right_color  = 'purple',
   -- border_bottom_color = 'purple',
   -- border_top_color    = 'purple'
 }
+
+for i = 1, 8 do
+  table.insert(config.keys, {
+    key = tostring(i), mods = "CTRL|ALT", action = act.ActivateWindow(i - 1),
+  })
+end
 
 -- ------------------------------------------------------------------------- }}}
 -- {{{ Panes
@@ -198,23 +201,64 @@ table.insert(config.keys, {
 
 for i = 1, 8 do
   table.insert(config.keys, {
-    key = tostring(i),
-    mods = "LEADER",
-    action = act.ActivateTab(i - 1),
+    key = tostring(i), mods = "LEADER", action = act.ActivateTab(i - 1),
   })
 end
 
+table.insert(config.keys, {
+  key = 't', mods = 'LEADER', action = act.ShowTabNavigator
+})
+
+-- config.colors = {
+--   tab_bar = {
+--     inactive_tab_edge = '#575757',
+--   },
+-- }
+
 config.colors = {
   tab_bar = {
-    -- inactive_tab_edge = '#575757',
+    background = '#1b1032',
+
+    active_tab = {
+      bg_color = '#7aa2f7',
+      fg_color = '#32344a',
+      intensity = 'Normal',
+      underline = 'None',
+      italic = false,
+      strikethrough = false,
+    },
+
+    inactive_tab = {
+      bg_color = '#32344a',
+      fg_color = '#7aa2f7',
+    },
+
+    inactive_tab_hover = {
+      bg_color = '#e0af68',
+      fg_color = '#32344a',
+      italic = true,
+    },
+
+    new_tab = {
+      bg_color = '#1b1032',
+      fg_color = '#787c99',
+    },
+
+    new_tab_hover = {
+      bg_color = '#1b1032',
+      fg_color = '#9ece6b',
+      italic = false,
+    },
   },
 }
 
-config.mouse_wheel_scrolls_tabs = false
-config.hide_tab_bar_if_only_one_tab = true
 config.hide_mouse_cursor_when_typing = true
+config.hide_tab_bar_if_only_one_tab = true
+config.mouse_wheel_scrolls_tabs = false
 config.show_tab_index_in_tab_bar = false
+config.tab_bar_at_bottom = true
 config.tab_max_width = 25
+config.use_fancy_tab_bar = true
 
 -- ------------------------------------------------------------------------- }}}
 -- {{{ WSL domains
