@@ -1,30 +1,80 @@
 local wezterm = require "wezterm"
 local act = wezterm.action
 
--- {{{ Event functions
+-- {{{ isNeovim function
 
--- wezterm.on('update-right-status', function(window, pane)
---   window:set_right_status(window:active_workspace())
--- end)
-
--- Equivalent to POSIX basename(3)
--- Given "/foo/bar" returns "bar"
--- Given "c:\\foo\\bar" returns "bar"
 local function basename(s)
   return string.gsub(s, '(.*[/\\])(.*)', '%2')
 end
 
-local function isNvim(pane)
+local function isNeovim(pane)
   return (basename(pane:get_foreground_process_name())) == 'nvim'
 end
 
-wezterm.on('update-right-status', function(window, pane)
-  if isNvim(pane) then
-    window:set_right_status("Neovim")
-  else
-    window:set_right_status("!nvim")
+local function anotherNeovimSplit(pane, direction)
+  if     direction == 'Left'  then wezterm.log_info("Left split check.")
+  elseif direction == 'Down'  then wezterm.log_info("Down split check.")
+  elseif direction == 'Up'    then wezterm.log_info("Up split check.")
+  elseif direction == 'Right' then wezterm.log_info("Right split check.")
+  else                             wezterm.log_info("Check not supported.")
   end
+  return true
+end
+
+local function anotherWeztermPane(pane, direction)
+  if     direction == 'Left'  then wezterm.log_info("Left pane check.")
+  elseif direction == 'Down'  then wezterm.log_info("Down pane check.")
+  elseif direction == 'Up'    then wezterm.log_info("Up pane check.") elseif direction == 'Right' then wezterm.log_info("Right pane check.") else                             wezterm.log_info("Check pane supported.") end return false end -- ------------------------------------------------------------------------- }}}
+-- {{{ Update right status area
+
+wezterm.on('update-right-status', function(window, pane)
+  local msg = "Neovim"
+  -- local mWin = pane:window()
+  -- local mTab = pane:tab()
+  -- local paneInfo = mTab.panes_with_info()
+
+  if not isNeovim(pane) then
+    msg = "! nvim"
+  end
+
+  -- for info in pairs(paneInfo) do
+  --   if info.pane == pane then
+  --     msg = msg .. ": " .. info.index
+  --     break
+  --   end
+  -- end
+
+  window:set_right_status(msg)
 end)
+
+-- ------------------------------------------------------------------------- }}}
+-- {{{ Neovim split or wezterm pane movement
+
+local function movement(key, mods, direction)
+  local event = "Movement_" .. direction
+  wezterm.on(event, function(win, pane)
+    if isNeovim(pane) then
+      -- if not anotherNeovimSplit(pane, direction) then
+        -- TODO: Add wezterm pane check
+        -- win:perform_action(act.ActivatePaneDirection(direction), pane)
+      -- else
+        win:perform_action({SendKey = {key = key, mods = mods }}, pane)
+      -- end
+    else
+      -- if not anotherWeztermPane(pane, direction) then
+        -- TODO: Add Neovim split check
+        -- win:perform_action({SendKey = {key = key, mods = mods }}, pane)
+      -- else
+        win:perform_action(act.ActivatePaneDirection(direction), pane)
+      -- end
+    end
+  end)
+  return {
+    key = key,
+    mods = mods,
+    action = wezterm.action.EmitEvent(event),
+  }
+end
 
 -- ------------------------------------------------------------------------- }}}
 -- {{{ Config builder helper
@@ -46,20 +96,33 @@ config.enable_tab_bar = true
 config.exit_behavior = "CloseOnCleanExit"
 
 -- ------------------------------------------------------------------------- }}}
--- {{{ Keybindings
+-- {{{ Key bindings
 
-config.disable_default_key_bindings = true
+config.disable_default_key_bindings = false
 
 config.leader = { key = 'Space', mods = 'CTRL', timeout_millisecons = 1000 }
 
 config.keys = {
-  { key = "l", mods = "LEADER", action = act.SplitHorizontal { domain = "CurrentPaneDomain" } },
-  { key = "j", mods = "LEADER", action = act.SplitVertical { domain = "CurrentPaneDomain" } },
 
-  { key = "h", mods = "CTRL", action = act.ActivatePaneDirection( "Left" ) },
-  { key = "j", mods = "CTRL", action = act.ActivatePaneDirection( "Down" ) },
-  { key = "k", mods = "CTRL", action = act.ActivatePaneDirection( "Up" ) },
-  { key = "l", mods = "CTRL", action = act.ActivatePaneDirection( "Right" ) },
+  -- Horizontal and vertial wezterm pain splits.
+  { key = "l", mods = "LEADER", action = act.SplitHorizontal { domain = "CurrentPaneDomain" } },
+  { key = "j", mods = "LEADER", action = act.SplitVertical   { domain = "CurrentPaneDomain" } },
+
+  -- wezterm SendKey example
+  {
+    key = 'LeftArrow',
+    action = act.Multiple {
+      act.SendKey { key = 'l' },
+      act.SendKey { key = 'e' },
+      act.SendKey { key = 'f' },
+      act.SendKey { key = 't' },
+    },
+  },
+
+  movement("h", "CTRL", "Left"),
+  movement("j", "CTRL", "Down"),
+  movement("k", "CTRL", "Up"),
+  movement("l", "CTRL", "Right"),
 
   { key = "r", mods = "LEADER", action = act.RotatePanes( "Clockwise") },
   { key = "q", mods = "LEADER", action = act.CloseCurrentPane{ confirm = true } },
@@ -67,6 +130,7 @@ config.keys = {
   { key = "a", mods = "LEADER", action = act.SpawnTab("CurrentPaneDomain") },
   { key = "[", mods = "LEADER", action = act.ActivateTabRelative(-1) },
   { key = "]", mods = "LEADER", action = act.ActivateTabRelative(1) },
+
 }
 
 -- ------------------------------------------------------------------------- }}}
@@ -86,19 +150,19 @@ config.font = wezterm.font('JetBrains Mono', {
 config.disable_default_mouse_bindings = true
 
 config.mouse_bindings = {
-	{
-		event = { Down = { streak = 1, button = "Middle" } },
-		mods = "NONE",
-		action = wezterm.action_callback(function(window, pane)
-			local has_selection = window:get_selection_text_for_pane(pane) ~= ""
-			if has_selection then
-				window:perform_action(act.CopyTo("ClipboardAndPrimarySelection"), pane)
-				window:perform_action(act.ClearSelection, pane)
-			else
-				window:perform_action(act({ PasteFrom = "Clipboard" }), pane)
-			end
-		end),
-	},
+  {
+    event = { Down = { streak = 1, button = "Middle" } },
+    mods = "NONE",
+    action = wezterm.action_callback(function(window, pane)
+      local has_selection = window:get_selection_text_for_pane(pane) ~= ""
+      if has_selection then
+        window:perform_action(act.CopyTo("ClipboardAndPrimarySelection"), pane)
+        window:perform_action(act.ClearSelection, pane)
+      else
+        window:perform_action(act({ PasteFrom = "Clipboard" }), pane)
+      end
+    end),
+  },
 }
 
 -- ------------------------------------------------------------------------- }}}
@@ -125,7 +189,7 @@ table.insert(config.keys, {
 })
 
 table.insert(config.keys, {
-   key = 'w' ,mods = 'LEADER', action = act.ShowLauncherArgs {flags="WORKSPACES"}
+  key = 'w' ,mods = 'LEADER', action = act.ShowLauncherArgs {flags="WORKSPACES"}
 })
 
 -- ------------------------------------------------------------------------- }}}
@@ -134,7 +198,7 @@ table.insert(config.keys, {
 config.integrated_title_button_alignment = "Right"
 config.integrated_title_button_color = "Auto"
 config.integrated_title_button_style = "Windows"
-config.window_decorations = "TITLE|RESIZE"
+config.window_decorations = "RESIZE"
 config.window_padding = {
   left=0,
   right=0,
