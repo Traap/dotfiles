@@ -154,11 +154,17 @@ config.font = wezterm.font('JetBrains Mono', {
 -- ------------------------------------------------------------------------- }}}
 -- {{{ Mouse
 
+-- NOTE: All mouse configurations are listed along with most defaults.
+
 config.alternate_buffer_wheel_scroll_speed = 3
 config.bypass_mouse_reporting_modifiers = 'ALT'
 config.disable_default_mouse_bindings = false
 config.hide_mouse_cursor_when_typing = true
 config.mouse_wheel_scrolls_tabs = false
+config.pane_focus_follows_mouse = false
+config.selection_word_boundary = " \t\n{}[]()\"'`"
+config.swallow_mouse_click_on_pane_focus = false
+config.swallow_mouse_click_on_window_focus = true
 
 config.mouse_bindings = {
   {
@@ -178,6 +184,8 @@ config.mouse_bindings = {
 
 -- ------------------------------------------------------------------------- }}}
 -- {{{ Workspaces
+
+config.default_workspace = "Daryn"
 
 table.insert(config.keys, {
   key = 'k', mods = 'LEADER', action = act.SwitchToWorkspace{ name = 'Work', }
