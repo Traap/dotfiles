@@ -100,7 +100,7 @@ config.initial_rows = 45
 config.initial_cols = 90
 
 config.enable_tab_bar = true
-config.exit_behavior = "CloseOnCleanExit"
+config.exit_behavior = "Close"
 
 -- ------------------------------------------------------------------------- }}}
 -- {{{ Key bindings
@@ -145,11 +145,10 @@ config.keys = {
 
 config.font_size = 12.0
 
-config.font = wezterm.font('JetBrains Mono', {
-  weight = 'DemiBold',
-  italic = true,
-})
-
+config.font = wezterm.font_with_fallback {
+  { family = 'JetBrains Mono', weight = 'DemiBold', italic = true },
+  { family = 'Nerd Font Symbols Font', weight = 'DemiBold', italic = true },
+}
 
 -- ------------------------------------------------------------------------- }}}
 -- {{{ Mouse
@@ -165,6 +164,8 @@ config.pane_focus_follows_mouse = false
 config.selection_word_boundary = " \t\n{}[]()\"'`"
 config.swallow_mouse_click_on_pane_focus = false
 config.swallow_mouse_click_on_window_focus = true
+config.quote_dropped_files = "SpacesOnly"
+config.enable_wayland = true
 
 config.mouse_bindings = {
   {
@@ -179,6 +180,12 @@ config.mouse_bindings = {
         window:perform_action(act({ PasteFrom = "Clipboard" }), pane)
       end
     end),
+  },
+
+  {
+    event = { Drag = { streak = 1, button = 'Left' } },
+    mods = 'NONE',
+    action = wezterm.action.StartWindowDrag,
   },
 }
 
