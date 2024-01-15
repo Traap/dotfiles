@@ -7,9 +7,16 @@ local function basename(s)
   return string.gsub(s, '(.*[/\\])(.*)', '%2')
 end
 
-local function isNeovim(pane)
-  return (basename(pane:get_foreground_process_name())) == 'nvim'
+local function get_foreground_process_name(pane)
+  return basename(pane:get_foreground_process_name())
 end
+
+local function isNeovim(pane)
+  return get_foreground_process_name(pane) == 'nvim'
+end
+
+-- ------------------------------------------------------------------------- }}}
+-- {{{ Another Neovim split?
 
 local function anotherNeovimSplit(pane, direction)
   if     direction == 'Left'  then wezterm.log_info("Left split check.")
@@ -21,29 +28,27 @@ local function anotherNeovimSplit(pane, direction)
   return true
 end
 
+-- ------------------------------------------------------------------------- }}}
+-- {{{ Another Wezterm pane?
+
 local function anotherWeztermPane(pane, direction)
   if     direction == 'Left'  then wezterm.log_info("Left pane check.")
   elseif direction == 'Down'  then wezterm.log_info("Down pane check.")
-  elseif direction == 'Up'    then wezterm.log_info("Up pane check.") elseif direction == 'Right' then wezterm.log_info("Right pane check.") else                             wezterm.log_info("Check pane supported.") end return false end -- ------------------------------------------------------------------------- }}}
+  elseif direction == 'Up'    then wezterm.log_info("Up pane check.")
+  elseif direction == 'Right' then wezterm.log_info("Right pane check.")
+  else                             wezterm.log_info("Check pane supported.")
+  end return false end
+
+-- ------------------------------------------------------------------------- }}}
 -- {{{ Update right status area
 
 wezterm.on('update-right-status', function(window, pane)
-  local msg = "Neovim"
-  -- local mWin = pane:window()
-  -- local mTab = pane:tab()
-  -- local paneInfo = mTab.panes_with_info()
-
-  if not isNeovim(pane) then
-    msg = "! nvim"
+  local msg = "[" .. get_foreground_process_name(pane) .. "]: "
+  if isNeovim(pane) then
+    msg = msg .. "Neovim"
+  else
+    msg = msg .. "! nvim"
   end
-
-  -- for info in pairs(paneInfo) do
-  --   if info.pane == pane then
-  --     msg = msg .. ": " .. info.index
-  --     break
-  --   end
-  -- end
-
   window:set_right_status(msg)
 end)
 
@@ -53,19 +58,21 @@ end)
 local function movement(key, mods, direction)
   local event = "Movement_" .. direction
   wezterm.on(event, function(win, pane)
+
     if isNeovim(pane) then
       -- if not anotherNeovimSplit(pane, direction) then
-        -- TODO: Add wezterm pane check
-        -- win:perform_action(act.ActivatePaneDirection(direction), pane)
+      -- TODO: Add wezterm pane check
+      -- win:perform_action(act.ActivatePaneDirection(direction), pane)
       -- else
-        win:perform_action({SendKey = {key = key, mods = mods }}, pane)
+      win:perform_action({SendKey = {key = 'w', mods = mods }}, pane)
+      win:perform_action({SendKey = {key = key }}, pane)
       -- end
     else
       -- if not anotherWeztermPane(pane, direction) then
-        -- TODO: Add Neovim split check
-        -- win:perform_action({SendKey = {key = key, mods = mods }}, pane)
+      -- TODO: Add Neovim split check
+      -- win:perform_action({SendKey = {key = key, mods = mods }}, pane)
       -- else
-        win:perform_action(act.ActivatePaneDirection(direction), pane)
+      win:perform_action(act.ActivatePaneDirection(direction), pane)
       -- end
     end
   end)
