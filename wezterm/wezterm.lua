@@ -152,9 +152,13 @@ config.font = wezterm.font('JetBrains Mono', {
 
 
 -- ------------------------------------------------------------------------- }}}
--- {{{ Mouse bindings
+-- {{{ Mouse
 
-config.disable_default_mouse_bindings = true
+config.alternate_buffer_wheel_scroll_speed = 3
+config.bypass_mouse_reporting_modifiers = 'ALT'
+config.disable_default_mouse_bindings = false
+config.hide_mouse_cursor_when_typing = true
+config.mouse_wheel_scrolls_tabs = false
 
 config.mouse_bindings = {
   {
@@ -253,6 +257,12 @@ config.inactive_pane_hsb = {
 -- ------------------------------------------------------------------------- }}}
 -- {{{ Tab Bar
 
+config.hide_tab_bar_if_only_one_tab = true
+config.show_tab_index_in_tab_bar = false
+config.tab_bar_at_bottom = true
+config.tab_max_width = 25
+config.use_fancy_tab_bar = true
+
 table.insert(config.keys, {
   key = ",",
   mods = "LEADER",
@@ -322,14 +332,6 @@ config.colors = {
     },
   },
 }
-
-config.hide_mouse_cursor_when_typing = true
-config.hide_tab_bar_if_only_one_tab = true
-config.mouse_wheel_scrolls_tabs = false
-config.show_tab_index_in_tab_bar = false
-config.tab_bar_at_bottom = true
-config.tab_max_width = 25
-config.use_fancy_tab_bar = true
 
 -- ------------------------------------------------------------------------- }}}
 -- {{{ WSL domains
