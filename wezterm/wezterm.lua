@@ -146,7 +146,7 @@ config.keys = {
 config.font_size = 12.0
 
 config.font = wezterm.font_with_fallback {
-  { family = 'JetBrains Mono', weight = 'DemiBold', italic = true },
+  { family = 'JetBrainsMono Nerd Font Mono', weight = 'DemiBold', italic = true },
   { family = 'Nerd Font Symbols Font', weight = 'DemiBold', italic = true },
 }
 
