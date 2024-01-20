@@ -16,43 +16,6 @@ local function isNeovim(pane)
 end
 
 -- ------------------------------------------------------------------------- }}}
--- {{{ Another Neovim split?
-
-local function anotherNeovimSplit(pane, direction)
-  if     direction == 'Left'  then wezterm.log_info("Left split check.")
-  elseif direction == 'Down'  then wezterm.log_info("Down split check.")
-  elseif direction == 'Up'    then wezterm.log_info("Up split check.")
-  elseif direction == 'Right' then wezterm.log_info("Right split check.")
-  else                             wezterm.log_info("Check not supported.")
-  end
-  return true
-end
-
--- ------------------------------------------------------------------------- }}}
--- {{{ Another Wezterm pane?
-
-local function anotherWeztermPane(pane, direction)
-  if     direction == 'Left'  then wezterm.log_info("Left pane check.")
-  elseif direction == 'Down'  then wezterm.log_info("Down pane check.")
-  elseif direction == 'Up'    then wezterm.log_info("Up pane check.")
-  elseif direction == 'Right' then wezterm.log_info("Right pane check.")
-  else                             wezterm.log_info("Check pane supported.")
-  end return false end
-
--- ------------------------------------------------------------------------- }}}
--- {{{ Update right status area
-
--- wezterm.on('update-right-status', function(window, pane)
---   local msg = "[" .. get_foreground_process_name(pane) .. "]: "
---   if isNeovim(pane) then
---     msg = msg .. "Neovim"
---   else
---     msg = msg .. "! nvim"
---   end
---   window:set_right_status(msg)
--- end)
-
--- ------------------------------------------------------------------------- }}}
 -- {{{ Neovim split or wezterm pane movement
 
 local function movement(key, mods, direction)
@@ -60,20 +23,10 @@ local function movement(key, mods, direction)
   wezterm.on(event, function(win, pane)
 
     if isNeovim(pane) then
-      -- if not anotherNeovimSplit(pane, direction) then
-      -- TODO: Add wezterm pane check
-      -- win:perform_action(act.ActivatePaneDirection(direction), pane)
-      -- else
       win:perform_action({SendKey = {key = 'w', mods = mods }}, pane)
       win:perform_action({SendKey = {key = key }}, pane)
-      -- end
     else
-      -- if not anotherWeztermPane(pane, direction) then
-      -- TODO: Add Neovim split check
-      -- win:perform_action({SendKey = {key = key, mods = mods }}, pane)
-      -- else
       win:perform_action(act.ActivatePaneDirection(direction), pane)
-      -- end
     end
   end)
   return {
@@ -93,13 +46,12 @@ config.automatically_reload_config = true
 -- {{{ General settings.
 
 config.color_scheme = "Tokyo Night"
-config.window_background_opacity = 0.90
+config.window_background_opacity = 0.9
 config.text_background_opacity = 1.0
 
 config.initial_rows = 45
 config.initial_cols = 90
 
-config.enable_tab_bar = true
 config.exit_behavior = "Close"
 
 -- ------------------------------------------------------------------------- }}}
@@ -138,16 +90,6 @@ config.keys = {
   { key = "[", mods = "LEADER", action = act.ActivateTabRelative(-1) },
   { key = "]", mods = "LEADER", action = act.ActivateTabRelative(1) },
 
-}
-
--- ------------------------------------------------------------------------- }}}
--- {{{ Fonts
-
-config.font_size = 12.0
-
-config.font = wezterm.font_with_fallback {
-  { family = 'JetBrains Mono', weight = 'DemiBold', italic = true },
-  { family = 'Nerd Font Symbols Font', weight = 'DemiBold', italic = true },
 }
 
 -- ------------------------------------------------------------------------- }}}
@@ -219,64 +161,7 @@ table.insert(config.keys, {
 })
 
 -- ------------------------------------------------------------------------- }}}
--- {{{ Window
-
-config.integrated_title_button_alignment = "Right"
-config.integrated_title_button_color = "Auto"
-config.integrated_title_button_style = "Windows"
-config.window_decorations = "TITLE|RESIZE"
-config.window_padding = {
-  left=0,
-  right=0,
-  top=0,
-  bottom=0,
-}
-
-config.window_frame = {
-  font = wezterm.font { family = 'JetBrains Mono', weight = 'Bold' },
-  font_size = 9.0,
-
-  active_titlebar_border_bottom  = 'purple',
-  active_titlebar_bg             = '#1a1b26',
-
-  inactive_titlebar_border_bottom = '#1a1b26',
-  inactive_titlebar_bg            = '#1a1b26',
-
-  button_bg = '#1a1b26',
-  button_fg = '#c0caf5',
-
-  button_hover_fg = '#c0caf5',
-  button_hover_bg = '#cacaf5',
-
-  -- border_left_color   = 'purple',
-  -- border_right_color  = 'purple',
-  -- border_bottom_color = 'purple',
-  -- border_top_color    = 'purple'
-}
-
-for i = 1, 8 do
-  table.insert(config.keys, {
-    key = tostring(i), mods = "CTRL|ALT", action = act.ActivateWindow(i - 1),
-  })
-end
-
--- ------------------------------------------------------------------------- }}}
--- {{{ Panes
-
-config.inactive_pane_hsb = {
-  saturation = 1.0,
-  hue = 1.0,
-  brightness = 1.0,
-}
-
--- ------------------------------------------------------------------------- }}}
 -- {{{ Tab Bar
-
-config.hide_tab_bar_if_only_one_tab = true
-config.show_tab_index_in_tab_bar = false
-config.tab_bar_at_bottom = true
-config.tab_max_width = 25
-config.use_fancy_tab_bar = true
 
 table.insert(config.keys, {
   key = ",",
