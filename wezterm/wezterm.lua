@@ -145,10 +145,10 @@ config.keys = {
 
 config.font_size = 12.0
 
--- config.font = wezterm.font_with_fallback {
---   { family = 'JetBrainsMono Nerd Font', italic = true },
+config.font = wezterm.font_with_fallback {
+{ family = 'JetBrainsMono', italic = true },
 --   { family = 'Nerd Font Symbols Font',  italic = true },
--- }
+}
 
 -- ------------------------------------------------------------------------- }}}
 -- {{{ Mouse
