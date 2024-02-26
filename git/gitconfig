@@ -27,16 +27,17 @@
 
 [user]
   email = gary.a.howard@mac.com
-  user  = Traap
+  ; user  = Traap
   name  = Traap
 
 [core]
   excludesfile = ~/.gitignore_global
-  editor       = vim
+  editor       = nvim
   autocrlf     = input
   eol          = lf
   preloadindex = true
   fscache      = true
+	sshCommand = ssh -i ~/git/ssh/GSA-M98AXA
 
 [push]
   default = simple
@@ -93,9 +94,12 @@
 [credential]
   helper = store
 
-[include]
-  path = ~/git/ssh/gitconfig-private
 [diff]
 	tool = meld
+
 [help]
 	format = html
+
+[include]
+  path = ~/git/ssh/gitconfig-private
+
