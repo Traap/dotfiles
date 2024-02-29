@@ -35,6 +35,7 @@ createSymLinks() {
     ln -fsv ~/git/dotfiles/bspwm                 ~/.config/bspwm
     ln -fsv ~/git/dotfiles/dconf                 ~/.config/dconf
     ln -fsv ~/git/dotfiles/dunst                 ~/.config/dunst
+    ln -fsv ~/git/dotfiles/hypr                  ~/.config/hypr
     ln -fsv ~/git/dotfiles/kitty                 ~/.config/kitty
     ln -fsv ~/git/dotfiles/picom                 ~/.config/picom
     ln -fsv ~/git/dotfiles/polybar               ~/.config/polybar
@@ -45,8 +46,8 @@ createSymLinks() {
     ln -fsv ~/git/dotfiles/sxhkd                 ~/.config/sxhkd
     ln -fsv ~/git/dotfiles/volumeicon            ~/.config/volumeicon
     ln -fsv ~/git/dotfiles/wallpaper             ~/.config/wallpaper
-    ln -fsv ~/git/nvim.traap                     ~/.config/nvim
     ln -fsv ~/git/dotfiles/wezterm               ~/.config/wezterm
+    ln -fsv ~/git/nvim.traap                     ~/.config/nvim
 
     # Symlinks at $HOME
     ln -fsv ~/git/dotfiles/bash/bash_logout      ~/.bash_logout
@@ -59,6 +60,7 @@ createSymLinks() {
     ln -fsv ~/git/dotfiles/git/gitconfig         ~/.gitconfig
     ln -fsv ~/git/dotfiles/git/gitignore_global  ~/.gitignore_global
     ln -fsv ~/git/dotfiles/latex/latexmkrc       ~/.latexmkrc
+    ln -fsv ~/git/dotfiles/zsh/zshrc             ~/.zshrc
     # ln -fsv ~/git/mutt/mailcap                   ~/.mailcap
     # ln -fsv ~/git/mutt/muttrc                    ~/.muttrc
     ln -fsv ~/git/ssh                            ~/.ssh
@@ -79,13 +81,14 @@ deleteSymLinks() {
     echo "Deleting symbolic links."
 
     # Symlinks at .config
-#    rm -rfv ~/.config/Thunar
+    rm -rfv ~/.config/Thunar
     rm -rfv ~/.bash_logout
     rm -rfv ~/.config/alacritty
     rm -rfv ~/.config/awesome
     rm -rfv ~/.config/bspwm
     rm -rfv ~/.config/dconf
     rm -rfv ~/.config/dunst
+    rm -rfv ~/.config/hypr
     rm -rfv ~/.config/kitty
     rm -rfv ~/.config/lvim
     rm -rfv ~/.config/nvim
@@ -119,7 +122,8 @@ deleteSymLinks() {
     rm -rfv ~/.vim
     rm -rfv ~/.vimrc
     rm -rfv ~/.vimrc_background
-    rm -rrf ~/.xinitrc
+    rm -rfv ~/.xinitrc
+    rm -rfv ~/.zshrc
   fi
 }
 
