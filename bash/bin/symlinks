@@ -26,16 +26,14 @@ createSymLinks() {
   if [[ $createSymLinksFlag == 1 ]]; then
     echo "Creating symbolic links."
     mkdir -p ~/.config
-    # mkdir -p ~/.config/ranger
+    mkdir -p ~/.config/ranger
 
     # Symlinks at .config
-    ln -fsv ~/git/dotfiles/Thunar                ~/.config/Thunar
     ln -fsv ~/git/dotfiles/alacritty             ~/.config/alacritty
     ln -fsv ~/git/dotfiles/awesome               ~/.config/awesome
     ln -fsv ~/git/dotfiles/bspwm                 ~/.config/bspwm
     ln -fsv ~/git/dotfiles/dconf                 ~/.config/dconf
     ln -fsv ~/git/dotfiles/dunst                 ~/.config/dunst
-    ln -fsv ~/git/dotfiles/hypr                  ~/.config/hypr
     ln -fsv ~/git/dotfiles/kitty                 ~/.config/kitty
     ln -fsv ~/git/dotfiles/picom                 ~/.config/picom
     ln -fsv ~/git/dotfiles/polybar               ~/.config/polybar
@@ -46,7 +44,7 @@ createSymLinks() {
     ln -fsv ~/git/dotfiles/sxhkd                 ~/.config/sxhkd
     ln -fsv ~/git/dotfiles/volumeicon            ~/.config/volumeicon
     ln -fsv ~/git/dotfiles/wallpaper             ~/.config/wallpaper
-    ln -fsv ~/git/dotfiles/wezterm               ~/.config/wezterm
+    ln -fsv ~/git/lvim.traap                     ~/.config/lvim
     ln -fsv ~/git/nvim.traap                     ~/.config/nvim
 
     # Symlinks at $HOME
@@ -60,16 +58,14 @@ createSymLinks() {
     ln -fsv ~/git/dotfiles/git/gitconfig         ~/.gitconfig
     ln -fsv ~/git/dotfiles/git/gitignore_global  ~/.gitignore_global
     ln -fsv ~/git/dotfiles/latex/latexmkrc       ~/.latexmkrc
-    ln -fsv ~/git/dotfiles/zsh/zshrc             ~/.zshrc
-    # ln -fsv ~/git/mutt/mailcap                   ~/.mailcap
-    # ln -fsv ~/git/mutt/muttrc                    ~/.muttrc
+    ln -fsv ~/git/mutt/mailcap                   ~/.mailcap
+    ln -fsv ~/git/mutt/muttrc                    ~/.muttrc
     ln -fsv ~/git/ssh                            ~/.ssh
     ln -fsv ~/git/ssh/config.vim                 ~/.config.vim
     ln -fsv ~/git/tmux                           ~/.tmux
     ln -fsv ~/git/tmux/tmux.conf                 ~/.tmux.conf
     ln -fsv ~/git/vim                            ~/.vim
     ln -fsv ~/git/vim/vimrc                      ~/.vimrc
-    # ln -fsv ~/git/vim/vimrc_background           ~/.vimrc_background
   fi
 }
 
@@ -121,7 +117,6 @@ deleteSymLinks() {
     rm -rfv ~/.tmux.conf
     rm -rfv ~/.vim
     rm -rfv ~/.vimrc
-    rm -rfv ~/.vimrc_background
     rm -rfv ~/.xinitrc
     rm -rfv ~/.zshrc
   fi
