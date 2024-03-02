@@ -37,7 +37,6 @@
   eol          = lf
   preloadindex = true
   fscache      = true
-	sshCommand = ssh -i ~/git/ssh/GSA-M98AXA
 
 [push]
   default = simple
