@@ -20,14 +20,26 @@ if [[ $HOSTNAME =~ "DarkKnight" ||
       $HOSTNAME =~ "Monk" ||
       $HOSTNAME =~ "Warrior" ]] \
 	; then
-	xrandr --output HDMI-1 --mode 2560x1440 --pos 0x0    --rotate normal \
-         --output   DP-2 --mode 2560x1440 --pos 2560x0 --rotate normal \
-		     --output   DP-3 --mode 2560x1440 --pos 5120x0 --rotate normal
-	bspc monitor HDMI-1 -d 1 2 3 4
-	bspc monitor   DP-2 -d 5 6 7
-	bspc monitor   DP-3 -d 8 9 10
+
+# Three 27" monitors
+	# xrandr \
+  #   --output DP-1 --mode 2560x1440 --pos 0x0    --rotate normal \
+  #   --output DP-2 --mode 2560x1440 --pos 2560x0 --rotate normal \
+	# 	--output DP-3 --mode 2560x1440 --pos 5120x0 --rotate normal
+	# bspc monitor DP-1 -d 1 2 3 4
+	# bspc monitor DP-2 -d 5 6 7
+	# bspc monitor DP-3 -d 8 9 10
+
+# One 27" Monitor and One 70" Display
+	xrandr \
+    --output DP-1   --mode 2560x1440 --pos 0x0 --rotate normal --primary \
+    --output HDMI-1 --mode 4096x2160 --pos 0x0 --rotate normal --above DP-1
+
+	bspc monitor DP-1   -d 6 7 8 9 10
+	bspc monitor HDMI-1 -d 1 2 3 4 5
+
   bspc rule -a Scratchpad state=floating rectangle=800x600+880+400
-  bspc rule -a okular     state=floating rectangle=1278x1440+6400,33
+  bspc rule -a okular     state=floating rectangle=1278x1440+6400+33
 else
 	bspc monitor -d 1 2 3 4 5 6 7 8 9 10
   bspc rule -a Scratchpad state=floating rectangle=800x600+560+240
