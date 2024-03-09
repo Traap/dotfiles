@@ -73,6 +73,8 @@ alias vc='code --ozone-platform-hint=wayland --disable-gpu' # gui code editor
 # -------------------------------------------------------------------------- }}}
 # {{{ Handy shortcuts
 
+alias pacman='sudo pacman'
+alias rbn=sudo reboot now'
 alias ..='cd ..'
 alias ...='cd ../..'
 alias .3='cd ../../..'
