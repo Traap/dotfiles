@@ -44,7 +44,7 @@ createSymLinks() {
     ln -fsv ~/git/dotfiles/sxhkd                 ~/.config/sxhkd
     ln -fsv ~/git/dotfiles/volumeicon            ~/.config/volumeicon
     ln -fsv ~/git/dotfiles/wallpaper             ~/.config/wallpaper
-    ln -fsv ~/git/lvim.traap                     ~/.config/lvim
+    # ln -fsv ~/git/lvim.traap                     ~/.config/lvim
     ln -fsv ~/git/nvim.traap                     ~/.config/nvim
 
     # Symlinks at $HOME
@@ -58,8 +58,8 @@ createSymLinks() {
     ln -fsv ~/git/dotfiles/git/gitconfig         ~/.gitconfig
     ln -fsv ~/git/dotfiles/git/gitignore_global  ~/.gitignore_global
     ln -fsv ~/git/dotfiles/latex/latexmkrc       ~/.latexmkrc
-    ln -fsv ~/git/mutt/mailcap                   ~/.mailcap
-    ln -fsv ~/git/mutt/muttrc                    ~/.muttrc
+    # ln -fsv ~/git/mutt/mailcap                   ~/.mailcap
+    # ln -fsv ~/git/mutt/muttrc                    ~/.muttrc
     ln -fsv ~/git/ssh                            ~/.ssh
     ln -fsv ~/git/ssh/config.vim                 ~/.config.vim
     ln -fsv ~/git/tmux                           ~/.tmux
@@ -86,7 +86,7 @@ deleteSymLinks() {
     rm -rfv ~/.config/dunst
     rm -rfv ~/.config/hypr
     rm -rfv ~/.config/kitty
-    rm -rfv ~/.config/lvim
+    # rm -rfv ~/.config/lvim
     rm -rfv ~/.config/nvim
     rm -rfv ~/.config/picom
     rm -rfv ~/.config/polybar
@@ -110,8 +110,8 @@ deleteSymLinks() {
     rm -rfv ~/.gitignore_global
     rm -rfv ~/.inputrc
     rm -rfv ~/.latexmkrc
-    rm -rfv ~/.mailcap
-    rm -rfv ~/.muttrc
+    # rm -rfv ~/.mailcap
+    # rm -rfv ~/.muttrc
     rm -rfv ~/.ssh
     rm -rfv ~/.tmux
     rm -rfv ~/.tmux.conf
