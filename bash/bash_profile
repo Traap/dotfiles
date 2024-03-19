@@ -24,8 +24,14 @@ export BASHHOME
 BINHOME=$BASHHOME/bin
 export BINHOME
 
+NVIMHOME=$GITHOME/nvim.traap
+export HOME
+
 SSHHOME=$GITHOME/ssh
 export SSHHOME
+
+VIMHOME=$GITHOME/vim
+export VIMHOME
 
 WIKIHOME=$GITHOME/wiki
 export WIKIHOME
