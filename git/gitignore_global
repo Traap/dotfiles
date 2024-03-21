@@ -63,3 +63,15 @@ _build
 # lazy-lock #
 # ###########
 lazy-lock.json
+
+# go #
+# ###########
+go.work
+.dylib
+.go.work
+
+# Microsoft #
+# ###########
+*.exe~
+.vs
+.ssms_suo
