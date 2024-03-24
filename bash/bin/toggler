@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # {{{ Create and toggle a winclass.
 #
 # Shout out:
@@ -25,7 +25,7 @@ toggle_winclass() {
   if [[ -z "$winclass" ]]; then
     [[ $verbose == true ]] && notify-send "$1" "Create $1"
     cd "$2" || exit
-    alacritty --class "$1,$1" --command ao "$1"
+    kitty --class "$1" --name "$1" -e ao "$1"
   else
     if [[ ! -f /tmp/"$1" ]]; then
       [[ $verbose == true ]] && notify-send "$1" "Hide $1"
