@@ -2,7 +2,7 @@
 sshkeys () {
   if [[ -d $SSHHOME ]]; then
     if [[ $(ps ax | grep ssh-agent | wc -l) -eq 1 ]]; then
-      eval "$(ssh-agent -s)"
+      eval "$(ssh-agent -s)" > /dev/null
       for key in $(ls $SSHHOME/*.pub); do
         ssh-add -q "${key%.*}"
       done;
