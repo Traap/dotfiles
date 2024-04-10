@@ -25,7 +25,7 @@ BINHOME=$BASHHOME/bin
 export BINHOME
 
 NVIMHOME=$GITHOME/nvim.traap
-export HOME
+export NVIMHOME
 
 SSHHOME=$GITHOME/ssh
 export SSHHOME
@@ -45,17 +45,11 @@ export YOUTUBEHOME
 PDF_VIEWER=okular
 export PDF_VIEWER
 
-# msys work-around.
-if [[ ${OSTYPE} =~ "linux" ]]; then
-  # Define functions and paths.
-  my_array=("functions" "paths")
-  for m in ${my_array[@]}; do
-    [[ -f $BASHHOME/my_$m ]] && source $BASHHOME/my_$m
-  done
+# Define functions and paths.
+my_array=("functions" "paths")
+for m in ${my_array[@]}; do
+  [[ -f $BASHHOME/my_$m ]] && source $BASHHOME/my_$m
+done
 
-  # Hook into interactive bash.
-  [[ -f ~/.bashrc ]] && . ~/.bashrc
-fi
-
-# opam configuration
-test -r /home/traap/.opam/opam-init/init.sh && . /home/traap/.opam/opam-init/init.sh > /dev/null 2> /dev/null || true
+# Hook into interactive bash.
+[[ -f ~/.bashrc ]] && . ~/.bashrc

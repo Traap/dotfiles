@@ -1,12 +1,4 @@
 #!/bin/bash
-# {{{ Operating system specific settings.
-
-if osType "/darwin"; then
-	alias la='ls -A'
-	alias ll='ls -lahG'
-fi
-
-# -------------------------------------------------------------------------- }}}
 # {{{ Vim keybindings.
 
 set -o vi
@@ -38,7 +30,6 @@ else
 	  [ -f /usr/bin/bat ] && alias cat='bat -p'
   fi
 	[ -f /usr/bin/exa ] && alias ls='exa'
-	[ ! -f /usr/bin/exa ] && alias ls='ls --color=auto'
 fi
 
 # -------------------------------------------------------------------------- }}}
@@ -72,10 +63,14 @@ alias gsuo='git push --set-upstream origin'
 alias h='history'
 alias help='man'
 alias kax='sudo killall Xorg'
+alias l.="ls -A | egrep '^\.'"
 alias l1='ls -1'
+alias l='ls'
+alias la='ls -a'
 alias lad='ls -lad .*'
 alias las='find . -maxdepth 1 -type l -printf "%p -> %l\n" | sort'
 alias lass='find . -type l -printf "%p -> %l\n" | sort'
+alias ll='ls -la'
 alias lg='lvim +G'
 alias l24='find . -newermt "-24 hours" -ls'
 alias me='clear && exec bash'
