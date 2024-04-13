@@ -17,11 +17,6 @@
 # -------------------------------------------------------------------------- }}}
 # {{{ Interactive check
 
-# msys work-around.
-if [[ ${OSTYPE} =~ "msys" ]]; then
-	[[ -f $HOME/.bash_profile ]] && source $HOME/.bash_profile
-fi
-
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
