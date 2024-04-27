@@ -21,11 +21,11 @@ if [[ -n $WSL_DISTRO_NAME ]]; then
   appendToPath "/usr/bin"
   appendToPath "/sbin"
   appendToPath "/bin"
-  # appendToPath "/mnt/c/Windows/system32"
   appendToPath "/mnt/c/Windows/system32/WindowsPowerShell/v1.0"
   appendToPath "/mnt/c/Users/$wsl_user/AppData/Local/SumatraPDF"
   appendToPath "/mnt/c/Users/$wsl_user/AppData/Local/Microsoft/WinGet/Links"
   appendToPath "/mnt/c/Users/$wsl_user/AppData/Local/Programs/Microsoft VS Code"
+  appendToPath "/mnt/c/Program Files/Neovim/bin"
 fi
 
 # Programming languages.
