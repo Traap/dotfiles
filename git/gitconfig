@@ -33,7 +33,7 @@
 [core]
   excludesfile = ~/.gitignore_global
   editor       = nvim
-  autocrlf     = input
+  autocrlf     = true
   eol          = lf
   preloadindex = true
   fscache      = true
