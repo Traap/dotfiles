@@ -27,13 +27,12 @@
 
 [user]
   email = gary.a.howard@mac.com
-  ; user  = Traap
   name  = Traap
 
 [core]
   excludesfile = ~/.gitignore_global
   editor       = nvim
-  autocrlf     = true
+  autocrlf     = input
   eol          = lf
   preloadindex = true
   fscache      = true
@@ -100,5 +99,4 @@
 	format = html
 
 [include]
-  path = ~/git/ssh/gitconfig-private
-
+  path = .gitconfig_local_machine
