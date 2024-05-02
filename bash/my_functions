@@ -139,9 +139,11 @@ latexmkkill() {
 # -------------------------------------------------------------------------- }}}
 # {{{ Make okular shut up on Windows.
 
-okular() {
-  /c/ProgramData/chocolatey/bin/okular.exe $1 > /dev/null 2>&1
-}
+if [[ ${WSL_DISTRO_NAME} =~ "microsoft" ]]; then
+  okular() {
+    /c/ProgramData/chocolatey/bin/okular.exe $1 > /dev/null 2>&1
+  }
+fi
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Cxx helper to simplify CxxTest use for C++ software.
