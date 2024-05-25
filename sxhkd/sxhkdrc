@@ -118,78 +118,124 @@ alt + space
 # {{{ Start Applications
 
 # pavucontrol, dmenu_run, xfce4-appfinder, arcolinux-tweak-tool, pamac-manager.
-alt + {F1, F2, F3, F4, F5, F6}
-  { \
-    rofi -show run, \
-    xfce4-appfinder, \
-    xfce4-settings-manager, \
-    pamac-manager, \
-    pavucontrol, \
-    archlinux-tweak-tool \
-  }
+alt + F1
+  rofi -show run
 
+alt + F2
+  xfce4-appfinder
+
+alt + F3
+  xfce4-settings-manager
+
+alt + F4
+  pamac-manager
+
+alt + F5
+  pavucontrol
+
+alt + F6
+  archlinux-tweak-tool
 
 # Desktop enviornment tweaking.
-alt + shift + {c, r, m, n}
-  { \
-    conky-toggle, \
-    rofi-theme-selector, \
-    xfce4-taskmanager, \
-    nvidia-settings \
-  }
+alt + shift + c
+  conky-toggle
+
+alt + shift + r
+  rofi-theme-selector
+
+alt + shift + m
+  xfce4-taskmanager
+
+alt + shift + n
+  nvidia-settings
 
 # Toggle polybar, node state, and move monitor.
-super + {f, g, p, BackSpace}
-  { \
-    bspc node --state \~fullscreen, \
-    bspc node --state \~floating, \
-    polybar-msg cmd toggle, \
-    bspc monitor -f next \
-  }
+super + f
+  bspc node --state \~fullscreen
+
+super + g
+  bspc node --state \~floating
+
+super + p
+  polybar-msg cmd toggle
+
+super + BackSpace}
+  bspc monitor -f next
 
 # Apps: DB, Discord, Email, Files, Office, etc
-super + {slash, b, d, e, k, n, o, r, s, t, u, v, w, x, z}
-  { \
-    sxhkd-help, \
-    dbeaver, \
-    discord, \
-    hey-mail, \
-    screenkey, \
-    Thunar, \
-    onlyoffice-desktopeditors, \
-    remmina, \
-    flameshot gui, \
-    teams, \
-    shotcut, \
-    obs, \
-    brave, \
-    archlinux-logout, \
-    teams; thunderbird \
-  }
+super + slash
+  sxhkd-help
 
-super + {F10, F11}
-  { \
-    notify-send 'ssh' 'Ninja'; \
-      alacritty --command ssh traap@Ninja -i ~/.ssh/DarkKnight, \
-    notify-send 'ssh' 'DarkKnight'; \
-      alacritty --command ssh traap@DarkKnight   -i ~/.ssh/Ninja  \
-  }
+super + b
+  dbeaver
 
-alt + {e, n, s, u, w, y}
-  { \
-    notify-send 'nvims' 'Alt-n Neovim config switcher'; \
-      alacritty --hold --command nvims, \
-    notify-send 'Neovim' 'Neovim session toggled.'; \
-      toggler Neovim, \
-    notify-send 'Scratchpad' 'Scratch Pad session toggled.'; \
-      toggler Scratchpad, \
-    notify-send 'Upgrade' 'Update Operating System session toggled.'; \
-      toggler Upgrade, \
-    notify-send 'Wiki' 'Wiki Content session toggled.'; \
-      toggler Wiki, \
-    notify-send 'YouTube' 'YouTube Content session toggled.'; \
-      toggler YouTube
-  }
+super + d
+  discord
+
+super + e
+  hey-mail
+
+super + k
+  screenkey
+
+super + n
+  Thunar
+
+super + o
+  onlyoffice-desktopeditors
+
+super + r
+  remmina
+
+super + s
+  flameshot gui
+super + t
+  teams
+super + u
+  shotcut
+super + v
+  obs
+
+super + w
+  brave
+
+super + x
+  archlinux-logout
+
+super + z
+  teams; thunderbird
+
+super + F10
+  notify-send 'ssh' 'Ninja'; \
+  kitty --command ssh traap@Ninja -i ~/.ssh/DarkKnight
+
+super + F10
+  notify-send 'ssh' 'DarkKnight'; \
+  kitty --command ssh traap@DarkKnight   -i ~/.ssh/Ninja
+
+alt + e
+  notify-send 'nvims' 'Alt-n Neovim config switcher'; \
+  alacritty --hold --command nvims
+
+alt + n
+  notify-send 'Neovim' 'Neovim session toggled.'; \
+  toggler Neovim
+
+alt + s
+  notify-send 'Scratchpad' 'Scratch Pad session toggled.'; \
+  toggler Scratchpad
+
+alt + u
+  notify-send 'Upgrade' 'Update Operating System session toggled.'; \
+  toggler Upgrade
+
+alt + w
+  notify-send 'Wiki' 'Wiki Content session toggled.'; \
+  toggler Wiki
+
+alt + y
+  notify-send 'YouTube' 'YouTube Content session toggled.'; \
+  toggler YouTube
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Wallpaper adjustments

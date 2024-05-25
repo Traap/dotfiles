@@ -34,7 +34,7 @@ resolutions=640x480,800x600,1024x768,1152x864,1280x960,1400x1050
 keystrokes=Send hello world§hello world\\n
 main_width=1274
 main_height=1357
-main_maximize=false
+main_maximize=true
 main_sort_column_id=2
 main_sort_order=0
 expanded_group=
@@ -127,3 +127,10 @@ periodic_rmnews_uuid_prefix=
 [remmina]
 name=
 ignore-tls-errors=1
+
+[remmina_info]
+periodic_news_permitted=false
+periodic_news_last_checksum=
+periodic_usage_stats_permitted=false
+info_uid_prefix=6VN2O9IF2886HH
+disable_tip=true
