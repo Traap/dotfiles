@@ -16,7 +16,6 @@
 # -------------------------------------------------------------------------- }}}
 # {{{ Terminal and quit nodes.
 
-# Alacritty
 Return + {super}
   kitty
 
@@ -189,10 +188,13 @@ super + r
 
 super + s
   flameshot gui
+
 super + t
   teams
+
 super + u
   shotcut
+
 super + v
   obs
 
@@ -207,15 +209,15 @@ super + z
 
 super + F10
   notify-send 'ssh' 'Ninja'; \
-  kitty --command ssh traap@Ninja -i ~/.ssh/DarkKnight
+  kitty --hold -e ssh traap@Ninja -i ~/.ssh/DarkKnight
 
 super + F10
   notify-send 'ssh' 'DarkKnight'; \
-  kitty --command ssh traap@DarkKnight   -i ~/.ssh/Ninja
+  kitty --hold -e ssh traap@DarkKnight   -i ~/.ssh/Ninja
 
 alt + e
   notify-send 'nvims' 'Alt-n Neovim config switcher'; \
-  alacritty --hold --command nvims
+  kitty --hold -e nvims
 
 alt + n
   notify-send 'Neovim' 'Neovim session toggled.'; \
