@@ -217,7 +217,7 @@ super + F10
 
 alt + e
   notify-send 'nvims' 'Alt-n Neovim config switcher'; \
-  kitty --hold -e nvims
+  kitty --hold -e /usr/local/bin/nvims
 
 alt + n
   notify-send 'Neovim' 'Neovim session toggled.'; \
