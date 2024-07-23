@@ -1,0 +1,13 @@
+#!/bin/bash
+
+DIR=$HOME/.config/hypr/bg
+random_wallpaper=$(find $DIR -type f | sort -R | head -1)
+
+# Terminate already running bar instances
+killall -q swaybg
+
+# Wait until the processes have been shut down
+while pgrep -x swaybg >/dev/null; do sleep 1; done
+
+swaybg -m fill -i $random_wallpaper &
+notify-send "$random_wallpaper" &

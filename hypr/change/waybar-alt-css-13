@@ -1,0 +1,21 @@
+#!/bin/bash
+
+rm -r ~/.config/hypr/waybar/*.css
+cp -r ~/.config/hypr/waybar-alt-8/style/style-13.css ~/.config/hypr/waybar/style.css
+
+# kill first
+if [[ $(pidof waybar) ]]; then
+	killall -q waybar
+fi
+
+while pgrep -u $UID -x waybar > /dev/null;do sleep 1;done
+ 
+
+# start up again
+CONFIG="$HOME/.config/hypr/waybar/config.ini"
+STYLE="$HOME/.config/hypr/waybar/style.css"
+
+if [[ ! $(pidof waybar) ]]; then
+	waybar --bar main-bar --log-level error --config ${CONFIG} --style ${STYLE} &
+fi
+
