@@ -1,8 +1,8 @@
 #!/bin/bash
 # {{{ Local settings.
 
-if [[ -f "$BASHHOME"/wsl_user ]]; then
-  source "$BASHHOME"/wsl_user
+if [[ -f "$CFGHOME"/wsl_user ]]; then
+  source "$CFGHOME"/wsl_user
 else
   wsl_user='Traap'
 fi
