@@ -1,5 +1,12 @@
 #!/bin/bash
 sshkill() {
-  killall ssh-agent
+  if [[ $OSTYPE != 'msys' ]]; then
+    killall ssh-agent
+  else
+    pid=$(ps aux | awk '{print $1, $8}' | awk /ssh-agent/ | awk '{print $1}')
+    if [[ $pid =~ ^[0-9]+$ ]]; then
+      kill $pid
+    fi
+  fi
 }
 sshkill "$@"
