@@ -23,13 +23,13 @@ if [[ $HOSTNAME =~ "DarkKnight" ||
 
 # Three 27" monitors
 	xrandr \
-    --output HDMI-A-0      --mode 2560x1440 --pos 0x0    --rotate normal \
-    --output DisplayPort-0 --mode 2560x1440 --pos 2560x0 --rotate normal \
-		--output DisplayPort-1 --mode 2560x1440 --pos 5120x0 --rotate normal
+    --output DisplayPort-0 --mode 2560x1440 --pos 0x0    --rotate normal \
+    --output DisplayPort-1 --mode 2560x1440 --pos 2560x0 --rotate normal \
+		--output DisplayPort-2 --mode 2560x1440 --pos 5120x0 --rotate normal
 
-	bspc monitor HDMI-A-0      -d 1 2 3 4
-	bspc monitor DisplayPort-0 -d 5 6 7
-	bspc monitor DisplayPort-1 -d 8 9 10
+	bspc monitor DisplayPort-0 -d 1 2 3 4
+	bspc monitor DisplayPort-1 -d 5 6 7
+	bspc monitor DisplayPort-2 -d 8 9 10
 
   # One 27" Monitor and One 70" Display
 	# xrandr \
