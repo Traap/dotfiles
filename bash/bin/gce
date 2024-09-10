@@ -6,12 +6,12 @@
 gce() {
   if [ "work" = $1 ]; then
     git config --local user.name gary.howard
-    git config --local user.email gary@allan-consulting.com
+    git config --local user.email gary.howard@ventura.org
   elif [ "traap" = $1 ]; then
     git config --local user.name Traap
     git config --local user.email gary.a.howard@mac.com
   else
-    echo "Usage: gce [fk|traap]"
+    echo "Usage: gce [work|traap]"
     echo "Found: " $1
   fi
 

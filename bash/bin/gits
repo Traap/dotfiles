@@ -23,6 +23,9 @@ repo() {
     soup)
       repoName=soup
       ;;
+    work)
+      repoName=gitea
+      ;;
     *)
       repoName=git
       ;;
