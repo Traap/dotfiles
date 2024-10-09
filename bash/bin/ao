@@ -112,7 +112,6 @@ if [[ $# -eq 1 ]]; then
     # ---------------------------------------------------------------------- }}}
     # {{{ Create Nvim session
 
-    # TODO: -> YouTube Discuss what files edited when Neovim session is started.
     "Neovim")
       tmux new-session -c "$GITPATH/nvim.traap" -n Coder -s "$1" -d
       tmux send-keys -t "$1":1 \
@@ -167,7 +166,6 @@ if [[ $# -eq 1 ]]; then
     # ---------------------------------------------------------------------- }}}
     # {{{ Create Upgrade session
 
-    # YouTube: A session with horizontal spit with each running a command.
     "Upgrade")
       tmux new-session -c "$BASHHOME"/bin -n Admin -s "$1" -d
       tmux split-window -bh
@@ -201,7 +199,6 @@ if [[ $# -eq 1 ]]; then
     # ---------------------------------------------------------------------- }}}
     # {{{ Create YouTube session
 
-    # YouTube: This is the YouTube tmux session.
     "YouTube")
       tmux new-session -c "$GITHOME" -n 'Notes' -s "$1" -d
       tmux new-window -c "$GITPATH" -n 'Coder' -t "$1":2
