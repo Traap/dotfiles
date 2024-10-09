@@ -18,13 +18,14 @@
 
 toggle_winclass() {
   verbose=true
-  winclass=$(xdotool search --class "$1");
+  winclass=$(xdotool search --classname "$1");
 
   [ $verbose == true ] && notify-send "$1" "$winclass"
 
   if [[ -z "$winclass" ]]; then
     [[ $verbose == true ]] && notify-send "$1" "Create $1"
     cd "$2" || exit
+    # kitty --class "$1" --name "$1" -o allow_remote_control_yes -e ao "$1"
     kitty --class "$1" --name "$1" -e ao "$1"
   else
     if [[ ! -f /tmp/"$1" ]]; then
@@ -39,8 +40,6 @@ toggle_winclass() {
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Use valid input to toggle a winclass.
-
-# YouTube: Update input choices.
 
 if [[ $# -eq 1 ]]; then
   case "$1" in
