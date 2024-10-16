@@ -189,10 +189,10 @@ if [[ $# -eq 1 ]]; then
     # {{{ Create Work session
 
     "Work")
-      tmux new-session -c "$WORKHOME/wiki" -n Notebook -s "$1" -d
+      tmux new-session -c "$WORKHOME/Wiki" -n Notebook -s "$1" -d
       tmux new-window -c "$WORKHOME" -n 'Coder' -t "$1":2
 
-      tmux send-keys -t "$1":1 "$EDITOR $WORKHOME/wiki/index.md" Enter
+      tmux send-keys -t "$1":1 "$EDITOR $WORKHOME/Wiki/index.md" Enter
       tmux select-window -t "$1":1
       ;;
 
