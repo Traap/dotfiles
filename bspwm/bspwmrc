@@ -111,8 +111,9 @@ bspc rule -a arandr state=floating
 bspc rule -a Arcolinux-tweak-tool.py state=floating
 bspc rule -a Arcolinux-welcome-app.py state=floating
 
-bspc rule -a xfce4-appfinder state=floating flag=sticky
+bspc rule -a xfce4-appfinder state=floating flag-sticky
 bspc rule -a xfce4-settings-manager state=floating flag=sticky
+bspc rule -a pamac-manager state=floating flag=sticky
 bspc rule -a Zathura state=tiled
 
 # -------------------------------------------------------------------------- }}}
