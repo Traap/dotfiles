@@ -111,11 +111,19 @@ bspc rule -a arandr state=floating
 bspc rule -a Arcolinux-tweak-tool.py state=floating
 bspc rule -a Arcolinux-welcome-app.py state=floating
 
+<<<<<<< Updated upstream
 bspc rule -a xfce4-appfinder state=floating flag-sticky
 bspc rule -a xfce4-settings-manager state=floating flag=sticky
 bspc rule -a pamac-manager state=floating flag=sticky
 bspc rule -a Zathura state=tiled
 
+||||||| Stash base
+bspc rule -a xfce4-appfinder state=floating flag=sticky
+bspc rule -a xfce4-settings-manager state=floating flag=sticky
+bspc rule -a Zathura state=tiled
+
+=======
+>>>>>>> Stashed changes
 # -------------------------------------------------------------------------- }}}
 # {{{ open applications on specific workspaces
 
@@ -134,5 +142,8 @@ bspc rule -a discord desktop='^9'
 bspc rule -a Slack desktop='^9'
 
 bspc rule -a dbeaver desktop='^0'
+
+bspc rule -a xfce4-appfinder desktop='^0' state=floating
+bspc rule -a xfce4-settings-manager desktop='^0'
 
 # -------------------------------------------------------------------------- }}}
