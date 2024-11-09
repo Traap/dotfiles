@@ -8,9 +8,12 @@ run() { if ! pgrep -f "$1"; then "$@" & fi }
 
 "$HOME"/.config/sxhkd/launch.sh
 run numlockx off
-run setxkbmap -option caps:swapescape
+
+if [[ ! $(xrandr | rg -e ' connected' | rg -c) ]]
+  run setxkbmap -option caps:swapescape
+fi
+
 run xmodmap -e "pointer = 3 2 1 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20"
-# TODO:  Remove after 60days "$HOME"/.config/alacritty/fontsize
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Configure physical displays.
@@ -45,6 +48,12 @@ if [[ $HOSTNAME =~ "DarkKnight" ||
 
   bspc rule -a Scratchpad state=floating rectangle=1200x800+680+300
   # bspc rule -a okular     state=floating rectangle=1278x1440+6400+33
+
+# Virutal machines.
+elif [[ $(xrandr | rg -e ' connected' | rg -c) ]]
+	bspc monitor -d 1 2 3 4 5 6 7 8 9 10
+	xrandr \
+    --output Virtual1 --mode 2560x1600 --pos 0x0
 else
 	bspc monitor -d 1 2 3 4 5 6 7 8 9 10
   bspc rule -a Scratchpad state=floating rectangle=1200x800+340+150
