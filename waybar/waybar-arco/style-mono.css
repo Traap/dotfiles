@@ -1,0 +1,169 @@
+* {
+    font-family: "JetBrainsMono", "Noto Sans", "Roboto Condensed", sans-serif;
+    font-size: 14px;
+    color: #fff;
+    /* color: #3A3B3C; */
+}
+
+window#waybar {
+  /* Transparent waybar. Make sure to comment out background-color: and border: */
+  background: rgba(0,0,0,0.5);
+  /* background-color: #1e1e2e; */
+  /* border: 2px solid #313244; */
+  transition-property: background-color;
+  transition-duration: .5s;
+}
+
+window#waybar.hidden {
+  opacity: 0.5;
+}
+
+#backlight,
+#battery,
+#clock,
+#cpu,
+#disk,
+#memory,
+#tray,
+#pulseaudio,
+#custom-menu,
+#custom-power,
+#custom-weather,
+#custom-updater,
+#custom-keybindings,
+#custom-cycle_wall,
+#network {
+	border-radius: 4px;
+	margin: 4px 0px;
+	padding: 0px 4px;
+  color: #ccc;
+  /*border: 2px solid #3a3b3c; */
+}
+
+#workspaces {
+	border-radius: 4px;
+	margin: 4px 0px;
+	padding: 0px 4px;
+}
+
+#backlight {
+	background-color: rgba(60,60,60,0.5);
+}
+
+#battery {
+	background-color: rgba(60,60,60,0.5);
+}
+
+@keyframes blink {
+    to {
+        color: #000000;
+    }
+}
+
+#battery.critical:not(.charging) {
+	background-color: #f38ba8;
+    color: #f38ba8;
+    animation-name: blink;
+    animation-duration: 0.5s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
+#clock {
+	background-color: rgba(60,60,60,0.5);
+}
+
+#cpu {
+	background-color: rgba(60,60,60,0.5);
+}
+
+#memory {
+	background-color: rgba(60,60,60,0.5);
+}
+
+#disk {
+	background-color: rgba(60,60,60,0.5);
+}
+
+#tray {
+	background-color: rgba(60,60,60,0.5);
+}
+#tray > .passive {
+    -gtk-icon-effect: dim;
+}
+#tray > .needs-attention {
+    -gtk-icon-effect: highlight;
+}
+
+#workspaces button {
+  background-color: rgba(60,60,60,0.5);
+  color: #3A3B3C;
+  /* border: 2px solid #3a3b3c; */
+  margin-right: 2px;
+  border-radius: 4px;
+}
+
+#workspaces button.active {
+  background-color: rgba(99,99,99,0.5);
+  color: #3A3B3C;
+}
+
+#custom-menu {
+	background-color: rgba(60,60,60,0.5);
+}
+
+#custom-power {
+	background-color: rgba(60,60,60,0.5);
+  margin-right: 4px;
+  font-size: 24px;
+}
+
+#custom-updater {
+	background-color: rgba(60,60,60,0.5);
+}
+
+#custom-uptime {
+	background-color: rgba(60,60,60,0.5);
+}
+
+#custom-weather {
+	background-color: rgba(60,60,60,0.5);
+}
+
+#custom-cycle_wall {
+	background-color: rgba(60,60,60,0.5);
+}
+
+#custom-vpn_check {
+	background-color: rgba(60,60,60,0.5);
+}
+
+#custom-cputemp {
+  background-color: rgba(60,60,60,0.5);
+}
+
+#custom-keybindings {
+  background-color: rgba(60,60,60,0.5);
+  font-size: 24px;
+}
+
+#pulseaudio {
+	background-color: rgba(60,60,60,0.5);
+}
+
+#pulseaudio.bluetooth {
+	background-color: rgba(60,60,60,0.5);
+}
+#pulseaudio.muted {
+	background-color: rgba(60,60,60,0.5);
+	color: #cdd6f4;
+}
+
+#network {
+	background-color: rgba(60,60,60,0.5);
+}
+#network.disconnected,#network.disabled {
+	background-color: rgba(60,60,60,0.5);
+	color: #cdd6f4;
+}

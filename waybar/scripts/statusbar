@@ -1,0 +1,19 @@
+#!/bin/bash
+
+# Terminate already running bar instances
+[[ $(pidof waybar) ]] && killall -q waybar
+
+# Wait until the processes have been shut down
+while pgrep -x waybar >/dev/null; do sleep 1; done
+
+# start up again
+CONFIG="$HOME/.config/waybar/active/config.jsonc"
+ STYLE="$HOME/.config/waybar/active/style.css"
+
+if [[ ! $(pidof waybar) ]]; then
+	waybar \
+    --bar main-bar \
+    --log-level error \
+    --config ${CONFIG} \
+    --style ${STYLE} &
+fi

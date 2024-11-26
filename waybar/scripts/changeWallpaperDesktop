@@ -1,0 +1,12 @@
+#!/bin/bash
+
+# Terminate already running instances
+killall -q swaybg
+
+# Wait until the processes have been shut down
+while pgrep -x swaybg >/dev/null; do sleep 1; done
+
+random_wallpaper=$(find /usr/share/backgrounds/arcolinux-wayfire/ -type f | sort -R | head -1)
+
+swaybg -m fill -i $random_wallpaper &
+notify-send "$random_wallpaper" &
