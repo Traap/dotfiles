@@ -42,7 +42,7 @@ export WORKHOME
 YOUTUBEHOME=$GITHOME/youtube
 export YOUTUBEHOME
 
-PDF_VIEWER=zathura
+PDF_VIEWER=okular
 export PDF_VIEWER
 
 PNG_VIEWER=feh
