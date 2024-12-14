@@ -79,7 +79,11 @@ osName() {
 
 appendToPath() {
   if dirExists "$1"; then
-    [[ ":$PATH:" != *"$1"* ]] && export PATH="${PATH}:$1"
+    if [[ -n $PATH ]]; then
+      [[ ":$PATH:" != *"$1"* ]] && export PATH="${PATH}:$1"
+    else
+      export PATH="$1"
+    fi
   fi
 }
 
@@ -88,7 +92,11 @@ appendToPath() {
 
 prependToPath() {
   if dirExists "$1"; then
-    [[ ":$PATH:" != *"$1"* ]] && export PATH="$1:${PATH}"
+    if [[ -n $PATH ]]; then
+      [[ ":$PATH:" != *"$1"* ]] && export PATH="$1"
+    else
+      export PATH="$1"
+    fi
   fi
 }
 
@@ -97,7 +105,11 @@ prependToPath() {
 
 appendToInfoPath() {
   if dirExists "$1"; then
-    [[ ":$INFOPATH:" != *"$1"* ]] && export INFOPATH="${INFOPATH}:$1"
+    if [[ -n $INFOPATH ]]; then
+      [[ ":$INFOPATH:" != *"$1"* ]] && export INFOPATH="${INFOPATH}:$1"
+    else
+      export INFOPATH="$1"
+    fi
   fi
 }
 
@@ -106,7 +118,11 @@ appendToInfoPath() {
 
 appendToManPath() {
   if dirExists "$1"; then
-    [[ ":$MANPATH:" != *"$1"* ]] && export MANPATH="${MANPATH}:$1"
+    if [[ -n $MANPATH  ]]; then
+      [[ ":$MANPATH:" != *"$1"* ]] && export MANPATH="${MANPATH}:$1"
+    else
+      export MANPATH="$1"
+    fi
   fi
 }
 
