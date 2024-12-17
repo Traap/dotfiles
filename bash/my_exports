@@ -18,8 +18,7 @@ else
   export TEXMFHOME=/usr/share/texlive/texmf-dist
 fi
 export FILE=ranger
-# export TERM=screen-256color
-export TERM=xterm-256color
+export TERM=tmux-256color
 
 # I enable warning when I am debugging .bashrc
 echoWarning=0
