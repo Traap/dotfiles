@@ -2,7 +2,7 @@
 # {{{ function: Update system-wide Ruby gems using gem.
 
 updateRubyGems() {
-  sayAndDo "sudo gem update --system --no-document"
+  sayAndDo "gem update --system --no-document"
 }
 
 # -------------------------------------------------------------------------- }}}
