@@ -20,10 +20,10 @@ Return + {super}
   kitty
 
 Return + {ctrl}
-  kitty
+  alacritty
 
 Return + {alt}
-  kitty
+  wezterm
 
 q + {super}
   bspc node -c
