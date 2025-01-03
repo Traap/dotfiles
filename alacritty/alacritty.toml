@@ -1,15 +1,41 @@
+[general]
+live_config_reload = true
 import = [
     "/home/traap/.config/alacritty/fonts.toml"
   , "/home/traap/.config/alacritty/themes/.default.toml"
 ]
-live_config_reload = true
 
 [colors]
 draw_bold_text_with_bright_colors = true
 
+[cursor]
+style = {shape = "Beam", blinking = "On"}
+
 [env]
 TERM = "alacritty"
 WINT_X11_SCALE_FACTOR = "1.0"
+
+[font]
+size = 12
+
+[font.bold]
+family = "JetBrainsMono Nerd Font Mono"
+style = "Bold"
+
+[font.bold_italic]
+family = "JetBrainsMono Nerd Font Mono"
+style = "BoldItalic"
+
+[font.italic]
+family = "JetBrainsMono Nerd Font Mono"
+style = "MediumItalic"
+
+[font.normal]
+family = "JetBrainsMono Nerd Font Mono"
+style = "Medium"
+
+[mouse]
+hide_when_typing = false
 
 [scrolling]
 history = 10000
@@ -18,7 +44,7 @@ multiplier = 3
 [selection]
 save_to_clipboard = true
 
-[shell]
+[terminal.shell]
 program = "/usr/bin/bash"
 
 [window]

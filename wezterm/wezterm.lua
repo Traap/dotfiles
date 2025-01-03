@@ -146,7 +146,7 @@ config.keys = {
 config.font_size = 12.0
 
 config.font = wezterm.font_with_fallback {
-{ family = 'JetBrainsMono', italic = true },
+{ family = 'Hack Nerd Font', italic = true },
 --   { family = 'Nerd Font Symbols Font',  italic = true },
 }
 
