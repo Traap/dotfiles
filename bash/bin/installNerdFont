@@ -1,0 +1,9 @@
+#!/bin/bash
+font='nerd-fonts-hack'
+
+if [[ $(fc-list | rg -c 'HackNerd') == '' ]]; then
+  echo "$font will be installed."
+  yay -S $font
+else
+  echo "$font is already installed."
+fi
