@@ -1,14 +1,14 @@
 #!/bin/bash
 
 if programExists apt-get; then
-  packages=(nodejs npm node-gyp cmdtest)
+  packages=(nodejs npm node-gyp cmdtest neovim)
   sudo apt-get -y upgrade
   sudo apt-get -y update
   sudo apt-get -y remove ${packages[@]} && sudo rm -rf /usr/lib/node_modules
   sudo apt-get -y autoremove
   sudo apt-get -y install ${packages[@]}
 else
-  packages=(nodejs npm node-gyp nodejs-nopt semver yarn)
+  packages=(nodejs npm node-gyp nodejs-nopt semver yarn neovim)
   sudo pacman -R  --noconfirm ${packages[@]} && sudo rm -rf /usr/lib/node_modules/
   sudo pacman -Sy --noconfirm ${packages[@]}
 fi
