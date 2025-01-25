@@ -23,7 +23,7 @@ Return + {ctrl}
   alacritty
 
 Return + {alt}
-  wezterm
+  ghostty
 
 q + {super}
   bspc node -c
