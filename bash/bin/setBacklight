@@ -1,0 +1,26 @@
+#!/bin/bash
+
+# Check if the script receives exactly one argument
+if [ "$#" -ne 1 ]; then
+  echo "Usage:"
+  echo "setBacklight [0 .. 255]"
+  exit 1
+fi
+
+# Extract the argument
+input="$1"
+
+# Check if the input is a valid integer
+if ! [[ "$input" =~ ^[0-9]+$ ]]; then
+  echo "Error: Input must be an integer."
+  exit 1
+fi
+
+# Check if the input is within the range of 0 to 255
+if [ "$input" -le 0 ] && [ "$input" -gt 255 ]; then
+  echo "Error: The input '$input' is out of the valid range (0-255)."
+  exit 1
+fi
+
+
+echo $1 | sudo tee /sys/class/backlight/amdgpu_bl2/brightness
