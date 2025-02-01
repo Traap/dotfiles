@@ -1,14 +1,35 @@
 #!/bin/bash
 
+echo "Removing /usr/lib/modules"
+sudo rm -rf /usr/lib/node_modules
+
 if programExists apt-get; then
-  packages=(nodejs npm node-gyp cmdtest neovim)
-  sudo apt-get -y upgrade
-  sudo apt-get -y update
-  sudo apt-get -y remove ${packages[@]} && sudo rm -rf /usr/lib/node_modules
-  sudo apt-get -y autoremove
-  sudo apt-get -y install ${packages[@]}
+  packages=(
+    @angular/cli
+    cmdtest
+    neovim
+    node-gyp
+    nodejs
+    npm
+  )
+  sudo apt remove     -y npm
+  sudo apt autoremove -y npm
+  sudo apt install    -y npm
+
 else
-  packages=(nodejs npm node-gyp nodejs-nopt semver yarn neovim)
-  sudo pacman -R  --noconfirm ${packages[@]} && sudo rm -rf /usr/lib/node_modules/
-  sudo pacman -Sy --noconfirm ${packages[@]}
+  packages=(
+    @angular/cli
+    neovim
+    node-gyp
+    nodejs
+    nodejs-nopt
+    npm
+    semver
+    yarn
+  )
+  sudo pacman -R  --noconfirm npm
+  sudo pacman -Sy --noconfirm npm
 fi
+
+echo "Installing npm packages ${packages[@]}"
+sudo npm install -g "${packages[@]}"
