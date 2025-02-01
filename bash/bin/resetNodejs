@@ -1,35 +1,39 @@
 #!/bin/bash
-
+echo "**********"
 echo "Removing /usr/lib/modules"
 sudo rm -rf /usr/lib/node_modules
 
+os_packages=(
+  node-gyp
+  nodejs
+  nodejs-nopt
+  npm
+  semver
+  yarn
+)
+
+node_packages=(
+  @angular/cli
+  @nestjs/cli
+  neovim
+  pm2
+  ts-node
+)
+
 if programExists apt-get; then
-  packages=(
-    @angular/cli
-    cmdtest
-    neovim
-    node-gyp
-    nodejs
-    npm
-  )
-  sudo apt remove     -y npm
-  sudo apt autoremove -y npm
-  sudo apt install    -y npm
+  echo "**********"
+  echo "Ubuntu node install"
+  sudo apt remove     -y "${os_packages[@]}"
+  sudo apt autoremove -y "${os_packages[@]}"
+  sudo apt install    -y "${os_packages[@]}"
 
 else
-  packages=(
-    @angular/cli
-    neovim
-    node-gyp
-    nodejs
-    nodejs-nopt
-    npm
-    semver
-    yarn
-  )
-  sudo pacman -R  --noconfirm npm
-  sudo pacman -Sy --noconfirm npm
+  echo "**********"
+  echo "Arch Linux node install"
+  sudo pacman -R  --noconfirm "${os_packages[@]}"
+  sudo pacman -Sy --noconfirm "${os_packages[@]}"
 fi
 
-echo "Installing npm packages ${packages[@]}"
-sudo npm install -g "${packages[@]}"
+echo "**********"
+echo "npm installing ${node_packages[@]}"
+sudo npm install -g "${node_packages[@]}"
