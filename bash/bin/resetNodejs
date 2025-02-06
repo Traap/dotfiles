@@ -1,39 +1,68 @@
 #!/bin/bash
-echo "**********"
-echo "Removing /usr/lib/modules"
-sudo rm -rf /usr/lib/node_modules
 
-os_packages=(
-  node-gyp
-  nodejs
-  nodejs-nopt
-  npm
-  semver
-  yarn
-)
+# ------------------------------------------------------------------------------
+# Exit on error
 
-node_packages=(
-  @angular/cli
-  @nestjs/cli
-  neovim
-  pm2
-  ts-node
-)
+set -e
 
-if programExists apt-get; then
+# ------------------------------------------------------------------------------
+
+# TODO: Decide if remove is really needed.
+# echo "**********"
+# echo "Removing /usr/lib/node_modules"
+# sudo rm -rf /usr/lib/node_modules
+
+# ------------------------------------------------------------------------------
+
+if which apt &> /dev/null; then
+  # Ubuntu
+  curl -fsSL https://deb.nodesource.com/setup_current.x | sudo -E bash -
+  os_packages=(
+    "nodejs"
+    "yarn"
+  )
+  node_packages=(
+    "@angular/cli"
+    "neovim"
+    "pm2"
+    "ts-node"
+    "@nestjs/cli"
+  )
+
   echo "**********"
   echo "Ubuntu node install"
-  sudo apt remove     -y "${os_packages[@]}"
-  sudo apt autoremove -y "${os_packages[@]}"
   sudo apt install    -y "${os_packages[@]}"
 
 else
+  # Arch Linux
+  os_packages=(
+    "nodejs"
+    "npm"
+    "yarn"
+    "node-gyp"
+    "nodejs-nopt"
+    "semver"
+  )
+  node_packages=(
+    "@angular/cli"
+    "@nestjs/cli"
+    "neovim"
+    "pm2"
+    "ts-node"
+  )
+
   echo "**********"
   echo "Arch Linux node install"
   sudo pacman -R  --noconfirm "${os_packages[@]}"
   sudo pacman -Sy --noconfirm "${os_packages[@]}"
 fi
 
-echo "**********"
-echo "npm installing ${node_packages[@]}"
-sudo npm install -g "${node_packages[@]}"
+# ------------------------------------------------------------------------------
+
+for n in "${node_packages[@]}"; do
+  echo "**********"
+  echo "sudo npm install -g $n"
+  sudo npm install -g $n
+done
+
+# ------------------------------------------------------------------------------
