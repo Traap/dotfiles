@@ -92,6 +92,7 @@ rdp_desktopOrientation=0
 always_show_notes=false
 lock_view_passwords=false
 shortcutkey_clipboard=98
+mp_left=false
 
 [ssh_colors]
 background=rgb(213,204,186)
