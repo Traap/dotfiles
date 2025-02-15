@@ -328,7 +328,7 @@ dh() {
   clear && docbld clobber && docbld texx && ll && zathura $1
 }
 
-gh() {
+gah() {
   echo "my_functions:gh() is available."
 }
 
