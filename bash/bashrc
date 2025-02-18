@@ -278,3 +278,4 @@ ex() {
 # Sometime other programs automagically update my bashrc.
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 [ -f "/home/traap/.ghcup/env" ] && source "/home/traap/.ghcup/env" # ghcup-env
+[ command -v ng >/dev/null 2>&1 ] && source <(ng completion script)
