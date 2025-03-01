@@ -17,10 +17,10 @@
 # {{{ Terminal and quit nodes.
 
 Return + {super}
-  kitty
+  ghostty
 
 Return + {ctrl}
-  alacritty
+  ghostty
 
 Return + {alt}
   ghostty
