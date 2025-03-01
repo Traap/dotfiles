@@ -213,6 +213,7 @@ alias tt='ao t'
 alias tupd='ao Upgrade'
 alias twiki='ao Wiki'
 alias tyt='ao YouTube'
+alias tz='ao Zero'
 
 alias kao='tmux kill-session -t ao'
 alias kbash='tmux kill-session -t bash'
@@ -226,6 +227,7 @@ alias kupd='tmux kill-session -t Upgrade'
 alias kvim='tmux kill-session -t vim'
 alias kwiki='tmux kill-session -t Wiki'
 alias kyt='tmux kill-session -t YouTube'
+alias kz='tmux kill-session -t Zero'
 
 # -------------------------------------------------------------------------- }}}
 # {{{ archlinux tlmgr (texlive manager)

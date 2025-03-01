@@ -209,7 +209,17 @@ if [[ $# -eq 1 ]]; then
       ;;
 
     # ---------------------------------------------------------------------- }}}
-    # {{{ Session name noot supported error.
+    # {{{ Create Zero session
+
+    "Zero")
+      tmux new-session -c "$GITPATH" -n 'Coder'  -s "$1" -d
+      tmux new-window  -c "$GITPATH" -n 'Tester' -t "$1":2
+
+      tmux select-window -t "$1":1
+      ;;
+
+    # ---------------------------------------------------------------------- }}}
+    # {{{ Session name not supported error.
 
     *)
       echo "Session name $1 is not supported."
