@@ -23,4 +23,4 @@ if [ "$input" -le 0 ] && [ "$input" -gt 255 ]; then
 fi
 
 
-echo $1 | sudo tee /sys/class/backlight/amdgpu_bl2/brightness
+echo $1 | sudo tee /sys/class/backlight/amdgpu_bl1/brightness
