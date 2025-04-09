@@ -4,39 +4,39 @@
 lsd() { ls -d */ | tr -d '/'; }
 
 # -------------------------------------------------------------------------- }}}
-# {{{ Get repo project folder.
-#     $1 => [bb | git | vim | soup]
+# {{{ Get repo provider folder
+#     $1 => repoLocation [bb | git | vim | soup]
 
 repo() {
-  local repoType="$1"
+  local repoLocation="$1"
 
-  case "$repoType" in
+  case "$repoLocation" in
     bb)
-      repoName=bb
+      repoRoot=bb
       ;;
     git)
-      repoName=git
+      repoRoot=git
       ;;
     vim)
-      repoName=git/vim/bundle
+      repoRoot=git/vim/bundle
       ;;
     soup)
-      repoName=soup
+      repoRoot=soup
       ;;
     work)
-      repoName=gitea
+      repoRoot=gitea
       ;;
     *)
-      repoName=git
+      repoRoot=git
       ;;
     esac
-  echo "$repoName"
+  echo "$repoRoot"
 }
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Pull latest changes
 # Args:
-# $1 => repoType
+# $1 => repoLocation
 # $2 => pull
 #
 # Steps:
@@ -49,7 +49,7 @@ repo() {
 # https://stackoverflow.com/questions/3258243/check-if-pull-needed-in-git
 
 gitPull() {
-  local repoType="$1"
+  local repoLocation="$1"
   local action="$2"
 
   case "$action" in
@@ -63,7 +63,7 @@ gitPull() {
       if [[ "$local" != "$remote" && "$local" == "$base" ]]; then
         echo "*** $(pwd) ***"
         echo "$base"
-        gitSetUserAndEmail "$repoType" "$action"
+        gitSetUserAndEmail "$repoLocation" "$action"
         git pull
         echo
       fi
@@ -74,16 +74,16 @@ gitPull() {
 # -------------------------------------------------------------------------- }}}
 # {{{ Set git user and email using gce (Git Config Email).
 #
-# $1 => repoType
-# $2 => pull
+# $1 => repoLocation
+# $2 => action
 
 gitSetUserAndEmail() {
-  local repoType="$1"
+  local repoLocation="$1"
   local action="$2"
 
   case "$action" in
     pull)
-      case "$repoType" in
+      case "$repoLocation" in
           bb) gce work ;;
         soup) gce work ;;
            *) gce traap ;;
@@ -95,23 +95,23 @@ gitSetUserAndEmail() {
 # -------------------------------------------------------------------------- }}}
 # {{{ Scan git repositories.
 #
-# $1 => repoType
-# $2 => pull
+# $1 => repoLocation
+# $2 => action
 
 gits() {
-  local repoType="$1"
+  local repoLocation="$1"
   local action="$2"
 
   # Save current directory.
   dir=$(pwd)
 
-  # Move to repoType root.
-  repoName=$(repo "$1")
-  cd "${HOME}"/"${repoName}" || exit
+  # Move to repoLocation root.
+  repoRoot=$(repo "$1")
+  cd "${HOME}"/"${repoRoot}" || exit
 
   for i in $(lsd); do
     # move to subdirectory
-    d=${HOME}/${repoName}/${i%%}
+    d=${HOME}/${repoRoot}/${i%%}
     cd "$d" || exit
 
     # Do work if were are inside a git repository.
@@ -121,7 +121,6 @@ gits() {
       else
         echo "*** $d ***"
         gdr
-        git status --porcelain
         echo ""
       fi
     fi
@@ -133,8 +132,13 @@ gits() {
   # Restore current director.
   cd "$dir" || exit
 }
+
 # -------------------------------------------------------------------------- }}}
 # {{{ Kick start the show.
+#
+#     Use: gits git pull
+#     $1 => repoLocation
+#     $2 => action
 
 gits "$@"
 
