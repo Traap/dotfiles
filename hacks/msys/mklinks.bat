@@ -3,7 +3,7 @@ rem echo OFF
 rem mklink    %USERPROFILE%\.bash_logout        %USERPROFILE%\git\dotfiles\bash\bash_logout
 mklink    %USERPROFILE%\.bash_profile       %USERPROFILE%\git\dotfiles\bash\bash_profile
 mklink    %USERPROFILE%\.bashrc             %USERPROFILE%\git\dotfiles\bash\bashrc
-mklink    %USERPROFILE%\.bashrc-personal    %USERPROFILE%\git\dotfiles\bash\bashrc_personal
+mklink    %USERPROFILE%\.bashrc_personal    %USERPROFILE%\git\dotfiles\bash\bashrc_personal
 mklink    %USERPROFILE%\.config.vim         %USERPROFILE%\git\ssh\config.vim
 mklink    %USERPROFILE%\.dircolors          %USERPROFILE%\git\dotfiles/bash\dircolors
 mklink    %USERPROFILE%\.gitconfig          %USERPROFILE%\git\dotfiles\git\gitconfig
