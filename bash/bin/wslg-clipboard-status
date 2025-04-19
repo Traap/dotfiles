@@ -1,0 +1,19 @@
+#!/bin/bash
+# Check WSL and WSLg clipboard integration status for Neovim
+
+echo "🔍 Checking WSL clipboard environment..."
+
+# Check if running inside WSL
+if grep -qi microsoft /proc/version; then
+  echo "🖥️  WSL detected: $(uname -r)"
+
+  if [ -n "$WAYLAND_DISPLAY" ]; then
+    echo "✅ WSLg is active (WAYLAND_DISPLAY=$WAYLAND_DISPLAY)"
+    echo "📋 Native clipboard integration via WSLg should work in Neovim."
+  else
+    echo "⚠️  WSLg is not active (WAYLAND_DISPLAY not set)"
+    echo "📋 Clipboard integration will not work unless using a fallback (e.g., win32yank wrapper)"
+  fi
+else
+  echo "❌ Not running inside WSL."
+fi
