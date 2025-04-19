@@ -1,4 +1,5 @@
 #!/bin/bash
+# echo "begin: bash_profile"
 # Define directory exports that my_functions use.
 BBHOME=$HOME/bb
 export BBHOME
@@ -56,3 +57,4 @@ done
 
 # Hook into interactive bash.
 [[ -f ~/.bashrc ]] && . ~/.bashrc
+# echo "end: bash_profile"

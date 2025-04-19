@@ -1,0 +1,129 @@
+#!/bin/bash
+# echo "begin: bashrc_personal"
+# {{{ Stooges: Honoring Larry, Moe, and Curly ... Nyuk, nyuk, nyuk.
+#
+# Bash scripting cheatsheet => https://devhints.io/bash
+
+echo "$HOSTNAME running $OSTYPE"
+
+# -------------------------------------------------------------------------- }}}
+# {{{ Disable ctrl-s, ctrl-q, and set infinite history.
+
+stty -ixon
+HISTSIZE='' HISTFILESIZE=''
+
+# -------------------------------------------------------------------------- }}}
+# {{{ Ibus settings
+
+#type ibus-setup in terminal to change settings and start the daemon
+#delete the hashtags of the next lines and restart
+#export GTK_IM_MODULE=ibus
+#export XMODIFIERS=@im=dbus
+#export QT_IM_MODULE=ibus
+
+# -------------------------------------------------------------------------- }}}
+# {{{ Interactive check
+
+# If not running interactively, don't do anything
+[[ $- != *i* ]] && return
+
+# -------------------------------------------------------------------------- }}}
+# {{{ History and path
+
+export HISTCONTROL=ignoreboth:erasedups
+
+PS1='[\u@\h \W]\$ '
+
+# -------------------------------------------------------------------------- }}}
+# {{{ Path adjustments
+
+if [ -d "$HOME/.bin" ]; then
+	PATH="$HOME/.bin:$PATH"
+fi
+
+if [ -d "$HOME/.local/bin" ]; then
+	PATH="$HOME/.local/bin:$PATH"
+fi
+
+# -------------------------------------------------------------------------- }}}
+# {{{ Ignore upper and lowercase when TAB completion
+
+bind "set completion-ignore-case on"
+
+# -------------------------------------------------------------------------- }}}
+# {{{ shopt
+
+shopt -s autocd         # change to named directory
+shopt -s cdspell        # autocorrects cd misspellings
+shopt -s cmdhist        # save multi-line commands in history as single line
+shopt -s dotglob        # dot file names are included in path expansion.
+shopt -s histappend     # do not overwrite history
+shopt -s expand_aliases # expand aliases
+
+# -------------------------------------------------------------------------- }}}
+# {{{ Youtube
+
+alias yta-aac="yt-dlp --extract-audio --audio-format aac "
+alias yta-best="yt-dlp --extract-audio --audio-format best "
+alias yta-flac="yt-dlp --extract-audio --audio-format flac "
+alias yta-mp3="yt-dlp --extract-audio --audio-format mp3 "
+alias ytv-best="yt-dlp -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/bestvideo+bestaudio' --merge-output-format mp4 "
+
+# -------------------------------------------------------------------------- }}}
+# {{{ Packages
+
+# Recent Installed Packages
+alias rip="expac --timefmt='%Y-%m-%d %T' '%l\t%n %v' | sort | tail -200 | nl"
+alias riplong="expac --timefmt='%Y-%m-%d %T' '%l\t%n %v' | sort | tail -3000 | nl"
+
+# Cleanup orphaned packages
+alias cleanup='sudo pacman -Rns $(pacman -Qtdq)'
+
+# -------------------------------------------------------------------------- }}}
+# {{{ Job control
+
+# get the error messages from journalctl
+alias jctl="journalctl -p 3 -xb"
+
+# -------------------------------------------------------------------------- }}}
+# {{{ Important configuration files
+
+alias nconfgrub="sudo nvim /boot/grub/grub.cfg"
+alias ngrub="sudo nvim /etc/default/grub"
+alias nlightdm="sudo nvim /etc/lightdm/lightdm.conf"
+alias nmirrorlist="sudo nvim /etc/pacman.d/mirrorlist"
+alias nmkinitcpio="sudo nvim /etc/mkinitcpio.conf"
+alias noblogout="sudo nvim /etc/oblogout.conf"
+alias npacman="sudo nvim /etc/pacman.conf"
+alias nslim="sudo nvim /etc/slim.conf"
+
+# -------------------------------------------------------------------------- }}}
+# {{{ gpg
+
+# verify signature for isos
+alias gpg-check="gpg2 --keyserver-options auto-key-retrieve --verify"
+
+# receive the key of a developer
+alias gpg-retrieve="gpg2 --keyserver-options auto-key-retrieve --receive-keys"
+
+# -------------------------------------------------------------------------- }}}
+# {{{ shutdown or reboot or lock screen.
+
+alias ssn="sudo shutdown now"
+alias sr="sudo reboot"
+alias bls="betterlockscreen -u /usr/share/backgrounds/arcolinux/"
+
+# -------------------------------------------------------------------------- }}}
+# {{{ Customize my shell. Array order matters.
+
+my_array=("functions" "exports" "aliases" "paths" "completions" "prompt")
+
+for m in "${my_array[@]}"; do
+	[[ -f "$BASHHOME/my_$m" ]] && source "$BASHHOME/my_$m"
+done
+
+# Load my keys.
+sshkeys
+
+# -------------------------------------------------------------------------- }}}
+# echo "end: bashrc_personal"

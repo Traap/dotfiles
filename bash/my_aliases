@@ -44,9 +44,21 @@ if [[ $(rg --ignore-case '"Ubuntu' /etc/os-release -c 2>/dev/null) -gt 0 ]]; the
 else
 	alias fde='fd --no-ignore --extension'
 fi
+
+alias df='df -h'
+alias unlock="sudo rm /var/lib/pacman/db.lck"
+alias free="free -mt"
+alias uac="sh ~/.bin/main/000*"
+alias wget="wget -c"
+alias iso="cat /etc/dev-rel | awk -F '=' '/ISO/ {print $2}'"
+alias isoo="cat /etc/dev-rel"
+alias userlist="cut -d: -f1 /etc/passwd"
+alias merge="xrdb -merge ~/.Xresources"
 alias fgrep='fgrep --color=auto'
-alias ga='git add'
+alias egrep='egrep --color=auto'
+alias fgrep='fgrep --color=auto'
 alias gP='git pull'
+alias ga='git add'
 alias gbp='gits bb pull'
 alias gc='git commit -m'
 alias gco.='git checkout -- .'
@@ -68,13 +80,17 @@ alias l.="ls -A | grep -E '^\.'"
 alias l1='ls -1'
 alias l='ls'
 alias la='ls -a'
+alias ll='ls -la'
 alias lad='ls -lad .*'
 alias las='find . -maxdepth 1 -type l -printf "%p -> %l\n" | sort'
 alias lass='find . -type l -printf "%p -> %l\n" | sort'
 alias ll='ls -la'
-alias lg='lvim +G'
 alias l24='find . -newermt "-24 hours" -ls'
 alias me='clear && exec bash'
+alias mirror="sudo reflector -f 30 -l 30 --number 10 --verbose --save /etc/pacman.d/mirrorlist"
+alias mirrord="sudo reflector --latest 50 --number 20 --sort delay --save /etc/pacman.d/mirrorlist"
+alias mirrors="sudo reflector --latest 50 --number 20 --sort score --save /etc/pacman.d/mirrorlist"
+alias mirrora="sudo reflector --latest 50 --number 20 --sort age --save /etc/pacman.d/mirrorlist"
 alias mv='mv -v'
 alias n='nvim'
 alias nano='$EDITOR'
@@ -157,8 +173,7 @@ if osType "darwin"; then
 	alias ulo='sudo chown -R $(whoami) /usr/local'
 fi
 
-# -------------------------------------------------------------------------- }}}
-# {{{ Repeat command are used when I enable my resume editor.
+# -------------------------------------------------------------------------- }}} {{{ Repeat command are used when I enable my resume editor.
 
 alias rgl='repeat git logg -6'
 alias rgs='repeat git status --short'

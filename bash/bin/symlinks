@@ -64,7 +64,7 @@ createSymLinks() {
     ln -fsv ~/git/dotfiles/bash/bash_logout      ~/.bash_logout
     ln -fsv ~/git/dotfiles/bash/bash_profile     ~/.bash_profile
     ln -fsv ~/git/dotfiles/bash/bashrc           ~/.bashrc
-    ln -fsv ~/git/dotfiles/bash/bashrc-personal  ~/.bashrc-personal
+    ln -fsv ~/git/dotfiles/bash/bashrc_personal  ~/.bashrc_personal
     ln -fsv ~/git/dotfiles/bash/dircolors        ~/.dircolors
     ln -fsv ~/git/dotfiles/bash/inputrc          ~/.inputrc
     ln -fsv ~/git/dotfiles/bash/xinitrc          ~/.xinitrc
@@ -123,7 +123,7 @@ deleteSymLinks() {
     rm -rfv ~/.bash_logout
     rm -rfv ~/.bash_profile
     rm -rfv ~/.bashrc
-    rm -rfv ~/.bashrc-personal
+    rm -rfv ~/.bashrc_personal
     rm -rfv ~/.config.vim
     rm -rfv ~/.dircolors
     rm -rfv ~/.gitconfig
