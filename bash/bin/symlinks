@@ -92,6 +92,7 @@ deleteSymLinks() {
     # Symlinks at .config
     rm -rfv ~/.config/Thunar
     rm -rfv ~/.config/alacritty
+    rm -rfv ~/.config/autostart
     rm -rfv ~/.config/bspwm
     rm -rfv ~/.config/dconf
     rm -rfv ~/.config/dunst
