@@ -8,12 +8,10 @@ else
 fi
 
 # -------------------------------------------------------------------------- }}}
-# {{{ Linux only machines.
 
-# NOTE: When order matters:  prependToPath (beginng) and appendToPath (end).
-#       Neither function adjusts the path when the directory already exits.
-
-export PATH="/bin"
+if ! osType "msys" ; then
+  export PATH="/bin"
+fi
 appendToPath "/sbin"
 appendToPath "/usr/bin"
 appendToPath "/usr/sbin"
