@@ -106,8 +106,6 @@ if osType "msys"; then
   EDITOR=$(which vim)
 elif programExists nvim; then
   EDITOR=$(which nvim)
-elif programExists lvim; then
-  EDITOR=$(which lvim)
 else
   EDITOR=$(which vim)
 fi
