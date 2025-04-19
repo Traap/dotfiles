@@ -1,5 +1,9 @@
 #!/bin/bash
 # echo "begin: bash_profile"
+
+# start with the simplest path.
+export PATH=/bin
+
 # Define directory exports that my_functions use.
 BBHOME=$HOME/bb
 export BBHOME

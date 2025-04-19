@@ -167,6 +167,13 @@ alias cwf='cd $CFGHOME/wayfire'
 alias cwo='cd $CFGHOME/wofi'
 
 # -------------------------------------------------------------------------- }}}
+# {{{ shutdown or reboot or lock screen.
+
+alias ssn="sudo shutdown now"
+alias sr="sudo reboot"
+alias bls="betterlockscreen -u /usr/share/backgrounds/arcolinux/"
+
+# -------------------------------------------------------------------------- }}}
 # {{{ Brew wants me to own usr/local
 
 if osType "darwin"; then
@@ -177,6 +184,43 @@ fi
 
 alias rgl='repeat git logg -6'
 alias rgs='repeat git status --short'
+
+# -------------------------------------------------------------------------- }}}
+# {{{ Archlinux Packages
+
+# Recent Installed Packages
+alias rip="expac --timefmt='%Y-%m-%d %T' '%l\t%n %v' | sort | tail -200 | nl"
+alias riplong="expac --timefmt='%Y-%m-%d %T' '%l\t%n %v' | sort | tail -3000 | nl"
+
+# Cleanup orphaned packages
+alias cleanup='sudo pacman -Rns $(pacman -Qtdq)'
+
+# -------------------------------------------------------------------------- }}}
+# {{{ Important configuration files
+
+alias nconfgrub="sudo nvim /boot/grub/grub.cfg"
+alias ngrub="sudo nvim /etc/default/grub"
+alias nlightdm="sudo nvim /etc/lightdm/lightdm.conf"
+alias nmirrorlist="sudo nvim /etc/pacman.d/mirrorlist"
+alias nmkinitcpio="sudo nvim /etc/mkinitcpio.conf"
+alias noblogout="sudo nvim /etc/oblogout.conf"
+alias npacman="sudo nvim /etc/pacman.conf"
+alias nslim="sudo nvim /etc/slim.conf"
+
+# -------------------------------------------------------------------------- }}}
+# {{{ gpg
+
+# verify signature for isos
+alias gpg-check="gpg2 --keyserver-options auto-key-retrieve --verify"
+
+# receive the key of a developer
+alias gpg-retrieve="gpg2 --keyserver-options auto-key-retrieve --receive-keys"
+
+# -------------------------------------------------------------------------- }}}
+# {{{ Job control
+
+# get the error messages from journalctl
+alias jctl="journalctl -p 3 -xb"
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Perforce defaults.

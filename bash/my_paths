@@ -13,14 +13,19 @@ fi
 # NOTE: When order matters:  prependToPath (beginng) and appendToPath (end).
 #       Neither function adjusts the path when the directory already exits.
 
+export PATH="/bin"
+appendToPath "/sbin"
+appendToPath "/usr/bin"
+appendToPath "/usr/sbin"
+appendToPath "/usr/local/bin"
+appendToPath "/usr/local/sbin"
+appendToPath "$HOME/bin"
+appendToPath "$HOME/.bin"
+appendToPath "$HOME/.local/bin"
+appendToPath "$BASHHOME/bin"
+
 # NOTE: Don't forget to set wsl_user correctly.
 if [[ -n $WSL_DISTRO_NAME ]]; then
-  export  PATH="/usr/local/sbin"
-  appendToPath "/usr/local/bin"
-  appendToPath "/usr/sbin"
-  appendToPath "/usr/bin"
-  appendToPath "/sbin"
-  appendToPath "/bin"
   appendToPath "/mnt/c/Windows/system32/WindowsPowerShell/v1.0"
   appendToPath "/mnt/c/Users/$wsl_user/AppData/Local/SumatraPDF"
   appendToPath "/mnt/c/Users/$wsl_user/AppData/Local/Microsoft/WinGet/Links"
@@ -29,15 +34,11 @@ if [[ -n $WSL_DISTRO_NAME ]]; then
 fi
 
 # Programming languages.
-prependToPath "$HOME"/.cargo/bin
+appendToPath "$HOME"/.cargo/bin
 
 # Ruby Environment Manager
 if programExists rbenv; then
   eval "$(rbenv init - n)"
 fi
-
-# Personal executables
-appendToPath "$HOME/bin"
-appendToPath "$BASHHOME/bin"
 
 # -------------------------------------------------------------------------- }}}

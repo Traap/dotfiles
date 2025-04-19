@@ -124,6 +124,15 @@ export FZF_DEFAULT_COMMAND='rg --files --no-ignore-vcs --hidden'
 export HISTCONTROL=ignoreboth:erasedups
 
 # -------------------------------------------------------------------------- }}}
+# {{{ Ibus settings
+
+#type ibus-setup in terminal to change settings and start the daemon
+#delete the hashtags of the next lines and restart
+#export GTK_IM_MODULE=ibus
+#export XMODIFIERS=@im=dbus
+#export QT_IM_MODULE=ibus
+
+# -------------------------------------------------------------------------- }}}
 # {{{ JAVA locations.
 
 if dirExists ${HOME}/build/lclasses/main; then
