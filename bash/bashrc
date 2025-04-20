@@ -4,12 +4,17 @@
 # Bash scripting cheatsheet => https://devhints.io/bash
 
 # -------------------------------------------------------------------------- }}}
-# {{{ non-longin interactive shells.
+# {{{ non-login interactive shells.
 
 source_bash_profile_once() {
-  if [[ -z "$__bash_profile_loaded" ]]; then
-    export __bash_profile_loaded=1
-    source ~/.bash_profile
+  if declare -p __bash_profile_once &>/dev/null; then
+    return
+  fi
+
+  source ~/.bash_profile
+
+  if ! declare -p __bash_profile_once &>/dev/null; then
+    readonly __bash_profile_once=true
   fi
 }
 source_bash_profile_once
