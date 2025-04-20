@@ -3,7 +3,7 @@
 #     Note. This the first file callec so we cannot __guarded_source.
 #     That is why __begin and __end are called directly.
 
-readonly __verbose=true
+readonly __verbose=false
 
 __begin() { [[ $__verbose == true ]] && echo "begin: $1"; }
 __end  () { [[ $__verbose == true ]] && echo "  end: $1"; }
