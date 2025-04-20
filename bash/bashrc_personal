@@ -1,5 +1,4 @@
 #!/bin/bash
-# echo "begin: bashrc_personal"
 # {{{ Stooges: Honoring Larry, Moe, and Curly ... Nyuk, nyuk, nyuk.
 #
 # Bash scripting cheatsheet => https://devhints.io/bash
@@ -32,11 +31,15 @@ shopt -s expand_aliases # expand aliases
 
 my_array=("functions" "exports" "aliases" "paths" "completions" "prompt")
 for m in "${my_array[@]}"; do
-	[[ -f "$BASHHOME/my_$m" ]] && source "$BASHHOME/my_$m"
+	[[ -f "$BASHHOME/my_$m" ]] && __guarded_source "$BASHHOME/my_$m"
 done
 
 # Load my keys.
 sshkeys
 
 # -------------------------------------------------------------------------- }}}
-# echo "end: bashrc_personal"
+# {{{ Neovim appname aliases
+
+__guarded_source "$HOME/.config/nvims/nvim_appnames"
+
+# -------------------------------------------------------------------------- }}}

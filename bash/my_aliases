@@ -100,15 +100,10 @@ alias pacman='sudo pacman --noconfirm -S'
 alias rbe='eval "$(rbenv init - n)"'
 alias rbn='sudo reboot now'
 alias rgits='repeat gits'
-alias s='source'
-alias sa='source $BASHHOME/my_aliases'
 alias sde='sudoedit'
 alias sdn='sudo shutdown now'
-alias se='source $BASHHOME/my_exports'
-alias sf='source $BASHHOME/my_functions'
 alias slv='switchNeovim'
 alias snv='switchNeovim'
-alias sp='source $BASHHOME/my_paths'
 alias ssh='ssh -A'
 alias ta='tmux attach'
 alias tl='tmux ls'
@@ -301,13 +296,6 @@ alias tlmgr='${TEXMFDIST}/scripts/texlive/tlmgr.pl --usermode'
 
 if [[ -n $WSL_DISTRO_NAME ]]; then
 	alias wsl=wsl.exe
-fi
-
-# -------------------------------------------------------------------------- }}}
-# {{{ Neovim appname aliases
-
-if [[   -f "$HOME/.config/nvims/nvim_appnames" ]]; then
-	source "$HOME/.config/nvims/nvim_appnames"
 fi
 
 # -------------------------------------------------------------------------- }}}

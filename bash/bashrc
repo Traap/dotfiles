@@ -1,5 +1,4 @@
 #!/bin/bash
-# echo "begin: bashrc"
 # {{{ Stooges: Honoring Larry, Moe, and Curly ... Nyuk, nyuk, nyuk.
 #
 # Bash scripting cheatsheet => https://devhints.io/bash
@@ -7,8 +6,7 @@
 # -------------------------------------------------------------------------- }}}
 # {{{ Personal hook.
 
-[[ -f $HOME/.bashrc_personal ]] &&
-	. $HOME/.bashrc_personal
+__guarded_source $HOME/.bashrc_personal
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Sometime other programs automagically update my bashrc.
@@ -34,4 +32,3 @@
    .  $HOME/.cargo/env
 
 # -------------------------------------------------------------------------- }}}
-# echo "end: bashrc"

@@ -1,11 +1,48 @@
 #!/bin/bash
-# echo "begin: bash_profile"
+# {{{ Establish guarded_source functions and verbosity.
+#     Note. This the first file callec so we cannot __guarded_source.
+#     That is why __begin and __end are called directly.
 
-# start with the simplest path.
-[[ ":$PATH:" != *"/bin"* ]] && export PATH="${PATH}:/bin"
-export PATH=/bin
+readonly __verbose=true
 
-# Define directory exports that my_functions use.
+__begin() { [[ $__verbose == true ]] && echo "begin: $1"; }
+__end  () { [[ $__verbose == true ]] && echo "  end: $1"; }
+
+__guarded_source() {
+  local file="$1"
+
+  # Derive a valid guard name from the basename of "$file"
+  guard="$(basename "$file" | tr -c '[:alnum:]_' '_')"
+
+  # Skip everything if the guard has already been run.
+  if declare -p "$guard" &>/dev/null; then
+    return
+  fi
+
+  ## Mark the guard globally and print "begin: file"
+  declare -g -r "${guard}"=true
+  __begin "$file"
+
+  # When the file exists, perform the actual work.
+  if [[ -f "$file" ]]; then
+    source "$file"
+  else
+    echo "Warning: $file was not sourced."
+  fi
+
+  # after source returns, print "  end: file"
+  __end "$file"
+}
+
+# -------------------------------------------------------------------------- }}}
+__begin "bash_profile"
+# {{{ start with the simplest path.
+
+[[ ":$PATH:" != *":/bin:"* ]] && export PATH="${PATH}:/bin"
+
+# -------------------------------------------------------------------------- }}}
+# {{{ Define directory exports that my_functions use.
+
 BBHOME=$HOME/bb
 export BBHOME
 
@@ -51,12 +88,18 @@ export PDF_VIEWER
 PNG_VIEWER=feh
 export PNG_VIEWER
 
-# Define functions and paths.
+# -------------------------------------------------------------------------- }}}
+# {{{ Define functions and paths.
+
 my_array=("functions" "paths")
 for m in ${my_array[@]}; do
-  [[ -f $BASHHOME/my_$m ]] && source $BASHHOME/my_$m
+  [[ -f $BASHHOME/my_$m ]] && __guarded_source "$BASHHOME/my_$m"
 done
 
-# Hook into interactive bash.
-[[ -f ~/.bashrc ]] && . ~/.bashrc
-# echo "end: bash_profile"
+# -------------------------------------------------------------------------- }}}
+# {{{ Hook into interactive bash.
+
+ __guarded_source "$HOME/.bashrc"
+
+# -------------------------------------------------------------------------- }}}
+__end "bash_profile"

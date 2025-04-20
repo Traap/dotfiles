@@ -1,5 +1,5 @@
 #!/bin/bash
-# {{{ Local settings.
+# {{{ establish wsl_user
 
 if [[ -f "$CFGHOME"/wsl_user ]]; then
   source "$CFGHOME"/wsl_user
@@ -8,10 +8,8 @@ else
 fi
 
 # -------------------------------------------------------------------------- }}}
+# {{{ Local settings.
 
-if ! osType "msys" ; then
-  export PATH="/bin"
-fi
 appendToPath "/sbin"
 appendToPath "/usr/bin"
 appendToPath "/usr/sbin"
