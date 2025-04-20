@@ -2,6 +2,7 @@
 # echo "begin: bash_profile"
 
 # start with the simplest path.
+[[ ":$PATH:" != *"/bin"* ]] && export PATH="${PATH}:/bin"
 export PATH=/bin
 
 # Define directory exports that my_functions use.
