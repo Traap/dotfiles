@@ -123,7 +123,7 @@ alias .b='cd $BINHOME'
 alias .c='cd $CFGHOME'
 alias .d='cd $DOTHOME'
 alias .g='cd $GITHOME'
-alias .h='cd ~/.config/hypr'
+alias .h='cd $CFGHOME/hypr'
 alias Cd='cd $GITHOME/color'
 alias Dc='cd $HOME/Documents'
 alias Dd='cd $HOME/Downloads'
@@ -132,8 +132,14 @@ alias ac='cd $GITHOME/AllanConsulting'
 alias bd='cd $GITHOME/bootstrap'
 alias gd='cd $GITHOME'
 alias hh='cd $GITHOME/HowardHouse'
-alias ic='cd ~/img-clip'
-alias nd='cd $GITHOME/nvim.traap'
+alias ic='cd $HOME/img-clip'
+
+if osType "msys"; then
+  alias nd='cd AppData/Local/nvim'
+else
+  alias nd='cd $GITHOME/nvim.traap'
+fi
+
 alias pd='cd $HOME/.local/share/nvim/site/pack/packer/start'
 alias rd='cd $GITHOME/resume'
 alias sd='cd $GITHOME/ssh'

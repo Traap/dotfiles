@@ -18,7 +18,9 @@ else
   export TEXMFHOME=/usr/share/texlive/texmf-dist
 fi
 export FILE=ranger
-export TERM=tmux-256color
+if ! osType "msys"; then
+  export TERM=tmux-256color
+fi
 
 # I enable warning when I am debugging .bashrc
 echoWarning=0
