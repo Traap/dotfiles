@@ -4,6 +4,17 @@
 # Bash scripting cheatsheet => https://devhints.io/bash
 
 # -------------------------------------------------------------------------- }}}
+# {{{ non-longin interactive shells.
+
+source_bash_profile_once() {
+  if [[ -z "$__bash_profile_loaded" ]]; then
+    export __bash_profile_loaded=1
+    source ~/.bash_profile
+  fi
+}
+source_bash_profile_once
+
+# -------------------------------------------------------------------------- }}}
 # {{{ Personal hook.
 
 __guarded_source $HOME/.bashrc_personal
