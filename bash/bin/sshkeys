@@ -1,22 +1,27 @@
 #!/bin/bash
-sshkeys () {
-  if [[ $OSTYPE != 'msys' ]]; then
-    agentName=ssh-agent
-    cmpTo=1
-  else
-    agentName=/usr/bin/ssh-agent
-    cmpTo=0
-  fi
+
+sshkeys() {
+  local agentName
+  local cmpTo
+
+  case "$OSTYPE" in
+    msys*)   agentName="/usr/bin/ssh-agent"; cmpTo=0 ;;
+    linux*)  agentName="ssh-agent"; cmpTo=1 ;;
+    *)       echo "Unsupported OS: $OSTYPE"; return 1 ;;
+  esac
 
   if [[ -d $SSHHOME ]]; then
-    if [[ $(ps ax | grep $agentName | wc -l) -eq $cmpTo ]]; then
+    if ! pgrep -u "$USER" -x "$(basename "$agentName")" > /dev/null; then
       eval "$(ssh-agent -s)" > /dev/null
-      for key in $(ls $SSHHOME/*.pub); do
-        ssh-add -q "${key%.*}"
-      done;
+
+      for key in "$SSHHOME"/*.pub; do
+        [[ -f "$key" ]] || continue
+        ssh-add -q "${key%.*}" 2>/dev/null
+      done
     fi
   else
-    echo "ERROR: SSHHOME is not defined."
+    echo "ERROR: SSHHOME is not defined or not a directory."
   fi
 }
+
 sshkeys "$@"
