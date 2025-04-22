@@ -3,15 +3,32 @@
 sshkeys() {
   local agentName
   local cmpTo
+  local agentCheck=1
 
   case "$OSTYPE" in
-    msys*)   agentName="/usr/bin/ssh-agent"; cmpTo=0 ;;
-    linux*)  agentName="ssh-agent"; cmpTo=1 ;;
-    *)       echo "Unsupported OS: $OSTYPE"; return 1 ;;
+    msys*)
+      agentName="/usr/bin/ssh-agent"
+      cmpTo=0
+      # msys2 fallback: count processes manually
+      if [[ $(ps | grep -F "$agentName" | grep -v grep | wc -l) -eq "$cmpTo" ]]; then
+        agentCheck=0
+      fi
+      ;;
+    linux*)
+      agentName="ssh-agent"
+      cmpTo=1
+      if ! pgrep -u "$USER" -x "$agentName" > /dev/null; then
+        agentCheck=0
+      fi
+      ;;
+    *)
+      echo "Unsupported OS: $OSTYPE"
+      return 1
+      ;;
   esac
 
   if [[ -d $SSHHOME ]]; then
-    if ! pgrep -u "$USER" -x "$(basename "$agentName")" > /dev/null; then
+    if [[ "$agentCheck" -eq 0 ]]; then
       eval "$(ssh-agent -s)" > /dev/null
 
       for key in "$SSHHOME"/*.pub; do
@@ -25,3 +42,5 @@ sshkeys() {
 }
 
 sshkeys "$@"
+
+
