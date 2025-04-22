@@ -1,46 +1,42 @@
 #!/bin/bash
 
 sshkeys() {
-  local agentName
-  local cmpTo
-  local agentCheck=1
+  local agentName agentCheck=1 cmpTo
+  local AGENT_ENV_FILE="${HOME}/.ssh/agent_env"
 
   case "$OSTYPE" in
-    msys*)
-      agentName="/usr/bin/ssh-agent"
-      cmpTo=0
-      # msys2 fallback: count processes manually
-      if [[ $(ps | grep -F "$agentName" | grep -v grep | wc -l) -eq "$cmpTo" ]]; then
-        agentCheck=0
-      fi
-      ;;
-    linux*)
-      agentName="ssh-agent"
-      cmpTo=1
-      if ! pgrep -u "$USER" -x "$agentName" > /dev/null; then
-        agentCheck=0
-      fi
-      ;;
-    *)
-      echo "Unsupported OS: $OSTYPE"
-      return 1
-      ;;
+    msys*)   agentName="/usr/bin/ssh-agent"; cmpTo=0 ;;
+    linux*)  agentName="ssh-agent";          cmpTo=1 ;;
+    *)       echo "Unsupported OS: $OSTYPE"; return 1 ;;
   esac
 
-  if [[ -d $SSHHOME ]]; then
-    if [[ "$agentCheck" -eq 0 ]]; then
-      eval "$(ssh-agent -s)" > /dev/null
+  # Load existing agent vars if the file exists
+  if [[ -f "$AGENT_ENV_FILE" ]]; then
+    source "$AGENT_ENV_FILE" > /dev/null
 
+    # Check if agent is alive and socket exists
+    if ! kill -0 "$SSH_AGENT_PID" 2>/dev/null || [[ ! -S "$SSH_AUTH_SOCK" ]]; then
+      rm -f "$AGENT_ENV_FILE"
+      unset SSH_AGENT_PID SSH_AUTH_SOCK
+    fi
+  fi
+
+  # Start a new agent if necessary
+  if [[ -z "$SSH_AGENT_PID" || -z "$SSH_AUTH_SOCK" ]]; then
+    eval "$(ssh-agent -s)" > /dev/null
+    echo "export SSH_AUTH_SOCK=$SSH_AUTH_SOCK" > "$AGENT_ENV_FILE"
+    echo "export SSH_AGENT_PID=$SSH_AGENT_PID" >> "$AGENT_ENV_FILE"
+
+    # Add keys only when a new agent is started
+    if [[ -d $SSHHOME ]]; then
       for key in "$SSHHOME"/*.pub; do
         [[ -f "$key" ]] || continue
         ssh-add -q "${key%.*}" 2>/dev/null
       done
+    else
+      echo "ERROR: SSHHOME is not defined or not a directory."
     fi
-  else
-    echo "ERROR: SSHHOME is not defined or not a directory."
   fi
 }
 
 sshkeys "$@"
-
-
