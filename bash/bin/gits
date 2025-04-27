@@ -1,5 +1,6 @@
 #!/bin/bash
 # {{{ Colors and Icons
+
 GREEN="\e[32m"
 YELLOW="\e[33m"
 RED="\e[31m"
@@ -23,6 +24,9 @@ FLAG_UTF16=false
 FLAG_LIST_STASH=false
 FLAG_PULL=false
 FLAG_HELP=false
+FLAG_LIST_REPOS=false
+
+REPO_LOCATION=""
 
 # Summary counters
 count_total=0
@@ -42,6 +46,7 @@ lsd() { ls -d */ 2>/dev/null | tr -d '/'; }
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Get repo provider folder
+
 repo() {
   local repoLocation="$1"
 
@@ -51,7 +56,7 @@ repo() {
     vim)   echo "git/vim/bundle" ;;
     soup)  echo "soup" ;;
     work)  echo "gitea" ;;
-    *)     echo "git" ;;
+    *)     echo "" ;;
   esac
 }
 
@@ -90,8 +95,6 @@ listStashedRepos() {
 # {{{ Pull latest changes
 
 refreshRepo() {
-  local repoLocation="$1"
-
   ((count_total++))
 
   if ! git rev-parse --is-inside-work-tree &>/dev/null; then
@@ -122,13 +125,11 @@ refreshRepo() {
   fi
 
   if $FLAG_PULL; then
-    # Stash any local changes
     if [[ -n $(git status --porcelain) ]]; then
       git stash push -u -m "Auto-stash before pull" &>/dev/null
       $COMPACT || echo -e "${YELLOW}${ICON_STASH} Stashed changes in ${repoName}${RESET}"
     fi
 
-    # Fetch and check status
     git fetch &>/dev/null
 
     local localHash remoteHash baseHash
@@ -160,37 +161,59 @@ refreshRepo() {
 # {{{ Show Help
 
 showHelp() {
-  echo "Usage: gits <repoLocation> [options]"
+  echo "Usage: gits [options]"
   echo "Options:"
-  echo "  -p     Pull latest changes"
-  echo "  -x     Remove untracked files"
-  echo "  -U     Convert UTF-16 files to UTF-8"
-  echo "  -s     List repositories with stash entries"
-  echo "  -h     Show this help message"
+  echo "  -r <repo>   Specify repo location (git, bb, vim, soup, work)"
+  echo "  -p          Pull latest changes"
+  echo "  -x          Remove untracked files"
+  echo "  -U          Convert UTF-16 files to UTF-8"
+  echo "  -s          List repositories with stash entries"
+  echo "  -l          List available repo locations"
+  echo "  -h          Show this help message"
+}
+
+# -------------------------------------------------------------------------- }}}
+# {{{ List Repo Locations
+
+listRepos() {
+  echo "Available repo locations:"
+  echo "  git"
+  echo "  bb"
+  echo "  vim"
+  echo "  soup"
+  echo "  work"
 }
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Scan git repositories
 
 gits() {
-  local repoLocation="$1"
-  shift
-
   while [[ $# -gt 0 ]]; do
     case "$1" in
+      -r) REPO_LOCATION="$2"; shift ;;
       -p) FLAG_PULL=true ;;
       -x) FLAG_CLEAN=true ;;
       -U) FLAG_UTF16=true ;;
       -s) FLAG_LIST_STASH=true ;;
+      -l) FLAG_LIST_REPOS=true ;;
       -h) FLAG_HELP=true ;;
     esac
     shift
   done
 
-  # If help was requested, show and exit before doing anything
   if $FLAG_HELP; then
     showHelp
     exit 0
+  fi
+
+  if $FLAG_LIST_REPOS; then
+    listRepos
+    exit 0
+  fi
+
+  if [[ -z "$REPO_LOCATION" ]]; then
+    echo -e "${RED}${ICON_ERROR} Repo location not specified. Use -r <repo>.${RESET}"
+    exit 1
   fi
 
   # If no action flags are set, default to -p
@@ -198,14 +221,12 @@ gits() {
     FLAG_PULL=true
   fi
 
-  # Save current directory
   local dir=$(pwd)
 
-  # Move to repoLocation root
   local repoRoot
-  repoRoot=$(repo "$repoLocation")
+  repoRoot=$(repo "$REPO_LOCATION")
 
-  if [[ ! -d "$HOME/$repoRoot" ]]; then
+  if [[ -z "$repoRoot" || ! -d "$HOME/$repoRoot" ]]; then
     echo -e "${RED}${ICON_ERROR} Directory $HOME/$repoRoot does not exist.${RESET}"
     exit 1
   fi
@@ -216,11 +237,10 @@ gits() {
     local d="$HOME/$repoRoot/$i"
 
     pushd "$d" >/dev/null || continue
-    refreshRepo "$repoLocation"
+    refreshRepo
     popd >/dev/null || true
   done
 
-  # Restore current directory
   cd "$dir" || exit
 }
 
@@ -260,6 +280,11 @@ showSummary() {
 
 if [[ "$*" == *"-h"* ]]; then
   showHelp
+  exit 0
+fi
+
+if [[ "$*" == *"-l"* ]]; then
+  listRepos
   exit 0
 fi
 
