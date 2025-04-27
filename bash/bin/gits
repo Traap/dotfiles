@@ -13,7 +13,7 @@ ICON_ERROR="❌"
 ICON_FOLDER="📁"
 
 # Compact mode toggle
-COMPACT=true
+COMPACT=false
 
 # -------------------------------------------------------------------------- }}}
 # {{{ List directory names in current folder
