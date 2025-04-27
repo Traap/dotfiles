@@ -12,7 +12,7 @@ ICON_STASH="💾"
 ICON_ERROR="❌"
 ICON_FOLDER="📁"
 ICON_TOTAL="📦"
-ICON_TIME="⏱️gg"
+ICON_TIME="⏱️"
 
 # Compact mode toggle
 COMPACT=true
@@ -224,38 +224,12 @@ gits() {
 }
 
 # -------------------------------------------------------------------------- }}}
-# {{{ Show Summary
-
-showSummary() {
-  end_time=$(date +%s.%N)
-
-  elapsed=$(echo "$end_time - $start_time" | bc)
-
-  if (( $(echo "$elapsed >= 60" | bc -l) )); then
-    minutes=$(echo "$elapsed/60" | bc)
-    seconds=$(echo "$elapsed-($minutes*60)" | bc)
-    elapsed_fmt="${minutes}m ${seconds}s"
-  else
-    elapsed_fmt="${elapsed}s"
-  fi
-
-  echo -e "\n----- Summary -----"
-  echo -e "${ICON_TOTAL} Total checked : $count_total"
-  if $FLAG_PULL; then
-    echo -e "${ICON_UPTODATE} Up-to-date    : $count_uptodate"
-    echo -e "${ICON_PULLING} Pulled        : $count_pull"
-    echo -e "${ICON_ERROR} Diverged      : $count_diverged"
-  fi
-  echo -e "${ICON_FOLDER} Not a repo    : $count_nogit"
-  if $FLAG_LIST_STASH; then
-    echo -e "${ICON_STASH} Repos with stash : $count_stash"
-  fi
-  echo -e "${ICON_TIME} Elapsed time  : $elapsed_fmt"
-  echo -e "-------------------"
-}
-
-# -------------------------------------------------------------------------- }}}
 # {{{ Kick start
+
+if [[ "$1" == "-h" || "$2" == "-h" ]]; then
+  showHelp
+  exit 0
+fi
 
 gits "$@"
 showSummary
