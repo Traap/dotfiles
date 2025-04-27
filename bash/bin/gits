@@ -11,6 +11,8 @@ ICON_PULLING="🔄"
 ICON_STASH="💾"
 ICON_ERROR="❌"
 ICON_FOLDER="📁"
+ICON_TOTAL="📦"
+ICON_TIME="⏱️"
 
 # Compact mode toggle
 COMPACT=true
@@ -23,7 +25,7 @@ count_diverged=0
 count_nogit=0
 
 # Timer start
-start_time=$(date +%s)
+start_time=$(date +%s.%N)
 
 # -------------------------------------------------------------------------- }}}
 # {{{ List directory names in current folder
@@ -127,16 +129,25 @@ gits() {
 # {{{ Show Summary
 
 showSummary() {
-  end_time=$(date +%s)
-  elapsed=$((end_time - start_time))
+  end_time=$(date +%s.%N)
+
+  elapsed=$(echo "$end_time - $start_time" | bc)
+
+  if (( $(echo "$elapsed >= 60" | bc -l) )); then
+    minutes=$(echo "$elapsed/60" | bc)
+    seconds=$(echo "$elapsed-($minutes*60)" | bc)
+    elapsed_fmt="${minutes}m ${seconds}s"
+  else
+    elapsed_fmt="${elapsed}s"
+  fi
 
   echo -e "\n----- Summary -----"
-  echo -e "Total checked : $count_total"
-  echo -e "Up-to-date    : $count_uptodate"
-  echo -e "Pulled        : $count_pull"
-  echo -e "Diverged      : $count_diverged"
-  echo -e "Not a repo    : $count_nogit"
-  echo -e "Elapsed time  : ${elapsed}s"
+  echo -e "${ICON_TOTAL} Total checked : $count_total"
+  echo -e "${ICON_UPTODATE} Up-to-date    : $count_uptodate"
+  echo -e "${ICON_PULLING} Pulled        : $count_pull"
+  echo -e "${ICON_ERROR} Diverged      : $count_diverged"
+  echo -e "${ICON_FOLDER} Not a repo    : $count_nogit"
+  echo -e "${ICON_TIME} Elapsed time  : $elapsed_fmt"
   echo -e "-------------------"
 }
 
