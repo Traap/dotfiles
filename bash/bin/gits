@@ -12,7 +12,7 @@ ICON_STASH="💾"
 ICON_ERROR="❌"
 ICON_FOLDER="📁"
 ICON_TOTAL="📦"
-ICON_TIME="⏱️"
+ICON_TIME="⏱️gg"
 
 # Compact mode toggle
 COMPACT=true
@@ -192,12 +192,23 @@ gits() {
     exit 0
   fi
 
+  # If no action flags are set, default to -p
+  if ! $FLAG_PULL && ! $FLAG_CLEAN && ! $FLAG_UTF16 && ! $FLAG_LIST_STASH; then
+    FLAG_PULL=true
+  fi
+
   # Save current directory
   local dir=$(pwd)
 
   # Move to repoLocation root
   local repoRoot
   repoRoot=$(repo "$repoLocation")
+
+  if [[ ! -d "$HOME/$repoRoot" ]]; then
+    echo -e "${RED}${ICON_ERROR} Directory $HOME/$repoRoot does not exist.${RESET}"
+    exit 1
+  fi
+
   cd "$HOME/$repoRoot" || exit
 
   for i in $(lsd); do
