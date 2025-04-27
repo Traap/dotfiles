@@ -16,9 +16,9 @@ This file is copied to xsel on WSL2 (Windoz Subsystem 4 Linux) only machines.
 bin/xsel-wsl is a 'hack' to copy and paste between WSL and Windoz using the
 system copy paste buffer.
 
-### setup
+### hack
 Setup has various scripts I use to personalize a setup.  These scripts are
 designed to run once, or as trouble shooting aids.
 
 Traap
-2023-11-23
+2025-04-26
