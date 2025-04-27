@@ -29,7 +29,7 @@ else
   else
 	  [ -f /usr/bin/bat ] && alias cat='bat -p'
   fi
-	[ -f /usr/bin/exa ] && alias ls='exa'
+	[ -f /usr/bin/eza ] && alias ls='eza'
 fi
 
 # -------------------------------------------------------------------------- }}}
