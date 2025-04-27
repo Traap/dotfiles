@@ -320,4 +320,7 @@ showSummary
 # Restore original directory
 cd "$ORIGINAL_DIR" || exit
 
+# Final friendly done message
+echo -e "${GREEN}✅ Done!${RESET}"
+
 # -------------------------------------------------------------------------- }}}
