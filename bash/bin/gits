@@ -10,6 +10,10 @@ ICON_UPTODATE="✅"
 ICON_PULLING="🔄"
 ICON_STASH="💾"
 ICON_ERROR="❌"
+ICON_FOLDER="📁"
+
+# Compact mode toggle
+COMPACT=true
 
 # -------------------------------------------------------------------------- }}}
 # {{{ List directory names in current folder
@@ -38,7 +42,9 @@ refreshRepo() {
   local repoLocation="$1"
 
   if ! git rev-parse --is-inside-work-tree &>/dev/null; then
-    echo -e "${RED}${ICON_ERROR} Not a git repo${RESET}"
+    local repoName
+    repoName=$(basename "$(pwd)")
+    echo -e "${RED}${ICON_FOLDER} Directory ${repoName} is not a git repository${RESET}"
     return
   fi
 
@@ -47,8 +53,8 @@ refreshRepo() {
 
   # Stash any local changes
   if [[ -n $(git status --porcelain) ]]; then
-    git stash push -u -m "Auto-stash before pull"
-    echo -e "${YELLOW}${ICON_STASH} Stashed changes in ${repoName}${RESET}"
+    git stash push -u -m "Auto-stash before pull" &>/dev/null
+    $COMPACT || echo -e "${YELLOW}${ICON_STASH} Stashed changes in ${repoName}${RESET}"
   fi
 
   # Fetch and check status
@@ -60,17 +66,17 @@ refreshRepo() {
   baseHash=$(git merge-base @ @{u} 2>/dev/null || true)
 
   if [[ -z "$remoteHash" ]]; then
-    echo -e "${RED}${ICON_ERROR} No upstream configured for ${repoName}${RESET}"
+    echo -e "${RED}${ICON_ERROR} ${repoName} has no upstream${RESET}"
     return
   fi
 
   if [[ "$localHash" == "$remoteHash" ]]; then
-    echo -e "${GREEN}${ICON_UPTODATE} ${repoName} is up-to-date${RESET}"
+    echo -e "${GREEN}${ICON_UPTODATE} ${repoName}${RESET}"
   elif [[ "$localHash" == "$baseHash" ]]; then
-    echo -e "${BLUE}${ICON_PULLING} Pulling updates for ${repoName}${RESET}"
+    echo -e "${BLUE}${ICON_PULLING} ${repoName}${RESET}"
     git pull --ff-only
   else
-    echo -e "${RED}${ICON_ERROR} Diverged: manual merge needed for ${repoName}${RESET}"
+    echo -e "${RED}${ICON_ERROR} ${repoName} diverged: manual merge needed${RESET}"
   fi
 }
 
