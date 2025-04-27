@@ -1,6 +1,6 @@
 #!/bin/bash
-
 # {{{ Colors and Icons
+
 GREEN="\e[32m"
 YELLOW="\e[33m"
 RED="\e[31m"
@@ -42,6 +42,9 @@ count_stash=0
 # Timer start
 start_time=$(date +%s.%N)
 
+# Save original directory
+ORIGINAL_DIR=$(pwd)
+
 # -------------------------------------------------------------------------- }}}
 # {{{ List directory names in current folder
 
@@ -49,6 +52,7 @@ lsd() { ls -d */ 2>/dev/null | tr -d '/'; }
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Get repo provider folder
+
 repo() {
   local repoLocation="$1"
 
@@ -249,8 +253,6 @@ gits() {
     FLAG_PULL=true
   fi
 
-  local dir=$(pwd)
-
   local repoRoot
   repoRoot=$(repo "$REPO_LOCATION")
 
@@ -266,8 +268,6 @@ gits() {
   done
 
   wait
-
-  cd "$dir" || exit
 }
 
 # -------------------------------------------------------------------------- }}}
@@ -317,5 +317,7 @@ fi
 gits "$@"
 showSummary
 
-# -------------------------------------------------------------------------- }}}
+# Restore original directory
+cd "$ORIGINAL_DIR" || exit
 
+# -------------------------------------------------------------------------- }}}
