@@ -1,6 +1,6 @@
 #!/bin/bash
-# {{{ Colors and Icons
 
+# {{{ Colors and Icons
 GREEN="\e[32m"
 YELLOW="\e[33m"
 RED="\e[31m"
@@ -25,8 +25,9 @@ FLAG_LIST_STASH=false
 FLAG_PULL=false
 FLAG_HELP=false
 FLAG_LIST_REPOS=false
+FLAG_VERBOSE=false
 
-REPO_LOCATION=""
+REPO_LOCATION="git"
 
 # Summary counters
 count_total=0
@@ -46,7 +47,6 @@ lsd() { ls -d */ 2>/dev/null | tr -d '/'; }
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Get repo provider folder
-
 repo() {
   local repoLocation="$1"
 
@@ -95,6 +95,9 @@ listStashedRepos() {
 # {{{ Pull latest changes
 
 refreshRepo() {
+  local dir="$1"
+  pushd "$dir" >/dev/null || return
+
   ((count_total++))
 
   if ! git rev-parse --is-inside-work-tree &>/dev/null; then
@@ -102,6 +105,7 @@ refreshRepo() {
     repoName=$(basename "$(pwd)")
     echo -e "${RED}${ICON_FOLDER} Directory ${repoName} is not a git repository${RESET}"
     ((count_nogit++))
+    popd >/dev/null || return
     return
   fi
 
@@ -111,23 +115,28 @@ refreshRepo() {
   if $FLAG_CLEAN; then
     removeUntracked
     echo -e "${BLUE}Cleaned untracked files in ${repoName}${RESET}"
+    popd >/dev/null || return
     return
   fi
 
   if $FLAG_UTF16; then
     convertUtf16ToUtf8
+    popd >/dev/null || return
     return
   fi
 
   if $FLAG_LIST_STASH; then
     listStashedRepos
+    popd >/dev/null || return
     return
   fi
 
   if $FLAG_PULL; then
     if [[ -n $(git status --porcelain) ]]; then
       git stash push -u -m "Auto-stash before pull" &>/dev/null
-      $COMPACT || echo -e "${YELLOW}${ICON_STASH} Stashed changes in ${repoName}${RESET}"
+      if ! $COMPACT; then
+        echo -e "${YELLOW}${ICON_STASH} Stashed changes in ${repoName}${RESET}"
+      fi
     fi
 
     git fetch &>/dev/null
@@ -140,6 +149,7 @@ refreshRepo() {
     if [[ -z "$remoteHash" ]]; then
       echo -e "${RED}${ICON_ERROR} ${repoName} has no upstream${RESET}"
       ((count_nogit++))
+      popd >/dev/null || return
       return
     fi
 
@@ -155,6 +165,8 @@ refreshRepo() {
       ((count_diverged++))
     fi
   fi
+
+  popd >/dev/null || return
 }
 
 # -------------------------------------------------------------------------- }}}
@@ -163,11 +175,12 @@ refreshRepo() {
 showHelp() {
   echo "Usage: gits [options]"
   echo "Options:"
-  echo "  -r <repo>   Specify repo location (git, bb, vim, soup, work)"
+  echo "  -r <repo>   Specify repo location (default: git)"
   echo "  -p          Pull latest changes"
   echo "  -x          Remove untracked files"
   echo "  -U          Convert UTF-16 files to UTF-8"
   echo "  -s          List repositories with stash entries"
+  echo "  -v          Verbose output"
   echo "  -l          List available repo locations"
   echo "  -h          Show this help message"
 }
@@ -185,7 +198,7 @@ listRepos() {
 }
 
 # -------------------------------------------------------------------------- }}}
-# {{{ Scan git repositories
+# {{{ Scan git repositories in parallel
 
 gits() {
   while [[ $# -gt 0 ]]; do
@@ -195,6 +208,7 @@ gits() {
       -x) FLAG_CLEAN=true ;;
       -U) FLAG_UTF16=true ;;
       -s) FLAG_LIST_STASH=true ;;
+      -v) FLAG_VERBOSE=true COMPACT=false ;;
       -l) FLAG_LIST_REPOS=true ;;
       -h) FLAG_HELP=true ;;
     esac
@@ -209,11 +223,6 @@ gits() {
   if $FLAG_LIST_REPOS; then
     listRepos
     exit 0
-  fi
-
-  if [[ -z "$REPO_LOCATION" ]]; then
-    echo -e "${RED}${ICON_ERROR} Repo location not specified. Use -r <repo>.${RESET}"
-    exit 1
   fi
 
   # If no action flags are set, default to -p
@@ -234,12 +243,10 @@ gits() {
   cd "$HOME/$repoRoot" || exit
 
   for i in $(lsd); do
-    local d="$HOME/$repoRoot/$i"
-
-    pushd "$d" >/dev/null || continue
-    refreshRepo
-    popd >/dev/null || true
+    refreshRepo "$HOME/$repoRoot/$i" &
   done
+
+  wait
 
   cd "$dir" || exit
 }
