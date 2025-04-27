@@ -1,6 +1,5 @@
 #!/bin/bash
 # {{{ Colors and Icons
-
 GREEN="\e[32m"
 YELLOW="\e[33m"
 RED="\e[31m"
@@ -22,6 +21,8 @@ COMPACT=true
 FLAG_CLEAN=false
 FLAG_UTF16=false
 FLAG_LIST_STASH=false
+FLAG_PULL=false
+FLAG_HELP=false
 
 # Summary counters
 count_total=0
@@ -41,7 +42,6 @@ lsd() { ls -d */ 2>/dev/null | tr -d '/'; }
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Get repo provider folder
-
 repo() {
   local repoLocation="$1"
 
@@ -121,37 +121,52 @@ refreshRepo() {
     return
   fi
 
-  # Stash any local changes
-  if [[ -n $(git status --porcelain) ]]; then
-    git stash push -u -m "Auto-stash before pull" &>/dev/null
-    $COMPACT || echo -e "${YELLOW}${ICON_STASH} Stashed changes in ${repoName}${RESET}"
+  if $FLAG_PULL; then
+    # Stash any local changes
+    if [[ -n $(git status --porcelain) ]]; then
+      git stash push -u -m "Auto-stash before pull" &>/dev/null
+      $COMPACT || echo -e "${YELLOW}${ICON_STASH} Stashed changes in ${repoName}${RESET}"
+    fi
+
+    # Fetch and check status
+    git fetch &>/dev/null
+
+    local localHash remoteHash baseHash
+    localHash=$(git rev-parse @)
+    remoteHash=$(git rev-parse @{u} 2>/dev/null || true)
+    baseHash=$(git merge-base @ @{u} 2>/dev/null || true)
+
+    if [[ -z "$remoteHash" ]]; then
+      echo -e "${RED}${ICON_ERROR} ${repoName} has no upstream${RESET}"
+      ((count_nogit++))
+      return
+    fi
+
+    if [[ "$localHash" == "$remoteHash" ]]; then
+      echo -e "${GREEN}${ICON_UPTODATE} ${repoName}${RESET}"
+      ((count_uptodate++))
+    elif [[ "$localHash" == "$baseHash" ]]; then
+      echo -e "${BLUE}${ICON_PULLING} ${repoName}${RESET}"
+      git pull --ff-only
+      ((count_pull++))
+    else
+      echo -e "${RED}${ICON_ERROR} ${repoName} diverged: manual merge needed${RESET}"
+      ((count_diverged++))
+    fi
   fi
+}
 
-  # Fetch and check status
-  git fetch &>/dev/null
+# -------------------------------------------------------------------------- }}}
+# {{{ Show Help
 
-  local localHash remoteHash baseHash
-  localHash=$(git rev-parse @)
-  remoteHash=$(git rev-parse @{u} 2>/dev/null || true)
-  baseHash=$(git merge-base @ @{u} 2>/dev/null || true)
-
-  if [[ -z "$remoteHash" ]]; then
-    echo -e "${RED}${ICON_ERROR} ${repoName} has no upstream${RESET}"
-    ((count_nogit++))
-    return
-  fi
-
-  if [[ "$localHash" == "$remoteHash" ]]; then
-    echo -e "${GREEN}${ICON_UPTODATE} ${repoName}${RESET}"
-    ((count_uptodate++))
-  elif [[ "$localHash" == "$baseHash" ]]; then
-    echo -e "${BLUE}${ICON_PULLING} ${repoName}${RESET}"
-    git pull --ff-only
-    ((count_pull++))
-  else
-    echo -e "${RED}${ICON_ERROR} ${repoName} diverged: manual merge needed${RESET}"
-    ((count_diverged++))
-  fi
+showHelp() {
+  echo "Usage: gits <repoLocation> [options]"
+  echo "Options:"
+  echo "  -p     Pull latest changes"
+  echo "  -x     Remove untracked files"
+  echo "  -U     Convert UTF-16 files to UTF-8"
+  echo "  -s     List repositories with stash entries"
+  echo "  -h     Show this help message"
 }
 
 # -------------------------------------------------------------------------- }}}
@@ -159,16 +174,23 @@ refreshRepo() {
 
 gits() {
   local repoLocation="$1"
-
   shift
+
   while [[ $# -gt 0 ]]; do
     case "$1" in
+      -p) FLAG_PULL=true ;;
       -x) FLAG_CLEAN=true ;;
       -U) FLAG_UTF16=true ;;
       -s) FLAG_LIST_STASH=true ;;
+      -h) FLAG_HELP=true ;;
     esac
     shift
   done
+
+  if $FLAG_HELP; then
+    showHelp
+    exit 0
+  fi
 
   # Save current directory
   local dir=$(pwd)
@@ -208,9 +230,11 @@ showSummary() {
 
   echo -e "\n----- Summary -----"
   echo -e "${ICON_TOTAL} Total checked : $count_total"
-  echo -e "${ICON_UPTODATE} Up-to-date    : $count_uptodate"
-  echo -e "${ICON_PULLING} Pulled        : $count_pull"
-  echo -e "${ICON_ERROR} Diverged      : $count_diverged"
+  if $FLAG_PULL; then
+    echo -e "${ICON_UPTODATE} Up-to-date    : $count_uptodate"
+    echo -e "${ICON_PULLING} Pulled        : $count_pull"
+    echo -e "${ICON_ERROR} Diverged      : $count_diverged"
+  fi
   echo -e "${ICON_FOLDER} Not a repo    : $count_nogit"
   if $FLAG_LIST_STASH; then
     echo -e "${ICON_STASH} Repos with stash : $count_stash"
