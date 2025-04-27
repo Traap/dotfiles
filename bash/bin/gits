@@ -1,5 +1,6 @@
 #!/bin/bash
 # {{{ Colors and Icons
+
 GREEN="\e[32m"
 YELLOW="\e[33m"
 RED="\e[31m"
@@ -17,12 +18,18 @@ ICON_TIME="⏱️"
 # Compact mode toggle
 COMPACT=true
 
+# Flags
+FLAG_CLEAN=false
+FLAG_UTF16=false
+FLAG_LIST_STASH=false
+
 # Summary counters
 count_total=0
 count_uptodate=0
 count_pull=0
 count_diverged=0
 count_nogit=0
+count_stash=0
 
 # Timer start
 start_time=$(date +%s.%N)
@@ -34,6 +41,7 @@ lsd() { ls -d */ 2>/dev/null | tr -d '/'; }
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Get repo provider folder
+
 repo() {
   local repoLocation="$1"
 
@@ -45,6 +53,37 @@ repo() {
     work)  echo "gitea" ;;
     *)     echo "git" ;;
   esac
+}
+
+# -------------------------------------------------------------------------- }}}
+# {{{ Remove untracked files
+
+removeUntracked() {
+  git clean -fd
+}
+
+# -------------------------------------------------------------------------- }}}
+# {{{ Convert UTF16 FE files to UTF8
+
+convertUtf16ToUtf8() {
+  local files
+  files=$(find . -type f -exec file {} \; | grep "UTF-16" | cut -d: -f1)
+  for f in $files; do
+    iconv -f UTF-16 -t UTF-8 "$f" -o "$f.converted" && mv "$f.converted" "$f"
+    echo -e "${YELLOW}Converted $f to UTF-8${RESET}"
+  done
+}
+
+# -------------------------------------------------------------------------- }}}
+# {{{ List repositories with stashes
+
+listStashedRepos() {
+  if [[ -n $(git stash list) ]]; then
+    local repoName
+    repoName=$(basename "$(pwd)")
+    echo -e "${YELLOW}${ICON_STASH} ${repoName} has stashed items${RESET}"
+    ((count_stash++))
+  fi
 }
 
 # -------------------------------------------------------------------------- }}}
@@ -65,6 +104,22 @@ refreshRepo() {
 
   local repoName
   repoName=$(basename "$(pwd)")
+
+  if $FLAG_CLEAN; then
+    removeUntracked
+    echo -e "${BLUE}Cleaned untracked files in ${repoName}${RESET}"
+    return
+  fi
+
+  if $FLAG_UTF16; then
+    convertUtf16ToUtf8
+    return
+  fi
+
+  if $FLAG_LIST_STASH; then
+    listStashedRepos
+    return
+  fi
 
   # Stash any local changes
   if [[ -n $(git status --porcelain) ]]; then
@@ -104,6 +159,16 @@ refreshRepo() {
 
 gits() {
   local repoLocation="$1"
+
+  shift
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
+      -x) FLAG_CLEAN=true ;;
+      -U) FLAG_UTF16=true ;;
+      -s) FLAG_LIST_STASH=true ;;
+    esac
+    shift
+  done
 
   # Save current directory
   local dir=$(pwd)
@@ -147,6 +212,9 @@ showSummary() {
   echo -e "${ICON_PULLING} Pulled        : $count_pull"
   echo -e "${ICON_ERROR} Diverged      : $count_diverged"
   echo -e "${ICON_FOLDER} Not a repo    : $count_nogit"
+  if $FLAG_LIST_STASH; then
+    echo -e "${ICON_STASH} Repos with stash : $count_stash"
+  fi
   echo -e "${ICON_TIME} Elapsed time  : $elapsed_fmt"
   echo -e "-------------------"
 }
