@@ -121,30 +121,31 @@ bspc rule -a Arcolinux-tweak-tool.py state=floating
 bspc rule -a Arcolinux-welcome-app.py state=floating
 
 bspc rule -a Zathura state=tiled
+
 bspc rule -a pamac-manager state=floating flag=sticky
-bspc rule -a xfce4-appfinder state=floating flag=sticky
-bspc rule -a xfce4-settings-manager state=floating flag=sticky
+
+bspc rule -a Xfce4-appfinder state=floating center=true
 
 # -------------------------------------------------------------------------- }}}
 # {{{ open applications on specific workspaces
 
 
-bspc rule -a HEY desktop='^2'
+bspc rule -a HEY desktop='2'
 
-bspc rule -a "ONLYOFFICE Desktop Editors" desktop='^3'
+bspc rule -a "ONLYOFFICE Desktop Editors" desktop='3'
 
-bspc rule -a obs desktop='^4'
+bspc rule -a obs desktop='4'
 
-bspc rule -a Shotcut desktop='^6'
+bspc rule -a Shotcut desktop='6'
 
-bspc rule -a "Microsoft Teams - Preview" desktop='^8'
+bspc rule -a "Microsoft Teams - Preview" desktop='8'
 
-bspc rule -a discord desktop='^9'
-bspc rule -a Slack desktop='^9'
+bspc rule -a discord desktop='9'
 
-bspc rule -a dbeaver desktop='^0'
+bspc rule -a Slack desktop='9'
 
-bspc rule -a xfce4-appfinder desktop='^0' state=floating
-bspc rule -a xfce4-settings-manager desktop='^0'
+bspc rule -a dbeaver desktop='10'
+
+bspc rule -a Xfce4-taskmanager desktop='10'
 
 # -------------------------------------------------------------------------- }}}

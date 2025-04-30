@@ -116,12 +116,11 @@ alt + space
 # -------------------------------------------------------------------------- }}}
 # {{{ Start Applications
 
-# pavucontrol, dmenu_run, xfce4-appfinder, arcolinux-tweak-tool, pamac-manager.
 alt + F1
-  rofi -show run
+  sxhkd-help
 
 alt + F2
-  xfce4-appfinder
+  rofi -show run
 
 alt + F3
   xfce4-settings-manager
@@ -133,20 +132,17 @@ alt + F5
   pavucontrol
 
 alt + F6
-  archlinux-tweak-tool
+  archlinux-tweak-too
 
 # Desktop enviornment tweaking.
-alt + shift + c
-  conky-toggle
+alt + shift + v
+  nvidia-settings
 
 alt + shift + r
   rofi-theme-selector
 
 alt + shift + m
   xfce4-taskmanager
-
-alt + shift + n
-  nvidia-settings
 
 # Toggle polybar, node state, and move monitor.
 super + f
@@ -163,7 +159,7 @@ super + BackSpace}
 
 # Apps: DB, Discord, Email, Files, Office, etc
 super + slash
-  sxhkd-help
+  xfce4-appfinder
 
 super + b
   dbeaver

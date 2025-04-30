@@ -1,6 +1,5 @@
 [Alsa]
-card=default
-channel=Master
+card=HDA NVidia
 
 [Notification]
 show_notification=true
