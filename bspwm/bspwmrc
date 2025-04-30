@@ -124,7 +124,7 @@ bspc rule -a Zathura state=tiled
 
 bspc rule -a pamac-manager state=floating flag=sticky
 
-bspc rule -a Xfce4-appfinder state=floating center=true
+bspc rule -a Xfce4-appfinder state=floating
 
 # -------------------------------------------------------------------------- }}}
 # {{{ open applications on specific workspaces
