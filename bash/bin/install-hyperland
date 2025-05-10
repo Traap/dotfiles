@@ -1,0 +1,12 @@
+#!/bin/bash
+sudo pacman -S \
+  dunst \
+  hyprland \
+  hyprpaper \
+  lxappearance \
+  polkit-gnome \
+  qt5-wayland \
+  qt6-wayland \
+  wl-clipboard \
+  xdg-desktop-portal-gtk \
+  xdg-desktop-portal-hyprland \
