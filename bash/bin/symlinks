@@ -35,6 +35,7 @@ createSymLinks() {
     ln -fsv ~/git/dotfiles/dconf                 ~/.config/dconf
     ln -fsv ~/git/dotfiles/foot                  ~/.config/foot
     ln -fsv ~/git/dotfiles/dunst                 ~/.config/dunst
+    ln -fsv ~/git/dotfiles/fuzzzel               ~/.config/fuzzel
     ln -fsv ~/git/dotfiles/ghostty               ~/.config/ghostty
     ln -fsv ~/git/dotfiles/hypr                  ~/.config/hypr
     ln -fsv ~/git/dotfiles/kitty                 ~/.config/kitty
@@ -95,7 +96,7 @@ deleteSymLinks() {
     rm -rfv ~/.config/dconf
     rm -rfv ~/.config/dunst
     rm -rfv ~/.config/foot
-    rm -rfv ~/.config/ghostty
+    rm -rfv ~/.config/fuzzel
     rm -rfv ~/.config/hypr
     rm -rfv ~/.config/kitty
     rm -rfv ~/.config/nvim
