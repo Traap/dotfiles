@@ -26,7 +26,6 @@ createSymLinks() {
   if [[ $createSymLinksFlag == 1 ]]; then
     echo "Creating symbolic links."
     mkdir -p ~/.config
-    mkdir -p ~/.config/ranger
 
     # Symlinks at .config
     ln -fsv ~/git/dotfiles/Thunar                ~/.config/Thunar
@@ -36,12 +35,12 @@ createSymLinks() {
     ln -fsv ~/git/dotfiles/dconf                 ~/.config/dconf
     ln -fsv ~/git/dotfiles/foot                  ~/.config/foot
     ln -fsv ~/git/dotfiles/dunst                 ~/.config/dunst
+    ln -fsv ~/git/dotfiles/ghostty               ~/.config/ghostty
     ln -fsv ~/git/dotfiles/hypr                  ~/.config/hypr
     ln -fsv ~/git/dotfiles/kitty                 ~/.config/kitty
     ln -fsv ~/git/dotfiles/neofetch              ~/.config/neofetch
     ln -fsv ~/git/dotfiles/picom                 ~/.config/picom
     ln -fsv ~/git/dotfiles/polybar               ~/.config/polybar
-    ln -fsv ~/git/dotfiles/ranger                ~/.config/ranger
     ln -fsv ~/git/dotfiles/remmina               ~/.config/remmina
     ln -fsv ~/git/dotfiles/rofi                  ~/.config/rofi
     ln -fsv ~/git/dotfiles/sk/screenkey.json     ~/.config/screenkey.json
@@ -57,7 +56,6 @@ createSymLinks() {
     ln -fsv ~/git/dotfiles/wofi                  ~/.config/wofi
     ln -fsv ~/git/dotfiles/wofifull              ~/.config/wofifull
     ln -fsv ~/git/dotfiles/swaylock              ~/.config/swaylock
-    # ln -fsv ~/git/lvim.traap                     ~/.config/lvim
     ln -fsv ~/git/nvim.traap                     ~/.config/nvim
 
     # Symlinks at $HOME
@@ -97,14 +95,13 @@ deleteSymLinks() {
     rm -rfv ~/.config/dconf
     rm -rfv ~/.config/dunst
     rm -rfv ~/.config/foot
+    rm -rfv ~/.config/ghostty
     rm -rfv ~/.config/hypr
     rm -rfv ~/.config/kitty
-    # rm -rfv ~/.config/lvim
     rm -rfv ~/.config/nvim
     rm -rfv ~/.config/neofetch
     rm -rfv ~/.config/picom
     rm -rfv ~/.config/polybar
-    rm -rfv ~/.config/ranger
     rm -rfv ~/.config/remmina
     rm -rfv ~/.config/rofi
     rm -rfv ~/.config/screenkey.json
