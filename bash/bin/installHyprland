@@ -3,6 +3,7 @@ sudo pacman -S \
   dunst \
   hyprland \
   hyprpaper \
+  libnotify \
   lxappearance \
   polkit-gnome \
   qt5-wayland \

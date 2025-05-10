@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# Refresh Arch Linux mirrors using reflector
+echo "Refreshing mirror list with the 10 latest HTTPS mirrors..."
+
+sudo reflector \
+  --latest 10 \
+  --protocol https \
+  --sort rate \
+  --save /etc/pacman.d/mirrorlist
+
+echo "Mirrors updated. Syncing package database..."
+sudo pacman -Syyu
