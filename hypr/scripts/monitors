@@ -1,0 +1,23 @@
+#!/bin/bash
+NUM_MONITORS=$(hyprctl monitors | grep -c "Monitor")
+
+# Debugging - you can uncomment to log
+# echo "Connected monitors: $NUM_MONITORS" >> /tmp/monitors.log
+
+if [ "$NUM_MONITORS" -eq 1 ]; then
+    # Laptop only
+    # hyprctl keyword monitor "eDP-1,preferred,auto,1"
+    # hyprctl reload
+    # hyprctl source ~/.config/hypr/layouts/laptop.conf
+    cp ~/.config/hypr/layout/laptop.conf ~/.config/hypr/config/monitors.conf
+elif [ "$NUM_MONITORS" -eq 2 ]; then
+    # Laptop + External Monitor
+    # hyprctl reload
+    # hyprctl source ~/.config/hypr/layouts/laptop_monitor.conf
+    cp ~/.config/hypr/layout/laptop_monitor.conf ~/.config/hypr/config/monitors.conf
+elif [ "$NUM_MONITORS" -ge 3 ]; then
+    # Workstation 3 Monitors
+    # hyprctl reload
+    # hyprctl source ~/.config/hypr/layouts/workstation.conf
+    cp ~/.config/hypr/layout/workstation.conf ~/.config/hypr/config/monitors.conf
+fi

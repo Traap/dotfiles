@@ -1,0 +1,25 @@
+#!/bin/bash
+
+# Show the main power menu
+CHOICE=$(printf "🔒 Lock\n🔓 Logout\n🔄 Reboot\n⏻ Shutdown" | wofi --show dmenu --prompt "Power Menu" --insensitive)
+
+case "$CHOICE" in
+  "🔒 Lock")
+    swaylock -c ~/.config/swaylock/config
+    ;;
+  "🔓 Logout")
+    swaymsg exit
+    ;;
+  "🔄 Reboot")
+    CONFIRM=$(printf "No\nYes" | wofi --show dmenu --prompt "Confirm Reboot?" --insensitive)
+    if [[ "$CONFIRM" == "Yes" ]]; then
+      systemctl reboot
+    fi
+    ;;
+  "⏻ Shutdown")
+    CONFIRM=$(printf "No\nYes" | wofi --show dmenu --prompt "Confirm Shutdown?" --insensitive)
+    if [[ "$CONFIRM" == "Yes" ]]; then
+      systemctl poweroff
+    fi
+    ;;
+esac

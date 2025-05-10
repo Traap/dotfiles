@@ -1,17 +1,13 @@
-// Edited for Garuda Linux by yurihikari
 {
-  "layer": "top", // Waybar at top layer
-  "position": "top", // Waybar position (top|bottom|left|right)
+  "layer": "top",
+  "position": "top",
   "height": 30,
   "margin": "0 0 0 0",
-  //"width": 1350, // Waybar width
-  // Choose the order of the modules idle_inhibitor
   "modules-left": [
     "custom/launcher",
     "hyprland/workspaces",
     "custom/swap",
     "custom/changewaybar",
-    "tray",
   ],
   "modules-center": ["clock"],
   "modules-right": [
@@ -22,10 +18,9 @@
     "memory",
     "battery",
     "network",
+    "tray",
     "custom/power"
   ],
-
-  // Modules configuration
 
   "hyprland/workspaces": {
     "format": "{icon}",
@@ -64,7 +59,6 @@
     "format-disconnected": "",
     "format-paused": "",
     "format-stopped": "",
-    // Commands to execute on events
     "on-click": "mpc -q pause && mpc -q prev && mpc -q start"
   },
   "mpd#3": {
@@ -77,7 +71,6 @@
       "paused": "",
       "playing": ""
     },
-    // Commands to execute on events
     "on-click": "mpc toggle"
   },
   "mpd#4": {
@@ -85,7 +78,6 @@
     "format-disconnected": "",
     "format-paused": "",
     "format-stopped": "",
-    // Commands to execute on events
     "on-click": "mpc -q pause && mpc -q next && mpc -q start"
   },
   "custom/swap": {
@@ -134,8 +126,6 @@
     "on-click-right": "~/.config/waybar/scripts/changeWallpaper",
   },
   "cpu": {
-    // "interval": 5,
-    // "format": " {usage}%",
     "interval": 1,
     "format": "{icon0}{icon1}{icon2}{icon3} {usage:>2}% ",
     "format-icons": [
@@ -158,45 +148,32 @@
     "on-click": "alacritty -e htop"
   },
   "temperature": {
-    // "thermal-zone": 2,
     "hwmon-path": "/sys/class/hwmon/hwmon1/temp1_input",
     "critical-threshold": 80,
-    // "format-critical": "{temperatureC}°C ",
     "format": "  {temperatureC}°C"
   },
   "backlight": {
-    // "device": "acpi_video1",
     "format": "{icon} {percent: >3}%",
     "format-icons": ["", ""],
-    // "on-scroll-down": "brightnessctl -c backlight set 5%-",
     "on-scroll-down": "~/.config/waybar/scripts/brightness --dec",
-    // "on-scroll-up": "brightnessctl -c backlight set +5%"
     "on-scroll-up": "~/.config/waybar/scripts/brightness --inc"
   },
   "battery": {
     "states": {
-      // "good": 95,
       "warning": 30,
       "critical": 15
     },
     "format": "{icon} {capacity: >3}%",
-    // "format-good": "", // An empty format will hide the module
-    // "format-full": "",
     "format-icons": ["", "", "", "", ""]
-    //"format-icons": ["", "", "", "", "", "", "", "", "", ""]
   },
   "network": {
-    // "interface": "wlp2s0", // (Optional) To force the use of this interface
     "format": "⚠  Disabled",
     "format-wifi": "  {essid}",
-    // "format-ethernet": " {ifname}: {ipaddr}/{cidr}",
     "format-ethernet": "  Wired",
     "format-disconnected": "⚠  Disconnected",
-    // "on-click": "alacritty -e nmtui"
     "on-click": "nm-connection-editor"
   },
   "pulseaudio": {
-    /* "format": "{icon} {volume}% {format_source}", */
     "format": "{icon} {volume}",
     "format-muted": "󰖁 Mute",
     "format-bluetooth": " {volume}% {format_source}",
@@ -225,24 +202,22 @@
   },
   "custom/pacman": {
     "format": " {}",
-    "interval": 7200, // every two hours
+    "interval": 7200,
     "exec": "i=$(checkupdates); echo \"$i\" |wc -l; echo \"$i\" |column -t |tr '\n' '\r'", // # of updates and tooltip details
-    "exec-if": "exit 0", // always run; consider advanced run conditions
+    "exec-if": "exit 0",
     "on-click": "alacritty -e sudo pacman -Syu", // update system
     "signal": 8
   },
   "custom/power": {
     "format": "⏻",
-    "on-click": "archlinux-logout",
+    "on-click": "~/.config/waybar/scripts/power-menu",
     "tooltip": false
   },
   "custom/keyboard-layout": {
     "exec": "~/.config/waybar/scripts/getInputLayout.sh",
-    // Interval set only as a fallback, as the value is updated by signal
     "interval": 1,
     "format": "  {}", // Icon: keyboard
-    // Signal sent by Sway key binding (~/.config/sway/key-bindings)
-    "signal": 1, // SIGHUP
+    "signal": 1,
     "tooltip": false,
     "on-click": "~/.config/waybar/scripts/keyhint.sh"
   },

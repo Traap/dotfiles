@@ -1,0 +1,7 @@
+#!/bin/bash
+
+# Ensure swww is running
+swww init &>/dev/null
+
+# Set solid black screen
+swww img --transition-type grow --transition-duration 0.5 --transition-fps 60 solid_color:#000000

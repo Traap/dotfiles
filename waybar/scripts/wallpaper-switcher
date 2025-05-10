@@ -1,0 +1,24 @@
+#!/bin/bash
+
+# Get current active workspace
+WORKSPACE=$(hyprctl activeworkspace | grep "workspace ID" | awk '{print $3}')
+
+# Path to wallpapers
+WALLPAPER_DIR="$HOME/Pictures/Wallpapers"
+
+# Map workspace to wallpaper
+case $WORKSPACE in
+    1) WALLPAPER="$WALLPAPER_DIR/mountain-lake.jpg" ;;
+    2) WALLPAPER="$WALLPAPER_DIR/mountain-landskape.jpg" ;;
+    3) WALLPAPER="$WALLPAPER_DIR/neon-circle.jpg" ;;
+    4) WALLPAPER="$WALLPAPER_DIR/mountain-lake.jpg" ;;
+    5) WALLPAPER="$WALLPAPER_DIR/mountain-landskape.jpg" ;;
+    6) WALLPAPER="$WALLPAPER_DIR/neon-circle.jpg" ;;
+    7) WALLPAPER="$WALLPAPER_DIR/mountain-lake.jpg" ;;
+    8) WALLPAPER="$WALLPAPER_DIR/mountain-landskape.jpg" ;;
+    9) WALLPAPER="$WALLPAPER_DIR/neon-circle.jpg" ;;
+    *) WALLPAPER="$WALLPAPER_DIR/mountain-lake.jpg" ;;
+esac
+
+# Change wallpaper using swww
+swww img "$WALLPAPER" --transition-type grow --transition-duration 1

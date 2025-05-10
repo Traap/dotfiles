@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# Kill and restart Waybar
+~/.config/waybar/waybar.sh
+
+# Restart wallpaper
+swww img ~/Pictures/Wallpapers/tokyonight_night.png --transition-type grow --transition-duration 2
+
+# Restart mako (notification daemon)
+~/.config/mako/mako.sh
+
+# Reload Hyprland config
+hyprctl reload

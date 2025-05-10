@@ -1,0 +1,10 @@
+#!/bin/bash
+
+WALLS="$HOME/Pictures/Wallpapers"
+INTERVAL=5  # every hour
+
+while true; do
+    swww img "$(find "$WALLS" -type f | shuf -n1)" --transition-type grow --transition-duration 3
+    sleep $INTERVAL
+done
+

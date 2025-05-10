@@ -17,18 +17,17 @@ mv "${style_background_file}" "${style_file}"
 mv "${style_file}.temp" "${style_background_file}"
 
 # kill first
-[[ $(pidof waybar) ]] && killall -q waybar
+killall -q waybar
 
 # Wait for waybar to exit.
-while pgrep -u $UID -x waybar > /dev/null;do sleep 1;done
+while pgrep -x waybar >/dev/null; do sleep1; done
 
 # start up again
 CONFIG="$HOME/.config/waybar/active/config.jsonc"
  STYLE="$HOME/.config/waybar/active/style.css"
 
-if [[ ! $(pidof waybar) ]]; then
-	waybar \
-    --bar main-bar \
-    --log-level error \
-    --config ${CONFIG} \ --style ${STYLE} &
-fi
+waybar \
+  --bar main-bar \
+  --log-level error \
+  --config ${CONFIG} \
+  --style ${STYLE} &

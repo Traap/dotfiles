@@ -1,0 +1,33 @@
+#!/bin/bash
+
+# Interval between checks (in seconds)
+INTERVAL=60
+
+# Main loop
+while true; do
+  # Read battery percentage
+  BATTERY_LEVEL=$(cat /sys/class/power_supply/BAT0/capacity)
+
+  # Read charging status
+  STATUS=$(cat /sys/class/power_supply/BAT0/status)
+
+  # If charging, skip
+  if [ "$STATUS" = "Charging" ]; then
+    sleep $INTERVAL
+    continue
+  fi
+
+  # Notifications based on battery level
+  if [ "$BATTERY_LEVEL" -le 5 ]; then
+    notify-send -u critical "🛑 Battery Critically Low!" "Battery at ${BATTERY_LEVEL}%. Suspending soon..."
+    sleep 5
+    systemctl suspend
+  elif [ "$BATTERY_LEVEL" -le 10 ]; then
+    notify-send -u critical "🔴 Battery Very Low" "Battery at ${BATTERY_LEVEL}%. Plug in soon!"
+  elif [ "$BATTERY_LEVEL" -le 20 ]; then
+    notify-send -u normal "🟡 Battery Low" "Battery at ${BATTERY_LEVEL}%. Consider plugging in."
+  fi
+
+  sleep $INTERVAL
+done
+
