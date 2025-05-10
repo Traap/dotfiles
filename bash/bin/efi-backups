@@ -1,0 +1,5 @@
+#!/bin/bash
+mkdir -p ~/efi-backups
+backup=~/efi-backups/efi-$(date +%Y%m%d).tar.gz
+sudo tar czvf "$backup" -C /boot efi
+sudo tar tzvf "$backup" > /dev/null && echo "Backup verification OK!" || echo "Backup verification FAILED!"
