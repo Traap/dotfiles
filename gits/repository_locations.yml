@@ -72,9 +72,13 @@ gitea:
 
   - alias: Wiki
     url: git@gsa-gitea:GaryHoward/Wiki.git
+
 eform:
   - alias: Bootstrap-angular
     url: git@gsa-gitea:GaryHoward/Bootstrap-angular.git
+
+  - alias: backend
+    url: git@gsa-gitea:GaryHoward/backend.git
 
   - alias: formsPortal
     url: git@gsa-gitea:matthewdavoren/formsPortal.git
@@ -98,8 +102,11 @@ examples:
   - alias: gopdf
     url: git@github.com:jung-kurt/gofpdf.git
 
-  - alias: Samples
+  - alias: GoSamples
     url: git@gsa-gitea:GaryHoward/Samples.git
+
+  - alias: Samples
+    url: git@gsa-gitea:GaryHoward/GoSamples.git
 
 hr:
   - alias: HR
@@ -114,7 +121,3 @@ traap:
 
   - alias: nvims
     url: https://github.com/Traap/nvims
-
-gitea:
-  - alias: Billing
-    url: git@gsa-gitea:GaryHoward/Billing.git
