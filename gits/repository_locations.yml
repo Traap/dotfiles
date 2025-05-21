@@ -1,0 +1,120 @@
+bootstrap:
+  - alias: Arch
+    url: git@github.com:Traap/bootstrap-archlinux.git
+
+  - alias:  BSS
+    url: git@gsa-gitea:GaryHoward/Bootstrap-BSS.git
+
+  - alias: Ubuntu
+    url: git@github.com:Traap/bootstrap-ubuntu.git
+
+  - alias: Utilities
+    url: git@gsa-gitea:GaryHoward/Utilities.git
+
+me:
+  - alias: dotfiles
+    url: git@github.com:Traap/dotfiles.git
+
+  - alias: nvim.traap
+    url: git@github.com:Traap/nvim
+
+  - alias: ssh
+    url: git@github.com:Traap/ssh
+
+  - alias: vim
+    url: git@github.com:Traap/vim
+
+  - alias: wiki
+    url: git@github.com:Traap/wiki
+
+gitea:
+  - alias: Aim
+    url: git@gsa-gitea:GaryHoward/AIM.git
+
+  - alias: Billing
+    url: git@gsa-gitea:GaryHoward/Billing.git
+
+  - alias: Calsaws
+    url: git@gsa-gitea:GaryHoward/Calsaws.git
+
+  - alias: ChartOfAccounts
+    url: git@gsa-gitea:GaryHoward/ChartOfAccounts.git
+
+  - alias: cronjobs
+    url: git@gsa-gitea:GaryHoward/cronjobs.git
+
+  - alias: DocAuto
+    url: git@gsa-gitea:GaryHoward/DocAuto.git
+
+  - alias: LeaveOfAbsence
+    url: git@gsa-gitea:GaryHoward/LeaveOfAbsence.git
+
+  - alias: OversizedScan
+    url: git@gsa-gitea:GaryHoward/OversizedScan.git
+
+  - alias: P2M
+    url: git@gsa-gitea:GaryHoward/P2M.git
+
+  - alias: Presentations
+    url: git@gsa-gitea:GaryHoward/Presentations.git
+
+  - alias: Records
+    url: git@gsa-gitea:GaryHoward/Records.git
+
+  - alias: Scans
+    url: git@gsa-gitea:GaryHoward/Scans.git
+
+  - alias: Stores
+    url: git@gsa-gitea:GaryHoward/Stores.git
+
+  - alias: VcPrint
+    url: git@gsa-gitea:GaryHoward/VcPrint.git
+
+  - alias: Wiki
+    url: git@gsa-gitea:GaryHoward/Wiki.git
+eform:
+  - alias: Bootstrap-angular
+    url: git@gsa-gitea:GaryHoward/Bootstrap-angular.git
+
+  - alias: formsPortal
+    url: git@gsa-gitea:matthewdavoren/formsPortal.git
+
+  - alias: formsPortalBackend
+    url: git@gsa-gitea:matthewdavoren/formsPortalBackend.git
+
+  - alias: formsPortalDB
+    url: git@gsa-gitea:GaryHoward/formsPortalDB.git
+
+  - alias: frontend
+    url: git@gsa-gitea:GaryHoward/frontend.git
+
+examples:
+  - alias: DBTest
+    url: git@gsa-gitea:GaryHoward/DBTest.git
+
+  - alias: excelize-doc
+    url: git@github.com:xuri/excelize-doc.git
+
+  - alias: gopdf
+    url: git@github.com:jung-kurt/gofpdf.git
+
+  - alias: Samples
+    url: git@gsa-gitea:GaryHoward/Samples.git
+
+hr:
+  - alias: HR
+    url: git@gsa-gitea:GaryHoward/HR.git
+
+  - alias: BrowserExtension
+    url: git@gsa-gitea:GaryHoward/BrowserExtension.git
+
+traap:
+  - alias: gits
+    url: https://github.com/Traap/gits
+
+  - alias: nvims
+    url: https://github.com/Traap/nvims
+
+gitea:
+  - alias: Billing
+    url: git@gsa-gitea:GaryHoward/Billing.git
