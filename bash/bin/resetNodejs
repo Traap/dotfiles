@@ -44,17 +44,17 @@ else
     "semver"
   )
   node_packages=(
-    "@angular/cli"
-    "@nestjs/cli"
+#    "@angular/cli"
+#    "@nestjs/cli"
     "neovim"
     "pm2"
     "ts-node"
   )
 
-  echo "**********"
-  echo "Arch Linux node install"
-  sudo pacman -R  --noconfirm "${os_packages[@]}"
-  sudo pacman -Sy --noconfirm "${os_packages[@]}"
+#  echo "**********"
+#  echo "Arch Linux node install"
+#  sudo pacman -R  --noconfirm "${os_packages[@]}"
+#  sudo pacman -Sy --noconfirm "${os_packages[@]}"
 fi
 
 # ------------------------------------------------------------------------------
