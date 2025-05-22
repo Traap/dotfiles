@@ -11,21 +11,85 @@ bootstrap:
   - alias: Utilities
     url: git@gsa-gitea:GaryHoward/Utilities.git
 
-me:
+contracts:
+  - alias: briefcase
+    url: git@github.com:Traap/briefcase
+
+editor:
+  - alias: lazy.nvim
+    url: https://github.com/folke/lazy.nvim.git
+
+  - alias: lazy.zero
+    url: git@github.com:Traap/lazy.zero.git
+
+  - alias: LazyVim
+    url: https://github.com/LazyVim/starter
+
+  - alias: lightbulb"
+    url: git@github.com:Traap/nvim-lightbulb.git
+
+  - alias: neovim
+    url: https://github.com/neovim/neovim.git
+
+  - alias: PrimeNvim"
+    url: git@github.com:Traap/init.lua
+
+  - alias: VapourNvim"
+    url: git@github.com:Traap/VapourNvim.git
+
+edu:
+  - alias: archlinux
+    url: git@github.com:Traap/archlinux.git
+
+  - alias: cipher
+    url: git@github.com:Traap/cipher.git
+
+  - alias: GitNotes
+    url: git@github.com:Traap/GitNotes.git
+
+  - alias: hello
+    url: git@github.com:Traap/hello.git
+
+  - alias: LearningRust
+    url: git@github.com:Traap/LearningRust.git
+
+  - alias: rubyconfig
+    url: git@github.com:Traap/rubyconfig.git
+
+  - alias: vimscript
+    url: git@github.com:Traap/vimscript.git
+
+fzf:
+  - alias:  fzf1
+    url: https://github.com/junegunn/fzf-git.sh
+
+  - alias:  fzf2
+    url: https://github.com/junegunn/everything.fzf
+
+git:
   - alias: dotfiles
     url: git@github.com:Traap/dotfiles.git
 
   - alias: nvim.traap
-    url: git@github.com:Traap/nvim
+    url: git@github.com:Traap/nvim.git
+
+  - alias: tmux
+    url: git@github.com:Traap/tmux.git
 
   - alias: ssh
-    url: git@github.com:Traap/ssh
+    url: git@github.com:Traap/ssh.git
 
   - alias: vim
-    url: git@github.com:Traap/vim
+    url: git@github.com:Traap/vim.git
 
   - alias: wiki
-    url: git@github.com:Traap/wiki
+    url: git@github.com:Traap/wiki.git
+
+  - alias: plantuml
+    url: git@github.com:Traap/plantuml.git
+
+  - alias: youtube
+    url: git@github.com:Traap/youtube.git
 
 gitea:
   - alias: Aim
@@ -115,9 +179,176 @@ hr:
   - alias: BrowserExtension
     url: git@gsa-gitea:GaryHoward/BrowserExtension.git
 
-traap:
+hyprland:
+  - alias: Arch
+    url: git@github.com:JaKooLit/Arch-Hyprland.git
+
+  - alias: Dots
+    url: git@github.com:JaKooLit/Hyprland-Dots.git
+
+  - alias: Ubuntu
+    url: git@github.com:JaKooLit/Ubuntu-Hyprland.git
+
+mutt:
+  - alias: mutt
+    url: git@github.com:Traap/mutt.git
+
+  - alias: o365
+    url: git@github.com:Traap/mutt-office365.git
+
+private:
+  - alias: ac
+    url: git@github.com:Traap/AllanConsulting.git
+
+  - alias: hh
+    url: git@github.com:Traap/HowardHouse.git
+
+  - alias: disaster
+    url: git@github.com:Traap/disaster.git
+
+  - alias: olddhf
+    url: git@github.com:Traap/olddhf.git
+
+  - alias: Publications
+    url: git@github.com:Traap/Publications.git
+
+  - alias: rebrand
+    url: git@github.com:Traap/rebrand.git
+
+  - alias: reviews
+    url: git@github.com:Traap/reviews.git
+
+rail:
+  - alias: blog
+    url: git@github.com:Traap/blog.git
+
+  - alias: eflow
+    url: git@github.com:Traap/eflow.git
+
+  - alias: RailsStore
+    url: git@github.com:Traap/RailsStore.git
+
+soup:
+  - alias: amber
+    url: git@github.com:Traap/amber.git
+
+  - alias: ametrine
+    url: git@github.com:Traap/ametrine.git
+
+  - alias: autodoc
+    url: git@github.com:Traap/autodoc.git
+
+  - alias: check-latex
+    url: git@github.com:Traap/check-latex.git
+
+  - alias: docbld
+    url: git@github.com:Traap/docbld.git
+
+  - alias: dragvisuals
+    url: git@github.com:Traap/vim-dragvisuals.git
+
+  - alias: emend
+    url: git@github.com:Traap/emend.git
+
+  - alias: emend-computer
+    url: git@github.com:Traap/emend-computer.git
+
+  - alias: git-client
+    url: git@github.com:Traap/git-client.git
+
   - alias: gits
-    url: https://github.com/Traap/gits
+    url: git@github.com:Traap/gits.git
+
+  - alias: havasu
+    url: git@github.com:Traap/havasu.git
+
+  - alias: newautodoc
+    url: git@github.com:Traap/newautodoc.git
+
+  - alias: newdoc
+    url: git@github.com:Traap/newdoc.git
 
   - alias: nvims
-    url: https://github.com/Traap/nvims
+    url: git@github.com:Traap/nvims.git
+
+  - alias: quicksort
+    url: git@github.com:Traap/quicksort.git
+
+  - alias: tlc-article
+    url: git@github.com:Traap/tlc-article.git
+
+vim_bundles:
+  - alias: abbreviate
+    url: git@github.com:Traap/vim-bundle-abbreviate.git
+
+  - alias: airline
+    url: git@github.com:Traap/vim-bundle-airline.git
+
+  - alias: ale
+    url: git@github.com:Traap/vim-bundle-ale.git
+
+  - alias: autodoc
+    url: git@github.com:Traap/vim-bundle-autocmd.git
+
+  - alias: coc
+    url: git@github.com:Traap/vim-bundle-coc.git
+
+  - alias: colors
+    url: git@github.com:Traap/vim-bundle-colors.git
+
+  - alias: dispatch
+    url: git@github.com:Traap/vim-bundle-dispatch.git
+
+  - alias: fzf
+    url: git@github.com:Traap/vim-bundle-fzf.git
+
+  - alias: github-issues
+    url: git@github.com:Traap/vim-bundle-github-issues.git
+
+  - alias: grammarous
+    url: git@github.com:Traap/vim-bundle-grammarous.git
+
+  - alias: haskell
+    url: git@github.com:Traap/vim-bundle-haskell.git
+
+  - alias: keybindings
+    url: git@github.com:Traap/vim-bundle-keybindings.git
+
+  - alias: lmgtfy
+    url: git@github.com:Traap/vim-bundle-lmgtfy.git
+
+  - alias: macunix
+    url: git@github.com:Traap/vim-bundle-macunix.git
+
+  - alias: nerdtree
+    url: git@github.com:Traap/vim-bundle-nerdtree.git
+
+  - alias: plantuml
+    url: git@github.com:Traap/vim-bundle-plantuml.git
+
+  - alias: rainbow
+    url: git@github.com:Traap/vim-bundle-rainbow.git
+
+  - alias: resume
+    url: git@github.com:Traap/vim-bundle-resume.git
+
+  - alias: settings
+    url: git@github.com:Traap/vim-bundle-settings.git
+
+  - alias: terminal
+    url: git@github.com:Traap/vim-bundle-terminal.git
+
+  - alias: tmux-runner
+    url: git@github.com:Traap/vim-bundle-tmux-runner.git
+
+  - alias: vimtex
+    url: git@github.com:Traap/vim-bundle-vimtex.git
+
+  - alias: wildignore
+    url: git@github.com:Traap/vim-bundle-wildignore.git
+
+  - alias: wiki
+    url: git@github.com:Traap/vim-bundle-wiki.vim.git
+
+  - alias: wipeout
+    url: git@github.com:Traap/vim-bundle-wipeout.git
