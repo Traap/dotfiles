@@ -69,15 +69,19 @@ fzf:
 git:
   - alias: dotfiles
     url: git@github.com:Traap/dotfiles.git
+    do_not_delete: true
 
   - alias: nvim.traap
     url: git@github.com:Traap/nvim.git
+    do_not_delete: true
 
   - alias: tmux
     url: git@github.com:Traap/tmux.git
+    do_not_delete: true
 
   - alias: ssh
     url: git@github.com:Traap/ssh.git
+    do_not_delete: true
 
   - alias: vim
     url: git@github.com:Traap/vim.git
@@ -258,6 +262,7 @@ soup:
 
   - alias: gits
     url: git@github.com:Traap/gits.git
+    do_not_delete: true
 
   - alias: havasu
     url: git@github.com:Traap/havasu.git
@@ -270,6 +275,7 @@ soup:
 
   - alias: nvims
     url: git@github.com:Traap/nvims.git
+    do_not_delete: true
 
   - alias: quicksort
     url: git@github.com:Traap/quicksort.git
