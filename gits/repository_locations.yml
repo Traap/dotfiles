@@ -222,7 +222,7 @@ private:
   - alias: reviews
     url: git@github.com:Traap/reviews.git
 
-rail:
+rails:
   - alias: blog
     url: git@github.com:Traap/blog.git
 
