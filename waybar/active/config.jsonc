@@ -11,7 +11,6 @@
     "hyprland/workspaces",
     "custom/swap",
     "custom/changewaybar",
-    "tray",
   ],
   "modules-center": ["clock"],
   "modules-right": [
@@ -22,6 +21,7 @@
     "memory",
     "battery",
     "network",
+    "tray",
     "custom/power"
   ],
 
