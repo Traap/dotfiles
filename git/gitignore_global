@@ -75,3 +75,7 @@ go.work
 *.exe~
 .vs
 .ssms_suo
+
+# Python uv #
+# ###########
+*.egg-info/
