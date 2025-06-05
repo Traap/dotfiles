@@ -79,3 +79,5 @@ go.work
 # Python uv #
 # ###########
 *.egg-info/
+__pycache__/
+*.pyc
