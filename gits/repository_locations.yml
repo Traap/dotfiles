@@ -216,10 +216,10 @@ examples:
       url: git@github.com:jung-kurt/gofpdf.git
 
     - alias: GoSamples
-      url: git@gsa-gitea:GaryHoward/Samples.git
+      url: git@gsa-gitea:GaryHoward/GoSamples.git
 
     - alias: Samples
-      url: git@gsa-gitea:GaryHoward/GoSamples.git
+      url: git@gsa-gitea:GaryHoward/Samples.git
 
 # -------------------------------------------------------------------------- }}}
 # {{{ hr
@@ -306,6 +306,17 @@ rails:
 # {{{ soup
 
 soup:
+  - defaults:
+    - root_dir: soup
+    - allowed:
+      clean: true
+      clone: true
+      convert: true
+      delete: true
+      list: true
+      pull: true
+      status: true
+
   - root_dir: soup
   - repositories:
     - alias: amber
