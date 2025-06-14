@@ -1,6 +1,6 @@
 #!/bin/bash
 
-INTERVAL=15
+INTERVAL=777
 MONITORS=($(hyprctl monitors -j | jq -r '.[].name'))
 WALLDIR="$DOTHOME/wallpaper"
 
