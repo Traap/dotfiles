@@ -20,5 +20,6 @@ system copy paste buffer.
 Setup has various scripts I use to personalize a setup.  These scripts are
 designed to run once, or as trouble shooting aids.
 
+## TODO: Update this readme.  It is very stale.
 Traap
 2025-04-27
