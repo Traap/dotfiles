@@ -235,6 +235,10 @@ alt + y
   notify-send 'YouTube' 'YouTube Content session toggled.'; \
   toggler YouTube
 
+alt + z
+  notify-send 'Zero' 'Zero development session toggled.'; \
+  toggler Zero
+
 # -------------------------------------------------------------------------- }}}
 # {{{ Wallpaper adjustments
 
