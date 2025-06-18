@@ -1,6 +1,7 @@
-#alpha-blending = native
+alpha-blending = native
 background = #1a1b26
 background-opacity = 0.8
+background-blur = false
 confirm-close-surface = false
 cursor-color = #ff99ff
 font-size = 12
