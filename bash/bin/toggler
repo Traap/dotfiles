@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# {{{ Create and toggle a winclass.
+# {{{ Create and toggle a winclass .
 #
 # Shout out:
 #   Jake@Linux
@@ -8,12 +8,13 @@
 # -------------------------------------------------------------------------- }}}
 # {{{ toggle winclass function.
 #
-# This function gets winclass and uses it when alacritty is started to run the
-# ao (alpha omega) script with a parameter.  The first innovation runs alacrity.
-# Thereafter the winclass in toggled: hidden or showed..
+# This function gets winclass and uses it when ghostty is started to run the
+# ao (alpha omega) script with a parameter. ao is manages creating named TMUX
+# sessions.  Toggler's first innovation runs ghostty. Thereafter the winclass
+# is toggled: hidden or showed.
 #
 # Parameters:
-# 1 - winclass to toggle.
+# 1 - winclass to toggle.  Also passed to ao to setup a named TMUX session.
 # 2 - working directory
 
 toggle_winclass() {
