@@ -1,10 +1,194 @@
 #!/usr/bin/env bash
-# {{{ Create and toggle a winclass .
+# {{{ Create and toggle a winclass.
 #
 # Shout out:
 #   Jake@Linux
 #   https://www.youtube.com/watch?v=Zmx9fia1PTA&t=443s
 #
+# -------------------------------------------------------------------------- }}}
+# {{{ Global variables are prefaced with an underscore as follows:
+#     $1 -> _tmuxSession is the name of the tmux sesion created.
+#     $2 -> _dir is the directory the TMUX session is started from.
+#     _displayTime -> time in milliseconds notify-send messages are displayed.
+#     _verbose -> manually toggled true or false.
+#     _tmuxSession -> TMUX session name being created, hidded or unhidden.
+#     _dir -> directory TMUX session operates from.
+#     _winclass -> a readonly array with X11 window class names.
+#     _workspace_id -> Hyperland workspace id.  All others -1.
+
+setGlobalVariables() {
+  _displayTime=2500
+  _verbose=true
+  _tmuxSession=$1
+  _dir=$2
+  _workspace_id=-1
+  DESKTOP=$(detect_window_manager)
+  case "$DESKTOP" in
+    bspwm)
+      searchBspwmForWinclass
+      checkBspwmForRequiredPrograms;;
+    hyprland)
+      searchHyprlandForWinclass
+      getActiveWorspaceFromHyprland
+      checkHyprlandForRequiredPrograms;;
+    *)
+      echo "ERROR: Destop is not supported.  Exiting."
+      exit 0
+      ;;
+  esac
+}
+
+# -------------------------------------------------------------------------- }}}
+# {{{ Search Bspwm for winclass name using _tmuxSession
+
+searchBspwmForWinclass(){
+  readarray -t _winclass < <(xdotool search --classname "$_tmuxSession")
+}
+
+# -------------------------------------------------------------------------- }}}
+# {{{ Check Bspwm for Required Programs
+
+checkBspwmForRequiredPrograms(){
+  local error=0
+  if ! command -v xdo >/dev/null; then
+    error=1
+    echo "xdo required."
+  fi
+
+  if ! command -v xdotool >/dev/null; then
+    error=1
+    echo "xdotool required."
+  fi
+
+  if [[ $error == 1 ]]; then
+    echo "Missing required BSPWM programs.  Exiting."
+    exit 1
+  fi
+}
+
+# -------------------------------------------------------------------------- }}}
+# {{{ Search Hyprland for winclass name using _tmuxSession.
+
+searchHyprlandForWinclass(){
+  readarray -t _winclass < <(
+    hyprctl clients -j | jq -r --arg name "$_tmuxSession" '
+    .[] | select(.title | contains($name)) | .address
+    '
+  )
+}
+
+# -------------------------------------------------------------------------- }}}
+# {{{ Check Hyprland for Required Programs
+
+checkHyprlandForRequiredPrograms(){
+  local error=0
+  if ! command -v hyprctl >/dev/null; then
+    error=1
+    echo "hyprctl required."
+  fi
+
+  if ! command -v jq >/dev/null; then
+    error=1
+    echo "jq  required."
+  fi
+
+  if [[ $error == 1 ]]; then
+    echo "Missing required Hyprland programs.  Exiting."
+    exit 1
+  fi
+}
+
+# -------------------------------------------------------------------------- }}}
+# {{{ Get active workspace from Hyprland.
+
+getActiveWorspaceFromHyprland(){
+  _workspace_id=$(hyprctl activeworkspace -j | jq -r '.id');
+}
+
+# -------------------------------------------------------------------------- }}}
+# {{{ Detect window manager
+#
+# This function check the running window manager.  Right now only bspwm and Hyprland
+# are supported
+
+detect_window_manager() {
+  if pgrep -x bspwm >/dev/null; then
+    echo "bspwm"
+  elif pgrep -x Hyprland >/dev/null; then
+    echo "hyprland"
+  else
+    echo "Unsupported"
+  fi
+}
+
+# -------------------------------------------------------------------------- }}}
+# {{{ Start a terminal using $_tmuxSession as the X11 instance name.
+
+startTerminal() {
+  if [[ $_verbose == true ]]; then
+    notify-send -t "$_displayTime" "$_tmuxSession" "2. Create $_tmuxSession"
+  fi
+
+  cd "$_dir" || exit
+  touch /tmp/"$_tmuxSession"
+  case "$DESKTOP" in
+    bspwm)
+      ghostty --x11-instance-name="$_tmuxSession" --command="ao $_tmuxSession"
+      ;;
+    hyprland)
+      ghostty --title="$_tmuxSession" --command="ao $_tmuxSession"
+      ;;
+  esac
+}
+
+# -------------------------------------------------------------------------- }}}
+# {{{ Hide $_tmuxSession
+
+hideTerminal(){
+  if [[ $_verbose == true ]]; then
+    notify-send -t "$_displayTime" "$_tmuxSession" "3. Hide $_tmuxSession"
+  fi
+
+  rm /tmp/"$_tmuxSession"
+  case "$DESKTOP" in
+    bspwm)
+      for id in "${_winclass[@]}"; do
+        xdo hide "$id";
+      done
+      ;;
+    hyprland)
+      for id in "${_winclass[@]}"; do
+        hyprctl dispatch movetoworkspacesilent special:"$_tmuxSession",address:"$id"
+      done
+      ;;
+  esac
+}
+
+# -------------------------------------------------------------------------- }}}
+# {{{ Show $_tmuxSession
+
+showTerminal(){
+  if [[ $_verbose == true ]];  then
+    notify-send -t $_displayTime "$_tmuxSession" "4. Show $_tmuxSession"
+  fi
+
+  touch /tmp/"$_tmuxSession"
+  case "$DESKTOP" in
+    bspwm)
+      for id in "${_winclass[@]}"; do
+        xdo show "$id";
+        # wmctrl -i -a "$id"
+      done
+      ;;
+    hyprland)
+      for id in "${_winclass[@]}"; do
+        hyprctl dispatch movetoworkspace "$_workspace_id",address:"$id"
+        hyprctl dispatch focuswindow address:"$id"
+      done
+      ;;
+  esac
+}
+
 # -------------------------------------------------------------------------- }}}
 # {{{ toggle winclass function.
 #
@@ -20,59 +204,19 @@
 toggle_winclass() {
   setGlobalVariables "$1" "$2"
 
-  [[ $_verbose == true ]] && notify-send "$_tmuxSession" "1. Search $_tmuxSession"
+  if [[ $_verbose == true ]]; then
+    notify-send -t "$_displayTime" "$_tmuxSession" "1. Search $_tmuxSession"
+  fi
 
   if [[ -z "$_winclass" ]]; then
     startTerminal
- else
+  else
     if [[ -f /tmp/"$_tmuxSession" ]]; then
       hideTerminal
     elif [[ ! -f /tmp/"$_tmuxSession" ]]; then
       showTerminal
     fi
   fi
-}
-
-# -------------------------------------------------------------------------- }}}
-# {{{ Global variables are prefaced with an underscore as follows:
-#     $1 -> _tmuxSession is the name of the tmux sesion created.
-#     $2 -> _dir is the directory the TMUX session is started from.
-#     _verbose -> manually toggled true or false.
-#     _winclass -> a readonly array with X11 window class names.
-
-setGlobalVariables() {
-  _verbose=false
-  _tmuxSession=$1
-  _dir=$2
-  readarray -t _winclass < <(xdotool search --classname "$_tmuxSession")
-}
-
-# -------------------------------------------------------------------------- }}}
-# {{{ Start a terminal using $_tmuxSession as the X11 instance name.
-
-startTerminal() {
-  [[ $_verbose == true ]] && notify-send "$_tmuxSession" "2. Create $_tmuxSession"
-  cd "$_dir" || exit
-  touch /tmp/"$_tmuxSession"
-  ghostty --x11-instance-name="$_tmuxSession" --command="ao $_tmuxSession"
-}
-
-# -------------------------------------------------------------------------- }}}
-# {{{ Hide $_tmuxSession
-
-hideTerminal(){
-  [[ $_verbose == true ]] && notify-send "$_tmuxSession" "3. Hide $_tmuxSession"
-  rm /tmp/"$_tmuxSession"
-  for id in "${_winclass[@]}"; do xdo hide "$id"; done
-}
-
-# -------------------------------------------------------------------------- }}}
-# {{{ Show $_tmuxSession
-
-showTerminal(){
-  [[ $verbose == true ]] && notify-send "$_tmuxSession" "4. Show $_tmuxSession"
-  touch /tmp/"$_tmuxSession"
-  for id in "${_winclass[@]}"; do xdo show "$id"; done
 }
 
 # -------------------------------------------------------------------------- }}}
