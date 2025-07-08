@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+detect_wm() {
+  if pgrep -x bspwm >/dev/null; then
+    echo "bspwm"
+  elif pgrep -x Hyprland >/dev/null; then
+    echo "hyprland"
+  elif pgrep -x wayfire >/dev/null; then
+    echo "wayfire"
+  else
+    echo "unknown"
+  fi
+}
+
+DESKTOP=$(detect_wm)
+
+case "$DESKTOP" in
+     bspwm) echo "Detected BSPWM" ;;
+  hyprland) echo "Detected Hyprland" ;;
+   wayfire) echo "Detected Hyprland" ;;
+         *) echo "Could not detect supported window manager." ;;
+esac
