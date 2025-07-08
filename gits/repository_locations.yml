@@ -245,6 +245,9 @@ hyprland:
     - alias: Dots
       url: git@github.com:JaKooLit/Hyprland-Dots.git
 
+    - alias: Omarchy
+      url: git@github.com:basecamp/omarchy.git
+
     - alias: Ubuntu
       url: git@github.com:JaKooLit/Ubuntu-Hyprland.git
 
