@@ -15,22 +15,33 @@
 #     _dir -> directory TMUX session operates from.
 #     _winclass -> a readonly array with X11 window class names.
 #     _workspace_id -> Hyperland workspace id.  All others -1.
+#
 
-setGlobalVariables() {
-  _displayTime=2500
-  _verbose=true
-  _tmuxSession=$1
-  _dir=$2
-  _workspace_id=-1
+# Devine global variables.
+
+_verbose=false
+_displayTime=2500
+_tmuxSession=""
+_dir=""
+DESKTOP=""
+_winclass=()
+_workspace_id=-1
+
+set_global_variables() {
+  _tmuxSession="$1"
+  _dir="${2:-$HOME}"
   DESKTOP=$(detect_window_manager)
+
   case "$DESKTOP" in
     bspwm)
-      searchBspwmForWinclass
-      checkBspwmForRequiredPrograms;;
+      check_bspwm_requirements
+      find_bspwm_winclass
+      ;;
     hyprland)
-      searchHyprlandForWinclass
-      getActiveWorspaceFromHyprland
-      checkHyprlandForRequiredPrograms;;
+      check_hyperland_requirements
+      find_hyperland_winclass
+      get_hyperland_active_workspace
+      ;;
     *)
       echo "ERROR: Destop is not supported.  Exiting."
       exit 0
@@ -41,14 +52,14 @@ setGlobalVariables() {
 # -------------------------------------------------------------------------- }}}
 # {{{ Search Bspwm for winclass name using _tmuxSession
 
-searchBspwmForWinclass(){
+find_bspwm_winclass(){
   readarray -t _winclass < <(xdotool search --classname "$_tmuxSession")
 }
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Check Bspwm for Required Programs
 
-checkBspwmForRequiredPrograms(){
+check_bspwm_requirements(){
   local error=0
   if ! command -v xdo >/dev/null; then
     error=1
@@ -69,7 +80,7 @@ checkBspwmForRequiredPrograms(){
 # -------------------------------------------------------------------------- }}}
 # {{{ Search Hyprland for winclass name using _tmuxSession.
 
-searchHyprlandForWinclass(){
+find_hyperland_winclass(){
   readarray -t _winclass < <(
     hyprctl clients -j | jq -r --arg name "$_tmuxSession" '
     .[] | select(.title | contains($name)) | .address
@@ -80,7 +91,7 @@ searchHyprlandForWinclass(){
 # -------------------------------------------------------------------------- }}}
 # {{{ Check Hyprland for Required Programs
 
-checkHyprlandForRequiredPrograms(){
+check_hyperland_requirements(){
   local error=0
   if ! command -v hyprctl >/dev/null; then
     error=1
@@ -101,7 +112,7 @@ checkHyprlandForRequiredPrograms(){
 # -------------------------------------------------------------------------- }}}
 # {{{ Get active workspace from Hyprland.
 
-getActiveWorspaceFromHyprland(){
+get_hyperland_active_workspace(){
   _workspace_id=$(hyprctl activeworkspace -j | jq -r '.id');
 }
 
@@ -124,10 +135,8 @@ detect_window_manager() {
 # -------------------------------------------------------------------------- }}}
 # {{{ Start a terminal using $_tmuxSession as the X11 instance name.
 
-startTerminal() {
-  if [[ $_verbose == true ]]; then
-    notify-send -t "$_displayTime" "$_tmuxSession" "2. Create $_tmuxSession"
-  fi
+start_terminal() {
+  notify "Create $_tmuxSession"
 
   cd "$_dir" || exit
   touch /tmp/"$_tmuxSession"
@@ -144,10 +153,8 @@ startTerminal() {
 # -------------------------------------------------------------------------- }}}
 # {{{ Hide $_tmuxSession
 
-hideTerminal(){
-  if [[ $_verbose == true ]]; then
-    notify-send -t "$_displayTime" "$_tmuxSession" "3. Hide $_tmuxSession"
-  fi
+hide_terminal(){
+  notify "Hide $_tmuxSession"
 
   rm /tmp/"$_tmuxSession"
   case "$DESKTOP" in
@@ -167,10 +174,8 @@ hideTerminal(){
 # -------------------------------------------------------------------------- }}}
 # {{{ Show $_tmuxSession
 
-showTerminal(){
-  if [[ $_verbose == true ]];  then
-    notify-send -t $_displayTime "$_tmuxSession" "4. Show $_tmuxSession"
-  fi
+show_terminal(){
+  notify "Show $_tmuxSession"
 
   touch /tmp/"$_tmuxSession"
   case "$DESKTOP" in
@@ -202,21 +207,28 @@ showTerminal(){
 # 2 - working directory
 
 toggle_winclass() {
-  setGlobalVariables "$1" "$2"
+  set_global_variables "$1" "$2"
 
-  if [[ $_verbose == true ]]; then
-    notify-send -t "$_displayTime" "$_tmuxSession" "1. Search $_tmuxSession"
-  fi
+  notify "Search $_tmuxSession"
 
   if [[ -z "$_winclass" ]]; then
-    startTerminal
+    start_terminal
   else
     if [[ -f /tmp/"$_tmuxSession" ]]; then
-      hideTerminal
+      hide_terminal
     elif [[ ! -f /tmp/"$_tmuxSession" ]]; then
-      showTerminal
+      show_terminal
     fi
   fi
+}
+
+# -------------------------------------------------------------------------- }}}
+# {{{ notify
+#
+# Display a notificaiton message when verbose is true.
+
+notify() {
+  [[ $_verbose == true ]] && notify-send -t "$_displayTime" "Toggler" "$1"
 }
 
 # -------------------------------------------------------------------------- }}}
