@@ -94,6 +94,8 @@ lock_view_passwords=false
 shortcutkey_clipboard=98
 mp_left=false
 rdp_auth_filter=
+start_fullscreen=false
+start_dynres=false
 
 [ssh_colors]
 background=rgb(213,204,186)
