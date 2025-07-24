@@ -171,7 +171,7 @@ if [[ $# -eq 1 ]]; then
       tmux split-window -bh
 
       tmux send-keys -t 1 "upgrade" enter
-      tmux send-keys -t 2 "gits" enter
+      tmux send-keys -t 2 "gits -v" enter
       ;;
 
     # ---------------------------------------------------------------------- }}}

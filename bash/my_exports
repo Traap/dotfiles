@@ -36,8 +36,8 @@ fi
 # -------------------------------------------------------------------------- }}}
 # {{{ amber location.
 
-if dirExists ${GITHOME}/amber; then
-   AMBERPATH=${GITHOME}/amber
+if dirExists ${SOUPHOME}/amber; then
+   AMBERPATH=${SOUPHOME}/amber
 else
   AMBERPATH=""
   [[ $echoWarning == 1 ]] && echo "WARNING: amber is not installed."
@@ -53,8 +53,8 @@ fi
 # -------------------------------------------------------------------------- }}}
 # {{{ autodoc location.
 
-if  dirExists ${GITHOME}/autodoc; then
-  AUTODOCPATH=${GITHOME}/autodoc
+if  dirExists ${SOUPHOME}/autodoc; then
+  AUTODOCPATH=${SOUPHOME}/autodoc
 else
   [[ $echoWarning == 1 ]] && echo "WARNING: autodoc is not installed."
   AUTODOCPATH=""
@@ -64,8 +64,8 @@ export AUTODOCPATH
 # -------------------------------------------------------------------------- }}}
 # {{{ docbld location and function.  These must go together.
 
-if dirExists ${GITHOME}/docbld; then
-  DOCBLDPATH=${GITHOME}/docbld
+if dirExists ${SOUPHOME}/docbld; then
+  DOCBLDPATH=${SOUPHOME}/docbld
 else
   [[ $echoWarning == 1 ]] && echo "WARNING: docbld is not installed."
   DOCBLDPATH=""
@@ -86,8 +86,8 @@ export DOTNET_ROOT
 # -------------------------------------------------------------------------- }}}
 # {{{ emend location.
 
-if dirExists ${GITHOME}/emend; then
-   EMENDPATH=${GITHOME}/emend
+if dirExists ${SOUPHOME}/emend; then
+   EMENDPATH=${SOUPHOME}/emend
 else
   EMENDPATH=""
   [[ $echoWarning == 1 ]] && echo "WARNING: emend is not installed."
@@ -143,8 +143,8 @@ fi
 # -------------------------------------------------------------------------- }}}
 # {{{ newdoc location and functions.  These must go together.
 
-if dirExists ${GITHOME}/newdoc; then
-   NEWDOCPATH=${GITHOME}/newdoc
+if dirExists ${SOUPHOME}/newdoc; then
+   NEWDOCPATH=${SOUPHOME}/newdoc
 else
    [[ $echoWarning == 1 ]] && echo "WARNING: newdoc is not installed."
   NEWDOCPATH=""
