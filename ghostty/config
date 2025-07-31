@@ -1,11 +1,28 @@
 alpha-blending = native
 background = #1a1b26
-background-opacity = 0.8
 background-blur = false
+background-opacity = 0.8
 confirm-close-surface = false
 cursor-color = #ff99ff
 font-size = 12
 gtk-titlebar = false
+split-divider-color = #3b4261
 theme = tokyonight_night
 title = ""
+unfocused-split-opacity = 1
 window-decoration = false
+
+keybind = ctrl+ >h=new_split:left
+keybind = ctrl+ >j=new_split:down
+keybind = ctrl+ >k=new_split:up
+keybind = ctrl+ >l=new_split:right
+
+keybind = alt+ >h=goto_split:left
+keybind = alt+ >j=goto_split:down
+keybind = alt+ >k=goto_split:up
+keybind = alt+ >l=goto_split:right
+
+#keybind = ctrl+h=goto_split:left
+#keybind = ctrl+j=goto_split:down
+#keybind = ctrl+k=goto_split:up
+#keybind = ctrl+l=goto_split:right
