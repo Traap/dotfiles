@@ -50,9 +50,6 @@ createSymLinks() {
     ln -fsv ~/git/dotfiles/volumeicon            ~/.config/volumeicon
     ln -fsv ~/git/dotfiles/wallpaper             ~/.config/wallpaper
     ln -fsv ~/git/dotfiles/waybar                ~/.config/waybar
-    ln -fsv ~/git/dotfiles/wayfire               ~/.config/wayfire
-    ln -fsv ~/git/dotfiles/wayfire/wayfire.ini   ~/.config/wayfire.ini
-    ln -fsv ~/git/dotfiles/wayfire/wf-shell.ini  ~/.config/wf-shell.ini
     ln -fsv ~/git/dotfiles/wezterm               ~/.config/wezterm
     ln -fsv ~/git/dotfiles/wlogout               ~/.config/wlogout
     ln -fsv ~/git/dotfiles/wofi                  ~/.config/wofi
@@ -112,8 +109,6 @@ deleteSymLinks() {
     rm -rfv ~/.config/volumeicon
     rm -rfv ~/.config/wallpaper
     rm -rfv ~/.config/waybar
-    rm -rfv ~/.config/wayfire
-    rm -rfv ~/.config/wayfire.ini
     rm -rfv ~/.config/wezterm
     rm -rfv ~/.config/wlogout
     rm -rfv ~/.config/wofi
