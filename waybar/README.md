@@ -1,15 +1,16 @@
 ### README.md
-I use Waybar to standarize Wayland compositors such as Hyperland and Wayfire.
+My personal Waybar configuration.
 
-### Active
-Active folder is the current, aka, Active Waybar configuration.  You can swap
-between waybar-alt-1 through waybar-alt-10, and waybar-arco.
+I borrowed ideas, copied, pasted, hacked, deleted, and modified files from the
+acknowledgement section below.  Then I gutted everthing I did not want to use
+and made come customizations.  My goal is to have waybar as close a possible to
+my polybar configuration.
 
-### bg
-A few backgrounds
+### Acknowledgements
+Acknowledgements from original source files:
 
-### change
-Scripts needed to change Waybar.
+// Edited for Garuda Linux by yurihikari
+https://github.com/yurihikari/garuda-sway-config
 
-### scripts
-Scrips activated from waybar.
+Original color variavbles:
+Copyright (C) 2020-2023 Aditya Shakya <adi1090x@gmail.com>
