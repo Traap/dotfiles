@@ -7,8 +7,8 @@
 while pgrep -x waybar >/dev/null; do sleep 1; done
 
 # start up again
-CONFIG="$HOME/.config/waybar/active/config.jsonc"
- STYLE="$HOME/.config/waybar/active/style.css"
+CONFIG="$HOME/.config/waybar/config.jsonc"
+ STYLE="$HOME/.config/waybar/style.css"
 
 if [[ ! $(pidof waybar) ]]; then
 	waybar \
