@@ -236,6 +236,7 @@ notify() {
 
 if [[ $# -eq 1 ]]; then
   case "$1" in
+        "Bracco") toggle_winclass "$1" "$HOME/bracco" ;;
         "Neovim") toggle_winclass "$1" "$GITHOME/nvim.traap" ;;
     "Scratchpad") toggle_winclass "$1" "$WIKIHOME" ;;
        "Upgrade") toggle_winclass "$1" "$HOME" ;;

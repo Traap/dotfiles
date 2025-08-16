@@ -95,6 +95,16 @@ if [[ $# -eq 1 ]]; then
       ;;
 
     # ---------------------------------------------------------------------- }}}
+    # {{{ Create Bracco session
+
+    "Bracco")
+      tmux new-session -c "$HOME/bracco" -n 'Coder'  -s "$1" -d
+      tmux new-window  -c "$HOME/bracco" -n 'Tester' -t "$1":2
+
+      tmux select-window -t "$1":1
+      ;;
+
+    # ---------------------------------------------------------------------- }}}
     # {{{ Create havasu session
 
     "havasu")
@@ -235,7 +245,7 @@ if [[ $# -eq 1 ]]; then
 
 else
   echo \
-    "Session name [ao|bash|d|h|havasu|kjv|Nvim|Scratchpad|t|Upgrade|vim|Wiki|YouTube] is required" &&
+    "Session name [ao|bash|Bracco|d|h|havasu|kjv|Nvim|Scratchpad|t|Upgrade|vim|Wiki|YouTube|Zero] is required" &&
     exit
 fi
 

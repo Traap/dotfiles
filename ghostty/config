@@ -12,15 +12,15 @@ title = ""
 unfocused-split-opacity = 1
 window-decoration = false
 
-keybind = ctrl+ >h=new_split:left
-keybind = ctrl+ >j=new_split:down
-keybind = ctrl+ >k=new_split:up
-keybind = ctrl+ >l=new_split:right
+#keybind = ctrl+ >h=new_split:left
+#keybind = ctrl+ >j=new_split:down
+#keybind = ctrl+ >k=new_split:up
+#keybind = ctrl+ >l=new_split:right
 
-keybind = alt+ >h=goto_split:left
-keybind = alt+ >j=goto_split:down
-keybind = alt+ >k=goto_split:up
-keybind = alt+ >l=goto_split:right
+#keybind = alt+ >h=goto_split:left
+#keybind = alt+ >j=goto_split:down
+#keybind = alt+ >k=goto_split:up
+#keybind = alt+ >l=goto_split:right
 
 #keybind = ctrl+h=goto_split:left
 #keybind = ctrl+j=goto_split:down
