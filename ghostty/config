@@ -12,6 +12,7 @@ title = ""
 unfocused-split-opacity = 1
 window-decoration = false
 
+#NOTE: Simulating TMUX keybindngs.
 #keybind = ctrl+ >h=new_split:left
 #keybind = ctrl+ >j=new_split:down
 #keybind = ctrl+ >k=new_split:up
