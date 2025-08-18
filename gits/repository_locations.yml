@@ -305,6 +305,13 @@ rails:
     - alias: RailsStore
       url: git@github.com:Traap/RailsStore.git
 
+    - alias: FormApp
+      url: git@gsa-gitea:matthewdavoren/FormsApp.git
+
+    - alias: loaf
+      url: git@gsa-gitea:GaryHoward/laof.git
+
+
 # -------------------------------------------------------------------------- }}}
 # {{{ soup
 
