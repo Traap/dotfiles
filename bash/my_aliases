@@ -139,7 +139,7 @@ alias hh='cd $GITHOME/HowardHouse'
 alias ic='cd $HOME/img-clip'
 
 if osType "msys"; then
-  alias nd='cd AppData/Local/nvim'
+  alias nd='cd $LOCALAPPDATA/nvim'
 else
   alias nd='cd $GITHOME/nvim.traap'
 fi
