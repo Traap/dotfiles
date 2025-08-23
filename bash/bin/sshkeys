@@ -30,8 +30,13 @@ sshkeys() {
     # Add keys only when a new agent is started
     if [[ -d $SSHHOME ]]; then
       for key in "$SSHHOME"/*.pub; do
-        [[ -f "$key" ]] || continue
-        ssh-add -q "${key%.*}" 2>/dev/null
+        if [[ ! -f "$key" ]]; then
+          echo "ERROR: $SSHHOME does not have any public keys."
+          continue
+        else
+          echo "ssh-add: $key"
+          ssh-add "${key%.*}" 2>/dev/null
+        fi
       done
     else
       echo "ERROR: SSHHOME is not defined or not a directory."
