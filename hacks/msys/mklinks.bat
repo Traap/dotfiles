@@ -20,6 +20,8 @@
 @mklink /D %USERPROFILE%\.tmux               %USERPROFILE%\git\tmux
 @mklink /D %USERPROFILE%\.vim                %USERPROFILE%\git\vim
 
+@mklink /D %LOCALAPPDATA%\nvim               %USERPROFILE%\git\nvim.traap
+
 @rem echo off
 @rem # I do this to force my ssh dir to my window home directory.  I'm tired of
 @rem # fighting corporate networks, vpn, and other stuff. Note: I may not have
