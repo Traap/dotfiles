@@ -34,7 +34,7 @@ sshkeys() {
           echo "ERROR: $SSHHOME does not have any public keys."
           continue
         else
-          echo "ssh-add: $key"
+          echo "ssh-add: ${key%.*}"
           ssh-add "${key%.*}" 2>/dev/null
         fi
       done
