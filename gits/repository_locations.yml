@@ -16,13 +16,16 @@ bootstrap:
       url: git@gsa-gitea:GaryHoward/Utilities.git
 
 # -------------------------------------------------------------------------- }}}
-# {{{ bootstrap
+# {{{ bracco
 
 bracco:
   - root_dir: Bracco
   - repositories:
+    - alias: bootstrap-win-env
+      url: git@github.com:Traap/bootstrap-win-env.git
+
     - alias: sf90_dhf
-      url: git@github.com:Traap/sf90_dhf
+      url: git@github.com:Traap/bootstrap-win-env.git
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Contracts
