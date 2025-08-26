@@ -7,13 +7,13 @@ bootstrap:
       url: git@github.com:Traap/bootstrap-archlinux.git
 
     - alias:  BSS
-      url: git@gsa-gitea:GaryHoward/Bootstrap-BSS.git
+      url: git@gsa-gitea:BSS/Bootstrap-BSS.git
 
     - alias: Ubuntu
       url: git@github.com:Traap/bootstrap-ubuntu.git
 
     - alias: Utilities
-      url: git@gsa-gitea:GaryHoward/Utilities.git
+      url: git@gsa-gitea:BSS/Utilities.git
 
 # -------------------------------------------------------------------------- }}}
 # {{{ bracco
@@ -144,46 +144,46 @@ gitea:
   - root_dir: gitea
   - repositories:
     - alias: Aim
-      url: git@gsa-gitea:GaryHoward/AIM.git
+      url: git@gsa-gitea:BSS/AIM.git
 
     - alias: Billing
-      url: git@gsa-gitea:GaryHoward/Billing.git
+      url: git@gsa-gitea:BSS/Billing.git
 
     - alias: Calsaws
-      url: git@gsa-gitea:GaryHoward/Calsaws.git
+      url: git@gsa-gitea:BSS/Calsaws.git
 
     - alias: ChartOfAccounts
-      url: git@gsa-gitea:GaryHoward/ChartOfAccounts.git
+      url: git@gsa-gitea:BSS/ChartOfAccounts.git
 
     - alias: cronjobs
-      url: git@gsa-gitea:GaryHoward/cronjobs.git
+      url: git@gsa-gitea:BSS/cronjobs.git
 
     - alias: DocAuto
-      url: git@gsa-gitea:GaryHoward/DocAuto.git
+      url: git@gsa-gitea:BSS/DocAuto.git
 
     - alias: LeaveOfAbsence
-      url: git@gsa-gitea:GaryHoward/LeaveOfAbsence.git
+      url: git@gsa-gitea:BSS/LeaveOfAbsence.git
 
     - alias: OversizedScan
-      url: git@gsa-gitea:GaryHoward/OversizedScan.git
+      url: git@gsa-gitea:BSS/OversizedScan.git
 
     - alias: P2M
-      url: git@gsa-gitea:GaryHoward/P2M.git
+      url: git@gsa-gitea:BSS/P2M.git
 
     - alias: Presentations
-      url: git@gsa-gitea:GaryHoward/Presentations.git
+      url: git@gsa-gitea:BSS/Presentations.git
 
     - alias: Records
-      url: git@gsa-gitea:GaryHoward/Records.git
+      url: git@gsa-gitea:BSS/Records.git
 
     - alias: Scans
-      url: git@gsa-gitea:GaryHoward/Scans.git
+      url: git@gsa-gitea:BSS/Scans.git
 
     - alias: Stores
-      url: git@gsa-gitea:GaryHoward/Stores.git
+      url: git@gsa-gitea:BSS/Stores.git
 
     - alias: VcPrint
-      url: git@gsa-gitea:GaryHoward/VcPrint.git
+      url: git@gsa-gitea:BSS/VcPrint.git
 
     - alias: Wiki
       url: git@gsa-gitea:GaryHoward/Wiki.git
@@ -195,22 +195,22 @@ eform:
   - root_dir: eform
   - repositoriesr:
     - alias: Bootstrap-angular
-      url: git@gsa-gitea:GaryHoward/Bootstrap-angular.git
+      url: git@gsa-gitea:BSS/Bootstrap-angular.git
 
     - alias: backend
-      url: git@gsa-gitea:GaryHoward/backend.git
+      url: git@gsa-gitea:BSS/backend.git
 
     - alias: formsPortal
-      url: git@gsa-gitea:matthewdavoren/formsPortal.git
+      url: git@gsa-gitea:BSS/formsPortal.git
 
     - alias: formsPortalBackend
-      url: git@gsa-gitea:matthewdavoren/formsPortalBackend.git
+      url: git@gsa-gitea:BSS/formsPortalBackend.git
 
     - alias: formsPortalDB
-      url: git@gsa-gitea:GaryHoward/formsPortalDB.git
+      url: git@gsa-gitea:BSS/formsPortalDB.git
 
     - alias: frontend
-      url: git@gsa-gitea:GaryHoward/frontend.git
+      url: git@gsa-gitea:BSS/frontend.git
 
 # -------------------------------------------------------------------------- }}}
 # {{{ examples
@@ -219,7 +219,7 @@ examples:
   - root_dir: examples
   - repositories:
     - alias: DBTest
-      url: git@gsa-gitea:GaryHoward/DBTest.git
+      url: git@gsa-gitea:BSS/DBTest.git
 
     - alias: excelize-doc
       url: git@github.com:xuri/excelize-doc.git
@@ -228,10 +228,10 @@ examples:
       url: git@github.com:jung-kurt/gofpdf.git
 
     - alias: GoSamples
-      url: git@gsa-gitea:GaryHoward/GoSamples.git
+      url: git@gsa-gitea:BSS/GoSamples.git
 
     - alias: Samples
-      url: git@gsa-gitea:GaryHoward/Samples.git
+      url: git@gsa-gitea:BSS/Samples.git
 
 # -------------------------------------------------------------------------- }}}
 # {{{ hr
@@ -240,10 +240,10 @@ hr:
   - root_dir: hr
   - repositories:
     - alias: HR
-      url: git@gsa-gitea:GaryHoward/HR.git
+      url: git@gsa-gitea:BSS/HR.git
 
     - alias: BrowserExtension
-      url: git@gsa-gitea:GaryHoward/BrowserExtension.git
+      url: git@gsa-gitea:BSS/BrowserExtension.git
 
 # -------------------------------------------------------------------------- }}}
 # {{{ hyprland
@@ -318,10 +318,10 @@ rails:
       url: git@github.com:Traap/RailsStore.git
 
     - alias: FormApp
-      url: git@gsa-gitea:matthewdavoren/FormsApp.git
+      url: git@gsa-gitea:BSS/FormsApp.git
 
     - alias: loaf
-      url: git@gsa-gitea:GaryHoward/laof.git
+      url: git@gsa-gitea:BSS/laof.git
 
 
 # -------------------------------------------------------------------------- }}}
