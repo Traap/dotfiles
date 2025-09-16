@@ -9,11 +9,17 @@ bootstrap:
     - alias:  BSS
       url: git@gsa-gitea:BSS/Bootstrap-BSS.git
 
+    - alias: Omarchy
+      url: https://github.com/basecamp/omarchy
+
     - alias: Ubuntu
       url: git@github.com:Traap/bootstrap-ubuntu.git
 
     - alias: Utilities
       url: git@gsa-gitea:BSS/Utilities.git
+
+    - alias: WinEnv
+      url: git@github.com:Traap/bootstrap-win-env.git
 
 # -------------------------------------------------------------------------- }}}
 # {{{ bracco
