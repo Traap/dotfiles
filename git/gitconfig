@@ -32,10 +32,10 @@
   name  = Traap
 
 [core]
-  excludesfile = ~/.gitignore_global
-  editor       = nvim
   autocrlf     = input
   eol          = lf
+  excludesfile = ~/.gitignore_global
+  editor       = nvim
   preloadindex = true
   fscache      = true
 
@@ -61,10 +61,10 @@
   autosetuprebase = always
 
 [filter "lfs"]
-	clean = git-lfs clean -- %f
-	process = git-lfs filter-process
-	required = true
-	smudge = git-lfs smudge -- %f
+  clean = git-lfs clean -- %f
+  process = git-lfs filter-process
+  required = true
+  smudge = git-lfs smudge -- %f
 
 [rerere]
   autoupdate = true
@@ -95,10 +95,10 @@
   helper = store
 
 [diff]
-	tool = meld
+  tool = meld
 
 [help]
-	format = html
+  format = html
 
 [include]
   path = .gitconfig_local_machine
