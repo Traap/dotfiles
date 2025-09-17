@@ -12,13 +12,14 @@
 @rem mklink    %USERPROFILE%\.mutt               %USERPROFILE%\git\mutt-office365
 @rem mklink    %USERPROFILE%\.muttrc             %USERPROFILE%\git\mutt-office365\muttrc
 @mklink    %USERPROFILE%\.tmux.conf          %USERPROFILE%\git\tmux\tmux.conf
-@rem mklink    %USERPROFILE%\.viminfo            %USERPROFILE%\git\vim\viminf@o
-@rem mklink    %USERPROFILE%\_vimrc              %USERPROFILE%\git\vim\vimrc
+@mklink    %USERPROFILE%\.viminfo            %USERPROFILE%\git\vim\viminfo
+@mklink    %USERPROFILE%\_vimrc              %USERPROFILE%\git\vim\vimrc
 @rem mklink    %USERPROFILE%\.vimrc_background   %USERPROFILE%\git\vim\vimrc_background
-@rem mklink    %USERPROFILE%\AppData\Local\nvim\init.vim %USERPROFILE%\git\vim\vimrc
+
 @mklink /D %USERPROFILE%\.ssh                %USERPROFILE%\git\ssh
 @mklink /D %USERPROFILE%\.tmux               %USERPROFILE%\git\tmux
 @mklink /D %USERPROFILE%\.vim                %USERPROFILE%\git\vim
+@mklink /D %LOCALAPPDATA%\nvim               %USERPROFILE%\git\nvim.traap
 
 @mklink /D %LOCALAPPDATA%\nvim               %USERPROFILE%\git\nvim.traap
 
