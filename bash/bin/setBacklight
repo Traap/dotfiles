@@ -3,7 +3,7 @@
 # Check if the script receives exactly one argument
 if [ "$#" -ne 1 ]; then
   echo "Usage:"
-  echo "setBacklight [0 .. 255]"
+  echo "setBacklight [0 .. 62451]"
   exit 1
 fi
 
@@ -23,4 +23,4 @@ if [ "$input" -le 0 ] && [ "$input" -gt 255 ]; then
 fi
 
 
-echo $1 | sudo tee /sys/class/backlight/amdgpu_bl1/brightness
+echo $1 | sudo tee /sys/class/backlight/amdgpu_bl2/brightness
