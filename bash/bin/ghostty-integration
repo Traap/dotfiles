@@ -1,0 +1,245 @@
+#!/usr/bin/env bash
+# {{{ Toggle Ghostty shell integration on or off.
+#
+#     Usage:
+#       ghostty-integration enable
+#       ghostty-integration disable
+#       ghostty-integration status
+#       ghostty-integration toggle
+#       ghostty-integration reset
+#       ghostty-integration --help
+#
+# -------------------------------------------------------------------------- }}}
+# {{{ Help documentation
+#>>>HELP START
+# NAME
+#     ghostty-integration - toggle Ghostty shell integration in bash
+#
+# SYNOPSIS
+#     ghostty-integration [command] [--verbose]
+#
+# DESCRIPTION
+#     A helper script to enable, disable, check, toggle, or reset Ghostty's
+#     bash shell integration.  Integration wraps `ssh` and enables OSC
+#     prompt features provided by Ghostty.
+#
+# COMMANDS
+#     enable
+#         Enable Ghostty shell integration for the current bash session.
+#
+#     disable
+#         Disable Ghostty shell integration, restore original ssh function
+#         or alias if one existed, and remove marker file.
+#
+#     status
+#         Report whether Ghostty shell integration is currently enabled.
+#         Also shows the integration script path if active.
+#
+#     toggle
+#         Switch between enabled and disabled state automatically, then
+#         print the new state (respects --verbose).
+#
+#     reset
+#         Clear marker, unset ssh, remove backup, and restore state
+#         to a clean slate. Then show current status.
+#
+# OPTIONS
+#     -v, --verbose
+#         Print debug information such as marker file path and ssh state.
+#
+#     -h, --help
+#         Show this help message and exit.
+#>>>HELP END
+# -------------------------------------------------------------------------- }}}
+# {{{ File locations
+
+_GHOSTTY_MARKER="${XDG_RUNTIME_DIR:-/tmp}/ghostty-integration.active"
+
+if [[ -n "$GHOSTTY_RESOURCES_DIR" ]]; then
+  GHOSTTY_BASH="$GHOSTTY_RESOURCES_DIR/shell-integration/bash/ghostty.bash"
+else
+  GHOSTTY_BASH="/usr/share/ghostty/shell-integration/bash/ghostty.bash"
+fi
+
+SSH_BACKUP_FILE="${XDG_RUNTIME_DIR:-/tmp}/ghostty-ssh-backup.$$"
+VERBOSE=0
+
+# -------------------------------------------------------------------------- }}}
+# {{{ backup ssh function when it exists.
+
+backup_ssh() {
+  if declare -F ssh >/dev/null 2>&1; then
+    declare -f ssh > "$SSH_BACKUP_FILE"
+  elif alias ssh >/dev/null 2>&1; then
+    alias ssh > "$SSH_BACKUP_FILE"
+  fi
+}
+
+# -------------------------------------------------------------------------- }}}
+# {{{ restore ssh function when needed.
+
+restore_ssh() {
+  if [[ -f "$SSH_BACKUP_FILE" ]]; then
+    # shellcheck disable=SC1090
+    source "$SSH_BACKUP_FILE"
+    rm -f "$SSH_BACKUP_FILE"
+  fi
+}
+
+# -------------------------------------------------------------------------- }}}
+# {{{ Enable ghostty shell integration.
+
+enable_integration() {
+  if [[ -n "$BASH_VERSION" ]]; then
+    if [[ -f "$GHOSTTY_BASH" ]]; then
+      backup_ssh
+      # shellcheck disable=SC1090
+      source "$GHOSTTY_BASH"
+      echo "$GHOSTTY_BASH" > "$_GHOSTTY_MARKER"
+      echo "✅ Ghostty integration enabled"
+      [[ $VERBOSE -eq 1 ]] && {
+        echo "   Marker: $_GHOSTTY_MARKER"
+        echo "   Script: $GHOSTTY_BASH"
+      }
+    else
+      echo "⚠️ Ghostty integration script not found: $GHOSTTY_BASH"
+      exit 1
+    fi
+  else
+    echo "⚠️ Not running in bash"
+    exit 1
+  fi
+}
+
+# -------------------------------------------------------------------------- }}}
+# {{{ Disable ghostty shell integration.
+
+disable_integration() {
+  unset -f ssh 2>/dev/null
+  unset GHOSTTY_PROMPT_MARKER 2>/dev/null
+  rm -f "$_GHOSTTY_MARKER"
+  restore_ssh
+  echo "❌ Ghostty integration disabled"
+  [[ $VERBOSE -eq 1 ]] && echo "   Marker removed: $_GHOSTTY_MARKER"
+}
+
+# -------------------------------------------------------------------------- }}}
+# {{{ Reset ghostty shell integration.
+
+reset_integration() {
+  unset -f ssh 2>/dev/null
+  unset GHOSTTY_PROMPT_MARKER 2>/dev/null
+  rm -f "$_GHOSTTY_MARKER"
+  rm -f "$SSH_BACKUP_FILE"
+  echo "♻️  Ghostty integration reset to clean state"
+  [[ $VERBOSE -eq 1 ]] && echo "   All state cleared, marker and backup removed"
+  status_integration
+}
+
+# -------------------------------------------------------------------------- }}}
+# {{{ Report ghostty shell integration status.
+
+status_integration() {
+  local active=0
+  local script_path="(none)"
+
+  [[ -f "$_GHOSTTY_MARKER" ]] && {
+    active=1
+    script_path=$(cat "$_GHOSTTY_MARKER")
+  }
+
+  if declare -F ssh >/dev/null 2>&1; then
+    if declare -f ssh | grep -q "command ssh"; then
+      active=1
+    fi
+  fi
+
+  if [[ $active -eq 1 ]]; then
+    echo "✅ Ghostty integration is currently ENABLED"
+    echo "   Using: $script_path"
+  else
+    echo "❌ Ghostty integration is currently DISABLED"
+  fi
+
+  if [[ -f "$_GHOSTTY_MARKER" ]]; then
+    local last_mod
+    last_mod=$(date -r "$_GHOSTTY_MARKER" "+%Y-%m-%d %H:%M:%S")
+    local epoch_marker epoch_now delta
+    epoch_marker=$(date -r "$_GHOSTTY_MARKER" +%s)
+    epoch_now=$(date +%s)
+    delta=$((epoch_now - epoch_marker))
+    if (( delta < 60 )); then
+      echo "   Last toggled: ${delta}s ago (${last_mod})"
+    elif (( delta < 3600 )); then
+      echo "   Last toggled: $(( delta / 60 ))m ago (${last_mod})"
+    elif (( delta < 86400 )); then
+      echo "   Last toggled: $(( delta / 3600 ))h ago (${last_mod})"
+    else
+      echo "   Last toggled: $(( delta / 86400 ))d ago (${last_mod})"
+    fi
+  fi
+
+  if [[ $VERBOSE -eq 1 ]]; then
+    echo "   Marker file: $_GHOSTTY_MARKER"
+    if [[ -f "$_GHOSTTY_MARKER" ]]; then
+      echo "   Marker contents: $(cat "$_GHOSTTY_MARKER")"
+    else
+      echo "   Marker not present"
+    fi
+    if declare -F ssh >/dev/null 2>&1; then
+      echo "   ssh function is defined"
+    else
+      echo "   ssh function is not defined"
+    fi
+    [[ -f "$SSH_BACKUP_FILE" ]] \
+      && echo "   Backup file present: $SSH_BACKUP_FILE" \
+      || echo "   Backup file not present"
+  fi
+}
+
+# -------------------------------------------------------------------------- }}}
+# {{{ Toggle ghostty shell integration.
+
+toggle_integration() {
+  if [[ -f "$_GHOSTTY_MARKER" ]]; then
+    disable_integration
+  else
+    enable_integration
+  fi
+  status_integration
+}
+
+# -------------------------------------------------------------------------- }}}
+# {{{ Print help message.
+
+print_help() {
+  sed -n '/^#>>>HELP START/,/^#>>>HELP END/ s/^# //p' "$0"
+}
+
+# -------------------------------------------------------------------------- }}}
+# {{{ Parse arguments and dispatch.
+
+CMD=""
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    -v|--verbose) VERBOSE=1; shift ;;
+    -h|--help) print_help; exit 0 ;;
+    enable|disable|status|toggle|reset) CMD="$1"; shift ;;
+    *) echo "Unknown argument: $1"
+       echo "Usage: ghostty-integration [enable|disable|status|toggle|reset|--help] [--verbose]"
+       exit 1 ;;
+  esac
+done
+
+CMD="${CMD:-status}"
+
+case "$CMD" in
+  enable)  enable_integration ;;
+  disable) disable_integration ;;
+  reset)   reset_integration ;;
+  status)  status_integration ;;
+  toggle)  toggle_integration ;;
+esac
+
+# -------------------------------------------------------------------------- }}}
