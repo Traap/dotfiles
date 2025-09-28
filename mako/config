@@ -1,0 +1,24 @@
+anchor=top-right
+border-size=2
+default-timeout=5000
+height=110
+margin=19,8
+max-icon-size=32
+outer-margin=0
+padding=10
+width=420
+
+border-color=#3b4261
+background-color=#1a1b26
+text-color=#a9b1d6
+
+font=JetBrainsMono Nerd Font
+
+[mode=do-not-disturb]
+invisible=true
+
+[mode=do-not-disturb app-name=notify-send]
+invisible=false
+
+[urgency=critical]
+default-timeout=0
