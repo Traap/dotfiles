@@ -1,10 +1,22 @@
+# Fonts
+font-family = JetBrainsMono Nerd Font, Hack Nerd Font, monospace
+font-family-bold = JetBrainsMono Nerd Font, Hack Nerd Font, monospace
+font-family-italic = JetBrainsMono Nerd Font, Hack Nerd Font, monospace
+font-family-bold-italic = JetBrainsMono Nerd Font, Hack Nerd Font, monospace
+font-size = 12
+font-feature = +liga
+
+# Background
 alpha-blending = native
 background = #1a1b26
 background-blur = false
 background-opacity = 0.8
-confirm-close-surface = false
+
+# Cursor
 cursor-color = #ff99ff
-font-size = 12
+
+# UI / Behavior
+confirm-close-surface = false
 gtk-titlebar = false
 shell-integration = none
 split-divider-color = #3b4261
