@@ -19,7 +19,7 @@
 
 # Devine global variables.
 
-_verbose=false
+_verbose=true
 _displayTime=2500
 _tmuxSession=""
 _dir=""
@@ -209,7 +209,8 @@ show_terminal(){
 toggle_winclass() {
   set_global_variables "$1" "$2"
 
-  notify "Search $_tmuxSession"
+  # NOTE: Uncomment when are debugging.
+  # notify "Search $_tmuxSession"
 
   if [[ -z "$_winclass" ]]; then
     start_terminal
