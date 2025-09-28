@@ -1,0 +1,58 @@
+/* ------------------------------
+ * Tokyo Night Theme for Walker
+ * Matches fuzzel.ini setup
+ * ------------------------------ */
+
+@define-color background #1a1b26;
+@define-color foreground #cfc9c2;
+@define-color text #cfc9c2;
+@define-color match #7dcfff;
+@define-color border #3b4261;
+@define-color selection #7dcfff;
+@define-color selection-text #1a1b26;
+@define-color prompt #7aa2f7;
+/* brighter blue to distinguish prompt */
+
+/* --- Window styling --- */
+window {
+  background-color: alpha(@background, 0.87);
+  /* ≈dd transparency */
+  border: 2px solid @border;
+  border-radius: 5px;
+  padding: 5px 20px;
+  /* vertical=5, horizontal=20 */
+  color: @text;
+  font-family: "JetBrainsMono Nerd Font";
+  font-size: 12px;
+}
+
+/* --- Entry (list items) --- */
+entry {
+  background-color: transparent;
+  color: @text;
+  padding: 2px 5px;
+}
+
+entry:selected {
+  background-color: @selection;
+  color: @selection-text;
+}
+
+/* --- Input box (prompt + user input) --- */
+input {
+  background-color: transparent;
+  color: @foreground;
+  border: none;
+  padding: 5px;
+}
+
+prompt {
+  color: @prompt;
+  margin-right: 5px;
+}
+
+/* --- List view container --- */
+listview {
+  background-color: transparent;
+  spacing: 2px;
+}

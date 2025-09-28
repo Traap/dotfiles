@@ -51,6 +51,7 @@ createSymLinks() {
     ln -fsv ~/git/dotfiles/sxhkd                 ~/.config/sxhkd
     ln -fsv ~/git/dotfiles/volumeicon            ~/.config/volumeicon
     ln -fsv ~/git/dotfiles/wallpaper             ~/.config/wallpaper
+    ln -fsv ~/git/dotfiles/walker                ~/.config/walker
     ln -fsv ~/git/dotfiles/waybar                ~/.config/waybar
     ln -fsv ~/git/dotfiles/wezterm               ~/.config/wezterm
     ln -fsv ~/git/dotfiles/wlogout               ~/.config/wlogout
@@ -111,6 +112,7 @@ deleteSymLinks() {
     rm -rfv ~/.config/screenkey.json
     rm -rfv ~/.config/sxhkd
     rm -rfv ~/.config/volumeicon
+    rm -rfv ~/.config/walker
     rm -rfv ~/.config/wallpaper
     rm -rfv ~/.config/waybar
     rm -rfv ~/.config/wezterm
