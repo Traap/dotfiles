@@ -11,7 +11,7 @@ source_bash_profile_once() {
     return
   fi
 
-  source ~/.bash_profile
+  source $BASHHOME/bash_profile
 
   if ! declare -p __bash_profile_once &>/dev/null; then
     readonly __bash_profile_once=true
@@ -22,7 +22,7 @@ source_bash_profile_once
 # -------------------------------------------------------------------------- }}}
 # {{{ Personal hook.
 
-__guarded_source $HOME/.bashrc_personal
+__guarded_source $BASHHOME/bashrc_personal
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Sometime other programs automagically update my bashrc.
@@ -53,7 +53,5 @@ export NVM_DIR="$HOME/.nvm"
 
 # TODO: eval after checking for program.
 eval "$(uv generate-shell-completion bash)"
-# eval "$(uvx --generate-shell-completion bash)"
 
 # -------------------------------------------------------------------------- }}}
-

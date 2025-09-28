@@ -104,7 +104,7 @@ done
 # -------------------------------------------------------------------------- }}}
 # {{{ Hook into interactive bash.
 
- __guarded_source "$HOME/.bashrc"
+ __guarded_source "$BASHHOME/bashrc"
 
 # -------------------------------------------------------------------------- }}}
 __end "bash_profile"

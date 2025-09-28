@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/bash
 # {{{ Create and toggle a winclass.
 #
 # Shout out:
@@ -119,8 +119,8 @@ get_hyperland_active_workspace(){
 # -------------------------------------------------------------------------- }}}
 # {{{ Detect window manager
 #
-# This function check the running window manager.  Right now only bspwm and Hyprland
-# are supported
+# This function check the running window manager.  Right now only bspwm and
+# Hyprland are supported
 
 detect_window_manager() {
   if pgrep -x bspwm >/dev/null; then
