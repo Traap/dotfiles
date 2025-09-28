@@ -40,7 +40,9 @@ createSymLinks() {
     ln -fsv ~/git/dotfiles/ghostty               ~/.config/ghostty
     ln -fsv ~/git/dotfiles/hypr                  ~/.config/hypr
     ln -fsv ~/git/dotfiles/kitty                 ~/.config/kitty
+    ln -fsv ~/git/dotfiles/mako                  ~/.config/mako
     ln -fsv ~/git/dotfiles/neofetch              ~/.config/neofetch
+    ln -fsv ~/git/dotfiles/pamac                 ~/.config/pamac
     ln -fsv ~/git/dotfiles/picom                 ~/.config/picom
     ln -fsv ~/git/dotfiles/polybar               ~/.config/polybar
     ln -fsv ~/git/dotfiles/remmina               ~/.config/remmina
@@ -98,8 +100,10 @@ deleteSymLinks() {
     rm -rfv ~/.config/gits
     rm -rfv ~/.config/hypr
     rm -rfv ~/.config/kitty
+    rm -rfv ~/.config/mako
     rm -rfv ~/.config/nvim
     rm -rfv ~/.config/neofetch
+    rm -rfv ~/.config/pamac
     rm -rfv ~/.config/picom
     rm -rfv ~/.config/polybar
     rm -rfv ~/.config/remmina
