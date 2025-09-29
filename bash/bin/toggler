@@ -1,4 +1,4 @@
-#!/usr/bin/bash
+#!/usr/bin/env bash
 # {{{ Create and toggle a winclass.
 #
 # Shout out:
