@@ -7,4 +7,6 @@ elif [ "$NUM_MONITORS" -eq 2 ]; then
     cp ~/.config/hypr/layout/laptop_monitor.conf ~/.config/hypr/config/monitors.conf
 elif [ "$NUM_MONITORS" -ge 3 ]; then
     cp ~/.config/hypr/layout/workstation.conf ~/.config/hypr/config/monitors.conf
+else
+    cp ~/.config/hypr/layout/laptop.conf ~/.config/hypr/config/monitors.conf
 fi
