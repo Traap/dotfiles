@@ -4,23 +4,102 @@
 # Bash scripting cheatsheet => https://devhints.io/bash
 
 # -------------------------------------------------------------------------- }}}
-# {{{ non-login interactive shells.
+# {{{ Establish guarded_source functions and verbosity.
+#     Note. This the first file call so we cannot __guarded_source.
+#     That is why __begin and __end are called directly.
 
-source_bash_profile_once() {
-  if declare -p __bash_profile_once &>/dev/null; then
+if ! declare -p __verbose &>/dev/null; then
+  readonly __verbose=false
+fi
+
+__begin() { [[ $__verbose == true ]] && echo "begin: $1"; }
+__end  () { [[ $__verbose == true ]] && echo "  end: $1"; }
+
+__guarded_source() {
+  local file="$1"
+
+  # Derive a valid guard name from the basename of "$file"
+  guard="$(basename "$file" | tr -c '[:alnum:]_' '_')"
+
+  # Skip everything if the guard has already been run.
+  if declare -p "$guard" &>/dev/null; then
     return
   fi
 
-  source $BASHHOME/bash_profile
+  ## Mark the guard globally and print "begin: file"
+  declare -g -r "${guard}"=true
+  __begin "$file"
 
-  if ! declare -p __bash_profile_once &>/dev/null; then
-    readonly __bash_profile_once=true
+  # When the file exists, perform the actual work.
+  if [[ -f "$file" ]]; then
+    source "$file"
+  else
+    echo "Warning: $file was not sourced."
   fi
+
+  # after source returns, print "  end: file"
+  __end "$file"
 }
-source_bash_profile_once
 
 # -------------------------------------------------------------------------- }}}
-# {{{ Personal hook.
+__begin ".bashrc"
+# {{{ start with the simplest path.
+
+[[ ":$PATH:" != *":/bin:"* ]] && export PATH="${PATH}:/bin"
+
+# -------------------------------------------------------------------------- }}}
+# {{{ Define directory exports that my_functions use.
+
+BBHOME=$HOME/bb
+export BBHOME
+
+CFGHOME=$HOME/.config
+export CFGHOME
+
+GITHOME=$HOME/git
+export GITHOME
+
+GITPATH=$GITHOME
+export GITPATH
+
+DOTHOME=$GITHOME/dotfiles
+export DOTHOME
+
+BASHHOME=$DOTHOME/bash
+export BASHHOME
+
+BINHOME=$BASHHOME/bin
+export BINHOME
+
+NVIMHOME=$GITHOME/nvim.traap
+export NVIMHOME
+
+SOUPHOME=$HOME/soup
+export SOUPHOME
+
+SSHHOME=$GITHOME/ssh
+export SSHHOME
+
+VIMHOME=$GITHOME/vim
+export VIMHOME
+
+WIKIHOME=$GITHOME/wiki
+export WIKIHOME
+
+WORKHOME=$HOME/gitea
+export WORKHOME
+
+YOUTUBEHOME=$GITHOME/youtube
+export YOUTUBEHOME
+
+PDF_VIEWER=okular
+export PDF_VIEWER
+
+PNG_VIEWER=feh
+export PNG_VIEWER
+
+# -------------------------------------------------------------------------- }}}
+# {{{ Hook into personal configuation.
 
 __guarded_source $BASHHOME/bashrc_personal
 
@@ -55,3 +134,4 @@ export NVM_DIR="$HOME/.nvm"
 eval "$(uv generate-shell-completion bash)"
 
 # -------------------------------------------------------------------------- }}}
+__end ".bashrc"

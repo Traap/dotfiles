@@ -35,7 +35,7 @@ createSymLinks() {
     ln -fsv ~/git/dotfiles/dconf                 ~/.config/dconf
     ln -fsv ~/git/dotfiles/foot                  ~/.config/foot
     ln -fsv ~/git/dotfiles/dunst                 ~/.config/dunst
-    ln -fsv ~/git/dotfiles/fuzzel               ~/.config/fuzzel
+    ln -fsv ~/git/dotfiles/fuzzel                ~/.config/fuzzel
     ln -fsv ~/git/dotfiles/gits                  ~/.config/gits
     ln -fsv ~/git/dotfiles/ghostty               ~/.config/ghostty
     ln -fsv ~/git/dotfiles/hypr                  ~/.config/hypr
@@ -64,7 +64,7 @@ createSymLinks() {
     ln -fsv ~/git/dotfiles/bash/bash_logout      ~/.bash_logout
     ln -fsv ~/git/dotfiles/bash/bash_profile     ~/.bash_profile
     ln -fsv ~/git/dotfiles/bash/bashrc           ~/.bashrc
-    ln -fsv ~/git/dotfiles/bash/bashrc_personal  ~/.bashrc_personal
+    # ln -fsv ~/git/dotfiles/bash/bashrc_personal  ~/.bashrc_personal
     ln -fsv ~/git/dotfiles/bash/dircolors        ~/.dircolors
     ln -fsv ~/git/dotfiles/bash/inputrc          ~/.inputrc
     ln -fsv ~/git/dotfiles/bash/xinitrc          ~/.xinitrc
@@ -99,6 +99,7 @@ deleteSymLinks() {
     rm -rfv ~/.config/foot
     rm -rfv ~/.config/fuzzel
     rm -rfv ~/.config/gits
+    rm -rfv ~/.config/ghostty
     rm -rfv ~/.config/hypr
     rm -rfv ~/.config/kitty
     rm -rfv ~/.config/mako
