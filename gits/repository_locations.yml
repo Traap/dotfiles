@@ -329,6 +329,9 @@ rails:
     - alias: loaf
       url: git@gsa-gitea:BSS/laof.git
 
+    - alias: Ruby
+      url: https://github.com/ruby/ruby.git
+
 
 # -------------------------------------------------------------------------- }}}
 # {{{ soup
