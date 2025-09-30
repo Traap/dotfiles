@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+src=https://github.com/magicmonty/bash-git-prompt
+dst=~/.bash-git-prompt
+git clone $src $dst
