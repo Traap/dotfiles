@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+sudo pacman -Rns $(sudo pacman -Qdtq)

@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
-sudo cp -v omarchy-seamless-loginomomarchy-seamless-login.service:
-/etc/systemd/system/omarchy-seamless-login.service
+sudo cp -v omarchy-seamless-login.service /etc/systemd/system/omarchy-seamless-login.service
 sudo systemctl daemon-reexec
 sudo systemctl daemon-reload
 sudo systemctl restart omarchy-seamless-login.service
