@@ -109,6 +109,9 @@ __guarded_source $BASHHOME/bashrc_personal
 [[ -f $HOME/traap/.ghcup/env ]] && \
     . $HOME/traap/.ghcup/env
 
+[[ -f $SSHHOME/agent_env ]] && \
+    . $SSHHOME/agent_env
+
 [ -f ~/.fzf.bash ] && . ~/.fzf.bash
 
 [[ -f /usr/share/fzf/completion.bash ]]  && \

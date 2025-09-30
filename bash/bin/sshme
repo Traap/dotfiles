@@ -1,5 +1,6 @@
 #!/bin/bash
 sshme() {
-  echo "My ssh-agent PID ${SSH_AGENT_PID}"
+  [[ -n $SSH_AGENT_PID ]] && \
+     echo "ssh-alent PID ${SSH_AGENT_PID} socket ${SSH_AUTH_SOCK}"
 }
 sshme "$@"

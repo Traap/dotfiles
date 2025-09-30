@@ -1,5 +1,9 @@
 #!/bin/bash
 sshkill() {
+  local AGENT_ENV_FILE="${SSHHOME}/agent_env"
+  rm -f "$AGENT_ENV_FILE" > /dev/null
+  unset SSH_AGENT_PID SSH_AUTH_SOCK
+
   if [[ $OSTYPE != 'msys' ]]; then
     killall ssh-agent
   else
