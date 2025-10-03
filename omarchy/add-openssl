@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+echo "Updating package database..."
+sudo pacman -Sy --noconfirm
+
+echo "Installing OpenSSH and OpenSSL..."
+sudo pacman -S --noconfirm --needed openssh openssl
+
+echo "Enabling and starting sshd service..."
+sudo systemctl enable sshd.service
+sudo systemctl start sshd.service
+
+echo "Checking sshd status..."
+sudo systemctl --no-pager --full status sshd.service || true
+
+echo "Verifying installed versions:"
+ssh -V
+openssl version

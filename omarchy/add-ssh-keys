@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+sshDir=~/git/ssh
+mkdir     -pv $sshDir
+ln       -fsv $sshDir  ~/.ssh
+ssh-keygen -f $sshDir/$HOSTNAME

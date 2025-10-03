@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+echo "source ~/git/dotfiles/bash/bashrc" >> ~/.bashrc

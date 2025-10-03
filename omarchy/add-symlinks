@@ -1,0 +1,82 @@
+#!/usr/bin/env bash
+# {{{ Check arguments passed to this script.
+
+# Arguments:
+# $1 - check for the exact value
+
+createSymLinksFlag=0
+deleteSymLinksFlag=1
+
+case $1 in
+  --create)
+    createSymLinksFlag=1
+    ;;
+  --delete)
+    deleteSymLinksFlag=1
+    ;;
+  *)
+    createSymLinksFlag=1
+    deleteSymLinksFlag=1
+    ;;
+esac
+
+# -------------------------------------------------------------------------- }}}
+# {{{ Create symbolic links
+createSymLinks() {
+  if [[ $createSymLinksFlag == 1 ]]; then
+    echo "Creating symbolic links."
+    mkdir -p ~/.config
+
+    # Symlinks at .config
+    ln -fsv ~/git/dotfiles/gits                  ~/.config/gits
+    ln -fsv ~/git/dotfiles/ghostty               ~/.config/ghostty
+    ln -fsv ~/git/nvim.traap                     ~/.config/nvim
+
+    # Symlinks at $HOME
+    ln -fsv ~/git/dotfiles/bash/inputrc          ~/.inputrc
+    ln -fsv ~/git/dotfiles/bash/xinitrc          ~/.xinitrc
+    ln -fsv ~/git/dotfiles/git/gitconfig         ~/.gitconfig
+    ln -fsv ~/git/dotfiles/git/gitignore_global  ~/.gitignore_global
+    ln -fsv ~/git/dotfiles/latex/latexmkrc       ~/.latexmkrc
+    ln -fsv ~/git/ssh/config.vim                 ~/.config.vim
+    ln -fsv ~/git/ssh                            ~/.ssh
+    ln -fsv ~/git/tmux                           ~/.tmux
+    ln -fsv ~/git/tmux/tmux.conf                 ~/.tmux.conf
+    ln -fsv ~/git/vim                            ~/.vim
+    ln -fsv ~/git/vim/vimrc                      ~/.vimrc
+  fi
+}
+
+# -------------------------------------------------------------------------- }}}
+# {{{ Delete symbolic links
+
+deleteSymLinks() {
+  if [[ $deleteSymLinksFlag == 1 ]]; then
+    echo "Deleting symbolic links."
+
+    # Symlinks at .config
+    rm -rfv ~/.config/gits
+    rm -rfv ~/.config/ghostty
+    rm -rfv ~/.config/nvim
+
+    # Symlinks at $HOME
+    rm -rfv ~/.config.vim
+    rm -rfv ~/.gitconfig
+    rm -rfv ~/.gitignore_global
+    rm -rfv ~/.inputrc
+    rm -rfv ~/.latexmkrc
+    rm -rfv ~/.ssh
+    rm -rfv ~/.tmux
+    rm -rfv ~/.tmux.conf
+    rm -rfv ~/.vim
+    rm -rfv ~/.vimrc
+  fi
+}
+
+# -------------------------------------------------------------------------- }}}
+# {{{ The stage is set ... start the show!!!
+
+deleteSymLinks
+createSymLinks
+
+# -------------------------------------------------------------------------- }}}

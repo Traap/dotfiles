@@ -1,0 +1,53 @@
+#!/usr/bin/env bash
+# {{{ say is a helper function
+
+say() {
+  echo '********************'
+  echo "${1}"
+}
+
+# -------------------------------------------------------------------------- }}}
+# {{{ pacman packages
+
+pacman_packages=(
+  "cmake"
+  "luacheck"
+  "meld"
+  "ninja"
+  "openssh"
+  "openssl"
+  "pamac"
+  "screenkey"
+  "selene"
+  "slop"
+  "stylua"
+  "tmux"
+  "unzip"
+  "which"
+)
+
+# say 'Installing pacman packages.'
+# sudo pacman -Syyu --noconfirm "${pacman_packages[@]}"
+#
+# -------------------------------------------------------------------------- }}}
+# {{{ yay packages
+
+yay_packages=(
+  "fdfind"
+  "flameshot"
+  "freerdp"
+  "fzf"
+  "graphviz"
+  "imagemagick"
+  "jq"
+  "lazygit"
+  "luarocks"
+  "pandoc"
+  "python-pip"
+  "tldr"
+  "yazi"
+)
+
+yay -Syu --noconfirm "${yay_packages[@]}"
+
+# -------------------------------------------------------------------------- }}}

@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+ln -fsv ~/git/dotfiles/hypr/config  ~/.config/hypr/config
+ln -fsv ~/git/dotfiles/hypr/layout  ~/.config/hypr/layout
+ln -fsv ~/git/dotfiles/hypr/scripts ~/.config/hypr/scripts
