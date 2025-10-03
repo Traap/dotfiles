@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+sudo cp -v waybar/config.jsonc ~/.config/waybar/.
+sudo cp -v waybar/style.css ~/.config/waybar/.
