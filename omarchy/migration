@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Order matters.
+# TODO: Make this a bit a smatter.
+
+# Add items that are specific to Traap's workflow.
+# ./add-git-bash-prompt
+./add-openssl
+./add-packages
+./add-ssh-keys
+./add-symlinks
+./add-to-bashrc
+
+# Update Omarcy items that improve Traap's workflows.
+./update-omarchy-hyprland
+./update-omarchy-waybar
+
+# Remove Omarcy items that interfer with Traap's workflows.
+./remove-starship
+./remove-orphaned-packages
+
+# This causes a reboot
+./update-omarchy-seamless-login

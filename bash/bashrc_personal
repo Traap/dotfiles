@@ -14,7 +14,7 @@ HISTSIZE='' HISTFILESIZE=''
 # -------------------------------------------------------------------------- }}}
 # {{{ Ignore upper and lowercase when TAB completion
 
-bind "set completion-ignore-case on"
+# bind "set completion-ignore-case on"
 
 # -------------------------------------------------------------------------- }}}
 # {{{ shopt
