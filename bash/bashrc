@@ -105,7 +105,7 @@ __guarded_source $BASHHOME/bashrc_personal
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Sometime other programs automagically update my bashrc.
-#
+
 [[ -f $HOME/traap/.ghcup/env ]] && \
     . $HOME/traap/.ghcup/env
 
@@ -136,12 +136,7 @@ export NVM_DIR="$HOME/.nvm"
 # TODO: eval after checking for program.
 eval "$(uv generate-shell-completion bash)"
 
+[[ -f ~/.local/bin/mise ]] && \
+  eval "$(~/.local/bin/mise activate bash)"
+
 # -------------------------------------------------------------------------- }}}
-<<<<<<< Updated upstream
-__end ".bashrc"
-||||||| Stash base
-
-=======
-
-eval "$(~/.local/bin/mise activate bash)"
->>>>>>> Stashed changes
