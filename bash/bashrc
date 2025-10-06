@@ -137,4 +137,11 @@ export NVM_DIR="$HOME/.nvm"
 eval "$(uv generate-shell-completion bash)"
 
 # -------------------------------------------------------------------------- }}}
+<<<<<<< Updated upstream
 __end ".bashrc"
+||||||| Stash base
+
+=======
+
+eval "$(~/.local/bin/mise activate bash)"
+>>>>>>> Stashed changes

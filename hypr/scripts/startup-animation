@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+# Initialize wallpaper (solid black first for dramatic effect)
+swww img --transition-type none solid_color:#000000
+
+# Short pause (black screen)
+sleep 0.5
+
+# Smoothly transition to TokyoNight wallpaper
+swww img ~/Pictures/Wallpapers/neon-circle.jpg --transition-type grow --transition-duration 2
+
+# Start Waybar after wallpaper is nicely set
+~/config/waybar/waybar
+
+# Send welcome notification
+sleep 1
+notify-send "🌙 TokyoNight" "Welcome, Traap!"
