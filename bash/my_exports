@@ -17,11 +17,12 @@ else
   export TEXMFDIST=/usr/share/texlive/texmf-dist
   export TEXMFHOME=/usr/share/texlive/texmf-dist
 fi
-export FILE=ranger
+export FILE=yazi
 if ! osType "msys"; then
   export TERM=tmux-256color
 fi
 
+export TERMINAL=ghostty
 # I enable warning when I am debugging .bashrc
 echoWarning=0
 
