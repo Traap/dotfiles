@@ -26,9 +26,9 @@ pacman_packages=(
   "which"
 )
 
-# say 'Installing pacman packages.'
-# sudo pacman -Syyu --noconfirm "${pacman_packages[@]}"
-#
+say 'Installing pacman packages.'
+sudo pacman -Syyu --noconfirm "${pacman_packages[@]}"
+
 # -------------------------------------------------------------------------- }}}
 # {{{ yay packages
 
