@@ -19,6 +19,7 @@
 
 # Devine global variables.
 
+AO=$BINHOME/ao
 _verbose=true
 _displayTime=2500
 _tmuxSession=""
@@ -142,10 +143,10 @@ start_terminal() {
   touch /tmp/"$_tmuxSession"
   case "$DESKTOP" in
     bspwm)
-      ghostty --x11-instance-name="$_tmuxSession" --command="ao $_tmuxSession"
+      ghostty --x11-instance-name="$_tmuxSession" --command="$AO $_tmuxSession"
       ;;
     hyprland)
-      ghostty --title="$_tmuxSession" --command="ao $_tmuxSession"
+      ghostty --title="$_tmuxSession" --command="$AO $_tmuxSession"
       ;;
   esac
 }
