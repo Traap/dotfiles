@@ -35,7 +35,6 @@ ln -fsv ~/git/dotfiles/hypr/config/envs.conf            ~/.config/hypr/envs.conf
 ln -fsv ~/git/dotfiles/hypr/config/input.conf           ~/.config/hypr/input.conf
 ln -fsv ~/git/dotfiles/hypr/config/layout               ~/.config/hypr/layout
 ln -fsv ~/git/dotfiles/hypr/config/monitors.conf        ~/.config/hypr/monitors.conf
-ln -fsv ~/git/dotfiles/hypr/config/monitors.log         ~/.config/hypr/monitors.log
 ln -fsv ~/git/dotfiles/hypr/config/scripts              ~/.config/hypr/scripts
 ln -fsv ~/git/dotfiles/hypr/config/windowrules.conf     ~/.config/hypr/windowrules.conf
 ln -fsv ~/git/dotfiles/hypr/config/workspacerules.conf  ~/.config/hypr/workspacerules.conf

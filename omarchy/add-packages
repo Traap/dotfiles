@@ -12,11 +12,12 @@ say() {
 pacman_packages=(
   "cmake"
   "luacheck"
+  "vim"
   "meld"
   "ninja"
   "openssh"
   "openssl"
-  "pamac"
+  # "pamac-gtk"
   "screenkey"
   "selene"
   "slop"
@@ -48,6 +49,6 @@ yay_packages=(
   "yazi"
 )
 
-yay -Syu --noconfirm "${yay_packages[@]}"
+# yay -Syu --noconfirm "${yay_packages[@]}"
 
 # -------------------------------------------------------------------------- }}}

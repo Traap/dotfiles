@@ -1,30 +1,56 @@
 #!/bin/bash
-# {{{ Default Browers, File Manager, and 256 colors.
+# I enable warning when I am debugging .bashrc
+echoWarning=0
+
+# {{{ Default BROWSER
+
 if [[ -z $WSL_DISTRO_NAME ]]; then
   if programExists brave-browser; then
-    export BROWSER=$(which brave-browser)
+    BROWSER=$(which brave-browser)
   elif programExists brave; then
-    export BROWSER=$(which brave)
+    BROWSER=$(which brave)
   elif programExists chrome; then
-    export BROWSER=$(which chrome)
+    BROWSER=$(which chrome)
   elif programExists firefox; then
-    export BROWSER=$(which firefox)
+    BROWSER=$(which firefox)
   else
-    export BROWSER=""
+    BROWSER=""
   fi
 else
-  export BROWSER=brave.exe
+  BROWSER=brave.exe
   export TEXMFDIST=/usr/share/texlive/texmf-dist
   export TEXMFHOME=/usr/share/texlive/texmf-dist
 fi
-export FILE=yazi
-if ! osType "msys"; then
-  export TERM=tmux-256color
-fi
+export BROWSER
 
-export TERMINAL=ghostty
-# I enable warning when I am debugging .bashrc
-echoWarning=0
+# -------------------------------------------------------------------------- }}}
+# {{{ TUI file manager
+
+if programExists yazi; then
+  FILE=$(which yazi)
+fi
+  if ! osType "msys"; then
+    TERMINAL=""
+    [[ $echoWarning == 1 ]] && echo "WARNING: yazi"
+  fi
+export FILE
+
+# -------------------------------------------------------------------------- }}}
+# {{{ TERMINAL
+
+if programExists ghostty; then
+  TERMINAL=$(which ghostty)
+elif programExists alacritty; then
+  TERMINAL=$(which alacritty)
+elif programExists kitty; then
+  TERMINAL=$(which kitty)
+else
+  if ! osType "msys"; then
+    TERMINAL=""
+    [[ $echoWarning == 1 ]] && echo "WARNING: alacritty, ghostty or kitty are not installed."
+  fi
+fi
+export TERMINAL
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Darwin CLI and LS colors.
@@ -105,14 +131,28 @@ fi
 # {{{ Editor.
 
 export MANWIDTH=76
-if osType "msys"; then
-  EDITOR=$(which vim)
-elif programExists nvim; then
+if programExists nvim; then
+  EDITOR=$(which nvim)
+elif programExists vim; then
   EDITOR=$(which nvim)
 else
-  EDITOR=$(which vim)
+  EDITOR=""
+  [[ $echoWarning == 1 ]] && echo "WARNING: vim or nvim are not installed."
 fi
 export EDITOR
+
+# -------------------------------------------------------------------------- }}}
+# {{ File manager
+
+if programExists nautilus; then
+  FILEMANAGER=$(which nautilus)
+elif programExists thunar; then
+  FILEMANAGER=$(which thunar)
+else
+  FILEMANAGER=""
+  [[ $echoWarning == 1 ]] && echo "WARNING: Nautlis or Thunar are not installed."
+fi
+export FILEMANAGER
 
 # -------------------------------------------------------------------------- }}}
 # {{{ FZF customizations
