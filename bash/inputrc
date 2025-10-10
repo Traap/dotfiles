@@ -1,6 +1,114 @@
+# ============================================================================
+# ~/.inputrc — Merged Configuration
+#
+# Purpose:
+#   Start from documented GNU Readline defaults, apply useful Omarchy settings,
+#   then override with personal preferences. This ensures a predictable, stable
+#   shell experience across systems.
+#
+# Compatibility:
+#   - GNU Readline 8.x, Bash 5.x
+#   - Linux and macOS
+#
+# To apply changes immediately:
+#   bind -f ~/.inputrc
+# ============================================================================
+
+# ============================================================================
+# Character Encoding & Meta Keys
+# ============================================================================
+
+# Enable Meta (Alt) key support.
+set meta-flag on
+
+# Allow entering 8-bit characters.
+set input-meta on
+
+# Display 8-bit characters as-is instead of escaping them.
+set output-meta on
+
+# Prevent Meta characters from being converted to ESC sequences.
+set convert-meta off
+
+# ============================================================================
+# Editing Mode
+# ============================================================================
+
+# Disable terminal bell entirely (default: audible)
 set bell-style none
+
+# Use Vi editing mode instead of default Emacs.
 set editing-mode vi
 set keymap vi
+
+# ============================================================================
+# Completion Behavior (Defaults → Personal)
+# ============================================================================
+
+# Case-insensitive completion
 set completion-ignore-case on
+
+# Show all completions on first Tab if ambiguous
 set show-all-if-ambiguous on
+
+# Show completions even if line hasn't been modified
+set show-all-if-unmodified on
+
+# Display first N common characters in completion lists
+set completion-prefix-display-length 0
+
+# Automatically append '/' when completing symlinks to directories
+set mark-symlinked-directories on
+
+# Do not match hidden files unless input begins with '.'
+set match-hidden-files off
+
+# Show all results at once (disable paging)
+set page-completions off
+
+# Ask before showing more than N (200) completions
+set completion-query-items 200
+
+# Show file type indicators (like `ls -F`)
+set visible-stats on
+
+# Skip already-completed text when completing (Bash 4+)
+set skip-completed-text on
+
+# Enable colored completion listings (Bash 4+)
 set colored-stats on
+
+# ============================================================================
+# Key Bindings (Restore to Personal Defaults)
+# ============================================================================
+
+# Up arrow: navigate to previous command in history
+"\e[A": previous-history
+
+# Down arrow: navigate to next command in history
+"\e[B": next-history
+
+# Right arrow: move forward one character
+"\e[C": forward-char
+
+# Left arrow: move backward one character
+"\e[D": backward-char
+
+# Remove stray alternative escape sequences
+"\eOA": ""
+"\eOB": ""
+
+# Remove legacy +/- bindings for history navigation
+"+": ""
+"-": ""
+
+# ============================================================================
+# End of ~/.inputrc
+#
+# This configuration merges:
+#   - GNU Readline defaults (for predictability)
+#   - Omarchy enhancements (for usability)
+#   - Personal preferences (for control)
+#
+# Reload with: bind -f ~/.inputrc
+# ============================================================================
