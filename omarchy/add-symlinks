@@ -31,6 +31,7 @@ createSymLinks() {
     ln -fsv ~/git/dotfiles/gits                  ~/.config/gits
     ln -fsv ~/git/dotfiles/ghostty               ~/.config/ghostty
     ln -fsv ~/git/nvim.traap                     ~/.config/nvim
+    ln -fsv ~/git/dotfiles/yazi                  ~/.config/yazi
 
     # Symlinks at $HOME
     ln -fsv ~/git/dotfiles/bash/inputrc          ~/.inputrc
@@ -58,6 +59,7 @@ deleteSymLinks() {
     rm -rfv ~/.config/gits
     rm -rfv ~/.config/ghostty
     rm -rfv ~/.config/nvim
+    rm -rfv ~/.config/yazi
 
     # Symlinks at $HOME
     rm -rfv ~/.config.vim

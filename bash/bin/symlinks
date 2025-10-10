@@ -58,6 +58,7 @@ createSymLinks() {
     ln -fsv ~/git/dotfiles/wofi                  ~/.config/wofi
     ln -fsv ~/git/dotfiles/wofifull              ~/.config/wofifull
     ln -fsv ~/git/dotfiles/swaylock              ~/.config/swaylock
+    ln -fsv ~/git/dotfiles/yazi                  ~/.config/yazi
     ln -fsv ~/git/nvim.traap                     ~/.config/nvim
 
     # Symlinks at $HOME
@@ -121,6 +122,7 @@ deleteSymLinks() {
     rm -rfv ~/.config/wofi
     rm -rfv ~/.config/wofifull
     rm -rfv ~/.config/swaylock
+    rm -rfv ~/.config/yazi
 
     # Symlinks at $HOME
     rm -rfv ~/.bash_logout
