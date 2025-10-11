@@ -1,15 +1,20 @@
-# DO NOT EXECUTE;  These are notes I have taken to setup ssh.
-#                  
-#
+## ssh Hacks
+DO NOT USE THIS SCRIPT WITHOUT READING IT FIRST.
 
-$eval(which ruby)
+YOU HAVE BEEN WARNED!
 
-# .ssh
+Traap
+
+
+## .ssh
+```bash
 cd ~/.ssh
-chmod 600 * 
+chmod 600 *
 chmod 644 *.pub
+```
 
-# See what is set.
+## See what is set.
+```bash
 echo $HOST
 echo $HOSTFILE
 echo $HOSTNAME
@@ -17,14 +22,21 @@ echo $HOSTTYPE
 echo $INPUTRC
 echo $MACHTYPE
 echo $UID
+```
 
 # When I need an ssh server.
+```bash
 sudo apt-get install openssh-server
 sudo apt-get purge openssh-server
 sudo apt-get update
+```
 
 # Start the server.
+```bash
 sudo service ssh --full-restart
+```
 
 # Examine file.
-sudo vim /etc/ssh/sshd_config 
+```bash
+sudo vim /etc/ssh/sshd_config
+```

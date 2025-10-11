@@ -1,4 +1,4 @@
-## Setup 
+## HACKS
 
 * The subfolders represent a collection of 'hacks' I use to trouble shoot
   configuration issues.
