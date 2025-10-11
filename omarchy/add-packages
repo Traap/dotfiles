@@ -1,57 +1,138 @@
 #!/usr/bin/env bash
-# {{{ say is a helper function
-
-say() {
-  echo '********************'
-  echo "${1}"
-}
-
-# -------------------------------------------------------------------------- }}}
 # {{{ pacman packages
 
-pacman_packages=(
-  "cmake"
-  "luacheck"
-  "vim"
-  "meld"
-  "ninja"
-  "openssh"
-  "openssl"
-  # "pamac-gtk"
-  "screenkey"
-  "selene"
-  "slop"
-  "stylua"
-  "tmux"
-  "unzip"
-  "which"
-)
+if [[ $pacmanPackagesFlag == true ]]; then
+  say 'Install pacman packages.'
 
-# say 'Installing pacman packages.'
-# sudo pacman -Syyu --noconfirm "${pacman_packages[@]}"
+  pacman_packages=(
+    "cmake"
+    "docker"
+    "luacheck"
+    "vim"
+    "meld"
+    "ninja"
+    "openssh"
+    "openssl"
+    "screenkey"
+    "selene"
+    "slop"
+    "stylua"
+    "tmux"
+    "unzip"
+    "which"
+  )
+
+  sayAndDo "sudo pacman -Syyu --noconfirm '${pacman_packages[@]}'"
+else
+  say 'pacman packages skipped.'
+fi
 
 # -------------------------------------------------------------------------- }}}
 # {{{ yay packages
 
-yay_packages=(
-  "fdfind"
-  "flameshot"
-  "freerdp"
-  "fzf"
-  "graphviz"
-  "hey-mail-bin"
-  "imagemagick"
-  "jq"
-  "lazygit"
-  "luarocks"
-  "pandoc"
-  "python-pip"
-  "teams"
-  "tldr"
-  "visual-studio-code-bin"
-  "yazi"
-)
+if [[ $yayPackagesFlag == true ]]; then
+  say 'Install yay packages.'
 
-yay -Syu --noconfirm "${yay_packages[@]}"
+  yay_packages=(
+    "fdfind"
+    "flameshot"
+    "freerdp"
+    "fzf"
+    "graphviz"
+    "hey-mail-bin"
+    "imagemagick"
+    "jq"
+    "lazygit"
+    "luarocks"
+    "npm"
+    "pandoc"
+    "python-pip"
+    "teams"
+    "tldr"
+    "visual-studio-code-bin"
+    "yazi"
+  )
+
+  sayAndDo "yay -Syu --noconfirm '${yay_packages[@]}'"
+else
+  say 'yay packages skipped.'
+fi
+
+# -------------------------------------------------------------------------- }}}
+# {{{ NodeJs packages
+
+if [[ $nodeJsFlag == true ]]; then
+  say 'Install NodeJs packages.'
+
+  nodejs_packages=(
+    "neovim"
+    "node-gyp"
+    "nodejs"
+    "nodejs-nopt"
+    "semver"
+    "yarn"
+  )
+
+  sayAndDo "sudo npm install -g '${nodejs_packages[@]}'"
+else
+  say 'NodeJs packages skipped.'
+fi
+
+# -------------------------------------------------------------------------- }}}
+# {{{ pip paackages
+
+if [[ $pipPackagesFlag == true ]]; then
+  say 'Install pip packages.'
+
+  pip_packages=(
+    "pynvim"
+    "neovim-remote"
+  )
+
+  sayAndDo "pip install '${pip_packages[@]}'"
+else
+  say 'pip packages skipped.'
+fi
+
+# -------------------------------------------------------------------------- }}}
+# {{{ luarocks paackages
+
+if [[ $luarocksPackagesFlag == true ]]; then
+  say 'Install luarocks packages.'
+
+  luarocks_packages=(
+    "jsregexp"
+    )
+
+    "pynvim"
+    "neovim-remote"
+
+  sayAndDo "pip install '${luarocks_packages[@]}'"
+else
+  say 'luarocks packages skipped.'
+fi
+
+# -------------------------------------------------------------------------- }}}
+# {{{ TeX paackages
+
+if [[ $texPackagesFlag == true ]]; then
+  say 'Install TeX packages.'
+
+  tex_packages=(
+    "texlive-bin"
+    "texlive-binextra"
+    "texlive-core"
+    "texlive-latexextra"
+    "texlive-music"
+    "texlive-pictures"
+    "texlive-plaingeneric"
+    "texlive-publishers"
+    "texlive-science"
+  )
+
+  sayAndDo "yay -S --noconfirm '${tex_packages[@]}'"
+else
+  say 'TeX packages skipped.'
+fi
 
 # -------------------------------------------------------------------------- }}}

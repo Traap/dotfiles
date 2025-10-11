@@ -1,6 +1,15 @@
 #!/usr/bin/env bash
-# {{{ Check arguments passed to this script.
+# {{{ Check symnlinksFlag
 
+if [[ $symlinksFlag == true ]]; then
+  say 'Install symlinks.'
+else
+  say 'symlinks skipped.'
+  exit 0
+fi
+
+# -------------------------------------------------------------------------- }}}
+# {{{ Check arguments passed to this script.
 # Arguments:
 # $1 - check for the exact value
 

@@ -1,4 +1,11 @@
 #!/usr/bin/env bash
-src=https://github.com/magicmonty/bash-git-prompt
-dst=~/.bash-git-prompt
-git clone $src $dst
+
+if [[ $gitBashPromptFlag == true ]]; then
+  say 'Install git bash prompt.'
+
+  src=https://github.com/magicmonty/bash-git-prompt
+  dst=~/.bash-git-prompt
+  sayAndDo "git clone $src $dst"
+else
+  say 'git baseh prompt skipped.'
+fi

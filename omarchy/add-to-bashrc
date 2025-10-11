@@ -1,2 +1,8 @@
 #!/usr/bin/env bash
-echo "source ~/git/dotfiles/bash/bashrc" >> ~/.bashrc
+
+if [[ $bashrdFlag == true ]]; then
+  say 'Install .bashrc.'
+  sayAndDo "source ~/git/dotfiles/bash/bashrc" >> ~/.bashrc
+else
+  say '.bashrc skipped.'
+fi

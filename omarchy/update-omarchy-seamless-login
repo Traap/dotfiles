@@ -1,5 +1,11 @@
 #!/usr/bin/env bash
-sudo cp -v omarchy-seamless-login.service /etc/systemd/system/omarchy-seamless-login.service
-sudo systemctl daemon-reexec
-sudo systemctl daemon-reload
-sudo systemctl restart omarchy-seamless-login.service
+if [[ $seamlessLoginFlag == true ]]; then
+  say 'Install seamless login.'
+  sayAndDo "sudo cp -v omarchy-seamless-login.service /etc/systemd/system/omarchy-seamless-login.service"
+  sayAndDo "sudo systemctl daemon-reexec"
+  sayAndDo "sudo systemctl daemon-reload"
+  sayAndDo "sudo systemctl restart omarchy-seamless-login.service"
+
+else
+  say 'seamless login skipped.'
+fi

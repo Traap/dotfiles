@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+if [[ $xxxFlag == true ]]; then
+  say 'Install xxx.'
+  sayAndDo "ls -la"
+
+else
+  say 'xxx skipped.'
+fi

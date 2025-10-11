@@ -1,11 +1,12 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Order matters.
-# TODO: Make this a bit a smatter.
+# Run premigration setup first.
+source ./pre-migration
 
+# Order matters.
 # Add items that are specific to Traap's workflow.
-# ./add-git-bash-prompt
+./add-git-bash-prompt
 ./add-openssl
 ./add-packages
 ./add-ssh-keys
@@ -23,3 +24,5 @@ set -euo pipefail
 # This causes a reboot
 ./update-omarchy-seamless-login
 
+# Run post-migration cleanup.
+source ./pre-migration

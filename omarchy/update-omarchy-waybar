@@ -1,3 +1,9 @@
 #!/usr/bin/env bash
-cp -fv waybar/config.jsonc ~/.config/waybar/.
-cp -fv waybar/style.css ~/.config/waybar/.
+
+if [[ $waybarFlag == true ]]; then
+  say 'Install waybar.'
+  sayAndDo "cp -fv waybar/config.jsonc ~/.config/waybar/."
+  sayAndDo "cp -fv waybar/style.css ~/.config/waybar/."
+else
+  say 'waybar skipped.'
+fi

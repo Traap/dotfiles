@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+repo_root=private
+if [[ -d $HOME/$repo_root ]]; then
+    operation=pull
+else
+    operation=clone
+fi
+sayAndDo "gits $operation -r $repo_root -v"

@@ -1,2 +1,9 @@
 #!/usr/bin/env bash
-sudo pacman -Rns $(sudo pacman -Qdtq)
+
+if [[ $orphanedFlag == true ]]; then
+  say 'Install orphaned.'
+  sayAndDo "sudo pacman -Rns $(sudo pacman -Qdtq)"
+
+else
+  say 'orphaned skipped.'
+fi

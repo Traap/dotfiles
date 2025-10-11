@@ -1,2 +1,9 @@
 #!/usr/bin/env bash
-yay -R starship
+
+if [[ $starshipFlag == true ]]; then
+  say 'Install starshp.'
+  sayAndDo "yay -R starship"
+
+else
+  say 'starship skipped.'
+fi
