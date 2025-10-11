@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+# luarocks paackages
+
+if [[ $luarocksFlag == true ]]; then
+  say 'Install luarocks packages.'
+
+  luarocks_packages=(
+    "jsregexp"
+    )
+
+    "pynvim"
+    "neovim-remote"
+
+  sayAndDo "pip install '${luarocks_packages[@]}'"
+else
+  say 'luarocks packages skipped.'
+fi

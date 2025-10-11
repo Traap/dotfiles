@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-if [[ $bashrdFlag == true ]]; then
+if [[ $bashrcFlag == true ]]; then
   say 'Install .bashrc.'
   sayAndDo "source ~/git/dotfiles/bash/bashrc" >> ~/.bashrc
 else

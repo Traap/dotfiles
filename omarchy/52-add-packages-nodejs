@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+# NodeJs packages
+
+if [[ $nodeJsFlag == true ]]; then
+  say 'Install NodeJs packages.'
+
+  nodejs_packages=(
+    "neovim"
+    "node-gyp"
+    "nodejs"
+    "nodejs-nopt"
+    "semver"
+    "yarn"
+  )
+
+  sayAndDo "sudo npm install -g '${nodejs_packages[@]}'"
+else
+  say 'NodeJs packages skipped.'
+fi

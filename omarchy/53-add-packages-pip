@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+# pip paackages
+
+if [[ $pipPackagesFlag == true ]]; then
+  say 'Install pip packages.'
+
+  pip_packages=(
+    "pynvim"
+    "neovim-remote"
+  )
+
+  sayAndDo "pip install '${pip_packages[@]}'"
+else
+  say 'pip packages skipped.'
+fi

@@ -5,7 +5,7 @@ if [[ $hyprlandFlag == true ]]; then
   say 'Install hyprland.'
 else
   say 'hyprland skipped.'
-  exit 0
+  return;
 fi
 
 # -------------------------------------------------------------------------- }}}

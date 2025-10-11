@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+# yay packages
+
+if [[ $yayPackagesFlag == true ]]; then
+  say 'Install yay packages.'
+
+  yay_packages=(
+    "fdfind"
+    "flameshot"
+    "freerdp"
+    "fzf"
+    "graphviz"
+    "hey-mail-bin"
+    "imagemagick"
+    "jq"
+    "lazygit"
+    "luarocks"
+    "npm"
+    "pandoc"
+    "python-pip"
+    "teams"
+    "tldr"
+    "visual-studio-code-bin"
+    "yazi"
+  )
+
+  sayAndDo "yay -Syu --noconfirm '${yay_packages[@]}'"
+else
+  say 'yay packages skipped.'
+fi

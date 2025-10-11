@@ -179,13 +179,23 @@ several computer to manage.  Each computer has its own sshkey.  Some computers d
 not need LaTeX, etc.
 
 ```bash
+bashrcFlag=false
+gitBashPromptFlag=false
+hyprlandFlag=false
 luarocksPackages=false
 mirrorFlag=false
 nodeJsFlag=false
+openSSLFlag=true
+orphanedFlag=true
 pacmanPackagesFlag=false
 pipPackagesFlag=false
+seamlessLoginFlag=false
+sshHostKeyFlag=false
+starshipFlag=false
+symlinksFlag=false
 texPackagesFlag=false
 tmuxPluginsFlag=false
+waybarFlag=false
 yayPackagesFlag=false
 
 ```
@@ -194,23 +204,13 @@ yayPackagesFlag=false
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Add items that are specific to Traap's workflow.
-./add-git-bash-prompt
-./add-openssl
-./add-packages
-./add-ssh-keys
-./add-symlinks
-./add-to-bashrc
+# Run premigration setup first.
+source ./functions
+source ./config
 
-# Update Omarcy items that improve Traap's workflows.
-./update-omarchy-hyprland
-./update-omarchy-waybar
-
-# Remove Omarcy items that interfer with Traap's workflows.
-./remove-starship
-./remove-orphaned-packages
-
-# This causes a reboot
-./update-omarchy-seamless-login
-
+# Run migrations
+for script in [0-9][0-9]-*; do
+  Say "=== Running $script ==="
+  source "./$script"
+done
 ```

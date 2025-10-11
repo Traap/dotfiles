@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+# TeX paackages
+
+if [[ $texPackagesFlag == true ]]; then
+  say 'Install TeX packages.'
+
+  tex_packages=(
+    "texlive-bin"
+    "texlive-binextra"
+    "texlive-core"
+    "texlive-latexextra"
+    "texlive-music"
+    "texlive-pictures"
+    "texlive-plaingeneric"
+    "texlive-publishers"
+    "texlive-science"
+  )
+
+  sayAndDo "yay -S --noconfirm '${tex_packages[@]}'"
+else
+  say 'TeX packages skipped.'
+fi

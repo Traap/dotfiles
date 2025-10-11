@@ -5,7 +5,7 @@ if [[ $symlinksFlag == true ]]; then
   say 'Install symlinks.'
 else
   say 'symlinks skipped.'
-  exit 0
+  return;
 fi
 
 # -------------------------------------------------------------------------- }}}

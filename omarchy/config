@@ -4,11 +4,11 @@
 bashrcFlag=false
 gitBashPromptFlag=false
 hyprlandFlag=false
-luarocksPackages=false
+luarocksFlag=false
 mirrorFlag=false
 nodeJsFlag=false
-openSSLFlag=true
-orphanedFlag=true
+openSSLFlag=false
+orphanedFlag=false
 pacmanPackagesFlag=false
 pipPackagesFlag=false
 seamlessLoginFlag=false
