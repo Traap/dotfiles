@@ -1,10 +1,10 @@
 #!/bin/bash
-# {{{ check state for all repo types 
+# {{{ check state for all repo types
 
 checkRepos() {
-  echo 'Checking bb'   && gits bb
-  echo 'Checking git'  && gits git
-  echo 'Checking soup' && gits soup
+  sayAndDo "gits status -r git -v"
+  sayAndDo "gits status -r soup -v"
+  sayAndDo "gits status -r private -v"
 }
 
 # -------------------------------------------------------------------------  }}}

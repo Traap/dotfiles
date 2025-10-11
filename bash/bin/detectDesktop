@@ -17,6 +17,6 @@ DESKTOP=$(detect_wm)
 case "$DESKTOP" in
      bspwm) echo "Detected BSPWM" ;;
   hyprland) echo "Detected Hyprland" ;;
-   wayfire) echo "Detected Hyprland" ;;
+   wayfire) echo "Detected Wayfire" ;;
          *) echo "Could not detect supported window manager." ;;
 esac
