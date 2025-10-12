@@ -3,11 +3,10 @@
 
 if [[ $hyprlandFlag == true ]]; then
   say 'Install hyprland.'
+  rm    -frv  ~/.config/hypr
+  mkdir -pv  ~/config/hypr
+  ln    -fsv ~/git/dotfiles/hypr ~/.config/hypr
 else
   say 'hyprland skipped.' return;
 fi
 
-# Create a new hyprland configuration directory
-rm    -fv  ~/.config/hypr
-mkdir -pv  ~/config/hypr
-ln    -fsv ~/git/dotfiles/hypr ~/.config/hypr

@@ -7,5 +7,5 @@ if [[ $gitBashPromptFlag == true ]]; then
   dst=~/.bash-git-prompt
   sayAndDo "git clone $src $dst"
 else
-  say 'git baseh prompt skipped.'
+  say 'git base prompt skipped.'
 fi

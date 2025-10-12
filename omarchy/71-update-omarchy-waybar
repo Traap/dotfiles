@@ -2,8 +2,9 @@
 
 if [[ $waybarFlag == true ]]; then
   say 'Install waybar.'
-  sayAndDo "cp -fv waybar/config.jsonc ~/.config/waybar/."
-  sayAndDo "cp -fv waybar/style.css ~/.config/waybar/."
+  rm    -frv  ~/.config/waybar
+  mkdir -pv  ~/config/waybar
+  ln    -fsv ~/git/dotfiles/waybar ~/.config/waybar
 else
   say 'waybar skipped.'
 fi
