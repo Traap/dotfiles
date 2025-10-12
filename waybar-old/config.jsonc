@@ -1,0 +1,192 @@
+{
+  "layer": "top",
+  "position": "top",
+  "height": 30,
+  "margin": "0 0 0 0",
+
+  "modules-left": [
+    "custom/launcher",
+    "hyprland/workspaces",
+  ],
+
+  "modules-center": [
+    "clock",
+    "custom/weather"
+  ],
+
+  "modules-right": [
+    "backlight",
+    "bluetooth",
+    "pulseaudio",
+    "hyprland/language",
+    "battery",
+    "custom/pacman",
+    "network",
+    "custom/power"
+  ],
+
+  "hyprland/workspaces": {
+    "format": "{icon}",
+    "on-click": "activate",
+    "all-outputs": true,
+    "format-icons": {
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5",
+      "6": "6",
+      "7": "7",
+      "8": "8",
+      "9": "9",
+      "10": "10",
+      "urgent": "",
+      "default": ""
+    },
+    "sort-by-number": true
+  },
+
+  "idle_inhibitor": {
+    "format": "{icon}",
+    "format-icons": {
+      "activated": "",
+      "deactivated": ""
+    }
+  },
+
+
+  "clock": {
+    "interval": 60,
+    "align": 0,
+    "rotate": 0,
+    "tooltip-format": "<big>{:%B %Y}</big>\n<tt><small>{calendar}</small></tt>",
+    "format": "{:%d %b, %H:%M}",
+    "format-alt": " {:%a %b %d, %G}",
+  },
+
+  "cpu#1": {
+    "interval": 1,
+    "format": "{icon0}{icon1}{icon2}{icon3} {usage:>2}% ",
+    "format-icons": [
+      "▁",
+      "▂",
+      "▃",
+      "▄",
+      "▅",
+      "▆",
+      "▇",
+      "█"
+    ]
+  },
+
+  "cpu": {
+    "format": "﬙ {usage: >3}%",
+    "on-click": "ghostty --command='btop'"
+  },
+
+  "memory": {
+    "format": " {: >3}%",
+    "on-click": "ghostty --command='htop'"
+  },
+
+  "temperature": {
+    "hwmon-path": "/sys/class/hwmon/hwmon1/temp1_input",
+    "critical-threshold": 80,
+    "format": "  {temperatureC}°C"
+  },
+
+  "backlight": {
+    "format": "{icon} {percent: >3}%",
+    "format-icons": ["", ""],
+    "on-scroll-down": "~/.config/waybar/scripts/brightness --dec",
+    "on-scroll-up": "~/.config/waybar/scripts/brightness --inc"
+  },
+
+  "battery": {
+    "states": {
+      "warning": 30,
+      "critical": 15
+    },
+    "format": "{icon} {capacity: >3}%",
+    "format-icons": ["", "", "", "", ""]
+  },
+
+  "bluetooth": {
+    "format": "",
+    "format-disabled": "󰂲",
+    "format-connected": "",
+    "tooltip-format": "Devices connected: {num_connections}",
+    "on-click": "blueberry"
+  },
+
+  "network": {
+    "format": "⚠  Disabled",
+    "format-wifi": "  {essid}",
+    "format-ethernet": "  Wired",
+    "format-disconnected": "⚠  Disconnected",
+    "on-click": "nm-connection-editor"
+  },
+
+  "pulseaudio": {
+    "format": "{icon} {volume}",
+    "format-muted": "󰖁 Mute",
+    "format-bluetooth": " {volume}% {format_source}",
+    "format-bluetooth-muted": " Mute",
+    "format-source": " {volume}",
+    "format-source-muted": "",
+    "format-icons": {
+      "headphone": "",
+      "hands-free": "",
+      "headset": "",
+      "phone": "",
+      "portable": "",
+      "car": "",
+      "default": [
+        "󰕾",
+        "󰕾",
+        "󰕾"
+      ]
+    },
+    "scroll-step": 5.0,
+    "on-click": "pamixer -t",
+    "on-click-right": "pavucontrol",
+    "on-scroll-up": "~/.config/waybar/scripts/volume --inc",
+    "on-scroll-down": "~/.config/waybar/scripts/volume --dec",
+    "smooth-scrolling-threshold": 1,
+  },
+
+  "custom/pacman": {
+    "format": " {}",
+    "interval": 7200,
+    // "exec": "i=$(checkupdates); echo \"$i\" |wc -l; echo \"$i\" |column -t |tr '\n' '\r'", // # of updates and tooltip details
+    "exec-if": "exit 0",
+    "on-click": "pamac-manager",
+    "signal": 8
+  },
+
+  "custom/power": {
+    "format": "⏻",
+    "on-click": "archlinux-logout",
+    "tooltip": false
+  },
+
+  "hyprland/language": {
+    "format": "  {}",
+    "on-click": "~/.config/waybar/scripts/keybindings"
+  },
+
+  "custom/launcher": {
+    "format": "󰝨",
+    "on-click": "~/.config/waybar/scripts/fullmenu",
+    "tooltip": false
+  },
+
+  "custom/weather": {
+    "format": "{}°",
+    "tooltip": true,
+    "interval": 3600,
+    "exec": "~/.config/waybar/scripts/wttr.py",
+    "return-type": "json"
+  },
+
+}

@@ -1,16 +1,19 @@
-/* Waybar configuration */
-/* Configuration reference: https://github.com/Alexays/Waybar/wiki/Configuration */
+@import "../omarchy/current/theme/waybar.css";
 
-@import "machiatto.css";
-
+@define-color base      #24273a;
+@define-color blue      #8aadf4;
+@define-color lavender  #b7bdf8;
+@define-color mauve     #c6a0f6;
+@define-color maroon    #ee99a0;
 
 * {
-    color: @lavender;
-    border: 0;
-    padding: 0 0;
-    font-family: UbuntuMono;
-    font-size: 18px;
-    font-weight: bold;
+  color: @lavendar;
+
+  border-radius: 0;
+  border: none;
+  font-family: 'JetBrainsMono Nerd Font Mono';
+  font-size: 18px;
+  min-height: 0;
 }
 
 window#waybar {
@@ -19,15 +22,27 @@ window#waybar {
 }
 
 #workspaces button {
-    color: @base;
-    border-radius: 50%;
-    margin: 0px 0px;
-    padding: 4px 6px 2px 0px;
-    margin: 0px 8px 0px 8px;
+  all: initial;
+  color: @base;
+  padding: 0 6px;
+  margin: 0 1.5px;
+  min-width: 9px;
+}
+
+#workspaces button.active {
+    color: @mauve;
+}
+
+#workspaces button.active * {
+    color: @mauve;
+}
+
+#workspaces button.empty {
+  opacity: 0.5;
 }
 
 #workspaces button:hover {
-    color: @mauve;
+    color: @blue;
     box-shadow: none;
     text-shadow: none;
     border: 0px;
@@ -35,259 +50,56 @@ window#waybar {
 }
 
 #workspaces button:hover * {
-    color: @mauve;
+    color: @blue;
 }
 
-#workspaces * {
-    color: whitesmoke;
+.modules-left {
+  margin-left: 8px;
 }
 
-#workspaces {
-    border-style: solid;
-    background-color: @base;
-    opacity: 1;
-    border-radius: 10px;
-    margin: 8px 8px 8px 8px;
+.modules-right {
+  margin-right: 8px;
 }
 
-#workspaces button.active {
-    color: @mauve;
-    border-radius: 20px;
-}
-
-#workspaces button.active * {
-    color: @mauve;
-}
-
-#mode {
-    color: #ebcb8b;
-}
-
-#clock,
-#custom-swap,
-#custom-changewaybar,
-#custom-cava-internal,
-#battery,
-#cpu,
-#memory,
-#idle_inhibitor,
-#temperature,
-#custom-keyboard-layout,
-#language,
-#backlight,
-#network,
-#pulseaudio,
-#mode,
 #tray,
-#custom-power,
-#custom-pacman,
-#custom-launcher,
-#mpd {
-    padding: 5px 8px;
-    border-style: solid;
-    background-color: shade(@base, 1);
-    opacity: 1;
-    margin: 8px 0;
+#cpu,
+#battery,
+#network,
+#bluetooth,
+#pulseaudio,
+#custom-omarchy,
+#custom-screenrecording-indicator,
+#custom-update {
+  min-width: 12px;
+  margin: 0 7.5px;
 }
 
-#mpd {
-    border-radius: 10px;
-    color: @mauve;
-    margin-left: 5px;
-    background-color: rgba(0, 0, 0, 0);
+#custom-expand-icon {
+  margin-right: 7px;
 }
 
-#mpd.2 {
-    border-radius: 10px 0px 0px 10px;
-    margin: 8px 0px 8px 6px;
-    padding: 4px 12px 4px 10px;
+tooltip {
+  padding: 2px;
 }
 
-#mpd.3 {
-    border-radius: 0px 0px 0px 0px;
-    margin: 8px 0px 8px 0px;
-    padding: 4px;
-}
-
-#mpd.4 {
-    border-radius: 0px 10px 10px 0px;
-    margin: 8px 0px 8px 0px;
-    padding: 4px 10px 4px 14px;
-}
-
-#mpd.2,
-#mpd.3,
-#mpd.4 {
-    background-color: @base;
-    font-size: 14px;
-}
-
-#custom-cava-internal {
-    border-radius: 10px;
-    color: @mauve;
-}
-
-#custom-swap {
-    border-radius: 10px;
-    color: @base;
-    margin-left: 5px;
-    background-color: @mauve;
-}
-
-#custom-changewaybar {
-    border-radius: 10px;
-    color: @base;
-    margin-left: 5px;
-    background-color: @mauve;
+#custom-update {
+  font-size: 10px;
 }
 
 #clock {
-    color: @sky;
-    border-radius: 10px;
-    margin: 8px 10px;
+  margin-left: 8.75px;
 }
 
-#backlight {
-    color: @yellow;
-    border-radius: 10px 0 0 10px;
+.hidden {
+  opacity: 0;
 }
 
-#battery {
-    color: #d8dee9;
-    border-radius: 0 10px 10px 0;
-    margin-right: 10px;
+#custom-screenrecording-indicator {
+  min-width: 12px;
+  margin-left: 8.75px;
+  font-size: 10px;
 }
 
-#battery.charging {
-    color: #81a1c1;
+#custom-screenrecording-indicator.active {
+  color: #a55555;
 }
-
-@keyframes blink {
-    to {
-        color: @red;
-    }
-}
-
-#battery.critical:not(.charging) {
-    color: #bf616a;
-    animation-name: blink;
-    animation-duration: 0.5s;
-    animation-timing-function: linear;
-    animation-iteration-count: infinite;
-    animation-direction: alternate;
-}
-
-#cpu {
-    color: @sky;
-}
-
-#cpu #cpu-icon {
-    color: @sky;
-}
-
-#memory {
-    color: @sky;
-    border-radius: 10px;
-    margin-right: 10px;
-}
-
-#network.disabled {
-    color: #bf616a;
-}
-
-#network {
-    color: @green;
-    border-radius: 10px;
-    margin-right: 5px;
-}
-
-#network.disconnected {
-    color: #bf616a;
-}
-
-#pulseaudio {
-    color: @flamingo;
-    border-radius: 10px;
-    margin-right: 10px;
-}
-
-#pulseaudio.muted {
-    color: #3b4252;
-}
-
-#temperature {
-    color: @teal;
-    border-radius: 10px;
-    margin-right: 10px;
-}
-
-#temperature.critical {
-    color: @red;
-}
-
-#idle_inhibitor {
-    background-color: #ebcb8b;
-    color: @base;
-}
-
-#tray {
-    margin: 8px 10px;
-    border-radius: 10px;
-}
-
-#custom-launcher {
-    background-color: @mauve;
-    color: @base;
-    border-radius: 10px;
-    padding: 5px 10px;
-    margin-left: 15px;
-}
-
-#custom-power {
-    color: @base;
-    background-color: @red;
-    border-radius: 10px;
-    margin-left: 5px;
-    margin-right: 15px;
-    padding: 5px 10px;
-}
-
-#window {
-    border-style: hidden;
-    margin-left: 10px;
-    margin-right: 10px;
-    color: #eceff4;
-}
-
-#mode {
-    margin-bottom: 3px;
-}
-
-#custom-keyboard-layout {
-    color: @peach;
-    border-radius: 10px;
-    margin-right: 10px;
-}
-
-#language {
-    color: @peach;
-    border-radius: 10px;
-    margin-right: 10px;
-}
-
-#bluetooth {
-    border-style: solid;
-    background-color: @base;
-    opacity: 1;
-    border-radius: 10px;
-    margin: 8px 8px 8px 8px;
-}
-
-#custom-weather {
-    border-style: solid;
-    background-color: @base;
-    opacity: 1;
-    border-radius: 10px;
-    margin: 8px 8px 8px 8px;
-}
-
