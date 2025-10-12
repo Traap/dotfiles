@@ -9,7 +9,7 @@ if [[ $pipPackagesFlag == true ]]; then
     "neovim-remote"
   )
 
-  sayAndDo "pip install '${pip_packages[@]}'"
+  pip install "${pip_packages[@]}"
 else
   say 'pip packages skipped.'
 fi

@@ -3,10 +3,10 @@
 if [[ $sshHostKeyFlag == true ]]; then
   say 'Install ssh host keys.'
 
-  sayAnDo "sshDir=~/git/ssh"
-  sayAnDo "mkdir     -pv $sshDir"
-  sayAnDo "ln       -fsv $sshDir  ~/.ssh"
-  sayAnDo "ssh-keygen -f $sshDir/$HOSTNAME"
+  sshDir=~/git/ssh
+  mkdir     -pv $sshDir
+  ln       -fsv $sshDir  ~/.ssh
+  ssh-keygen -f $sshDir/$HOSTNAME
 else
   say 'ssh host keys skipped.'
 fi

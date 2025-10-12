@@ -22,7 +22,7 @@ if [[ $pacmanPackagesFlag == true ]]; then
     "which"
   )
 
-  sayAndDo "sudo pacman -Syyu --noconfirm '${pacman_packages[@]}'"
+  sudo pacman -Syyu --noconfirm "${pacman_packages[@]}"
 else
   say 'pacman packages skipped.'
 fi

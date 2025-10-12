@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#k!/usr/bin/env bash
 # {{{ Check symnlinksFlag
 
 if [[ $symlinksFlag == true ]]; then
@@ -7,27 +7,6 @@ else
   say 'symlinks skipped.'
   return;
 fi
-
-# -------------------------------------------------------------------------- }}}
-# {{{ Check arguments passed to this script.
-# Arguments:
-# $1 - check for the exact value
-
-createSymLinksFlag=0
-deleteSymLinksFlag=1
-
-case $1 in
-  --create)
-    createSymLinksFlag=1
-    ;;
-  --delete)
-    deleteSymLinksFlag=1
-    ;;
-  *)
-    createSymLinksFlag=1
-    deleteSymLinksFlag=1
-    ;;
-esac
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Create symbolic links
@@ -86,6 +65,9 @@ deleteSymLinks() {
 
 # -------------------------------------------------------------------------- }}}
 # {{{ The stage is set ... start the show!!!
+
+createSymLinksFlag=1
+deleteSymLinksFlag=1
 
 deleteSymLinks
 createSymLinks

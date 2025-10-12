@@ -1,65 +1,13 @@
 #!/usr/bin/env bash
-# {{{ Check hyprlinkFlag
+# Check hyprlinkFlag
 
 if [[ $hyprlandFlag == true ]]; then
   say 'Install hyprland.'
 else
-  say 'hyprland skipped.'
-  return;
+  say 'hyprland skipped.' return;
 fi
 
-# -------------------------------------------------------------------------- }}}
-# {{{ Remove Omrachy customer configuration files.
-
-rm -fv ~/.config/hypr/autostart.conf
-rm -fv ~/.config/hypr/bindings.conf
-rm -fv ~/.config/hypr/envs.conf
-rm -fv ~/.config/hypr/input.conf
-rm -fv ~/.config/hypr/looknfeel.conf
-rm -fv ~/.config/hypr/monitors.conf
-
-# -------------------------------------------------------------------------- }}}
-# {{{ Delete Traap's configuration to hyprland files.
-
-rm -fv ~/.config/hypr/hyprland.conf
-
-rm -fv ~/.config/hypr/animations.conf
-rm -fv ~/.config/hypr/autostart.conf
-rm -fv ~/.config/hypr/bindings.conf
-rm -fv ~/.config/hypr/envs.conf
-rm -fv ~/.config/hypr/input.conf
-rm -fv ~/.config/hypr/monitors.conf
-rm -fv ~/.config/hypr/windowrules.conf
-rm -fv ~/.config/hypr/workspacerules.conf
-
-# -------------------------------------------------------------------------- }}}
-# {{{ Delete Traap's configuration to hyprland directories.
-
-rm -fv ~/.config/hypr/config
-rm -fv ~/.config/hypr/layout
-rm -fv ~/.config/hypr/scripts
-
-# -------------------------------------------------------------------------- }}}
-# {{{ Create Traap's configuraiton to hyprland to files.
-
-ln -fsv ~/git/dotfiles/hypr/hyprland.conf               ~/.config/hypr/hyprland.conf
-
-ln -fsv ~/git/dotfiles/hypr/config/animations.conf      ~/.config/hypr/animations.conf
-ln -fsv ~/git/dotfiles/hypr/config/autostart.conf       ~/.config/hypr/autostart.conf
-ln -fsv ~/git/dotfiles/hypr/config/bindings.conf        ~/.config/hypr/bindings.conf
-ln -fsv ~/git/dotfiles/hypr/config/envs.conf            ~/.config/hypr/envs.conf
-ln -fsv ~/git/dotfiles/hypr/config/input.conf           ~/.config/hypr/input.conf
-ln -fsv ~/git/dotfiles/hypr/config/layout               ~/.config/hypr/layout
-ln -fsv ~/git/dotfiles/hypr/config/monitors.conf        ~/.config/hypr/monitors.conf
-ln -fsv ~/git/dotfiles/hypr/config/scripts              ~/.config/hypr/scripts
-ln -fsv ~/git/dotfiles/hypr/config/windowrules.conf     ~/.config/hypr/windowrules.conf
-ln -fsv ~/git/dotfiles/hypr/config/workspacerules.conf  ~/.config/hypr/workspacerules.conf
-
-# -------------------------------------------------------------------------- }}}
-# {{{ Create Traap's configuraiton to hyprland to directories.
-
-ln -fsv ~/git/dotfiles/hypr/config  ~/.config/hypr/config
-ln -fsv ~/git/dotfiles/hypr/layout  ~/.config/hypr/layout
-ln -fsv ~/git/dotfiles/hypr/scripts ~/.config/hypr/scripts
-
-# -------------------------------------------------------------------------- }}}
+# Create a new hyprland configuration directory
+rm    -fv  ~/.config/hypr
+mkdir -pv  ~/config/hypr
+ln    -fsv ~/git/dotfiles/hypr ~/.config/hypr

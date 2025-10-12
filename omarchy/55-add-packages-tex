@@ -16,7 +16,7 @@ if [[ $texPackagesFlag == true ]]; then
     "texlive-science"
   )
 
-  sayAndDo "yay -S --noconfirm '${tex_packages[@]}'"
+  yay -S --noconfirm "${tex_packages[@]}"
 else
   say 'TeX packages skipped.'
 fi

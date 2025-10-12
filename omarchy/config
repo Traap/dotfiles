@@ -1,21 +1,21 @@
 # config
 # Products to install. List alphebetically.
 
-bashrcFlag=false
-gitBashPromptFlag=false
-hyprlandFlag=false
-luarocksFlag=false
-mirrorFlag=false
-nodeJsFlag=false
-openSSLFlag=false
-orphanedFlag=false
-pacmanPackagesFlag=false
-pipPackagesFlag=false
-seamlessLoginFlag=false
-sshHostKeyFlag=false
-starshipFlag=false
-symlinksFlag=false
-texPackagesFlag=false
-tmuxPluginsFlag=false
-waybarFlag=false
-yayPackagesFlag=false
+bashrcFlag=true
+gitBashPromptFlag=true
+hyprlandFlag=true
+luarocksFlag=true
+mirrorFlag=true
+nodeJsFlag=true
+openSSLFlag=true
+orphanedFlag=true
+pacmanPackagesFlag=true
+pipPackagesFlag=true
+seamlessLoginFlag=true
+sshHostKeyFlag=true
+starshipFlag=true
+symlinksFlag=true
+texPackagesFlag=true
+tmuxPluginsFlag=true
+waybarFlag=true
+yayPackagesFlag=true

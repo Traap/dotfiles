@@ -24,7 +24,7 @@ if [[ $yayPackagesFlag == true ]]; then
     "yazi"
   )
 
-  sayAndDo "yay -Syu --noconfirm '${yay_packages[@]}'"
+  yay -Syu --noconfirm "${yay_packages[@]}"
 else
   say 'yay packages skipped.'
 fi

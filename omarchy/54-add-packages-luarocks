@@ -11,7 +11,7 @@ if [[ $luarocksFlag == true ]]; then
     "pynvim"
     "neovim-remote"
 
-  sayAndDo "pip install '${luarocks_packages[@]}'"
+  pip install "${luarocks_packages[@]}"
 else
   say 'luarocks packages skipped.'
 fi

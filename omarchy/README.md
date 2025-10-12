@@ -1,6 +1,6 @@
 ## Omarchy Customizing
 
-DO NOT USE SCRIPTS THESE WITHOUT READING THEM FIRST.
+DO NOT USE THESE SCRIPTS WITHOUT READING THEM FIRST.
 
 YOU HAVE BEEN WARNED!
 
@@ -9,13 +9,12 @@ Traap
 ## An attempt at humor:
 
 Good news Omarchy, DHH, and Traap are all opinionated: Everyone wins.  We are all
-kk
 narcissist if we 100% agree with everyone on everything 100% of the time; at
 that point I'm just talking to myself, which I do all the time anyway -- and yes
 I answer myself too.
 
 It's my computer so my opinion wins.  If I break a beautiful setup done by the
-amazing Omarchy team, well that my problem and mine fix.
+amazing Omarchy team, well that's my problem and mine fix.
 
 ## On a serious note:
 I have been using a tiling window managers (BSPWM, and Hyprland), terminals
@@ -29,17 +28,18 @@ make a note, study the problem, and implement a solution.
 I can seamlessly float between BSPWM, Hyprland, Vim, Neovim on Arch Linux,
 Ubuntu, WSL2 running Arch Linux, WSL2 running Ubuntu, and Git Bash and remain
 productive.  Linux based solutions are always nearly flawless; Windoz does take
-so mangling to accomplish setup tasks that a painless on Linux.
+mangling to accomplish setup tasks that a painless on Linux.
 
 ## The solution
 Omarchy is built upon the greatest Linux distribution ever: Arch Linux.  I used
-Omarchy defaults, studied the bash scripts (they are amazing the way), and did
-minor tweaking to improve my workflows.  After installing Omarchy on three
+Omarchy defaults, studied the bash scripts (they are amazing by the way), and
+did minor tweaking to improve my workflows.  After installing Omarchy on three
 different laptops and convincing myself that I could create a seamless workflow
 for all systems that I use daily, I add my Omarchy customizations.
 
 ## The journey begins with .bashrc and .inputrc
-Bring bring both bash environments together.
+Effortlessly combine both bash environments.
+
 ```bash
 # All the default Omarchy aliases and functions
 source ~/.local/share/omarchy/default/bash/rc
@@ -172,11 +172,11 @@ set colored-stats on
 ```
 ## The Migration
 Omarchy uses a familiar migration strategy that Ruby On Rails does.  No
-surprise: DHH invented both.  I to primary driving files: config and migration.
+surprise: DHH invented both.  There are two driving files: config and migration.
 
 I use config to set flags.  These flags define what I want installed.  I have
-several computer to manage.  Each computer has its own sshkey.  Some computers do
-not need LaTeX, etc.
+several computer to manage.  Each computer has its own sshkey.  Some computers
+do not need LaTeX, etc.
 
 ```bash
 bashrcFlag=false
@@ -198,7 +198,6 @@ tmuxPluginsFlag=false
 waybarFlag=false
 yayPackagesFlag=false
 
-```
 
 ```bash
 #!/usr/bin/env bash
@@ -207,10 +206,17 @@ set -euo pipefail
 # Run premigration setup first.
 source ./functions
 source ./config
+echo "=== Migration started ==="
 
 # Run migrations
 for script in [0-9][0-9]-*; do
-  Say "=== Running $script ==="
+  echo "$script is running."
   source "./$script"
+  echo "$script has completed."
+  echo
 done
+
+# Done
+echo "=== Tha-Tha-Tha That's all, folks! ==="
+echo "=== Porky Pig, Looney Toons and Merrie Melodies, 1937 ==="
 ```
