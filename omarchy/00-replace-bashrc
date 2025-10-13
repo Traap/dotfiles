@@ -11,7 +11,7 @@ if [[ $bashrcFlag == true ]]; then
 
   echo ""                                               >> ~/.bashrc
   echo "# Don't mess with my .inpurtc"                  >> ~/.bashrc
-  echo "bind -f .inputrc"                               >> ~/.bashrc
+  echo "bind -f ~/.inputrc"                             >> ~/.bashrc
 else
   say '.bashrc skipped.'
 fi
