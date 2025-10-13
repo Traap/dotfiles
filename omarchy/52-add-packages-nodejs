@@ -8,7 +8,6 @@ if [[ $nodeJsFlag == true ]]; then
     "neovim"
     "node-gyp"
     "nodejs"
-    "nodejs-nopt"
     "semver"
     "yarn"
   )
