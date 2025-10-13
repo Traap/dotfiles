@@ -12,11 +12,6 @@ stty -ixon
 HISTSIZE='' HISTFILESIZE=''
 
 # -------------------------------------------------------------------------- }}}
-# {{{ Ignore upper and lowercase when TAB completion
-
-# bind "set completion-ignore-case on"
-
-# -------------------------------------------------------------------------- }}}
 # {{{ shopt
 
 shopt -s autocd         # change to named directory
