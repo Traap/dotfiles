@@ -7,7 +7,8 @@ if [[ $nodeJsFlag == true ]]; then
   nodejs_packages=(
     "neovim"
     "node-gyp"
-    "nodejs"
+    "nodejs-nopt"
+    "@mermaid-js/mermaid-cli"
     "semver"
     "yarn"
   )

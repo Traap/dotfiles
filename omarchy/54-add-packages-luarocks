@@ -6,10 +6,9 @@ if [[ $luarocksFlag == true ]]; then
 
   luarocks_packages=(
     "jsregexp"
+    "neovim-remote"
     )
 
-    "pynvim"
-    "neovim-remote"
 
   pip install "${luarocks_packages[@]}"
 else

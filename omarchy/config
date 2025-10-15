@@ -1,16 +1,16 @@
 # config
 # Products to install. List alphebetically.
 
-bashrcFlag=true
+bashrcFlag=false
 gitBashPromptFlag=false
 hyprlandFlag=false
-luarocksFlag=false
+luarocksFlag=true
 mirrorFlag=false
-nodeJsFlag=false
+nodeJsFlag=true
 openSSLFlag=false
-orphanedFlag=false
+orphanedFlag=true
 pacmanPackagesFlag=false
-pipPackagesFlag=false
+pipPackagesFlag=true
 seamlessLoginFlag=false
 sshHostKeyFlag=false
 starshipFlag=false

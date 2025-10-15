@@ -5,7 +5,6 @@ if [[ $pipPackagesFlag == true ]]; then
   say 'Install pip packages.'
 
   pip_packages=(
-    "pynvim"
     "neovim-remote"
   )
 
