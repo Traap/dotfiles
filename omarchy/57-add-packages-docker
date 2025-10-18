@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+# docker packages
+
+if [[ $dockerPacakgesFlag == true ]]; then
+  say 'Install docker packages.'
+
+  docker_packages=(
+    "docker"
+    "docker-buildx"
+    "docker-compose"
+  )
+
+  sudo pacman -S --noconfirm "${docker_packages[@]}"
+  sudo systemctl enable docker.service --now
+  sudo systemctl status docker.service 2>/dev/null
+else
+  say 'docker packages skipped.'
+fi
