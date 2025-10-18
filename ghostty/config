@@ -3,7 +3,7 @@ font-family = JetBrainsMono Nerd Font, Hack Nerd Font, monospace
 font-family-bold = JetBrainsMono Nerd Font, Hack Nerd Font, monospace
 font-family-italic = JetBrainsMono Nerd Font, Hack Nerd Font, monospace
 font-family-bold-italic = JetBrainsMono Nerd Font, Hack Nerd Font, monospace
-font-size = 12
+font-size = 14
 font-feature = +liga
 
 # Background
