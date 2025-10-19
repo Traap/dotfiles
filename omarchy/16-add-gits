@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+# gits
+
+if [[ $gitsFlag == true ]]; then
+  say 'Installing gits.'
+  url="https://raw.githubusercontent.com/Traap/gits/master/install.sh"
+  /bin/bash -c "$(curl -fsSL $url)"
+else
+  say 'Gits skipped.'
+fi
