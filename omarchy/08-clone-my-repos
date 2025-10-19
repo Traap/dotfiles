@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# cloneRepos
+
+if [[ $cloneReposFlag == true ]]; then
+  say 'Cloning repos.'
+  gits clone -r git -v
+else
+  say 'Cloning repos.'
+fi
