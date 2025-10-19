@@ -15,13 +15,16 @@ pipPackagesFlag=false
 orphanedFlag=false
 pacmanPackagesFlag=false
 pipPackagesFlag=false
-rubyFlag=true
-railsFlag=true
+rubyFlag=false
+railsFlag=false
 seamlessLoginFlag=false
 sshHostKeyFlag=false
 starshipFlag=false
 symlinksFlag=false
 texPackagesFlag=false
-tmuxPluginsFlag=false
+tmuxPluginsFlag=true
 waybarFlag=false
 yayPackagesFlag=false
+
+# The root personal repositories are cloned to.
+cloneRoot=$HOME/git
