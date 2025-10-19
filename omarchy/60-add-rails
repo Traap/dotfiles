@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+# Rails
+
+if [[ $railsFlag == true ]]; then
+  say 'Install Rails.'
+  gem install rails
+  rails --version
+else
+  say 'Rails skipped.'
+fi
