@@ -2,6 +2,7 @@
 # Products to install. List alphebetically.
 
 bashrcFlag=false
+cloneReposFlag=false
 dockerPacakgesFlag=false
 gitBashPromptFlag=false
 gitsFlag=false
@@ -24,7 +25,7 @@ sshHostKeyFlag=false
 starshipFlag=false
 symlinksFlag=false
 texPackagesFlag=false
-tmuxPluginsFlag=true
+tmuxPluginsFlag=false
 waybarFlag=false
 yayPackagesFlag=false
 
