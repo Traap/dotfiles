@@ -2,6 +2,7 @@
 # Products to install. List alphebetically.
 
 bashrcFlag=false
+dockerPacakgesFlag=false
 gitBashPromptFlag=false
 hyprlandFlag=false
 luarocksFlag=false
@@ -14,6 +15,8 @@ pipPackagesFlag=false
 orphanedFlag=false
 pacmanPackagesFlag=false
 pipPackagesFlag=false
+rubyFlag=true
+railsFlag=true
 seamlessLoginFlag=false
 sshHostKeyFlag=false
 starshipFlag=false

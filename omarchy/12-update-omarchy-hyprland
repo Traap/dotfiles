@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Check hyprlinkFlag
+# hyprland
 
 if [[ $hyprlandFlag == true ]]; then
   say 'Install hyprland.'

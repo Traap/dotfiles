@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# waybar
 
 if [[ $waybarFlag == true ]]; then
   say 'Install waybar.'

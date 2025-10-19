@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# luarocks paackages
+# luarocks packages
 
 if [[ $luarocksFlag == true ]]; then
   say 'Install luarocks packages.'
@@ -8,7 +8,6 @@ if [[ $luarocksFlag == true ]]; then
     "jsregexp"
     "neovim-remote"
     )
-
 
   pip install "${luarocks_packages[@]}"
 else

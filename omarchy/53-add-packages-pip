@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# pip paackages
+# pip packages
 
 if [[ $pipPackagesFlag == true ]]; then
   say 'Install pip packages.'

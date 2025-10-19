@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# seamlesslogin
+
 if [[ $seamlessLoginFlag == true ]]; then
   say 'Install seamless login.'
   sayAndDo "sudo cp -v omarchy-seamless-login.service /etc/systemd/system/omarchy-seamless-login.service"

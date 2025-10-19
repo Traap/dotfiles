@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# starship
 
 if [[ $starshipFlag == true ]]; then
   say 'Install starshp.'

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# docker packages
+# Docker
 
 if [[ $dockerPacakgesFlag == true ]]; then
   say 'Install docker packages.'

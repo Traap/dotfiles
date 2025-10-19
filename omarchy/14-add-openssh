@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# openssh
 
 if [[ $openSSLFlag == true ]]; then
   say 'Install openssl.'

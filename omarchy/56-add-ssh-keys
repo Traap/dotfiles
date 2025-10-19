@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
+# sshhostkeys
 
 if [[ $sshHostKeyFlag == true ]]; then
   say 'Install ssh host keys.'
-
   sshDir=~/git/ssh
   mkdir     -pv $sshDir
   ln       -fsv $sshDir  ~/.ssh

@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# gitbashprompt
 
 if [[ $gitBashPromptFlag == true ]]; then
   say 'Install git bash prompt.'
