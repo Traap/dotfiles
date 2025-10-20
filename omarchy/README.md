@@ -5,6 +5,20 @@ DO NOT USE THESE SCRIPTS WITHOUT READING THEM FIRST.
 YOU HAVE BEEN WARNED!
 
 Traap
+## TL;DR
+Clone bootstrap-omarchy, edit config, run migration.
+
+```bash
+git clone https://github.com/Traap/bootstrap-omarchy
+```
+
+Edit config and toggle false to true for the applicaitons you want installed or
+removed.
+
+```
+cd bootstrap-omarchy
+./migration
+```
 
 ## An attempt at humor:
 
@@ -53,7 +67,8 @@ bind -f ~/.inputrc
 
 I document everything I care about. I have been bashing since 2014.  Almost 13
 years of muscle and visual memory is not easily undone.  Here is my fully
-document .inputrc
+documented .inputrc
+
 ```bash
 # ============================================================================
 # ~/.inputrc — Merged Configuration
@@ -170,6 +185,7 @@ set colored-stats on
 # Reload with: bind -f ~/.inputrc
 # ============================================================================
 ```
+
 ## The Migration
 Omarchy uses a familiar migration strategy that Ruby On Rails does.  No
 surprise: DHH invented both.  There are two driving files: config and migration.
@@ -180,24 +196,35 @@ do not need LaTeX, etc.
 
 ```bash
 bashrcFlag=false
+# Products to install. List alphebetically.
+
+bashrcFlag=false
+cloneReposFlag=false
+dockerPacakgesFlag=false
 gitBashPromptFlag=false
+gitsFlag=false
 hyprlandFlag=false
-luarocksPackages=false
+luarocksFlag=false
 mirrorFlag=false
 nodeJsFlag=false
-openSSLFlag=true
-orphanedFlag=true
+nvimsFlag=false
+openSSLFlag=false
+orphanedFlag=false
 pacmanPackagesFlag=false
 pipPackagesFlag=false
+railsFlag=false
+rubyFlag=false
 seamlessLoginFlag=false
 sshHostKeyFlag=false
 starshipFlag=false
 symlinksFlag=false
-texPackagesFlag=false
+texPackagesFlag=true
 tmuxPluginsFlag=false
 waybarFlag=false
 yayPackagesFlag=false
 
+# The root personal repositories are cloned to.
+cloneRoot=$HOME/git
 
 ```bash
 #!/usr/bin/env bash
