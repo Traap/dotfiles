@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+# ------------------------------------------------------------------------------
+# 🧰 fix-git-url.sh — Recursively convert SSH GitHub URLs to HTTP
+#   From: url = git@github.com:Traap/
+#   To:   url = http://github.com/Traap/
+# ------------------------------------------------------------------------------
+
+set -euo pipefail
+
+echo "🔍 Scanning for .git/config files..."
+count=0
+
+# Use find for deep recursion — handles nested repo structures
+while IFS= read -r config; do
+  repo_dir="$(dirname "$(dirname "$config")")"
+  if grep -q "url = git@github.com:Traap/" "$config"; then
+    echo "⚙️  Updating repo: $repo_dir"
+    sed -i 's|url = git@github.com:Traap/|url = http://github.com/Traap/|' "$config"
+    ((count++))
+  fi
+done < <(find . -type f -path "*/.git/config")
+
+echo "✅ Updated $count repositories total."
+
