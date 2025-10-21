@@ -9,6 +9,9 @@ bootstrap:
       - alias: BSS
         url: git@gsa-gitea:BSS/Bootstrap-BSS.git
 
+      - alias: dhf-docker
+        url: git@github.com:Traap/dhf-docker
+
       - alias: Omarchy
         url: https://github.com/basecamp/omarchy
 
