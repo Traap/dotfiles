@@ -2,17 +2,17 @@
 # bashrc
 
 if [[ $bashrcFlag == true ]]; then
-  say 'Install .bashrc.'
-  echo "# All the default Omarchy aliases and functions" > ~/.bashrc
-  echo "source ~/.local/share/omarchy/default/bash/rc"  >> ~/.bashrc
-
-  echo ""                                               >> ~/.bashrc
-  echo "# Traap's bash personalization"                 >> ~/.bashrc
-  echo "source ~/git/dotfiles/bash/bashrc"              >> ~/.bashrc
-
-  echo ""                                               >> ~/.bashrc
-  echo "# Don't mess with my .inpurtc"                  >> ~/.bashrc
-  echo "bind -f ~/.inputrc"                             >> ~/.bashrc
+  echo 'Install .bashrc.'
+  echo '# All the default Omarchy aliases and functions'       > ~/.bashrc
+  echo '[[ -f ~/.local/share/omarchy/default/bash/rc ]] && \' >> ~/.bashrc
+  echo '    . ~/.local/share/omarchy/default/bash/rc'         >> ~/.bashrc
+  echo ''                                                     >> ~/.bashrc
+  echo "# Traap's bash personalization"                       >> ~/.bashrc
+  echo '[[ -f ~/git/dotfiles/bash/bashrc ]] && \'             >> ~/.bashrc
+  echo '    . ~/git/dotfiles/bash/bashrc'                     >> ~/.bashrc
+  echo ''                                                     >> ~/.bashrc
+  echo "# Don't mess with my .inpurtc"                        >> ~/.bashrc
+  echo '[[ -f ~/.inputrc ]] && bind -f ~/.inputrc'            >> ~/.bashrc
 else
   say '.bashrc skipped.'
 fi

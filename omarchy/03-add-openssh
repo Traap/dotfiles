@@ -3,24 +3,20 @@
 
 if [[ $openSSLFlag == true ]]; then
   say 'Install openssl.'
-  sayAndDo "ls -la"
-
-  say "Updating package database..."
-  sayAndDo "sudo pacman -Sy --noconfirm"
 
   say "Installing OpenSSH and OpenSSL..."
-  sayAndDo "sudo pacman -S --noconfirm --needed openssh openssl"
+  sudo pacman -Sy --noconfirm --needed openssh openssl
 
   say "Enabling and starting sshd service..."
-  sayAndDo "sudo systemctl enable sshd.service"
-  sayAndDo "sudo systemctl start sshd.service"
+  sudo systemctl enable sshd.service
+  sudo systemctl start sshd.service
 
   say "Checking sshd status..."
-  sayAndDo "sudo systemctl --no-pager --full status sshd.service || true"
+  sudo systemctl --no-pager --full status sshd.service || true
 
-  say "Verifying installed versions:"
-  sayAndDo "ssh -V"
-  sayAndDo "openssl version"
+  say "Verifying installed versions"
+  ssh -V
+  openssl version
 else
   say 'openssl skipped.'
 fi

@@ -3,6 +3,7 @@
 
 if [[ $sshHostKeyFlag == true ]]; then
   say 'Install ssh host keys.'
+  sudo pacman -S ssh-keygen
   sshDir=~/git/ssh
   mkdir     -pv $sshDir
   ln       -fsv $sshDir  ~/.ssh

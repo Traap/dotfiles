@@ -6,7 +6,7 @@ if [[ $gitBashPromptFlag == true ]]; then
 
   src=https://github.com/magicmonty/bash-git-prompt
   dst=~/.bash-git-prompt
-  sayAndDo "git clone $src $dst"
+  git clone $src $dst
 else
   say 'git base prompt skipped.'
 fi

@@ -4,14 +4,14 @@
 bashrcFlag=false
 cloneReposFlag=false
 dockerPacakgesFlag=false
-gitBashPromptFlag=false
+gitBashPromptFlag=true
 gitsFlag=false
 hyprlandFlag=false
 luarocksFlag=false
 mirrorFlag=false
 nodeJsFlag=false
 nvimsFlag=false
-openSSLFlag=false
+openSSLFlag=false	
 orphanedFlag=false
 pacmanPackagesFlag=false
 pipPackagesFlag=false
