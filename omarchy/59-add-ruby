@@ -4,7 +4,6 @@
 if [[ $rubyFlag == true ]]; then
   say 'Install Ruby.'
   mise use -g ruby@3
-  ruby --version
 else
   say 'Ruby skipped.'
 fi
