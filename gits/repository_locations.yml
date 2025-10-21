@@ -3,23 +3,23 @@
 bootstrap:
   - root_dir: bootstrap
   - repositories:
-    - alias: Arch
-      url: git@github.com:Traap/bootstrap-archlinux.git
+      - alias: Arch
+        url: git@github.com:Traap/bootstrap-archlinux.git
 
-    - alias:  BSS
-      url: git@gsa-gitea:BSS/Bootstrap-BSS.git
+      - alias: BSS
+        url: git@gsa-gitea:BSS/Bootstrap-BSS.git
 
-    - alias: Omarchy
-      url: https://github.com/basecamp/omarchy
+      - alias: Omarchy
+        url: https://github.com/basecamp/omarchy
 
-    - alias: Ubuntu
-      url: git@github.com:Traap/bootstrap-ubuntu.git
+      - alias: Ubuntu
+        url: git@github.com:Traap/bootstrap-ubuntu.git
 
-    - alias: Utilities
-      url: git@gsa-gitea:BSS/Utilities.git
+      - alias: Utilities
+        url: git@gsa-gitea:BSS/Utilities.git
 
-    - alias: WinEnv
-      url: git@github.com:Traap/bootstrap-win-env.git
+      - alias: WinEnv
+        url: git@github.com:Traap/bootstrap-win-env.git
 
 # -------------------------------------------------------------------------- }}}
 # {{{ bracco
@@ -27,11 +27,11 @@ bootstrap:
 bracco:
   - root_dir: Bracco
   - repositories:
-    - alias: bootstrap-win-env
-      url: git@github.com:Traap/bootstrap-win-env.git
+      - alias: bootstrap-win-env
+        url: git@github.com:Traap/bootstrap-win-env.git
 
-    - alias: sf90_dhf
-      url: git@github.com:Traap/bootstrap-win-env.git
+      - alias: sf90_dhf
+        url: git@github.com:Traap/bootstrap-win-env.git
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Contracts
@@ -39,8 +39,8 @@ bracco:
 contracts:
   - root_dir: contracts
   - repositories:
-    - alias: briefcase
-      url: git@github.com:Traap/briefcase
+      - alias: briefcase
+        url: git@github.com:Traap/briefcase
 
 # -------------------------------------------------------------------------- }}}
 # {{{ editor
@@ -48,26 +48,26 @@ contracts:
 editor:
   - root_dir: editor
   - repositories:
-    - alias: lazy.nvim
-      url: https://github.com/folke/lazy.nvim.git
+      - alias: lazy.nvim
+        url: https://github.com/folke/lazy.nvim.git
 
-    - alias: lazy.zero
-      url: git@github.com:Traap/lazy.zero.git
+      - alias: lazy.zero
+        url: git@github.com:Traap/lazy.zero.git
 
-    - alias: LazyVim
-      url: https://github.com/LazyVim/starter
+      - alias: LazyVim
+        url: https://github.com/LazyVim/starter
 
-    - alias: lightbulb"
-      url: git@github.com:Traap/nvim-lightbulb.git
+      - alias: lightbulb"
+        url: git@github.com:Traap/nvim-lightbulb.git
 
-    - alias: neovim
-      url: https://github.com/neovim/neovim.git
+      - alias: neovim
+        url: https://github.com/neovim/neovim.git
 
-    - alias: PrimeNvim"
-      url: git@github.com:Traap/init.lua
+      - alias: PrimeNvim"
+        url: git@github.com:Traap/init.lua
 
-    - alias: VapourNvim"
-      url: git@github.com:Traap/VapourNvim.git
+      - alias: VapourNvim"
+        url: git@github.com:Traap/VapourNvim.git
 
 # -------------------------------------------------------------------------- }}}
 # {{{ edu
@@ -75,26 +75,26 @@ editor:
 edu:
   - root_dir: edu
   - repositories:
-    - alias: archlinux
-      url: git@github.com:Traap/archlinux.git
+      - alias: archlinux
+        url: git@github.com:Traap/archlinux.git
 
-    - alias: cipher
-      url: git@github.com:Traap/cipher.git
+      - alias: cipher
+        url: git@github.com:Traap/cipher.git
 
-    - alias: GitNotes
-      url: git@github.com:Traap/GitNotes.git
+      - alias: GitNotes
+        url: git@github.com:Traap/GitNotes.git
 
-    - alias: hello
-      url: git@github.com:Traap/hello.git
+      - alias: hello
+        url: git@github.com:Traap/hello.git
 
-    - alias: LearningRust
-      url: git@github.com:Traap/LearningRust.git
+      - alias: LearningRust
+        url: git@github.com:Traap/LearningRust.git
 
-    - alias: rubyconfig
-      url: git@github.com:Traap/rubyconfig.git
+      - alias: rubyconfig
+        url: git@github.com:Traap/rubyconfig.git
 
-    - alias: vimscript
-      url: git@github.com:Traap/vimscript.git
+      - alias: vimscript
+        url: git@github.com:Traap/vimscript.git
 
 # -------------------------------------------------------------------------- }}}
 # {{{ fzf
@@ -102,12 +102,11 @@ edu:
 fzf:
   - root_dir: fzf
   - repositories:
-    - alias:  fzf1
-      url: https://github.com/junegunn/fzf-git.sh
+      - alias: fzf1
+        url: https://github.com/junegunn/fzf-git.sh
 
-    - alias:  fzf2
-      url: https://github.com/junegunn/everything.fzf
-
+      - alias: fzf2
+        url: https://github.com/junegunn/everything.fzf
 
 # -------------------------------------------------------------------------- }}}
 # {{{ git
@@ -115,33 +114,33 @@ fzf:
 git:
   - root_dir: git
   - repositories:
-    - alias: dotfiles
-      url: git@github.com:Traap/dotfiles.git
-      do_not_delete: true
+      - alias: dotfiles
+        url: git@github.com:Traap/dotfiles.git
+        do_not_delete: true
 
-    - alias: nvim.traap
-      url: git@github.com:Traap/nvim.git
-      do_not_delete: true
+      - alias: nvim.traap
+        url: git@github.com:Traap/nvim.git
+        do_not_delete: true
 
-    - alias: tmux
-      url: git@github.com:Traap/tmux.git
-      do_not_delete: true
+      - alias: tmux
+        url: git@github.com:Traap/tmux.git
+        do_not_delete: true
 
-    - alias: ssh
-      url: git@github.com:Traap/ssh.git
-      do_not_delete: true
+      - alias: ssh
+        url: git@github.com:Traap/ssh.git
+        do_not_delete: true
 
-    - alias: vim
-      url: git@github.com:Traap/vim.git
+      - alias: vim
+        url: git@github.com:Traap/vim.git
 
-    - alias: wiki
-      url: git@github.com:Traap/wiki.git
+      - alias: wiki
+        url: git@github.com:Traap/wiki.git
 
-    - alias: plantuml
-      url: git@github.com:Traap/plantuml.git
+      - alias: plantuml
+        url: git@github.com:Traap/plantuml.git
 
-    - alias: youtube
-      url: git@github.com:Traap/youtube.git
+      - alias: youtube
+        url: git@github.com:Traap/youtube.git
 
 # -------------------------------------------------------------------------- }}}
 # {{{ gitea
@@ -149,50 +148,50 @@ git:
 gitea:
   - root_dir: gitea
   - repositories:
-    - alias: Aim
-      url: git@gsa-gitea:BSS/AIM.git
+      - alias: Aim
+        url: git@gsa-gitea:BSS/AIM.git
 
-    - alias: Billing
-      url: git@gsa-gitea:BSS/Billing.git
+      - alias: Billing
+        url: git@gsa-gitea:BSS/Billing.git
 
-    - alias: Calsaws
-      url: git@gsa-gitea:BSS/Calsaws.git
+      - alias: Calsaws
+        url: git@gsa-gitea:BSS/Calsaws.git
 
-    - alias: ChartOfAccounts
-      url: git@gsa-gitea:BSS/ChartOfAccounts.git
+      - alias: ChartOfAccounts
+        url: git@gsa-gitea:BSS/ChartOfAccounts.git
 
-    - alias: cronjobs
-      url: git@gsa-gitea:BSS/cronjobs.git
+      - alias: cronjobs
+        url: git@gsa-gitea:BSS/cronjobs.git
 
-    - alias: DocAuto
-      url: git@gsa-gitea:BSS/DocAuto.git
+      - alias: DocAuto
+        url: git@gsa-gitea:BSS/DocAuto.git
 
-    - alias: LeaveOfAbsence
-      url: git@gsa-gitea:BSS/LeaveOfAbsence.git
+      - alias: LeaveOfAbsence
+        url: git@gsa-gitea:BSS/LeaveOfAbsence.git
 
-    - alias: OversizedScan
-      url: git@gsa-gitea:BSS/OversizedScan.git
+      - alias: OversizedScan
+        url: git@gsa-gitea:BSS/OversizedScan.git
 
-    - alias: P2M
-      url: git@gsa-gitea:BSS/P2M.git
+      - alias: P2M
+        url: git@gsa-gitea:BSS/P2M.git
 
-    - alias: Presentations
-      url: git@gsa-gitea:BSS/Presentations.git
+      - alias: Presentations
+        url: git@gsa-gitea:BSS/Presentations.git
 
-    - alias: Records
-      url: git@gsa-gitea:BSS/Records.git
+      - alias: Records
+        url: git@gsa-gitea:BSS/Records.git
 
-    - alias: Scans
-      url: git@gsa-gitea:BSS/Scans.git
+      - alias: Scans
+        url: git@gsa-gitea:BSS/Scans.git
 
-    - alias: Stores
-      url: git@gsa-gitea:BSS/Stores.git
+      - alias: Stores
+        url: git@gsa-gitea:BSS/Stores.git
 
-    - alias: VcPrint
-      url: git@gsa-gitea:BSS/VcPrint.git
+      - alias: VcPrint
+        url: git@gsa-gitea:BSS/VcPrint.git
 
-    - alias: Wiki
-      url: git@gsa-gitea:GaryHoward/Wiki.git
+      - alias: Wiki
+        url: git@gsa-gitea:GaryHoward/Wiki.git
 
 # -------------------------------------------------------------------------- }}}
 # {{{ eform
@@ -200,23 +199,23 @@ gitea:
 eform:
   - root_dir: eform
   - repositoriesr:
-    - alias: Bootstrap-angular
-      url: git@gsa-gitea:BSS/Bootstrap-angular.git
+      - alias: Bootstrap-angular
+        url: git@gsa-gitea:BSS/Bootstrap-angular.git
 
-    - alias: backend
-      url: git@gsa-gitea:BSS/backend.git
+      - alias: backend
+        url: git@gsa-gitea:BSS/backend.git
 
-    - alias: formsPortal
-      url: git@gsa-gitea:BSS/formsPortal.git
+      - alias: formsPortal
+        url: git@gsa-gitea:BSS/formsPortal.git
 
-    - alias: formsPortalBackend
-      url: git@gsa-gitea:BSS/formsPortalBackend.git
+      - alias: formsPortalBackend
+        url: git@gsa-gitea:BSS/formsPortalBackend.git
 
-    - alias: formsPortalDB
-      url: git@gsa-gitea:BSS/formsPortalDB.git
+      - alias: formsPortalDB
+        url: git@gsa-gitea:BSS/formsPortalDB.git
 
-    - alias: frontend
-      url: git@gsa-gitea:BSS/frontend.git
+      - alias: frontend
+        url: git@gsa-gitea:BSS/frontend.git
 
 # -------------------------------------------------------------------------- }}}
 # {{{ examples
@@ -224,20 +223,20 @@ eform:
 examples:
   - root_dir: examples
   - repositories:
-    - alias: DBTest
-      url: git@gsa-gitea:BSS/DBTest.git
+      - alias: DBTest
+        url: git@gsa-gitea:BSS/DBTest.git
 
-    - alias: excelize-doc
-      url: git@github.com:xuri/excelize-doc.git
+      - alias: excelize-doc
+        url: git@github.com:xuri/excelize-doc.git
 
-    - alias: gopdf
-      url: git@github.com:jung-kurt/gofpdf.git
+      - alias: gopdf
+        url: git@github.com:jung-kurt/gofpdf.git
 
-    - alias: GoSamples
-      url: git@gsa-gitea:BSS/GoSamples.git
+      - alias: GoSamples
+        url: git@gsa-gitea:BSS/GoSamples.git
 
-    - alias: Samples
-      url: git@gsa-gitea:BSS/Samples.git
+      - alias: Samples
+        url: git@gsa-gitea:BSS/Samples.git
 
 # -------------------------------------------------------------------------- }}}
 # {{{ hr
@@ -245,11 +244,11 @@ examples:
 hr:
   - root_dir: hr
   - repositories:
-    - alias: HR
-      url: git@gsa-gitea:BSS/HR.git
+      - alias: HR
+        url: git@gsa-gitea:BSS/HR.git
 
-    - alias: BrowserExtension
-      url: git@gsa-gitea:BSS/BrowserExtension.git
+      - alias: BrowserExtension
+        url: git@gsa-gitea:BSS/BrowserExtension.git
 
 # -------------------------------------------------------------------------- }}}
 # {{{ hyprland
@@ -257,17 +256,17 @@ hr:
 hyprland:
   - root_dir: hyprland
   - repositories:
-    - alias: Arch
-      url: git@github.com:JaKooLit/Arch-Hyprland.git
+      - alias: Arch
+        url: git@github.com:JaKooLit/Arch-Hyprland.git
 
-    - alias: Dots
-      url: git@github.com:JaKooLit/Hyprland-Dots.git
+      - alias: Dots
+        url: git@github.com:JaKooLit/Hyprland-Dots.git
 
-    - alias: Omarchy
-      url: git@github.com:basecamp/omarchy.git
+      - alias: Omarchy
+        url: git@github.com:basecamp/omarchy.git
 
-    - alias: Ubuntu
-      url: git@github.com:JaKooLit/Ubuntu-Hyprland.git
+      - alias: Ubuntu
+        url: git@github.com:JaKooLit/Ubuntu-Hyprland.git
 
 # -------------------------------------------------------------------------- }}}
 # {{{ mutt
@@ -275,11 +274,11 @@ hyprland:
 mutt:
   - root_dir: mutt
   - repositories:
-    - alias: mutt
-      url: git@github.com:Traap/mutt.git
+      - alias: mutt
+        url: git@github.com:Traap/mutt.git
 
-    - alias: o365
-      url: git@github.com:Traap/mutt-office365.git
+      - alias: o365
+        url: git@github.com:Traap/mutt-office365.git
 
 # -------------------------------------------------------------------------- }}}
 # {{{ private
@@ -287,26 +286,26 @@ mutt:
 private:
   - root_dir: private
   - repositories:
-    - alias: ac
-      url: git@github.com:Traap/AllanConsulting.git
+      - alias: ac
+        url: git@github.com:Traap/AllanConsulting.git
 
-    - alias: hh
-      url: git@github.com:Traap/HowardHouse.git
+      - alias: hh
+        url: git@github.com:Traap/HowardHouse.git
 
-    - alias: disaster
-      url: git@github.com:Traap/disaster.git
+      - alias: disaster
+        url: git@github.com:Traap/disaster.git
 
-    - alias: olddhf
-      url: git@github.com:Traap/olddhf.git
+      - alias: olddhf
+        url: git@github.com:Traap/olddhf.git
 
-    - alias: Publications
-      url: git@github.com:Traap/Publications.git
+      - alias: Publications
+        url: git@github.com:Traap/Publications.git
 
-    - alias: rebrand
-      url: git@github.com:Traap/rebrand.git
+      - alias: rebrand
+        url: git@github.com:Traap/rebrand.git
 
-    - alias: reviews
-      url: git@github.com:Traap/reviews.git
+      - alias: reviews
+        url: git@github.com:Traap/reviews.git
 
 # -------------------------------------------------------------------------- }}}
 # {{{ rails
@@ -314,91 +313,93 @@ private:
 rails:
   - root_dir: rails
   - repositories:
-    - alias: blog
-      url: git@github.com:Traap/blog.git
+      - alias: blog
+        url: git@github.com:Traap/blog.git
 
-    - alias: eflow
-      url: git@github.com:Traap/eflow.git
+      - alias: eflow
+        url: git@github.com:Traap/eflow.git
 
-    - alias: RailsStore
-      url: git@github.com:Traap/RailsStore.git
+      - alias: RailsStore
+        url: git@github.com:Traap/RailsStore.git
 
-    - alias: FormApp
-      url: git@gsa-gitea:BSS/FormsApp.git
+      - alias: FormApp
+        url: git@gsa-gitea:BSS/FormsApp.git
 
-    - alias: loaf
-      url: git@gsa-gitea:BSS/laof.git
+      - alias: loaf
+        url: git@gsa-gitea:BSS/laof.git
 
-    - alias: Ruby
-      url: https://github.com/ruby/ruby.git
-
+      - alias: Ruby
+        url: https://github.com/ruby/ruby.git
 
 # -------------------------------------------------------------------------- }}}
 # {{{ soup
 
 soup:
   - defaults:
-    - root_dir: soup
-    - allowed:
-      clean: true
-      clone: true
-      convert: true
-      delete: true
-      list: true
-      pull: true
-      status: true
+      - root_dir: soup
+      - allowed:
+        clean: true
+        clone: true
+        convert: true
+        delete: true
+        list: true
+        pull: true
+        status: true
 
   - root_dir: soup
   - repositories:
-    - alias: amber
-      url: git@github.com:Traap/amber.git
+      - alias: amber
+        url: git@github.com:Traap/amber.git
 
-    - alias: ametrine
-      url: git@github.com:Traap/ametrine.git
+      - alias: ametrine
+        url: git@github.com:Traap/ametrine.git
 
-    - alias: autodoc
-      url: git@github.com:Traap/autodoc.git
+      - alias: autodoc
+        url: git@github.com:Traap/autodoc.git
 
-    - alias: check-latex
-      url: git@github.com:Traap/check-latex.git
+      - alias: check-latex
+        url: git@github.com:Traap/check-latex.git
 
-    - alias: docbld
-      url: git@github.com:Traap/docbld.git
+      - alias: dhf-docker
+        url: git@github.com:Traap/dhf-docker.git
 
-    - alias: dragvisuals
-      url: git@github.com:Traap/vim-dragvisuals.git
+      - alias: docbld
+        url: git@github.com:Traap/docbld.git
 
-    - alias: emend
-      url: git@github.com:Traap/emend.git
+      - alias: dragvisuals
+        url: git@github.com:Traap/vim-dragvisuals.git
 
-    - alias: emend-computer
-      url: git@github.com:Traap/emend-computer.git
+      - alias: emend
+        url: git@github.com:Traap/emend.git
 
-    - alias: git-client
-      url: git@github.com:Traap/git-client.git
+      - alias: emend-computer
+        url: git@github.com:Traap/emend-computer.git
 
-    - alias: gits
-      url: git@github.com:Traap/gits.git
-      do_not_delete: true
+      - alias: git-client
+        url: git@github.com:Traap/git-client.git
 
-    - alias: havasu
-      url: git@github.com:Traap/havasu.git
+      - alias: gits
+        url: git@github.com:Traap/gits.git
+        do_not_delete: true
 
-    - alias: newautodoc
-      url: git@github.com:Traap/newautodoc.git
+      - alias: havasu
+        url: git@github.com:Traap/havasu.git
 
-    - alias: newdoc
-      url: git@github.com:Traap/newdoc.git
+      - alias: newautodoc
+        url: git@github.com:Traap/newautodoc.git
 
-    - alias: nvims
-      url: git@github.com:Traap/nvims.git
-      do_not_delete: true
+      - alias: newdoc
+        url: git@github.com:Traap/newdoc.git
 
-    - alias: quicksort
-      url: git@github.com:Traap/quicksort.git
+      - alias: nvims
+        url: git@github.com:Traap/nvims.git
+        do_not_delete: true
 
-    - alias: tlc-article
-      url: git@github.com:Traap/tlc-article.git
+      - alias: quicksort
+        url: git@github.com:Traap/quicksort.git
+
+      - alias: tlc-article
+        url: git@github.com:Traap/tlc-article.git
 
 # -------------------------------------------------------------------------- }}}
 # {{{ vim_bundles
@@ -406,79 +407,78 @@ soup:
 vim_bundles:
   - root_dir: vim_bundles
   - repositories:
-    - alias: abbreviate
-      url: git@github.com:Traap/vim-bundle-abbreviate.git
+      - alias: abbreviate
+        url: git@github.com:Traap/vim-bundle-abbreviate.git
 
-    - alias: airline
-      url: git@github.com:Traap/vim-bundle-airline.git
+      - alias: airline
+        url: git@github.com:Traap/vim-bundle-airline.git
 
-    - alias: ale
-      url: git@github.com:Traap/vim-bundle-ale.git
+      - alias: ale
+        url: git@github.com:Traap/vim-bundle-ale.git
 
-    - alias: autodoc
-      url: git@github.com:Traap/vim-bundle-autocmd.git
+      - alias: autodoc
+        url: git@github.com:Traap/vim-bundle-autocmd.git
 
-    - alias: coc
-      url: git@github.com:Traap/vim-bundle-coc.git
+      - alias: coc
+        url: git@github.com:Traap/vim-bundle-coc.git
 
-    - alias: colors
-      url: git@github.com:Traap/vim-bundle-colors.git
+      - alias: colors
+        url: git@github.com:Traap/vim-bundle-colors.git
 
-    - alias: dispatch
-      url: git@github.com:Traap/vim-bundle-dispatch.git
+      - alias: dispatch
+        url: git@github.com:Traap/vim-bundle-dispatch.git
 
-    - alias: fzf
-      url: git@github.com:Traap/vim-bundle-fzf.git
+      - alias: fzf
+        url: git@github.com:Traap/vim-bundle-fzf.git
 
-    - alias: github-issues
-      url: git@github.com:Traap/vim-bundle-github-issues.git
+      - alias: github-issues
+        url: git@github.com:Traap/vim-bundle-github-issues.git
 
-    - alias: grammarous
-      url: git@github.com:Traap/vim-bundle-grammarous.git
+      - alias: grammarous
+        url: git@github.com:Traap/vim-bundle-grammarous.git
 
-    - alias: haskell
-      url: git@github.com:Traap/vim-bundle-haskell.git
+      - alias: haskell
+        url: git@github.com:Traap/vim-bundle-haskell.git
 
-    - alias: keybindings
-      url: git@github.com:Traap/vim-bundle-keybindings.git
+      - alias: keybindings
+        url: git@github.com:Traap/vim-bundle-keybindings.git
 
-    - alias: lmgtfy
-      url: git@github.com:Traap/vim-bundle-lmgtfy.git
+      - alias: lmgtfy
+        url: git@github.com:Traap/vim-bundle-lmgtfy.git
 
-    - alias: macunix
-      url: git@github.com:Traap/vim-bundle-macunix.git
+      - alias: macunix
+        url: git@github.com:Traap/vim-bundle-macunix.git
 
-    - alias: nerdtree
-      url: git@github.com:Traap/vim-bundle-nerdtree.git
+      - alias: nerdtree
+        url: git@github.com:Traap/vim-bundle-nerdtree.git
 
-    - alias: plantuml
-      url: git@github.com:Traap/vim-bundle-plantuml.git
+      - alias: plantuml
+        url: git@github.com:Traap/vim-bundle-plantuml.git
 
-    - alias: rainbow
-      url: git@github.com:Traap/vim-bundle-rainbow.git
+      - alias: rainbow
+        url: git@github.com:Traap/vim-bundle-rainbow.git
 
-    - alias: resume
-      url: git@github.com:Traap/vim-bundle-resume.git
+      - alias: resume
+        url: git@github.com:Traap/vim-bundle-resume.git
 
-    - alias: settings
-      url: git@github.com:Traap/vim-bundle-settings.git
+      - alias: settings
+        url: git@github.com:Traap/vim-bundle-settings.git
 
-    - alias: terminal
-      url: git@github.com:Traap/vim-bundle-terminal.git
+      - alias: terminal
+        url: git@github.com:Traap/vim-bundle-terminal.git
 
-    - alias: tmux-runner
-      url: git@github.com:Traap/vim-bundle-tmux-runner.git
+      - alias: tmux-runner
+        url: git@github.com:Traap/vim-bundle-tmux-runner.git
 
-    - alias: vimtex
-      url: git@github.com:Traap/vim-bundle-vimtex.git
+      - alias: vimtex
+        url: git@github.com:Traap/vim-bundle-vimtex.git
 
-    - alias: wildignore
-      url: git@github.com:Traap/vim-bundle-wildignore.git
+      - alias: wildignore
+        url: git@github.com:Traap/vim-bundle-wildignore.git
 
-    - alias: wiki
-      url: git@github.com:Traap/vim-bundle-wiki.vim.git
+      - alias: wiki
+        url: git@github.com:Traap/vim-bundle-wiki.vim.git
 
-    - alias: wipeout
-      url: git@github.com:Traap/vim-bundle-wipeout.git
-
+      - alias: wipeout
+        url: git@github.com:Traap/vim-bundle-wipeout.git
 # -------------------------------------------------------------------------- }}}
