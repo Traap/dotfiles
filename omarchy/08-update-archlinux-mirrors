@@ -5,7 +5,7 @@ if [[ $mirrorFlag == true ]]; then
   sudo pacman-key --init
   sudo pacman-key --populate archlinux
   sudo pacman -Sy --noconfirm reflector
-  reflector -c "United States" -f 12 -l 10 -n 12  --save /etc/pacman.d/mirrorlist
+  sudo reflector -c "United States" -f 12 -l 10 -n 12  --save /etc/pacman.d/mirrorlist
 else
   say 'Skipping archlinux mirrors.'
 fi
