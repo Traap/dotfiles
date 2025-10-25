@@ -6,6 +6,7 @@ log_info() { say "🧩 $*"; }
 log_warn() { say "⚠️  $*"; }
 log_pass() { say "✅ $*"; }
 log_fail() { say "❌ $*"; }
+have_cmd() { command -v "$1" &>/dev/null; }
 
 # Export helper functions so child scripts can use them without re-sourcing.
 export -f say
@@ -15,3 +16,4 @@ export -f log_info
 export -f log_warn
 export -f log_pass
 export -f log_fail
+export -f have_cmd

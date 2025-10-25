@@ -7,3 +7,4 @@ unset -f log_info
 unset -f log_warn
 unset -f log_pass
 unset -f log_fail
+unset -f have_cmd

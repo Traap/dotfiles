@@ -1,31 +1,11 @@
 #!/usr/bin/env bash
-# 97-thinkpad-support — Omarchy ThinkPad setup (non-fatal, sudo-aware, idempotent)
-# - Never exits the migration; uses return if sourced, otherwise continues.
-# - Handles missing AUR / corporate blocking gracefully.
-# - Splits "required" vs "nice-to-have" packages to avoid hard failures.
-
+# 97-thinkpad-support — Omarchy ThinkPad setup (sudo-safe, idempotent, non-fatal)
 set -euo pipefail
 
-# ----------------------------- sourced vs executed --------------------------
-_is_sourced() {
-  # Return 0 if this script is sourced, 1 if executed
-  # shellcheck disable=SC2296
-  [[ "${BASH_SOURCE[0]}" != "$0" ]]
-}
-
-# A helper that "returns 0" if sourced, otherwise just ends (no exit)
-_return_ok() {
-  if _is_sourced; then
-    return 0
-  else
-    # do not 'exit', keep pipeline going
-    :
-  fi
-}
-
-# ----------------------------- logging helpers ------------------------------
+# ---------------------------------------------------------------------------
+# Debug capture
+# ---------------------------------------------------------------------------
 DEBUG_LOG="thinkpad-debug.log"
-
 debug_dump() {
   log_info "Writing debug log → ${DEBUG_LOG}"
   {
@@ -41,13 +21,19 @@ debug_dump() {
   } > "${DEBUG_LOG}"
 }
 
-# ------------------------------ flag check ----------------------------------
+# ---------------------------------------------------------------------------
+# Flag check
+# ---------------------------------------------------------------------------
 if [[ ${thinkpadFlag:-false} != true ]]; then
-  log_warn "ThinkPad support disabled (thinkpadFlag=false). Skipping."
-  _return_ok
+  log_warn "ThinkPad support skipped."
+  return
+else
+  log_warn "Installing ThinkPad support."
 fi
 
-# ------------------------------ detect ThinkPad -----------------------------
+# ---------------------------------------------------------------------------
+# Detect ThinkPad
+# ---------------------------------------------------------------------------
 vendor=$(tr -d '\0' < /sys/class/dmi/id/sys_vendor 2>/dev/null || true)
 product=$(tr -d '\0' < /sys/class/dmi/id/product_name 2>/dev/null || true)
 version=$(tr -d '\0' < /sys/class/dmi/id/product_version 2>/dev/null || true)
@@ -64,86 +50,35 @@ if [[ "$vendor_lc" =~ lenovo ]]; then
   fi
 else
   log_warn "Not a Lenovo/ThinkPad (vendor=${vendor}, product=${product}). Skipping ThinkPad setup."
-  _return_ok
+  return
 fi
 
 log_bar
 say "Installing ThinkPad drivers and utilities..."
 
-# ------------------------------ helpers -------------------------------------
-TARGET_USER="${SUDO_USER:-$USER}"
-run_as_user() { sudo -u "$TARGET_USER" bash -lc "$*"; }
-
-have_cmd() { command -v "$1" &>/dev/null; }
-
-ensure_yay() {
-  if have_cmd yay; then
-    return 0
-  fi
-
-  # If Chaotic AUR is configured, yay-bin might be available via pacman.
-  if pacman -Si yay-bin &>/dev/null; then
-    log_info "Installing yay-bin from repo (Chaotic AUR assumed)..."
-    sudo pacman -S --noconfirm --needed yay-bin || log_warn "Failed to install yay-bin"
-    have_cmd yay && return 0
-  fi
-
-  # Corporate networks often block aur.archlinux.org
-  log_info "Attempting AUR install of yay (may be blocked by corporate network)..."
-  sudo pacman -S --noconfirm --needed git base-devel || log_warn "pacman failed for base-devel"
-  run_as_user '
-    mkdir -p ~/builds && cd ~/builds && rm -rf yay && \
-    git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -si --noconfirm
-  ' || log_warn "Failed to install yay (AUR may be blocked)."
-
-  if ! have_cmd yay; then
-    log_warn "AUR helper not available. AUR-based steps will be skipped."
-  fi
-}
-
-# ------------------------------ remove conflicts ----------------------------
+# ---------------------------------------------------------------------------
+# Remove conflicts
+# ---------------------------------------------------------------------------
 if systemctl is-enabled power-profiles-daemon.service &>/dev/null; then
   log_info "Removing power-profiles-daemon (conflicts with TLP)..."
   sudo systemctl disable --now power-profiles-daemon.service || true
   sudo pacman -Rns --noconfirm power-profiles-daemon || true
 fi
 
-# ------------------------------ core packages -------------------------------
+# ---------------------------------------------------------------------------
+# Core ThinkPad packages
+# ---------------------------------------------------------------------------
 log_info "Installing core ThinkPad packages..."
 
-# Required base packages we know exist in Arch repos
-required_pkgs=(
-  i2c-tools
-  lm_sensors
-  tlp
-  tlp-rdw
-  bolt
-  usbutils
-)
+required_pkgs=(i2c-tools lm_sensors tlp tlp-rdw bolt usbutils)
+optional_pkgs=(acpi_call tp_smapi hdapsd)
 
-# Optional / older-model-specific (skip if not found)
-optional_pkgs=(
-  acpi_call
-  tp_smapi
-  hdapsd
-)
-
-# Install required (non-fatal if pacman returns non-zero for a specific pkg)
 for pkg in "${required_pkgs[@]}"; do
-  if pacman -Si "$pkg" &>/dev/null; then
-    sudo pacman -S --noconfirm --needed "$pkg" || log_warn "Failed to install ${pkg}"
-  else
-    log_warn "Package ${pkg} not found in repos."
-  fi
+  sudo pacman -Si "$pkg" &>/dev/null && sudo pacman -S --noconfirm --needed "$pkg" || log_warn "Failed to install ${pkg}"
 done
 
-# Install optional
 for pkg in "${optional_pkgs[@]}"; do
-  if pacman -Si "$pkg" &>/dev/null; then
-    sudo pacman -S --noconfirm --needed "$pkg" || log_warn "Optional package ${pkg} failed."
-  else
-    log_info "Optional package ${pkg} not available; skipping."
-  fi
+  sudo pacman -Si "$pkg" &>/dev/null && sudo pacman -S --noconfirm --needed "$pkg" || true
 done
 
 sudo systemctl enable --now tlp.service || true
@@ -151,26 +86,18 @@ sudo systemctl mask systemd-rfkill.service systemd-rfkill.socket || true
 sudo systemctl enable --now bolt.service || true
 have_cmd boltctl && boltctl list || true
 
-# thinkfan (AUR)
-ensure_yay
-if have_cmd yay; then
-  log_info "Installing thinkfan (AUR)..."
-  run_as_user 'yay -S --noconfirm --needed thinkfan' || log_warn "thinkfan install failed or skipped."
-else
-  log_warn "AUR helper unavailable — skipping thinkfan."
-fi
+log_info "Installing thinkfan (AUR)..."
+yay -S --noconfirm --needed thinkfan || log_warn "thinkfan install failed."
 
 log_info "Detecting sensors..."
-if have_cmd sensors-detect; then
-  yes '' | sudo sensors-detect --auto || log_warn "sensors-detect failed."
-else
-  log_warn "sensors-detect not found (lm_sensors should provide it)."
-fi
+have_cmd sensors-detect && yes '' | sudo sensors-detect --auto || log_warn "sensors-detect failed."
 
-# ------------------------------ DisplayLink/EVDI ----------------------------
-if have_cmd lsusb && lsusb 2>/dev/null | grep -qi 'DisplayLink'; then
+# ---------------------------------------------------------------------------
+# DisplayLink / EVDI
+# ---------------------------------------------------------------------------
+if have_cmd lsusb && lsusb | grep -qi 'DisplayLink'; then
   log_info "DisplayLink dock detected — preparing EVDI and DisplayLink."
-  sudo pacman -S --noconfirm --needed linux-headers dkms || log_warn "headers/dkms skipped or failed."
+  sudo pacman -S --noconfirm --needed linux-headers dkms || log_warn "headers/dkms install failed."
 
   kernel_ver="$(uname -r)"
   if [[ ! -e "/lib/modules/${kernel_ver}/build" && -d "/usr/lib/modules/${kernel_ver}/build" ]]; then
@@ -183,34 +110,48 @@ if have_cmd lsusb && lsusb 2>/dev/null | grep -qi 'DisplayLink'; then
     log_warn "Kernel (${kernel_ver}) and headers (${hdr_pkg_ver}) may mismatch. Recommend: pacman -Syu && reboot."
   fi
 
-  # Prefer binary repo via yay if available; else attempt source build.
+  # Fix evdi conflict automatically if detected
+  if pacman -Q evdi-amd-vmap-texture &>/dev/null; then
+    log_warn "Removing conflicting evdi-amd-vmap-texture..."
+    sudo pacman -Rns --noconfirm evdi-amd-vmap-texture || true
+  fi
+
   if have_cmd yay; then
-    run_as_user 'yay -S --noconfirm --needed displaylink evdi-dkms' || log_warn "displaylink/evdi AUR install failed."
+    yay -S --noconfirm --needed evdi-dkms displaylink || log_warn "displaylink/evdi AUR install failed."
   else
-    log_warn "AUR helper unavailable — attempting EVDI source build (GitHub access required)."
+    log_warn "AUR unavailable — attempting manual EVDI build."
     build_dir="/tmp/evdi"
     sudo rm -rf "$build_dir" || true
-    if have_cmd git; then
-      # Best-effort shallow clone
-      sudo git clone --depth=1 https://github.com/DisplayLink/evdi.git "$build_dir" || log_warn "EVDI git clone failed."
-      if [[ -d "$build_dir/module" ]]; then
-        pushd "$build_dir/module" >/dev/null || true
-        sudo make CFLAGS=-Wno-error || log_warn "EVDI make failed."
-        sudo make INSTALL_MOD_DIR=/kernel/drivers/gpu/drm/evdi modules_install || log_warn "EVDI install failed."
-        sudo depmod -a || true
-        popd >/dev/null || true
-      fi
+    sudo mkdir -p "$build_dir"
+    EVDI_REPO="https://github.com/DisplayLink/evdi.git"
+
+    if timeout 60s git ls-remote --tags "$EVDI_REPO" | grep -q "refs/tags/1.13.1"; then
+      log_info "Cloning EVDI tag 1.13.1..."
+      timeout 120s sudo git clone --depth=1 --branch 1.13.1 "$EVDI_REPO" "$build_dir" || log_warn "EVDI clone failed."
     else
-      log_warn "git not available — skipping EVDI source build."
+      log_warn "Tag 1.13.1 not found — using master branch."
+      timeout 120s sudo git clone --depth=1 "$EVDI_REPO" "$build_dir" || log_warn "EVDI clone failed."
+    fi
+
+    if [[ -d "$build_dir/module" ]]; then
+      pushd "$build_dir/module" >/dev/null
+      sudo make CFLAGS=-Wno-error || log_warn "EVDI build failed."
+      sudo make INSTALL_MOD_DIR="/lib/modules/$(uname -r)/kernel/drivers/gpu/drm/evdi" modules_install || log_warn "EVDI install failed."
+      sudo depmod -a || true
+      popd >/dev/null
     fi
   fi
 
+  # Always retry modprobe after rebuild
+  sudo modprobe -r evdi 2>/dev/null || true
+  sleep 1
   sudo modprobe evdi || log_warn "modprobe evdi failed."
   sleep 1
+
   if lsmod | grep -q '^evdi'; then
     log_pass "EVDI module loaded."
   else
-    log_warn "EVDI module not visible."
+    log_warn "EVDI module still not visible."
   fi
 
   sudo systemctl enable --now displaylink.service || true
@@ -225,20 +166,23 @@ else
   log_info "No DisplayLink dock detected — skipping EVDI setup."
 fi
 
-# ------------------------------ Dock NIC modules ----------------------------
+# ---------------------------------------------------------------------------
+# Dock NIC drivers
+# ---------------------------------------------------------------------------
 log_info "Ensuring dock NIC drivers are available."
 sudo modprobe ax88179_178a || true
 sudo modprobe cdc_ncm || true
 sudo modprobe r8152 || true
 
-# ------------------------------ Summary -------------------------------------
+# ---------------------------------------------------------------------------
+# Summary
+# ---------------------------------------------------------------------------
 log_bar
 say "ThinkPad Setup Summary"
 log_info "Kernel: $(uname -r)"
 lsmod | grep -q '^evdi' && log_pass "EVDI module loaded." || log_warn "EVDI not loaded."
 systemctl is-active --quiet displaylink.service && log_pass "DisplayLink active." || log_warn "DisplayLink inactive."
-have_cmd tlp-stat && tlp-stat -b | grep -E 'Mode|Charge' || true
+have_cmd tlp-stat && sudo tlp-stat -b | grep -E 'Mode|Charge' || true
 log_pass "ThinkPad driver step completed (non-fatal)."
+log_bar
 
-# end
-_return_ok
