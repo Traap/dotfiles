@@ -1,0 +1,1 @@
+cp -v ~/.config/hypr/layout/high-res-monitor.conf ~/.config/hypr/monitors.conf
