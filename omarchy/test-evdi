@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+#evdi
+set -euo pipefail
+
+pwd=$(pwd)
+
+sudo cat /etc/modules-load.d/evdi.conf
+modinfo evdi | head -3
+sudo dkms status | grep evdi || echo "evdi not registered"
+sudo modprobe -r evdi 2>/dev/null || true
+sudo modprobe evdi
+lsmod | grep '^evdi'
+
+# Restore working directory
+cd "$pwd"
+echo "🏁 test-evdi script completed."

@@ -3,25 +3,6 @@
 set -euo pipefail
 
 # ---------------------------------------------------------------------------
-# Debug capture
-# ---------------------------------------------------------------------------
-DEBUG_LOG="thinkpad-debug.log"
-debug_dump() {
-  log_info "Writing debug log → ${DEBUG_LOG}"
-  {
-    echo "===== KERNEL & DKMS INFO ====="
-    echo "Kernel: $(uname -r)"
-    pacman -Q | grep -E '^(linux|linux-headers|dkms|bolt|tlp|usbutils|lm_sensors)\b' || true
-    echo
-    echo "===== DisplayLink Service ====="
-    systemctl status displaylink.service -n 30 || true
-    echo
-    echo "===== dmesg (evdi) ====="
-    dmesg | grep -i evdi | tail -40 || true
-  } > "${DEBUG_LOG}"
-}
-
-# ---------------------------------------------------------------------------
 # Flag check
 # ---------------------------------------------------------------------------
 if [[ ${thinkpadFlag:-false} != true ]]; then
@@ -96,72 +77,54 @@ have_cmd sensors-detect && yes '' | sudo sensors-detect --auto || log_warn "sens
 # DisplayLink / EVDI
 # ---------------------------------------------------------------------------
 if have_cmd lsusb && lsusb | grep -qi 'DisplayLink'; then
-  log_info "DisplayLink dock detected — preparing EVDI and DisplayLink."
+  log_info "DisplayLink dock detected — verifying EVDI and headers..."
+
   sudo pacman -S --noconfirm --needed linux-headers dkms || log_warn "headers/dkms install failed."
 
   kernel_ver="$(uname -r)"
-  if [[ ! -e "/lib/modules/${kernel_ver}/build" && -d "/usr/lib/modules/${kernel_ver}/build" ]]; then
-    log_warn "Creating missing /lib/modules/${kernel_ver}/build symlink..."
-    sudo ln -sf "/usr/lib/modules/${kernel_ver}/build" "/lib/modules/${kernel_ver}/build"
-  fi
-
   hdr_pkg_ver="$(pacman -Q linux-headers 2>/dev/null | awk '{print $2}' || true)"
-  if [[ -n "$hdr_pkg_ver" && "$kernel_ver" != "${hdr_pkg_ver%-*}"* ]]; then
-    log_warn "Kernel (${kernel_ver}) and headers (${hdr_pkg_ver}) may mismatch. Recommend: pacman -Syu && reboot."
+
+  if [[ ! -e "/usr/lib/modules/${kernel_ver}/build" ]]; then
+    log_warn "Headers missing for kernel ${kernel_ver}. Creating build symlink if possible."
+    sudo ln -sf "/usr/lib/modules/${kernel_ver}" "/lib/modules/${kernel_ver}/build" || true
   fi
 
-  # Fix evdi conflict automatically if detected
-  if pacman -Q evdi-amd-vmap-texture &>/dev/null; then
-    log_warn "Removing conflicting evdi-amd-vmap-texture..."
-    sudo pacman -Rns --noconfirm evdi-amd-vmap-texture || true
+  if [[ -z "$hdr_pkg_ver" || "$kernel_ver" != "${hdr_pkg_ver%-*}"* ]]; then
+    log_warn "Kernel (${kernel_ver}) and headers (${hdr_pkg_ver:-none}) may mismatch."
   fi
 
-  if have_cmd yay; then
-    yay -S --noconfirm --needed evdi-dkms displaylink || log_warn "displaylink/evdi AUR install failed."
-  else
-    log_warn "AUR unavailable — attempting manual EVDI build."
+  if ! modinfo evdi 2>/dev/null | grep -q "$kernel_ver"; then
+    log_warn "Rebuilding EVDI for kernel ${kernel_ver}..."
     build_dir="/tmp/evdi"
-    sudo rm -rf "$build_dir" || true
-    sudo mkdir -p "$build_dir"
-    EVDI_REPO="https://github.com/DisplayLink/evdi.git"
-
-    if timeout 60s git ls-remote --tags "$EVDI_REPO" | grep -q "refs/tags/1.13.1"; then
-      log_info "Cloning EVDI tag 1.13.1..."
-      timeout 120s sudo git clone --depth=1 --branch 1.13.1 "$EVDI_REPO" "$build_dir" || log_warn "EVDI clone failed."
-    else
-      log_warn "Tag 1.13.1 not found — using master branch."
-      timeout 120s sudo git clone --depth=1 "$EVDI_REPO" "$build_dir" || log_warn "EVDI clone failed."
-    fi
-
-    if [[ -d "$build_dir/module" ]]; then
-      pushd "$build_dir/module" >/dev/null
-      sudo make CFLAGS=-Wno-error || log_warn "EVDI build failed."
-      sudo make INSTALL_MOD_DIR="/lib/modules/$(uname -r)/kernel/drivers/gpu/drm/evdi" modules_install || log_warn "EVDI install failed."
-      sudo depmod -a || true
-      popd >/dev/null
-    fi
+    sudo rm -rf "$build_dir"
+    sudo git clone --depth=1 https://github.com/DisplayLink/evdi.git "$build_dir" || {
+      log_fail "Failed to clone EVDI repo."
+      return
+    }
+    pushd "$build_dir/module" >/dev/null
+    sudo make CFLAGS=-Wno-error || log_warn "EVDI build failed."
+    sudo make INSTALL_MOD_DIR="/lib/modules/${kernel_ver}/kernel/drivers/gpu/drm/evdi" modules_install || log_warn "EVDI install failed."
+    sudo depmod -a || true
+    popd >/dev/null
+  else
+    log_info "Existing EVDI module already matches kernel ${kernel_ver}."
   fi
 
-  # Always retry modprobe after rebuild
   sudo modprobe -r evdi 2>/dev/null || true
   sleep 1
-  sudo modprobe evdi || log_warn "modprobe evdi failed."
-  sleep 1
+  sudo modprobe evdi && log_pass "EVDI module loaded." || log_fail "EVDI modprobe failed."
 
   if lsmod | grep -q '^evdi'; then
-    log_pass "EVDI module loaded."
-  else
-    log_warn "EVDI module still not visible."
+    echo "evdi" | sudo tee /etc/modules-load.d/evdi.conf >/dev/null
+    log_info "EVDI autoload rule ensured → /etc/modules-load.d/evdi.conf"
   fi
 
   sudo systemctl enable --now displaylink.service || true
   sudo systemctl restart displaylink.service || true
-  if systemctl is-active --quiet displaylink.service; then
-    log_pass "displaylink.service active."
-  else
-    log_fail "displaylink.service failed."
-    debug_dump
-  fi
+  systemctl is-active --quiet displaylink.service \
+    && log_pass "displaylink.service active." \
+    || log_fail "displaylink.service failed."
+
 else
   log_info "No DisplayLink dock detected — skipping EVDI setup."
 fi
@@ -185,4 +148,3 @@ systemctl is-active --quiet displaylink.service && log_pass "DisplayLink active.
 have_cmd tlp-stat && sudo tlp-stat -b | grep -E 'Mode|Charge' || true
 log_pass "ThinkPad driver step completed (non-fatal)."
 log_bar
-
