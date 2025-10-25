@@ -1,0 +1,164 @@
+#!/usr/bin/env bash
+# 11-thinkpad-support — Omarchy ThinkPad setup (non-fatal, sudo-aware, idempotent)
+# Handles ThinkPad drivers, sensors, DisplayLink, and EVDI safely on Arch Linux.
+
+set -euo pipefail
+
+# ----------------------------- logging helpers ------------------------------
+say()       { echo -e "$*"; }
+log_bar()   { say "───────────────────────────────────────────────"; }
+log_info()  { say "🧩 $*"; }
+log_warn()  { say "⚠️  $*"; }
+log_pass()  { say "✅ $*"; }
+log_fail()  { say "❌ $*"; }
+
+DEBUG_LOG="thinkpad-debug.log"
+
+debug_dump() {
+  log_info "Writing debug log → ${DEBUG_LOG}"
+  {
+    echo "===== KERNEL & DKMS INFO ====="
+    echo "Kernel: $(uname -r)"
+    pacman -Q | grep -E '^(linux|linux-headers|dkms|bolt|tlp|usbutils|tbtools)\b' || true
+    echo
+    echo "===== DisplayLink Service ====="
+    systemctl status displaylink.service -n 30 || true
+    echo
+    echo "===== dmesg (evdi) ====="
+    dmesg | grep -i evdi | tail -20 || true
+  } > "${DEBUG_LOG}"
+}
+
+# ------------------------------ flag check ----------------------------------
+if [[ ${thinkpadFlag:-false} != true ]]; then
+  log_warn "ThinkPad support disabled (thinkpadFlag=false). Skipping."
+  return;
+fi
+
+# ------------------------------ detect ThinkPad -----------------------------
+vendor=$(tr -d '\0' < /sys/class/dmi/id/sys_vendor 2>/dev/null || true)
+product=$(tr -d '\0' < /sys/class/dmi/id/product_name 2>/dev/null || true)
+version=$(tr -d '\0' < /sys/class/dmi/id/product_version 2>/dev/null || true)
+
+vendor_lc=$(echo "$vendor" | tr '[:upper:]' '[:lower:]')
+product_lc=$(echo "$product" | tr '[:upper:]' '[:lower:]')
+version_lc=$(echo "$version" | tr '[:upper:]' '[:lower:]')
+
+if [[ "$vendor_lc" =~ lenovo ]]; then
+  if [[ "$product_lc" =~ thinkpad || "$version_lc" =~ thinkpad || "$product_lc" =~ ^(p1|t14|t15|x1|x13|l14|l15) ]]; then
+    log_info "Detected Lenovo ThinkPad (${vendor} ${product})."
+  else
+    log_warn "Lenovo system (${product}) not explicitly labeled ThinkPad — treating as ThinkPad-compatible."
+  fi
+else
+  log_warn "Not a Lenovo/ThinkPad (vendor=${vendor}, product=${product}). Skipping ThinkPad setup."
+  return;
+fi
+
+log_bar
+say "Installing ThinkPad drivers and utilities..."
+
+# ------------------------------ helpers -------------------------------------
+TARGET_USER="${SUDO_USER:-$USER}"
+run_as_user() { sudo -u "$TARGET_USER" bash -lc "$*"; }
+
+ensure_yay() {
+  if ! command -v yay &>/dev/null; then
+    log_info "Installing yay (AUR helper)..."
+    sudo pacman -S --noconfirm --needed git base-devel || log_warn "pacman failed for base-devel"
+    run_as_user 'mkdir -p ~/builds && cd ~/builds && rm -rf yay && git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -si --noconfirm' || \
+      log_warn "Failed to install yay"
+  fi
+}
+
+# ------------------------------ remove conflicts ----------------------------
+if systemctl is-enabled power-profiles-daemon.service &>/dev/null; then
+  log_info "Removing power-profiles-daemon (conflicts with TLP)..."
+  sudo systemctl disable --now power-profiles-daemon.service || true
+  sudo pacman -Rns --noconfirm power-profiles-daemon || true
+fi
+
+# ------------------------------ core packages -------------------------------
+log_info "Installing core ThinkPad packages..."
+sudo pacman -S --noconfirm --needed \
+  acpi_call tp_smapi i2c-tools lm_sensors hdapsd tlp tlp-rdw bolt usbutils tbtools || \
+  log_warn "Core ThinkPad package install failed."
+
+sudo systemctl enable --now tlp.service || true
+sudo systemctl mask systemd-rfkill.service systemd-rfkill.socket || true
+sudo systemctl enable --now bolt.service || true
+command -v boltctl &>/dev/null && boltctl list || true
+
+ensure_yay
+log_info "Installing thinkfan (AUR)..."
+run_as_user 'yay -S --noconfirm --needed thinkfan' || log_warn "thinkfan install failed."
+
+log_info "Detecting sensors..."
+yes '' | sudo sensors-detect --auto || log_warn "sensors-detect failed."
+
+# ------------------------------ DisplayLink/EVDI ----------------------------
+if lsusb 2>/dev/null | grep -qi 'DisplayLink'; then
+  log_info "DisplayLink dock detected — preparing EVDI and DisplayLink."
+  sudo pacman -S --noconfirm --needed linux-headers dkms || log_warn "headers/dkms skipped or failed."
+
+  kernel_ver="$(uname -r)"
+  if [[ ! -e "/lib/modules/${kernel_ver}/build" && -d "/usr/lib/modules/${kernel_ver}/build" ]]; then
+    log_warn "Creating missing /lib/modules/${kernel_ver}/build symlink..."
+    sudo ln -sf "/usr/lib/modules/${kernel_ver}/build" "/lib/modules/${kernel_ver}/build"
+  fi
+
+  hdr_pkg_ver="$(pacman -Q linux-headers 2>/dev/null | awk '{print $2}' || true)"
+  if [[ "$kernel_ver" != "${hdr_pkg_ver%-*}"* ]]; then
+    log_warn "Kernel (${kernel_ver}) and headers (${hdr_pkg_ver}) may mismatch. Recommend: pacman -Syu && reboot."
+  fi
+
+  run_as_user 'yay -S --noconfirm --needed displaylink' || log_warn "displaylink AUR install skipped or failed."
+
+  build_dir="/tmp/evdi"
+  log_bar
+  say "Verifying DisplayLink service and EVDI module..."
+  log_info "Building EVDI module (Wno-error)..."
+
+  sudo rm -rf "$build_dir"
+  if git ls-remote --tags https://github.com/DisplayLink/evdi.git | grep -q "refs/tags/1.13.1"; then
+    sudo git clone --depth=1 --branch 1.13.1 https://github.com/DisplayLink/evdi.git "$build_dir"
+  else
+    sudo git clone --depth=1 https://github.com/DisplayLink/evdi.git "$build_dir"
+  fi
+
+  pushd "$build_dir/module" >/dev/null || { log_warn "EVDI build dir missing"; return; }
+  sudo make CFLAGS=-Wno-error || log_warn "EVDI make failed."
+  sudo make INSTALL_MOD_DIR=/kernel/drivers/gpu/drm/evdi modules_install || log_warn "EVDI install failed."
+  sudo depmod -a
+  popd >/dev/null
+
+  sudo modprobe evdi || log_warn "modprobe evdi failed."
+  sleep 1
+  lsmod | grep -q '^evdi' && log_pass "EVDI module loaded." || log_warn "EVDI module not visible."
+
+  sudo systemctl enable --now displaylink.service || true
+  sudo systemctl restart displaylink.service || true
+  if systemctl is-active --quiet displaylink.service; then
+    log_pass "displaylink.service active."
+  else
+    log_fail "displaylink.service failed."
+    debug_dump
+  fi
+else
+  log_info "No DisplayLink dock detected — skipping EVDI setup."
+fi
+
+# ------------------------------ Dock NIC modules ----------------------------
+log_info "Ensuring dock NIC drivers are available."
+sudo modprobe ax88179_178a || true
+sudo modprobe cdc_ncm || true
+sudo modprobe r8152 || true
+
+# ------------------------------ Summary -------------------------------------
+log_bar
+say "ThinkPad Setup Summary"
+log_info "Kernel: $(uname -r)"
+lsmod | grep -q '^evdi' && log_pass "EVDI module loaded." || log_warn "EVDI not loaded."
+systemctl is-active --quiet displaylink.service && log_pass "DisplayLink active." || log_warn "DisplayLink inactive."
+command -v tlp-stat &>/dev/null && tlp-stat -b | grep -E 'Mode|Charge' || true
+log_pass "ThinkPad driver installation complete."

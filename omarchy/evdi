@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+pwd=$(pwd)
+cd /tmp
+sudo rm -rf evdi
+
+# 🧱 Clone EVDI: prefer latest known good tag, else master
+EVDI_REPO="https://github.com/DisplayLink/evdi.git"
+if git ls-remote --tags "$EVDI_REPO" | grep -q "refs/tags/1.13.1"; then
+  echo "🔹 Cloning EVDI tag 1.13.1..."
+  git clone --depth=1 --branch 1.13.1 "$EVDI_REPO"
+else
+  echo "⚠️  Tag 1.13.1 not found, falling back to master branch..."
+  git clone --depth=1 "$EVDI_REPO"
+fi
+
+# 🧩 Build kernel module only (skip broken library step)
+echo "🔧 Building EVDI kernel module..."
+cd evdi/module
+make CFLAGS=-Wno-error
+sudo make install
+
+# 🧩 Load the module and verify
+echo "🔌 Loading EVDI kernel module..."
+sudo modprobe evdi || {
+  echo "❌ modprobe evdi failed — check dmesg for details."
+  exit 1
+}
+
+# 🧩 Confirm module load
+if lsmod | grep -q '^evdi'; then
+  echo "✅ EVDI module successfully loaded."
+else
+  echo "⚠️  EVDI module not visible in lsmod — check kernel logs."
+fi
+
+# 🧩 Verify DisplayLink service
+echo "🔧 Restarting DisplayLink service..."
+sudo systemctl restart displaylink.service || true
+systemctl status displaylink.service -n 15 || true
+
+# Restore working directory
+cd "$pwd"
+echo "🏁 EVDI build script completed."

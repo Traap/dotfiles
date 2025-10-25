@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+uname -r
+sudo pacman -Q linux linux-headers | awk '{print $1, $2}'
+ls -l /lib/modules/$(uname -r)/build

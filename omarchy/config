@@ -3,15 +3,16 @@
 
 bashrcFlag=false
 cloneReposFlag=false
+certificatesFlag=false
 dockerPacakgesFlag=false
-gitBashPromptFlag=true
+gitBashPromptFlag=false
 gitsFlag=false
 hyprlandFlag=false
 luarocksFlag=false
 mirrorFlag=false
 nodeJsFlag=false
 nvimsFlag=false
-openSSLFlag=false	
+openSSLFlag=false
 orphanedFlag=false
 pacmanPackagesFlag=false
 pipPackagesFlag=false
@@ -22,6 +23,7 @@ sshHostKeyFlag=false
 starshipFlag=false
 symlinksFlag=false
 texPackagesFlag=false
+thinkpadFlag=true
 tmuxPluginsFlag=false
 waybarFlag=false
 yayPackagesFlag=false
