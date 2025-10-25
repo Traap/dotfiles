@@ -1,19 +1,27 @@
 #!/usr/bin/env bash
 # NodeJs packages
+set -euo pipefail
 
-if [[ $nodeJsFlag == true ]]; then
-  say 'Install NodeJs packages.'
+if [[ ${nodeJsFlag:-false} == true ]]; then
+  log_info "Installing NodeJS packages..."
 
   nodejs_packages=(
-    "neovim"
-    "node-gyp"
-    "nodejs-nopt"
+    neovim
+    node-gyp
+    nodejs-nopt
     "@mermaid-js/mermaid-cli"
-    "semver"
-    "yarn"
+    semver
+    yarn
   )
 
-  sudo npm install -g "${nodejs_packages[@]}"
+  if ! command -v npm &>/dev/null; then
+    log_fail "npm not found — ensure NodeJS is installed before this step."
+    return
+  fi
+
+  sudo env "PATH=$PATH" npm install -g "${nodejs_packages[@]}" \
+    && log_pass "NodeJS packages installed." \
+    || log_fail "Failed to install NodeJS packages."
 else
-  say 'NodeJs packages skipped.'
+  log_info "NodeJS packages skipped."
 fi

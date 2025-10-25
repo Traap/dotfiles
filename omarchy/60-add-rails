@@ -1,10 +1,17 @@
 #!/usr/bin/env bash
 # Rails
+set -euo pipefail
 
-if [[ $railsFlag == true ]]; then
-  say 'Install Rails.'
-  gem install rails
-  rails --version
+if [[ ${railsFlag:-false} == true ]]; then
+  log_info "Installing Rails..."
+
+  if ! command -v gem &>/dev/null; then
+    log_fail "gem command not found — ensure Ruby is installed."
+    return
+  fi
+
+  gem install rails && log_pass "Rails installed successfully."
+  rails --version || log_warn "Rails installed but version check failed."
 else
-  say 'Rails skipped.'
+  log_info "Rails skipped."
 fi

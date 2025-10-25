@@ -1,12 +1,17 @@
 # Define and export helper functions
-say(){
-  echo "${1}"
-}
-
-sayAndDo(){
-  say "${1}" ${1}
-}
+say()      { echo -e "$*"; }
+sayAndDo() { say "${1}" ${1}; }
+log_bar()  { say "───────────────────────────────────────────────"; }
+log_info() { say "🧩 $*"; }
+log_warn() { say "⚠️  $*"; }
+log_pass() { say "✅ $*"; }
+log_fail() { say "❌ $*"; }
 
 # Export helper functions so child scripts can use them without re-sourcing.
 export -f say
 export -f sayAndDo
+export -f log_bar
+export -f log_info
+export -f log_warn
+export -f log_pass
+export -f log_fail

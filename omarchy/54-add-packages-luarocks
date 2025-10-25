@@ -1,15 +1,25 @@
 #!/usr/bin/env bash
 # luarocks packages
+set -euo pipefail
 
-if [[ $luarocksFlag == true ]]; then
-  say 'Install luarocks packages.'
+if [[ ${luarocksFlag:-false} == true ]]; then
+  log_info "Installing LuaRocks packages..."
 
   luarocks_packages=(
-    "jsregexp"
-    "neovim-remote"
-    )
+    jsregexp
+    neovim-remote
+  )
 
-  pip install "${luarocks_packages[@]}"
+  if ! command -v luarocks &>/dev/null; then
+    log_fail "luarocks not found."
+    return
+  fi
+
+  for pkg in "${luarocks_packages[@]}"; do
+    luarocks install "$pkg" || log_warn "Failed to install $pkg"
+  done
+
+  log_pass "LuaRocks packages processed."
 else
-  say 'luarocks packages skipped.'
+  log_info "LuaRocks packages skipped."
 fi

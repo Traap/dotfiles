@@ -5,10 +5,10 @@ set -euo pipefail
 # Save working directory.
 pwd=$(pwd)
 
-systemctl status displaylink.service
-lsmod | grep evdi
 ip link show
 ip route get 8.8.8.8
+systemctl status displaylink.service
+lsmod | grep evdi
 sudo dmesg | grep -E 'r8152|ax88179|cdc_ncm|eth'
 sudo dmesg | grep -iE 'displaylink|evdi' | tail -n 25
 ls /sys/class/drm/

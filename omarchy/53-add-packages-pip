@@ -1,14 +1,23 @@
 #!/usr/bin/env bash
 # pip packages
+set -euo pipefail
 
-if [[ $pipPackagesFlag == true ]]; then
-  say 'Install pip packages.'
+if [[ ${pipPackagesFlag:-false} == true ]]; then
+  log_info "Installing pip packages..."
 
   pip_packages=(
-    "neovim-remote"
+    neovim-remote
   )
 
-  pip install "${pip_packages[@]}"
+  if ! command -v python3 &>/dev/null; then
+    log_fail "python3 not found."
+    return
+  fi
+
+  python3 -m pip install --upgrade pip
+  python3 -m pip install "${pip_packages[@]}" \
+    && log_pass "pip packages installed." \
+    || log_fail "Failed to install pip packages."
 else
-  say 'pip packages skipped.'
+  log_info "pip packages skipped."
 fi

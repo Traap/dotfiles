@@ -1,9 +1,20 @@
 #!/usr/bin/env bash
 # Ruby
+set -euo pipefail
 
-if [[ $rubyFlag == true ]]; then
-  say 'Install Ruby.'
-  mise use -g ruby@3
+if [[ ${rubyFlag:-false} == true ]]; then
+  log_info "Installing Ruby..."
+
+  if ! command -v mise &>/dev/null; then
+    source /etc/profile.d/mise.sh 2>/dev/null || true
+  fi
+
+  if command -v mise &>/dev/null; then
+    mise use -g ruby@3 && log_pass "Ruby installed via mise."
+  else
+    log_fail "mise not found — cannot install Ruby."
+    return
+  fi
 else
-  say 'Ruby skipped.'
+  log_info "Ruby skipped."
 fi
