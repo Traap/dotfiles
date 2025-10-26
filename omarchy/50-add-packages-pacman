@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 # pacman packages
 
-if [[ $pacmanPackagesFlag == true ]]; then
-  say 'Install pacman packages.'
+if [[ ${pacmanPackagesFlag:-false}== true ]]; then
+  log_info 'Install pacman packages.'
 
   pacman_packages=(
     "cmake"
@@ -28,5 +28,5 @@ if [[ $pacmanPackagesFlag == true ]]; then
 
   sudo pacman -Syyu --noconfirm "${pacman_packages[@]}"
 else
-  say 'pacman packages skipped.'
+  log_info 'pacman packages skipped.'
 fi

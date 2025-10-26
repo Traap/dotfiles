@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 # sshhostkeys
 
-if [[ $sshHostKeyFlag == true ]]; then
-  say 'Install ssh host keys.'
+if [[ ${sshHostKeyFlag:-false} == true ]]; then
+  log_info 'Install ssh host keys.'
   sudo pacman -S ssh-keygen
   sshDir=~/git/ssh
   mkdir     -pv $sshDir
   ln       -fsv $sshDir  ~/.ssh
   ssh-keygen -f $sshDir/$HOSTNAME
 else
-  say 'ssh host keys skipped.'
+  log_info 'ssh host keys skipped.'
 fi

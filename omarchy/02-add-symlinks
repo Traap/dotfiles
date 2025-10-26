@@ -1,18 +1,18 @@
 #k!/usr/bin/env bash
 # {{{ Check symnlinksFlag
 
-if [[ $symlinksFlag == true ]]; then
-  say 'Install symlinks.'
+if [[ ${symlinksFlag:-false} == true ]]; then
+  log_info 'Install symlinks.'
 else
-  say 'symlinks skipped.'
+  log_info 'symlinks skipped.'
   return;
 fi
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Create symbolic links
 createSymLinks() {
-  if [[ $createSymLinksFlag == 1 ]]; then
-    echo "Creating symbolic links."
+  if [[ ${createSymLinksFlag:-false} == true ]]; then
+    log_info "Creating symbolic links."
     mkdir -p ~/.config
 
     # Symlinks at .config
@@ -40,8 +40,8 @@ createSymLinks() {
 # {{{ Delete symbolic links
 
 deleteSymLinks() {
-  if [[ $deleteSymLinksFlag == 1 ]]; then
-    echo "Deleting symbolic links."
+  if [[ ${deleteSymLinksFlag:-false} == true ]]; then
+    log_info "Deleting symbolic links."
 
     # Symlinks at .config
     rm -rfv ~/.config/gits
@@ -66,8 +66,8 @@ deleteSymLinks() {
 # -------------------------------------------------------------------------- }}}
 # {{{ The stage is set ... start the show!!!
 
-createSymLinksFlag=1
-deleteSymLinksFlag=1
+createSymLinksFlag=true
+deleteSymLinksFlag=true
 
 deleteSymLinks
 createSymLinks

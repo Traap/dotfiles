@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 # starship
 
-if [[ $starshipFlag == true ]]; then
-  say 'Install starshp.'
-  sayAndDo "yay -R starship"
+if [[ ${starshipFlag:-false}== true ]]; then
+  log_info 'Install starshp.'
+  log_infoAndDo "yay -R starship"
 
 else
-  say 'starship skipped.'
+  log_info 'starship skipped.'
 fi

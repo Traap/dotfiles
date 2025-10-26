@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 # waybar
 
-if [[ $waybarFlag == true ]]; then
-  say 'Install waybar.'
+if [[ ${waybarFlag:-false}== true ]]; then
+  log_info 'Install waybar.'
   rm    -frv  ~/.config/waybar
   mkdir -pv  ~/config/waybar
   ln    -fsv ~/git/dotfiles/waybar ~/.config/waybar
 else
-  say 'waybar skipped.'
+  log_info 'waybar skipped.'
 fi

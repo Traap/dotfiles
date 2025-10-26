@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 # Docker
 
-if [[ $dockerPacakgesFlag == true ]]; then
-  say 'Install docker packages.'
+if [[ ${dockerPacakgesFlag:-false}== true ]]; then
+  log_info 'Install docker packages.'
 
   docker_packages=(
     "docker"
@@ -14,5 +14,5 @@ if [[ $dockerPacakgesFlag == true ]]; then
   sudo systemctl enable docker.service --now
   sudo systemctl status docker.service 2>/dev/null
 else
-  say 'docker packages skipped.'
+  log_info 'docker packages skipped.'
 fi

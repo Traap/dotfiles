@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
 # tmuxplugins
 
-if [[ $tmuxPluginsFlag == true ]]; then
-  say 'Installing tmux plugins.'
+if [[ ${tmuxPluginsFlag:-false}== true ]]; then
+  log_info 'Installing tmux plugins.'
   src=https://github.com/tmux-plugins/tpm.git
   dst=$cloneRoot/tmux/plugins/tpm
   git clone "$src" "$dst"
-  say 'Loading TMUX plugins.'
+  log_info 'Loading TMUX plugins.'
   ~/.tmux/plugins/tpm/bin/install_plugins
 else
-  say 'Tmux plugins skipped.'
+  log_info 'Tmux plugins skipped.'
 fi
 

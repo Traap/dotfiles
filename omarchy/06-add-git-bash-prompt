@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 # gitbashprompt
 
-if [[ $gitBashPromptFlag == true ]]; then
-  say 'Install git bash prompt.'
+if [[ ${gitBashPromptFlag:-false} == true ]]; then
+  log_info 'Install git bash prompt.'
 
   src=https://github.com/magicmonty/bash-git-prompt
   dst=~/.bash-git-prompt
   git clone $src $dst
 else
-  say 'git base prompt skipped.'
+  log_info 'git base prompt skipped.'
 fi

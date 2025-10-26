@@ -1,23 +1,23 @@
 #!/usr/bin/env bash
 # openssh
 
-if [[ $openSSLFlag == true ]]; then
-  say 'Install openssl.'
+if [[ ${openSSLFlag:-false} == true ]]; then
+  log_info 'Install openssl.'
 
-  say "Installing OpenSSH and OpenSSL..."
+  log_info "Installing OpenSSH and OpenSSL..."
   sudo pacman -Sy --noconfirm --needed openssh openssl
 
-  say "Enabling and starting sshd service..."
+  log_info "Enabling and starting sshd service..."
   sudo systemctl enable sshd.service
   sudo systemctl start sshd.service
 
-  say "Checking sshd status..."
+  log_info "Checking sshd status..."
   sudo systemctl --no-pager --full status sshd.service || true
 
-  say "Verifying installed versions"
+  log_info "Verifying installed versions"
   ssh -V
   openssl version
 else
-  say 'openssl skipped.'
+  log_info 'openssl skipped.'
 fi
 

@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 # hyprland
 
-if [[ $hyprlandFlag == true ]]; then
-  say 'Install hyprland.'
+if [[ ${hyprlandFlag:-false}== true ]]; then
+  log_info 'Install hyprland.'
   rm    -frv  ~/.config/hypr
   mkdir -pv  ~/config/hypr
   ln    -fsv ~/git/dotfiles/hypr ~/.config/hypr
 else
-  say 'hyprland skipped.' return;
+  log_info 'hyprland skipped.' return;
 fi
 

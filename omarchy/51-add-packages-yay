@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 # yay packages
 
-if [[ $yayPackagesFlag == true ]]; then
-  say 'Install yay packages.'
+if [[ ${yayPackagesFlag:-false}== true ]]; then
+  log_info 'Install yay packages.'
 
   yay_packages=(
     "fdfind"
@@ -26,5 +26,5 @@ if [[ $yayPackagesFlag == true ]]; then
 
   yay -Syu --noconfirm "${yay_packages[@]}"
 else
-  say 'yay packages skipped.'
+  log_info 'yay packages skipped.'
 fi
