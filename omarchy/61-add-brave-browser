@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+# bravebrowser
+set -euo pipefail
+
+if [[ ${braveBrowserFlag:-false} == true ]]; then
+  log_info "Installing Brave Browser..."
+
+  if ! command -v curl &>/dev/null; then
+    log_fail "curl command not found — ensure curl is installed."
+    return
+  fi
+
+  curl -fsS https://dl.brave.com/install.sh | sh
+else
+  log_info "Brave Browser skipped."
+fi

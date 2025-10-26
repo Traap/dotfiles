@@ -2,8 +2,9 @@
 # Products to install. List alphebetically.
 
 bashrcFlag=false
-cloneReposFlag=false
+braveBrowserFlag=false
 certificatesFlag=false
+cloneReposFlag=false
 dockerPacakgesFlag=false
 gitBashPromptFlag=false
 gitsFlag=false
@@ -12,6 +13,8 @@ luarocksFlag=false
 mirrorFlag=false
 nodeJsFlag=false
 nvimsFlag=false
+omarchyChromiumBrowserFlag=true
+omarchyNvimFlag=true
 openSSLFlag=false
 orphanedFlag=false
 pacmanPackagesFlag=false
@@ -23,7 +26,7 @@ sshHostKeyFlag=false
 starshipFlag=false
 symlinksFlag=false
 texPackagesFlag=false
-thinkpadFlag=true
+thinkpadFlag=false
 tmuxPluginsFlag=false
 waybarFlag=false
 yayPackagesFlag=false
