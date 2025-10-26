@@ -74,57 +74,79 @@ log_info "Detecting sensors..."
 have_cmd sensors-detect && yes '' | sudo sensors-detect --auto || log_warn "sensors-detect failed."
 
 # ---------------------------------------------------------------------------
-# DisplayLink / EVDI
+# DisplayLink / EVDI — DKMS-free build + one-shot preload
 # ---------------------------------------------------------------------------
 if have_cmd lsusb && lsusb | grep -qi 'DisplayLink'; then
-  log_info "DisplayLink dock detected — verifying EVDI and headers..."
+  log_info "DisplayLink dock detected — preparing EVDI (DKMS-free)."
 
-  sudo pacman -S --noconfirm --needed linux-headers dkms || log_warn "headers/dkms install failed."
+  sudo pacman -S --noconfirm --needed linux-headers git base-devel || log_warn "headers/tools install failed."
 
   kernel_ver="$(uname -r)"
-  hdr_pkg_ver="$(pacman -Q linux-headers 2>/dev/null | awk '{print $2}' || true)"
-
-  if [[ ! -e "/usr/lib/modules/${kernel_ver}/build" ]]; then
-    log_warn "Headers missing for kernel ${kernel_ver}. Creating build symlink if possible."
-    sudo ln -sf "/usr/lib/modules/${kernel_ver}" "/lib/modules/${kernel_ver}/build" || true
+  # Ensure kernel build path exists (Arch uses /usr/lib/modules)
+  if [[ ! -e "/usr/lib/modules/${kernel_ver}/build" && -d "/usr/lib/modules/${kernel_ver}" ]]; then
+    log_warn "Kernel build symlink missing — creating /lib/modules/${kernel_ver}/build → /usr/lib/modules/${kernel_ver}/build (if present)."
+    [[ -d "/usr/lib/modules/${kernel_ver}/build" ]] && sudo ln -sf "/usr/lib/modules/${kernel_ver}/build" "/lib/modules/${kernel_ver}/build" || true
   fi
 
-  if [[ -z "$hdr_pkg_ver" || "$kernel_ver" != "${hdr_pkg_ver%-*}"* ]]; then
-    log_warn "Kernel (${kernel_ver}) and headers (${hdr_pkg_ver:-none}) may mismatch."
-  fi
-
-  if ! modinfo evdi 2>/dev/null | grep -q "$kernel_ver"; then
-    log_warn "Rebuilding EVDI for kernel ${kernel_ver}..."
-    build_dir="/tmp/evdi"
-    sudo rm -rf "$build_dir"
-    sudo git clone --depth=1 https://github.com/DisplayLink/evdi.git "$build_dir" || {
-      log_fail "Failed to clone EVDI repo."
-      return
-    }
+  # Rebuild evdi from upstream master into the current kernel tree (no DKMS)
+  build_dir="/tmp/evdi"
+  sudo rm -rf "$build_dir" || true
+  if sudo git clone --depth=1 https://github.com/DisplayLink/evdi.git "$build_dir"; then
     pushd "$build_dir/module" >/dev/null
-    sudo make CFLAGS=-Wno-error || log_warn "EVDI build failed."
-    sudo make INSTALL_MOD_DIR="/lib/modules/${kernel_ver}/kernel/drivers/gpu/drm/evdi" modules_install || log_warn "EVDI install failed."
-    sudo depmod -a || true
+    sudo make clean || true
+    sudo make CFLAGS=-Wno-error || log_warn "EVDI build had warnings."
+    # Install via the kernel's top-level Makefile
+    if sudo make -C "/lib/modules/${kernel_ver}/build" M="$build_dir/module" modules_install; then
+      sudo depmod -a || true
+    else
+      log_warn "Kernel modules_install failed — EVDI may not persist."
+    fi
     popd >/dev/null
   else
-    log_info "Existing EVDI module already matches kernel ${kernel_ver}."
+    log_warn "EVDI clone failed — skipping build."
   fi
 
+  # Load now (non-fatal if it fails)
   sudo modprobe -r evdi 2>/dev/null || true
   sleep 1
-  sudo modprobe evdi && log_pass "EVDI module loaded." || log_fail "EVDI modprobe failed."
-
-  if lsmod | grep -q '^evdi'; then
-    echo "evdi" | sudo tee /etc/modules-load.d/evdi.conf >/dev/null
-    log_info "EVDI autoload rule ensured → /etc/modules-load.d/evdi.conf"
+  if sudo modprobe evdi; then
+    log_pass "EVDI module loaded."
+  else
+    log_warn "EVDI modprobe failed."
   fi
 
+  # Create a kernel-version-pinned one-shot to beat the startup race
+  if lsmod | grep -q '^evdi'; then
+    svc="/etc/systemd/system/evdi-load.service"
+    log_info "Ensuring EVDI preload service (before displaylink.service)…"
+    sudo tee "$svc" >/dev/null <<EOF
+[Unit]
+Description=Preload EVDI kernel module for DisplayLink
+Before=displaylink.service
+ConditionPathExists=/lib/modules/${kernel_ver}/kernel/drivers/gpu/drm/evdi/evdi.ko.zst
+
+[Service]
+Type=oneshot
+ExecStart=/sbin/modprobe evdi
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
+EOF
+    sudo systemctl daemon-reload
+    sudo systemctl enable evdi-load.service || true
+    sudo systemctl restart evdi-load.service || true
+  fi
+
+  # DisplayLink service (okay if it can't light external displays)
   sudo systemctl enable --now displaylink.service || true
   sudo systemctl restart displaylink.service || true
-  systemctl is-active --quiet displaylink.service \
-    && log_pass "displaylink.service active." \
-    || log_fail "displaylink.service failed."
 
+  if systemctl is-active --quiet displaylink.service; then
+    log_pass "displaylink.service active."
+  else
+    log_warn "displaylink.service inactive."
+  fi
 else
   log_info "No DisplayLink dock detected — skipping EVDI setup."
 fi
