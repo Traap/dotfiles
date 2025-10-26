@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # hyprland
 
-if [[ ${hyprlandFlag:-false}== true ]]; then
+if [[ ${hyprlandFlag:-false} == true ]]; then
   log_info 'Install hyprland.'
   rm    -frv  ~/.config/hypr
   mkdir -pv  ~/config/hypr

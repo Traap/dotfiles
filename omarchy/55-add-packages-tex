@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # TeX packages
 
-if [[ ${texPackagesFlag:-false}== true ]]; then
+if [[ ${texPackagesFlag:-false} == true ]]; then
   log_info 'Install TeX packages.'
 
   tex_packages=(

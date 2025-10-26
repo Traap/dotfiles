@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # waybar
 
-if [[ ${waybarFlag:-false}== true ]]; then
+if [[ ${waybarFlag:-false} == true ]]; then
   log_info 'Install waybar.'
   rm    -frv  ~/.config/waybar
   mkdir -pv  ~/config/waybar

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # starship
 
-if [[ ${starshipFlag:-false}== true ]]; then
+if [[ ${starshipFlag:-false} == true ]]; then
   log_info 'Install starshp.'
   log_infoAndDo "yay -R starship"
 

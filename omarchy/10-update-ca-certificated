@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # certificates
 
-if [[ ${certificatesFlag:-false}== true ]]; then
+if [[ ${certificatesFlag:-false} == true ]]; then
   log_info 'Updating certificates plugins.'
   sudo pacman -S --noconfirm ca-certificates ca-certificates-utils ca-certificates-mozilla
   sudo update-ca-trust

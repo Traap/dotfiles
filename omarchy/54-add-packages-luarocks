@@ -16,7 +16,7 @@ if [[ ${luarocksFlag:-false} == true ]]; then
   fi
 
   for pkg in "${luarocks_packages[@]}"; do
-    luarocks install "$pkg" || log_warn "Failed to install $pkg"
+    sudo luarocks install "$pkg" || log_warn "Failed to install $pkg"
   done
 
   log_pass "LuaRocks packages processed."

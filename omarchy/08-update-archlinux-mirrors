@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # mirrors
-if [[ ${mirrorFlag:-fals}== true ]]; then
+if [[ ${mirrorFlag:-false} == true ]]; then
   log_info 'Updating archlinux mirrors.'
   sudo pacman-key --init
   sudo pacman-key --populate archlinux

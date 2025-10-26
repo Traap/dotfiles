@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # orphaned
 
-if [[ ${orphanedFlag:-false}== true ]]; then
+if [[ ${orphanedFlag:-false} == true ]]; then
   log_info 'Install orphaned.'
   log_infoAndDo "sudo pacman -Rns $(sudo pacman -Qdtq)"
 

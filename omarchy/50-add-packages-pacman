@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # pacman packages
 
-if [[ ${pacmanPackagesFlag:-false}== true ]]; then
+if [[ ${pacmanPackagesFlag:-false} == true ]]; then
   log_info 'Install pacman packages.'
 
   pacman_packages=(
