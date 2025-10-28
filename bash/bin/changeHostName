@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+if [[ $# -eq 1 ]]; then
+  sayAndDo "sudo hostnamectl set-hostname $1"
+  sayAndDo "hostnamectl status"
+  sayAndDo "hostname -s"
+  sayAndDo "hostname -f"
+else
+  echo "changeHostName newname"
+  exit
+fi
