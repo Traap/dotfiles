@@ -22,7 +22,12 @@ fi
 
 if osType "msys"; then
 	alias cat='bat -p'
-	alias ls='ls --color=auto'
+  if command -v eza >/dev/null 2>&1; then
+    alias ls='eza'
+  else
+	  alias ls='ls --color=auto'
+  fi
+
 else
   if osName "Ubuntu"; then
 	  [ -f /usr/bin/batcat ] && alias cat='batcat -p'

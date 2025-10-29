@@ -33,7 +33,7 @@ done
 sshkeys
 
 # -------------------------------------------------------------------------- }}}
-# {{{ Neovim appname aliases
+#e {{ Neovim appname aliases
 
 [[ -f "$HOME/.config/nvims/nvim_appnames" ]] && \
   __guarded_source "$HOME/.config/nvims/nvim_appnames"
