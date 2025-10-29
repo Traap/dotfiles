@@ -1,27 +1,27 @@
 @rem echo OFF
-@mklink    %USERPROFILE%\.bash_logout        %USERPROFILE%\git\dotfiles\bash\bash_logout
-@mklink    %USERPROFILE%\.bash_profile       %USERPROFILE%\git\dotfiles\bash\bash_profile
-@mklink    %USERPROFILE%\.bashrc             %USERPROFILE%\git\dotfiles\bash\bashrc
-@mklink    %USERPROFILE%\.bashrc_personal    %USERPROFILE%\git\dotfiles\bash\bashrc_personal
-@mklink    %USERPROFILE%\.config.vim         %USERPROFILE%\git\ssh\config.vim
-@mklink    %USERPROFILE%\.dircolors          %USERPROFILE%\git\dotfiles\bash\dircolors
-@mklink    %USERPROFILE%\.gitconfig          %USERPROFILE%\git\dotfiles\git\gitconfig
-@mklink    %USERPROFILE%\.gitignore_global   %USERPROFILE%\git\dotfiles\git\gitignore_global
-@mklink    %USERPROFILE%\.inputrc            %USERPROFILE%\git\dotfiles\bash\inputrc
-@rem mklink    %USERPROFILE%\.minttyrc           %USERPROFILE%\git\dotfiles\bash\minttyrc
-@rem mklink    %USERPROFILE%\.mutt               %USERPROFILE%\git\mutt-office365
-@rem mklink    %USERPROFILE%\.muttrc             %USERPROFILE%\git\mutt-office365\muttrc
-@mklink    %USERPROFILE%\.tmux.conf          %USERPROFILE%\git\tmux\tmux.conf
-@mklink    %USERPROFILE%\.viminfo            %USERPROFILE%\git\vim\viminfo
-@mklink    %USERPROFILE%\_vimrc              %USERPROFILE%\git\vim\vimrc
-@rem mklink    %USERPROFILE%\.vimrc_background   %USERPROFILE%\git\vim\vimrc_background
+REM @mklink    %USERPROFILE%\.bash_logout        %USERPROFILE%\git\dotfiles\bash\bash_logout
+REM @mklink    %USERPROFILE%\.bash_profile       %USERPROFILE%\git\dotfiles\bash\bash_profile
+REM @mklink    %USERPROFILE%\.bashrc             %USERPROFILE%\git\dotfiles\bash\bashrc
+REM @mklink    %USERPROFILE%\.bashrc_personal    %USERPROFILE%\git\dotfiles\bash\bashrc_personal
+REM @mklink    %USERPROFILE%\.config.vim         %USERPROFILE%\git\ssh\config.vim
+REM @mklink    %USERPROFILE%\.dircolors          %USERPROFILE%\git\dotfiles\bash\dircolors
+REM @mklink    %USERPROFILE%\.gitconfig          %USERPROFILE%\git\dotfiles\git\gitconfig
+REM @mklink    %USERPROFILE%\.gitignore_global   %USERPROFILE%\git\dotfiles\git\gitignore_global
+REM @mklink    %USERPROFILE%\.inputrc            %USERPROFILE%\git\dotfiles\bash\inputrc
+REM @rem mklink    %USERPROFILE%\.minttyrc           %USERPROFILE%\git\dotfiles\bash\minttyrc
+REM @rem mklink    %USERPROFILE%\.mutt               %USERPROFILE%\git\mutt-office365
+REM @rem mklink    %USERPROFILE%\.muttrc             %USERPROFILE%\git\mutt-office365\muttrc
+REM @mklink    %USERPROFILE%\.tmux.conf          %USERPROFILE%\git\tmux\tmux.conf
+REM @mklink    %USERPROFILE%\.viminfo            %USERPROFILE%\git\vim\viminfo
+REM @mklink    %USERPROFILE%\_vimrc              %USERPROFILE%\git\vim\vimrc
+REM @rem mklink    %USERPROFILE%\.vimrc_background   %USERPROFILE%\git\vim\vimrc_background
+REM
+REM @mklink /D %USERPROFILE%\.ssh                %USERPROFILE%\git\ssh
+REM @mklink /D %USERPROFILE%\.tmux               %USERPROFILE%\git\tmux
+REM @mklink /D %USERPROFILE%\.vim                %USERPROFILE%\git\vim
+REM @mklink /D %LOCALAPPDATA%\nvim               %USERPROFILE%\git\nvim.traap
 
-@mklink /D %USERPROFILE%\.ssh                %USERPROFILE%\git\ssh
-@mklink /D %USERPROFILE%\.tmux               %USERPROFILE%\git\tmux
-@mklink /D %USERPROFILE%\.vim                %USERPROFILE%\git\vim
-@mklink /D %LOCALAPPDATA%\nvim               %USERPROFILE%\git\nvim.traap
-
-@mklink /D %LOCALAPPDATA%\nvim               %USERPROFILE%\git\nvim.traap
+@mklink /D %LOCALAPPDATA%\nvim-barelazy          %USERPROFILE%\.config\nvim-barelazy
 
 @rem echo off
 @rem # I do this to force my ssh dir to my window home directory.  I'm tired of
