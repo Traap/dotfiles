@@ -24,6 +24,9 @@ bootstrap:
       - alias: WinEnv
         url: git@github.com:Traap/bootstrap-win-env.git
 
+      - alias: WinEnv
+        url: git@github.com:Traap/bootstrap-win-env.git
+
 # -------------------------------------------------------------------------- }}}
 # {{{ bracco
 
@@ -178,23 +181,74 @@ gitea:
       - alias: P2M
         url: git@gsa-gitea:BSS/P2M.git
 
+<<<<<<< Updated upstream
       - alias: Presentations
         url: git@gsa-gitea:BSS/Presentations.git
+||||||| Stash base
+    - alias: Presentations
+      url: git@gsa-gitea:BSS/Presentations.git
+=======
+      - alias: Paperboy
+        url: git@gsa-gitea:BSS/Paperboy.git
+>>>>>>> Stashed changes
 
+<<<<<<< Updated upstream
       - alias: Records
         url: git@gsa-gitea:BSS/Records.git
+||||||| Stash base
+    - alias: Records
+      url: git@gsa-gitea:BSS/Records.git
+=======
+      - alias: Presentations
+        url: git@gsa-gitea:BSS/Presentations.git
+>>>>>>> Stashed changes
 
+<<<<<<< Updated upstream
       - alias: Scans
         url: git@gsa-gitea:BSS/Scans.git
+||||||| Stash base
+    - alias: Scans
+      url: git@gsa-gitea:BSS/Scans.git
+=======
+      - alias: Records
+        url: git@gsa-gitea:BSS/Records.git
+>>>>>>> Stashed changes
 
+<<<<<<< Updated upstream
       - alias: Stores
         url: git@gsa-gitea:BSS/Stores.git
+||||||| Stash base
+    - alias: Stores
+      url: git@gsa-gitea:BSS/Stores.git
+=======
+      - alias: Scans
+        url: git@gsa-gitea:BSS/Scans.git
+>>>>>>> Stashed changes
 
+<<<<<<< Updated upstream
+      - alias: VcPrint
+        url: git@gsa-gitea:BSS/VcPrint.git
+||||||| Stash base
+    - alias: VcPrint
+      url: git@gsa-gitea:BSS/VcPrint.git
+=======
+      - alias: Stores
+        url: git@gsa-gitea:BSS/Stores.git
+>>>>>>> Stashed changes
+
+<<<<<<< Updated upstream
+      - alias: Wiki
+        url: git@gsa-gitea:GaryHoward/Wiki.git
+||||||| Stash base
+    - alias: Wiki
+      url: git@gsa-gitea:GaryHoward/Wiki.git
+=======
       - alias: VcPrint
         url: git@gsa-gitea:BSS/VcPrint.git
 
       - alias: Wiki
         url: git@gsa-gitea:GaryHoward/Wiki.git
+>>>>>>> Stashed changes
 
 # -------------------------------------------------------------------------- }}}
 # {{{ eform
@@ -363,46 +417,146 @@ soup:
       - alias: check-latex
         url: git@github.com:Traap/check-latex.git
 
+<<<<<<< Updated upstream
       - alias: dhf-docker
         url: git@github.com:Traap/dhf-docker.git
-
+||||||| Stash base
+    - alias: docbld
+      url: git@github.com:Traap/docbld.git
+=======
       - alias: docbld
         url: git@github.com:Traap/docbld.git
+>>>>>>> Stashed changes
 
+<<<<<<< Updated upstream
+      - alias: docbld
+        url: git@github.com:Traap/docbld.git
+||||||| Stash base
+    - alias: dragvisuals
+      url: git@github.com:Traap/vim-dragvisuals.git
+=======
       - alias: dragvisuals
         url: git@github.com:Traap/vim-dragvisuals.git
+>>>>>>> Stashed changes
 
+<<<<<<< Updated upstream
+      - alias: dragvisuals
+        url: git@github.com:Traap/vim-dragvisuals.git
+||||||| Stash base
+    - alias: emend
+      url: git@github.com:Traap/emend.git
+=======
       - alias: emend
         url: git@github.com:Traap/emend.git
+>>>>>>> Stashed changes
 
+<<<<<<< Updated upstream
+      - alias: emend
+        url: git@github.com:Traap/emend.git
+||||||| Stash base
+    - alias: emend-computer
+      url: git@github.com:Traap/emend-computer.git
+=======
       - alias: emend-computer
         url: git@github.com:Traap/emend-computer.git
+>>>>>>> Stashed changes
 
+<<<<<<< Updated upstream
+      - alias: emend-computer
+        url: git@github.com:Traap/emend-computer.git
+||||||| Stash base
+    - alias: git-client
+      url: git@github.com:Traap/git-client.git
+=======
       - alias: git-client
         url: git@github.com:Traap/git-client.git
+>>>>>>> Stashed changes
 
+<<<<<<< Updated upstream
+      - alias: git-client
+        url: git@github.com:Traap/git-client.git
+||||||| Stash base
+    - alias: gits
+      url: git@github.com:Traap/gits.git
+      do_not_delete: true
+=======
       - alias: gits
         url: git@github.com:Traap/gits.git
         do_not_delete: true
+>>>>>>> Stashed changes
 
+<<<<<<< Updated upstream
+      - alias: gits
+        url: git@github.com:Traap/gits.git
+        do_not_delete: true
+||||||| Stash base
+    - alias: havasu
+      url: git@github.com:Traap/havasu.git
+=======
       - alias: havasu
         url: git@github.com:Traap/havasu.git
+>>>>>>> Stashed changes
 
+<<<<<<< Updated upstream
+      - alias: havasu
+        url: git@github.com:Traap/havasu.git
+||||||| Stash base
+    - alias: newautodoc
+      url: git@github.com:Traap/newautodoc.git
+=======
       - alias: newautodoc
         url: git@github.com:Traap/newautodoc.git
+>>>>>>> Stashed changes
 
+<<<<<<< Updated upstream
+      - alias: newautodoc
+        url: git@github.com:Traap/newautodoc.git
+||||||| Stash base
+    - alias: newdoc
+      url: git@github.com:Traap/newdoc.git
+=======
       - alias: newdoc
         url: git@github.com:Traap/newdoc.git
+>>>>>>> Stashed changes
 
+<<<<<<< Updated upstream
+      - alias: newdoc
+        url: git@github.com:Traap/newdoc.git
+||||||| Stash base
+    - alias: nvims
+      url: git@github.com:Traap/nvims.git
+      do_not_delete: true
+=======
       - alias: nvims
         url: git@github.com:Traap/nvims.git
         do_not_delete: true
+>>>>>>> Stashed changes
 
+<<<<<<< Updated upstream
+      - alias: nvims
+        url: git@github.com:Traap/nvims.git
+        do_not_delete: true
+||||||| Stash base
+    - alias: quicksort
+      url: git@github.com:Traap/quicksort.git
+=======
+      - alias: quicksort
+        url: git@github.com:Traap/quicksort.git
+>>>>>>> Stashed changes
+
+<<<<<<< Updated upstream
       - alias: quicksort
         url: git@github.com:Traap/quicksort.git
 
       - alias: tlc-article
         url: git@github.com:Traap/tlc-article.git
+||||||| Stash base
+    - alias: tlc-article
+      url: git@github.com:Traap/tlc-article.git
+=======
+      - alias: tlc-article
+        url: git@github.com:Traap/tlc-article.git
+>>>>>>> Stashed changes
 
 # -------------------------------------------------------------------------- }}}
 # {{{ vim_bundles
