@@ -10,8 +10,6 @@ if [[ ${pacmanPackagesFlag:-false} == true ]]; then
     "luacheck"
     "meld"
     "ninja"
-    "nodejs"
-    "npm"
     "openssh"
     "openssl"
     "python"
