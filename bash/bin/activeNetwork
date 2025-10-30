@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+echo "System Information"
+uname -a
+echo "User: $(whoami)"
+echo "Hostname: $(hostname)"
+echo "Kernel: $(uname -r)"
+echo "Uptime: $(uptime -p)"
+echo
+echo "Network Interfaces"
+ip link show | grep -E '^[0-9]+: '
+ip route get 8.8.8.8 || log_warn "Unable to reach external route."

@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+sudo systemctl status smb.service --no-pager
+sudo systemctl status nmb.service --no-pager
+sudo journalctl -xeu smb.service -n 20

@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# Ensure Samba runtime directories have correct permissions
+sudo mkdir -p /var/lib/samba/private/msg.sock
+sudo chmod 700 /var/lib/samba/private/msg.sock
+sudo chown root:root /var/lib/samba/private/msg.sock
