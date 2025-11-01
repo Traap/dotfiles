@@ -8,20 +8,21 @@ if [[ ${nodeJsFlag:-false} == true ]]; then
   nodejs_packages=(
     neovim
     node-gyp
-    nodejs-nopt
     "@mermaid-js/mermaid-cli"
     semver
     yarn
   )
 
-  if ! command -v npm &>/dev/null; then
-    log_fail "npm not found — ensure NodeJS is installed before this step."
-    return
-  fi
+  # Use lastest node version.s
+  mise use node
 
   sudo env "PATH=$PATH" npm install -g "${nodejs_packages[@]}" \
     && log_pass "NodeJS packages installed." \
     || log_fail "Failed to install NodeJS packages."
+
+  sudo env "PATH=$PATH" npm audit fix --force \
+    && log_pass "NodeJS audit." \
+    || log_fail "NodfJS audit failed."
 else
   log_info "NodeJS packages skipped."
 fi
