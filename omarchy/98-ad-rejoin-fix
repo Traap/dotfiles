@@ -9,6 +9,16 @@
 set -euo pipefail
 
 # ---------------------------------------------------------------------------
+# Flag check
+# ---------------------------------------------------------------------------
+if [[ ${adRejoinFlag:-false} != true ]]; then
+  log_warn "Active Directory rejoin skipped."
+  return
+else
+  log_info "Rejoining Active Directoy."
+fi
+
+# ---------------------------------------------------------------------------
 # Constants
 # ---------------------------------------------------------------------------
 AD_DOMAIN="ent.co.ventura.ca.us"
@@ -20,6 +30,7 @@ LOG_FILE="ad-prejoin-fix.log"
 # Detect active interface (Ethernet preferred, else Wi-Fi)
 # ---------------------------------------------------------------------------
 ACTIVE_IFACE=$(ip route get 8.8.8.8 2>/dev/null | awk '{for(i=1;i<=NF;i++) if($i=="dev") print $(i+1)}' | head -n1)
+
 ACTIVE_IFACE=${ACTIVE_IFACE:-$(ip link | awk -F: '/state UP/ && !/lo/ {print $2; exit}' | tr -d ' ')}
 
 if [[ -z "$ACTIVE_IFACE" ]]; then
