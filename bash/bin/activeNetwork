@@ -6,6 +6,27 @@ echo "Hostname: $(hostname)"
 echo "Kernel: $(uname -r)"
 echo "Uptime: $(uptime -p)"
 echo
+
 echo "Network Interfaces"
 ip link show | grep -E '^[0-9]+: '
+echo
+
+echo "Active Interface"
 ip route get 8.8.8.8 || log_warn "Unable to reach external route."
+echo
+
+echo "Insepct resovl.conf"
+cat /etc/resolv.con
+echo
+
+echo "Confirm which service manages DNS"
+systemctl status systemd-resolved
+echo
+
+echo "Confirm DNS symbolic link"
+ls -l /etc/resolve.conf
+echo
+
+echo "Test Private DNS"
+dig +short vchrp.ent.co.ventua.ca.us
+echo
