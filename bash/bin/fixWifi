@@ -1,0 +1,1 @@
+#!/usr/bin/env bash sudo resolvectl dns wlan0 1.1.1.1 8.8.8.80
