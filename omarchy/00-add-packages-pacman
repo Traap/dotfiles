@@ -7,6 +7,7 @@ if [[ ${pacmanPackagesFlag:-false} == true ]]; then
   pacman_packages=(
     "cmake"
     "docker"
+    "ghostty"
     "luacheck"
     "meld"
     "ninja"
@@ -24,7 +25,8 @@ if [[ ${pacmanPackagesFlag:-false} == true ]]; then
     "which"
   )
 
-  sudo pacman -Syyu --noconfirm "${pacman_packages[@]}"
+  sudo pacman -Sy --noconfirm --needed "${pacman_packages[@]}"
+  sudo pacman -Fy
 else
   log_info 'pacman packages skipped.'
 fi

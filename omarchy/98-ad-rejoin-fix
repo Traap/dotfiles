@@ -27,6 +27,16 @@ AD_DNS2="10.130.5.100"
 LOG_FILE="ad-prejoin-fix.log"
 
 # ---------------------------------------------------------------------------
+# Flag check
+# ---------------------------------------------------------------------------
+if [[ ${adRejoinFlag:-false} != true ]]; then
+  log_warn "Active Directory rejoin skipped (adFlag=false)."
+  return 0 2>/dev/null || exit 0
+else
+  log_info "Rejoining Active Directory."
+fi
+
+# ---------------------------------------------------------------------------
 # Detect active interface (Ethernet preferred, else Wi-Fi)
 # ---------------------------------------------------------------------------
 ACTIVE_IFACE=$(ip route get 8.8.8.8 2>/dev/null | awk '{for(i=1;i<=NF;i++) if($i=="dev") print $(i+1)}' | head -n1)

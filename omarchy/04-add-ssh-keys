@@ -3,7 +3,7 @@
 
 if [[ ${sshHostKeyFlag:-false} == true ]]; then
   log_info 'Install ssh host keys.'
-  sudo pacman -S ssh-keygen
+  yay -S ssh-keygen
   sshDir=~/git/ssh
   mkdir     -pv $sshDir
   ln       -fsv $sshDir  ~/.ssh

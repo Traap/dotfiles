@@ -1,6 +1,8 @@
 # config
 # Products to install. List alphebetically.
 
+adFlag=false
+adRejoinFlag=false
 bashrcFlag=false
 braveBrowserFlag=false
 certificatesFlag=false
@@ -23,7 +25,7 @@ railsFlag=false
 rubyFlag=false
 seamlessLoginFlag=false
 sshHostKeyFlag=false
-starshipFlag=false
+starshipFlag=true
 symlinksFlag=false
 sqlFlag=true
 texPackagesFlag=false

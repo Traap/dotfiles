@@ -6,7 +6,11 @@ if [[ ${gitBashPromptFlag:-false} == true ]]; then
 
   src=https://github.com/magicmonty/bash-git-prompt
   dst=~/.bash-git-prompt
-  git clone $src $dst
+  if [[ ! -d $dst ]]; then
+    git clone $src $dst
+  else
+    log_info 'git bash prompt aleady installed.'
+  fi
 else
   log_info 'git base prompt skipped.'
 fi
