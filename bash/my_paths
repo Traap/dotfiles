@@ -19,6 +19,7 @@ appendToPath "$HOME/bin"
 appendToPath "$HOME/.bin"
 appendToPath "$HOME/.local/bin"
 appendToPath "$BASHHOME/bin"
+appendToPath "/opt/mssql-tools/bin"
 
 # NOTE: Don't forget to set wsl_user correctly.
 if [[ -n $WSL_DISTRO_NAME ]]; then

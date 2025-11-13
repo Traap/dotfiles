@@ -142,7 +142,7 @@ fi
 export EDITOR
 
 # -------------------------------------------------------------------------- }}}
-# {{ File manager
+# {{{ File manager
 
 if programExists nautilus; then
   FILEMANAGER=$(which nautilus)
@@ -197,5 +197,16 @@ if [[ -d ${NEWDOCPATH} ]]; then
     ${NEWDOCPATH}/newdoc "$@"
   }
 fi
+
+# -------------------------------------------------------------------------- }}}
+# {{{ ODBC
+#
+# NOTE:  FreeTDS
+export ODBCINSTINI="$HOME/.odbcinst.ini"
+export ODBCINI="$HOME/.odbc.ini"
+export FREETDSCONF="$HOME/.freetds.conf"
+
+export SQLCMDINI="$HOME/.sqlcmd/config"
+export LD_LIBRARY_PATH="/opt/microsoft/msodbcsql18/lib64:$LD_LIBRARY_PATH"
 
 # -------------------------------------------------------------------------- }}}
