@@ -1,5 +1,5 @@
 # config
-# Products to install. List alphebetically.
+# Products to install. Listed alphebetically.
 
 adFlag=false
 adRejoinFlag=false
@@ -25,9 +25,9 @@ railsFlag=false
 rubyFlag=false
 seamlessLoginFlag=false
 sshHostKeyFlag=false
-starshipFlag=true
+starshipFlag=false
 symlinksFlag=false
-sqlFlag=true
+sqlFlag=false
 texPackagesFlag=false
 thinkpadFlag=false
 tmuxPluginsFlag=false
@@ -36,3 +36,28 @@ yayPackagesFlag=false
 
 # The root personal repositories are cloned to.
 cloneRoot=$HOME/git
+
+# The email assiciated with git commit messages.
+gitEmail="gary.a.howard@mac.com"
+
+# Git user namn used for commit messages.
+gitUserName="Traap"
+
+# TODO: Use mise instead of rbenv
+# Ruby version to install.  rbenv is the Ruby enviornment manager.
+# rubyVerion becomes the global Ruby version installed.
+rubyVersion='3.3.6'
+
+# TODO:  Replace wslHost and wslUser with archHost and archUser
+# Host name the Arch linux installation is known by.  The default host name
+# is the Windows 10 or Windows 11 host name.
+wslHostName=Zero
+wslUserName=Traap
+
+# TODO: Add reflector support
+# Reflector location is used to update the mirror list.
+reflectorLocation="United States"
+
+# TODO: Add Timezone support.
+# Timezone
+timezone=America/Los_Angeles
