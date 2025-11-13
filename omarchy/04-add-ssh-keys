@@ -8,6 +8,27 @@ if [[ ${sshHostKeyFlag:-false} == true ]]; then
   mkdir     -pv $sshDir
   ln       -fsv $sshDir  ~/.ssh
   ssh-keygen -f $sshDir/$HOSTNAME
+
+  # Create ssh/config from template.
+  template=ssh-config-template
+  config=$sshDir/config
+  cp -v "$template" "$config"
+
+  # Repace ssh-config-template/GIT-USER-NAME with
+  #        bootstrap-archlinux/config/$gitUserName
+  sed -i "s/GIT-USER-NAME/$gitUserName/g" "$config"
+
+  # Repace ssh-config-template/WSL-HOST-NAME with
+  #        bootstrap-archlinux/config/$wslHostName
+  sed -i "s/WSL-HOST-NAME/$wslHostName/g" "$config"
+
+  #Setting ssh permissions.
+  chmod 600 "$sshDir/$wslHostName"
+  chmod 644 "$sshDir/$wslHostName.pub"
+
+  # Initialize .ssh/config.
+  touch "$cloneRoot/ssh/config.vim"
+
 else
   log_info 'ssh host keys skipped.'
 fi

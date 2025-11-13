@@ -1,0 +1,18 @@
+git:
+  - root_dir: git
+  - repositories:
+      - alias: dotfiles
+        url: https://github.com/Traap/dotfiles.git
+        do_not_delete: true
+
+      - alias: nvim.traap
+        url: https://github.com/Traap/nvim.git
+        do_not_delete: true
+
+      - alias: tmux
+        url: https://github.com/Traap/tmux.git
+        do_not_delete: true
+
+      - alias: ssh
+        url: https://github.com/Traap/ssh.git
+        do_not_delete: true
