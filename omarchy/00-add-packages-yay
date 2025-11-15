@@ -10,7 +10,6 @@ if [[ ${yayPackagesFlag:-false} == true ]]; then
     "freerdp"
     "fzf"
     "graphviz"
-    "hey-mail-bin"
     "imagemagick"
     "jq"
     "lazygit"

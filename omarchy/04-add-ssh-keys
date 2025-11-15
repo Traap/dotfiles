@@ -18,13 +18,13 @@ if [[ ${sshHostKeyFlag:-false} == true ]]; then
   #        bootstrap-archlinux/config/$gitUserName
   sed -i "s/GIT-USER-NAME/$gitUserName/g" "$config"
 
-  # Repace ssh-config-template/WSL-HOST-NAME with
-  #        bootstrap-archlinux/config/$wslHostName
-  sed -i "s/WSL-HOST-NAME/$wslHostName/g" "$config"
+  # Repace ssh-config-template/ARCH-HOST-NAME with
+  #        bootstrap-archlinux/config/$archHostName
+  sed -i "s/ARCH-HOST-NAME/$archHostName/g" "$config"
 
   #Setting ssh permissions.
-  chmod 600 "$sshDir/$wslHostName"
-  chmod 644 "$sshDir/$wslHostName.pub"
+  chmod 600 "$sshDir/$archHostName"
+  chmod 644 "$sshDir/$archHostName.pub"
 
   # Initialize .ssh/config.
   touch "$cloneRoot/ssh/config.vim"

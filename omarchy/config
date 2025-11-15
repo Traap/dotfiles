@@ -3,36 +3,36 @@
 
 adFlag=false
 adRejoinFlag=false
-bashrcFlag=false
-braveBrowserFlag=false
-certificatesFlag=false
-cloneReposFlag=false
+bashrcFlag=true
+braveBrowserFlag=true
+certificatesFlag=true
+cloneReposFlag=true
 dockerPacakgesFlag=false
-gitBashPromptFlag=false
-gitsFlag=false
-hyprlandFlag=false
-luarocksFlag=false
-mirrorFlag=false
-nodeJsFlag=false
-nvimsFlag=false
-omarchyChromiumBrowserFlag=false
-omarchyNvimFlag=false
-openSSLFlag=false
-orphanedFlag=false
-pacmanPackagesFlag=false
-pipPackagesFlag=false
-railsFlag=false
-rubyFlag=false
-seamlessLoginFlag=false
-sshHostKeyFlag=false
-starshipFlag=false
-symlinksFlag=false
-sqlFlag=false
+gitBashPromptFlag=true
+gitsFlag=true
+hyprlandFlag=true
+luarocksFlag=true
+mirrorFlag=true
+nodeJsFlag=true
+nvimsFlag=true
+omarchyChromiumBrowserFlag=true
+omarchyNvimFlag=true
+openSSLFlag=true
+orphanedFlag=true
+pacmanPackagesFlag=true
+pipPackagesFlag=true
+railsFlag=true
+rubyFlag=true
+seamlessLoginFlag=true
+sshHostKeyFlag=true
+starshipFlag=true
+symlinksFlag=true
+sqlFlag=true
 texPackagesFlag=false
 thinkpadFlag=false
-tmuxPluginsFlag=false
-waybarFlag=false
-yayPackagesFlag=false
+tmuxPluginsFlag=true
+waybarFlag=true
+yayPackagesFlag=true
 
 # The root personal repositories are cloned to.
 cloneRoot=$HOME/git
@@ -43,16 +43,11 @@ gitEmail="gary.a.howard@mac.com"
 # Git user namn used for commit messages.
 gitUserName="Traap"
 
-# TODO: Use mise instead of rbenv
-# Ruby version to install.  rbenv is the Ruby enviornment manager.
-# rubyVerion becomes the global Ruby version installed.
-rubyVersion='3.3.6'
+# Ruby version to install with mise.
+rubyVersion='ruby@3'
 
-# TODO:  Replace wslHost and wslUser with archHost and archUser
-# Host name the Arch linux installation is known by.  The default host name
-# is the Windows 10 or Windows 11 host name.
-wslHostName=Zero
-wslUserName=Traap
+archHostName=Zero
+archUserName=Traap
 
 # TODO: Add reflector support
 # Reflector location is used to update the mirror list.

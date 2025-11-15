@@ -8,9 +8,9 @@ echo "=== Migration started ==="
 
 # Run migrations
 for script in [0-9][0-9]-*; do
-  # echo "$script is running."
+  echo "$script is running."
   source "./$script"
-  # echo "$script has completed."
+  echo "$script has completed."
   echo
 done
 

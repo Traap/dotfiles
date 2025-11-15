@@ -10,7 +10,7 @@ if [[ ${rubyFlag:-false} == true ]]; then
   fi
 
   if command -v mise &>/dev/null; then
-    mise use -g ruby@3 && log_pass "Ruby installed via mise."
+    mise use -g $rubyVersion && log_pass "Ruby installed via mise."
   else
     log_fail "mise not found — cannot install Ruby."
     return
