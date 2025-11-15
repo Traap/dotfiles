@@ -1,13 +1,18 @@
 #!/usr/bin/env bash
 # gits
-
-if [[ ${gitsFlag:-false}  == true ]]; then
+if [[ ${gitsFlag:-false} == true ]]; then
   log_info 'Installing gits.'
   url="https://raw.githubusercontent.com/Traap/gits/master/install.sh"
   /bin/bash -c "$(curl -fsSL $url)"
 
   # Replace repository_locations provided with gits package.
   cp -v repository_locations.yml ~/.gits/.
+
+  # Add to PATH if needed
+  export PATH="$HOME/.local/bin:$PATH"
+
+  # Rehash cached commands
+  hash -r
 else
   log_info 'Gits skipped.'
 fi
