@@ -12,7 +12,3 @@ git:
       - alias: tmux
         url: https://github.com/Traap/tmux.git
         do_not_delete: true
-
-      - alias: ssh
-        url: https://github.com/Traap/ssh.git
-        do_not_delete: true
