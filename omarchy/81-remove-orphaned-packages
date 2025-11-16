@@ -3,7 +3,7 @@
 
 if [[ ${orphanedFlag:-false} == true ]]; then
   log_info 'Install orphaned.'
-  log_infoAndDo "sudo pacman -Rns $(sudo pacman -Qdtq)"
+  sudo pacman -Rns $(sudo pacman -Qdtq)
 
 else
   log_info 'orphaned skipped.'
