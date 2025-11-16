@@ -5,7 +5,7 @@ if [[ ${starshipFlag:-false} == true ]]; then
   log_info 'Remove starshp.'
 
   if command -v starship &>/dev/null; then
-    yay -R starship
+    yay -R starship --noconfirm
   else
   log_info 'starship is not installed.'
   fi
