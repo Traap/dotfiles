@@ -1,5 +1,5 @@
 monitor=eDP-1,3840x2400@60,0x0,1.6
-monitor=HDMI-A-1,3440x1440@72,200x-1440,1
+monitor=HDMI-A-1,3840x2160@59.94,0x-2160,1
 
 workspace=1,monitor:eDP-1
 workspace=2,monitor:eDP-1
