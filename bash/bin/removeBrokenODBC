@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+# fix-unixodbc-conflicts.sh — remove all leftover unixODBC 2.3.15pre files blocking pacman
+set -euo pipefail
+
+echo "Removing remaining broken unixODBC files from /usr..."
+
+# /usr/bin binaries
+sudo rm -vf /usr/bin/dltest
+sudo rm -vf /usr/bin/isql
+sudo rm -vf /usr/bin/iusql
+sudo rm -vf /usr/bin/slencheck
+
+# /usr/include headers
+sudo rm -vf /usr/include/autotest.h
+sudo rm -vf /usr/include/sql.h
+sudo rm -vf /usr/include/sqlext.h
+sudo rm -vf /usr/include/sqlspi.h
+sudo rm -vf /usr/include/sqltypes.h
+sudo rm -vf /usr/include/sqlucode.h
+
+# /usr/lib libraries
+sudo rm -vf /usr/lib/libodbc.so
+sudo rm -vf /usr/lib/libodbcinst.so
+sudo rm -vf /usr/lib/libodbccr.so
+
+echo "Refreshing ldconfig..."
+sudo ldconfig
+
+echo "Trying pacman reinstall..."
+sudo pacman -S --noconfirm unixodbc
+
+echo "Active unixODBC:"
+which odbcinst
+odbcinst -j
+
+echo "Cleanup complete."
