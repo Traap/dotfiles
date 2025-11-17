@@ -3,8 +3,12 @@
 
 if [[ ${orphanedFlag:-false} == true ]]; then
   log_info 'Install orphaned.'
-  sudo pacman --noconfirm  -Rns $(sudo pacman -Qdtq)
-
+  orphans=$(sudo pacman -Qdtq)
+  if [[ -n ${orphahs} ]]; then
+    sudo pacman -Rns $orphans
+  else
+    echo "No orphans found."
+  fi
 else
   log_info 'orphaned skipped.'
 fi
