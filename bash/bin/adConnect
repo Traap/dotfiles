@@ -1,8 +1,4 @@
 #!/usr/bin/env bash
-echo "Connect to Active Directory"
-sudo kinit 135272@ENT.CO.VENTURA.CA.US
-sudo net ads join -U 135272
-sudo net ads testjoin
-sudo klist -k
-# sudo systemctl restart sssd
-
+sayAndDo "sudo kinit $AD_USER@$AD_DOMAIN"
+sayAndDo "getent passwd $WIN_DOMAIN\$AD_USER"
+sayAndDo "sudo klist -k"
