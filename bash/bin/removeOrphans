@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+orphans=$(sudo pacman -Qdtq)
+if [[ -n ${orphahs} ]]; then
+  sudo pacman -Rns $orphans
+else
+  echo "No orphans found."
+fi
