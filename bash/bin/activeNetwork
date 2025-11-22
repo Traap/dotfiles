@@ -20,13 +20,19 @@ cat /etc/resolv.con
 echo
 
 echo "Confirm which service manages DNS"
-systemctl status systemd-resolved
+systemctl --no-pager status systemd-resolved
 echo
 
 echo "Confirm DNS symbolic link"
 ls -l /etc/resolve.conf
 echo
 
-echo "Test Private DNS"
-dig +short vchrp.ent.co.ventua.ca.us
+# NOTE:  Defined in ~/.config/environment.d/your-file-name.conf because Hyprland
+#        loads this file automagically.
+if [[ -n "$PRIVATE_NETWORK" ]]; then
+  echo "Test Private DNS"
+  dig +short vchrp.ent.co.ventua.ca.us
+else
+  echo "INFO: Test Private DNS skipped"
+fi
 echo
