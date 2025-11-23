@@ -1,10 +1,9 @@
-# ============================================================================
 # ~/.inputrc — Merged Configuration
-#
-# Purpose:
-#   Start from documented GNU Readline defaults, apply useful Omarchy settings,
-#   then override with personal preferences. This ensures a predictable, stable
-#   shell experience across systems.
+
+# {{{ Purpose:
+#     Start from documented GNU Readline defaults, apply useful Omarchy
+#     settings, then override with personal preferences. This ensures a
+#     predictable, stable shell experience across systems.
 #
 # Compatibility:
 #   - GNU Readline 8.x, Bash 5.x
@@ -12,11 +11,9 @@
 #
 # To apply changes immediately:
 #   bind -f ~/.inputrc
-# ============================================================================
-
-# ============================================================================
-# Character Encoding & Meta Keys
-# ============================================================================
+#
+# -------------------------------------------------------------------------- }}}
+# {{{ Character Encoding & Meta Keys
 
 # Enable Meta (Alt) key support.
 set meta-flag on
@@ -30,9 +27,8 @@ set output-meta on
 # Prevent Meta characters from being converted to ESC sequences.
 set convert-meta off
 
-# ============================================================================
-# Editing Mode
-# ============================================================================
+# -------------------------------------------------------------------------- }}}
+# {{{ Editing Mode
 
 # Disable terminal bell entirely (default: audible)
 set bell-style none
@@ -41,9 +37,8 @@ set bell-style none
 set editing-mode vi
 set keymap vi
 
-# ============================================================================
-# Completion Behavior (Defaults → Personal)
-# ============================================================================
+# -------------------------------------------------------------------------- }}}
+# {{{ Completion Behavior (Defaults → Personal)
 
 # Case-insensitive completion
 set completion-ignore-case on
@@ -78,9 +73,8 @@ set skip-completed-text on
 # Enable colored completion listings (Bash 4+)
 set colored-stats on
 
-# ============================================================================
-# Key Bindings (Restore to Personal Defaults)
-# ============================================================================
+# -------------------------------------------------------------------------- }}}
+# {{{ Key Bindings (Restore to Personal Defaults)
 
 # Up arrow: navigate to previous command in history
 "\e[A": previous-history
@@ -102,13 +96,4 @@ set colored-stats on
 "+": ""
 "-": ""
 
-# ============================================================================
-# End of ~/.inputrc
-#
-# This configuration merges:
-#   - GNU Readline defaults (for predictability)
-#   - Omarchy enhancements (for usability)
-#   - Personal preferences (for control)
-#
-# Reload with: bind -f ~/.inputrc
-# ============================================================================
+# -------------------------------------------------------------------------- }}}
