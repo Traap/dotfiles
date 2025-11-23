@@ -1,9 +1,0 @@
-#!/usr/bin/env bash
-# cloneRepos
-
-if [[ ${cloneReposFlag:-false} == true ]]; then
-  log_info 'Cloning repos.'
-  gits clone -r git -v
-else
-  log_info 'Cloning repos.'
-fi
