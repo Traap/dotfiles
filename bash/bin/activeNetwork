@@ -31,7 +31,7 @@ echo
 #        loads this file automagically.
 if [[ -n "$PRIVATE_NETWORK" ]]; then
   echo "Test Private DNS"
-  dig +short vchrp.ent.co.ventua.ca.us
+  dig +short $PRIVATE_NETWORK
 else
   echo "INFO: Test Private DNS skipped"
 fi
