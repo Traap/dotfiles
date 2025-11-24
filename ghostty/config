@@ -40,3 +40,6 @@ window-decoration = false
 #keybind = ctrl+j=goto_split:down
 #keybind = ctrl+k=goto_split:up
 #keybind = ctrl+l=goto_split:right
+
+# Slowdown mouse scrolling
+mouse-scroll-multiplier = 0.95
