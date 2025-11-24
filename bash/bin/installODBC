@@ -1,0 +1,179 @@
+#!/usr/bin/env bash
+# fix-odbc-all.sh
+# One-shot repair for unixODBC + FreeTDS on Arch, keeping msodbcsql intact.
+
+set -u
+
+ts() { date +"%Y%m%d-%H%M%S"; }
+
+echo "==> [$(ts)] Starting full ODBC repair (unixODBC + FreeTDS)"
+
+###############################################################################
+# 1. Reinstall core packages (but do NOT remove unixodbc because msodbcsql
+#    depends on it). This ensures binaries and libs are in a known-good state.
+###############################################################################
+echo "==> [$(ts)] Reinstalling unixodbc and freetds via pacman"
+sudo pacman -S --noconfirm unixodbc freetds || {
+  echo "!! pacman reinstall failed; check your package database."
+}
+
+###############################################################################
+# 2. Disable any /etc/profile.d scripts that mess with ODBC env vars.
+#    These are usually the source of bad paths like /etc//etc/odbcinst.ini.
+###############################################################################
+echo "==> [$(ts)] Disabling any /etc/profile.d scripts that reference ODBC"
+
+for f in /etc/profile.d/*.sh /etc/profile.d/*.sh.disabled-by-odbcfix; do [ -e "$f" ] || continue
+  [ -e "$f" ] || continue
+  case "$f" in
+    *.disabled-by-odbcfix) continue ;;
+  esac
+  if sudo grep -qi 'ODBC' "$f" 2>/dev/null; then
+    backup="${f}.bak-$(ts)"
+    disabled="${f}.disabled-by-odbcfix"
+    echo "   -> Found ODBC-related profile script: $f"
+    echo "      Backing up to: $backup"
+    echo "      Disabling by renaming to: $disabled"
+    sudo cp -p "$f" "$backup"
+    sudo mv "$f" "$disabled"
+  fi
+done
+
+###############################################################################
+# 3. Clear ODBC-related environment vars in this shell so tests are clean.
+###############################################################################
+echo "==> [$(ts)] Unsetting ODBC-related environment variables in current shell"
+unset ODBCINSTINI 2>/dev/null || true
+unset ODBCINI 2>/dev/null || true
+unset ODBCSYSINI 2>/dev/null || true
+unset ODBCINST 2>/dev/null || true
+
+###############################################################################
+# 4. Rebuild /etc/odbcinst.ini and /etc/odbc.ini from scratch.
+###############################################################################
+echo "==> [$(ts)] Rebuilding /etc/odbcinst.ini and /etc/odbc.ini"
+
+if [ -f /etc/odbcinst.ini ]; then
+  sudo cp -p /etc/odbcinst.ini "/etc/odbcinst.ini.bak-$(ts)"
+  echo "   -> Backed up existing /etc/odbcinst.ini"
+fi
+
+if [ -f /etc/odbc.ini ]; then
+  sudo cp -p /etc/odbc.ini "/etc/odbc.ini.bak-$(ts)"
+  echo "   -> Backed up existing /etc/odbc.ini"
+fi
+
+# Detect the FreeTDS ODBC driver path dynamically.
+echo "==> [$(ts)] Detecting FreeTDS ODBC driver path"
+driver_path="$(pacman -Ql freetds 2>/dev/null | awk '/libtdsodbc\.so$/ {print $2; exit}')"
+if [ -z "${driver_path:-}" ]; then
+  driver_path="/usr/lib/libtdsodbc.so"
+  echo "   -> Could not auto-detect; using default: $driver_path"
+else
+  echo "   -> Detected driver path: $driver_path"
+fi
+
+# Rebuild /etc/odbcinst.ini
+sudo tee /etc/odbcinst.ini >/dev/null <<EOF
+[FreeTDS]
+Description = FreeTDS ODBC Driver
+Driver      = $driver_path
+Setup       = $driver_path
+UsageCount  = 1
+EOF
+
+sudo chmod 644 /etc/odbcinst.ini
+sudo chown root:root /etc/odbcinst.ini
+
+# Rebuild /etc/odbc.ini as a blank system DSN file (you are using user DSNs).
+sudo tee /etc/odbc.ini >/dev/null <<'EOF'
+[ODBC Data Sources]
+# System-wide ODBC data sources can be defined here if needed.
+EOF
+
+sudo chmod 644 /etc/odbc.ini
+sudo chown root:root /etc/odbc.ini
+
+# Ensure /etc/ODBCDataSources exists but is empty.
+if [ -d /etc/ODBCDataSources ]; then
+  sudo mv /etc/ODBCDataSources "/etc/ODBCDataSources.bak-$(ts)"
+fi
+sudo mkdir -p /etc/ODBCDataSources
+sudo chmod 755 /etc/ODBCDataSources
+sudo chown root:root /etc/ODBCDataSources
+
+###############################################################################
+# 5. Rebuild ~/.odbc.ini for GSASQL16 and GSASQL as user DSNs.
+###############################################################################
+echo "==> [$(ts)] Rebuilding ~/.odbc.ini with GSASQL16 and GSASQL"
+
+if [ -f "$HOME/.odbc.ini" ]; then
+  cp -p "$HOME/.odbc.ini" "$HOME/.odbc.ini.bak-$(ts)"
+  echo "   -> Backed up existing ~/.odbc.ini"
+fi
+
+cat > "$HOME/.odbc.ini" <<'EOF'
+[ODBC Data Sources]
+GSASQL16 = FreeTDS
+GSASQL   = FreeTDS
+
+[GSASQL16]
+Driver = FreeTDS
+Server = GSASQL16
+Port = 1433
+Database = GSABSS
+TDS_Version = 7.4
+Trusted_Connection = yes
+Encrypt = yes
+TrustServerCertificate = yes
+
+[GSASQL]
+Driver = FreeTDS
+Server = GSASQL
+Port = 1433
+Database = Repgen
+TDS_Version = 7.4
+Trusted_Connection = yes
+Encrypt = yes
+TrustServerCertificate = yes
+EOF
+
+chmod 600 "$HOME/.odbc.ini"
+
+###############################################################################
+# 6. Show final unixODBC configuration and registered drivers.
+###############################################################################
+echo "==> [$(ts)] unixODBC configuration (odbcinst -j):"
+odbcinst -j || echo "!! odbcinst -j failed; investigate unixODBC installation."
+
+echo
+echo "==> [$(ts)] Registered ODBC drivers (odbcinst -q -d):"
+odbcinst -q -d || echo "!! odbcinst -q -d failed; driver registration still broken."
+
+###############################################################################
+# 7. Optional: connection tests (DSN-less and DSN) IF a Kerberos ticket exists.
+###############################################################################
+echo
+echo "==> [$(ts)] Checking for Kerberos ticket (klist -s)"
+if klist -s 2>/dev/null; then
+  echo "   -> Kerberos ticket found; running connection tests."
+
+  echo
+  echo "==> [$(ts)] DSN-less test with Kerberos:"
+  isql -v -k "Driver=FreeTDS;Server=GSASQL16;Port=1433;TDS_Version=7.4;Database=GSABSS;" \
+    || echo "!! DSN-less Kerberos test failed."
+
+  echo
+  echo "==> [$(ts)] DSN-based test with Kerberos (GSASQL16):"
+  isql -v -k GSASQL16 || echo "!! DSN Kerberos test failed."
+
+else
+  echo "   -> No Kerberos ticket detected. Skipping isql -k tests."
+  echo "      Run: kinit YOURID@ENT.CO.VENTURA.CA.US, then:"
+  echo "         isql -v -k \"Driver=FreeTDS;Server=GSASQL16;Port=1433;TDS_Version=7.4;Database=GSABSS;\""
+  echo "         isql -v -k GSASQL16"
+fi
+
+echo
+echo "==> [$(ts)] ODBC repair script completed."
+echo "   Review any '!!' lines above for remaining issues."
