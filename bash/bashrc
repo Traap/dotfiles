@@ -129,15 +129,18 @@ __guarded_source $BASHHOME/bashrc_personal
 [[ -f $HOME/.cargo/env ]] && \
    .  $HOME/.cargo/env
 
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+if [[ -f $HOME/.cargo/env ]]; then
+  export NVM_DIR="$HOME/.nvm"
+  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+  [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+fi
 
-# TODO: eval after checking for program.
-[[ -f ~/usr/bin/uv ]] && \
+if command -v uv &>/dev/null; then
   eval "$(uv generate-shell-completion bash)"
+fi
 
-[[ -f ~/.local/bin/mise ]] && \
-  eval "$(~/.local/bin/mise activate bash)"
+if command -v mise &>/dev/null; then
+  eval "$(mise activate bash)"
+fi
 
 # -------------------------------------------------------------------------- }}}
