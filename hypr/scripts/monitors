@@ -1,14 +1,29 @@
 #!/usr/bin/env bash
 NUM_MONITORS=$(hyprctl monitors | grep -c "Monitor")
 
-if [ "$NUM_MONITORS" -eq 1 ]; then
-    monitors=~/.config/hypr/layout/laptop.conf
-elif [ "$NUM_MONITORS" -eq 2 ]; then
-    monitors=~/.config/hypr/layout/laptop_monitor.conf
-elif [ "$NUM_MONITORS" -ge 3 ]; then
-    monitors=~/.config/hypr/layout/workstation.conf
-else
-    monitors=~/.config/hypr/layout/laptop.conf
-fi
+case "$HOSTNAME" in
+  GSA-AXA89M)
+            if [ "$NUM_MONITORS" -eq 1 ]; then
+              monitors=~/.config/hypr/layout/high-res-laptop.conf
+            elif [ "$NUM_MONITORS" -eq 2 ]; then
+              monitors=~/.config/hypr/layout/38inch-monitor-and-laptop.conf
+            else
+              monitors=~/.config/hypr/layout/high-res-laptop.conf
+            fi
+            ;;
+       Ninja)
+            monitors=~/.config/hypr/layout/high-res-laptop.conf
+            ;;
+        Tank)
+            monitors=~/.config/hypr/layout/3-27inch-monitors.conf
+            ;;
+        Zero)
+            monitors=~/.config/hypr/layout/low-res-laptop.conf
+            ;;
+     *) echo
+            monitors=~/.config/hypr/layout/high-res-laptop.conf
+            ;;
+esac
+
 
 cp $monitors ~/.config/hypr/monitors.conf
