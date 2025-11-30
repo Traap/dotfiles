@@ -24,7 +24,7 @@ shopt -s expand_aliases # expand aliases
 # -------------------------------------------------------------------------- }}}
 # {{{ Customize my shell. Array order matters.
 
-my_array=("functions" "exports" "aliases" "paths" "completions" "prompt")
+my_array=("functions" "exports" "aliases" "paths" "completions")
 for m in "${my_array[@]}"; do
   [[ -f "$BASHHOME/my_$m" ]] && __guarded_source "$BASHHOME/my_$m"
 done

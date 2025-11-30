@@ -48,6 +48,7 @@ createSymLinks() {
     ln -fsv ~/git/dotfiles/remmina               ~/.config/remmina
     ln -fsv ~/git/dotfiles/rofi                  ~/.config/rofi
     ln -fsv ~/git/dotfiles/sk/screenkey.json     ~/.config/screenkey.json
+    ln -fsv ~/git/dotfiles/starship/starship.toml ~/.config/starship.toml
     ln -fsv ~/git/dotfiles/sxhkd                 ~/.config/sxhkd
     ln -fsv ~/git/dotfiles/volumeicon            ~/.config/volumeicon
     ln -fsv ~/git/dotfiles/wallpaper             ~/.config/wallpaper
@@ -112,6 +113,7 @@ deleteSymLinks() {
     rm -rfv ~/.config/remmina
     rm -rfv ~/.config/rofi
     rm -rfv ~/.config/screenkey.json
+    rm -rfv ~/.config/starship
     rm -rfv ~/.config/sxhkd
     rm -rfv ~/.config/volumeicon
     rm -rfv ~/.config/walker
