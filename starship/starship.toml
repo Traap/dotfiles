@@ -14,36 +14,37 @@ $character\
 """
 
 [character]
-success_symbol = "[\\$](bold cyan)"
-error_symbol = "[\\$](bold red)"
+success_symbol = '[󰘧](bold cyan)'
+error_symbol = '[󰘧](bold red)'
 
 [username]
 show_always = true
-format = "$user"
+format = '$user'
 
 [hostname]
 ssh_only = false
-format = "$hostname"
+format = '$hostname'
 
 [directory]
 truncation_length = 0
-style = "bold cyan"
+truncate_to_repo = false
+style = 'bold cyan'
 
 [git_branch]
-format = '\[[$branch]($style)'
+symbol = " "
+format = '\[[$branch$symbol]($style)'
+
 style = "bold purple"
 
 [git_status]
-format = '[$all_status]($style)\]'
+format = '[$up_to_date$conflicted$diverged$ahead$behind$modified$deleted$untracked$stashed]($style)\]'
 style = 'bold cyan'
 ahead = '|⇡ ${count}'
 behind = '|⇣ ${count}'
 conflicted = '|'
 deleted = '|🗑 de ${count}'
 diverged = '|⇕ ⇡${ahead_count}⇣${behind_count}'
-modified = '|📝 md ${count}'
-renamed = '|👅 rn ${count}'
-staged = '|📦 sg ${count}'
-stashed = '|📦 st ${count}'
-untracked = '|🤷 ut ${count}'
+modified = '|󰦒 ${count}'
+stashed = '|󰏖 ${count}'
+untracked = '|🤷 ${count}'
 up_to_date = '|'
