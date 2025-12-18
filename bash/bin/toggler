@@ -241,6 +241,7 @@ if [[ $# -eq 1 ]]; then
         "Bracco")   toggle_winclass "$1" "$HOME/bracco" ;;
         "Hyprland") toggle_winclass "$1" "$DOTHOME/hypr" ;;
         "Neovim")   toggle_winclass "$1" "$GITHOME/nvim.traap" ;;
+        "Paperboy") toggle_winclass "$1" "$WORKHOME" ;;
     "Scratchpad")   toggle_winclass "$1" "$WIKIHOME" ;;
        "Upgrade")   toggle_winclass "$1" "$HOME" ;;
           "Wiki")   toggle_winclass "$1" "$WIKIHOME" ;;

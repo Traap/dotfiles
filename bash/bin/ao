@@ -14,7 +14,7 @@
 #  ao kjv
 #
 # Argument:
-#  $1 tmux session name
+#  $SESSION tmux session name
 #
 # Notes:
 #   1. A session is created or attached to.
@@ -23,7 +23,7 @@
 # -------------------------------------------------------------------------- }}}
 # {{{ function to clone or pull a repository as needed.
 
-# Note:  In practice, I only clone repositories that are infrequencly used.
+# Note:  In practice, I only clone repositories that are infrequently used.
 
 getRepository() {
   dir=$(pwd)
@@ -34,51 +34,56 @@ getRepository() {
 # -------------------------------------------------------------------------- }}}
 # {{{ Validate request includes one session name.
 
-if [[ $# -eq 1 ]]; then
+if  [[ $# -eq 1 ]]; then
 
   # ------------------------------------------------------------------------ }}}
   # {{{ Validate session name.
 
-  if ! tmux has-session -t "$1" 2>/dev/null; then
-    case $1 in
+ SESSION=$1
+  if ! tmux has-session -t "$SESSION" 2>/dev/null; then
+    case "$SESSION" in
 
     # ---------------------------------------------------------------------- }}}
     # {{{ Create ao session
 
     "ao")
-      tmux new-session -c "$BASHHOME"/bin -n Coder -s "$1" -d
-      tmux send-keys -t "$1":1 "$EDITOR ao" Enter
+      WORKDIR="$BASHHOME/bin"
+
+      tmux new-session -s "$SESSION" -c "$WORKDIR" -n 'Coder' -d
+      tmux send-keys   -t "$SESSION":1 "$EDITOR ao" Enter
       ;;
 
     # ---------------------------------------------------------------------- }}}
     # {{{ Create d (double), h (homerun), t (triple)
 
     "d")
-      tmux new-session -n Double -s "$1" -d
+      tmux new-session  -s "$SESSION" -n Double -d
       tmux split-window -bh
       ;;
 
     "h")
-      tmux new-session -n HomeRun -s "$1" -d
+      tmux new-session  -s "$SESSION" -n HomeRun -d
       tmux split-window -bh
       tmux split-window -bv -t 2
       tmux split-window -bv -t 1
       ;;
 
     "t")
-      tmux new-session -n Triple -s "$1" -d
-      split-window -v
-      split-window -bfh
+      tmux new-session  -s "$SESSION" -n Triple -d
+      tmux split-window -v
+      tmux split-window -bfh
       ;;
 
     # ---------------------------------------------------------------------- }}}
     # {{{ Create bash session
 
     "bash")
-      tmux new-session -c "$BASHHOME" -n dotfiles -s "$1" -d
-      tmux new-window -c "$BASHHOME" -n bashrc -t "$1":2
+      WORKDIR="$BASHHOME"
 
-      tmux send-keys -t "$1":2 \
+      tmux new-session -s "$SESSION"   -c "$WORKDIR" -n dotfiles -d
+      tmux new-window  -s "$SESSION":2 -c "$WORKDIR" -c "$BASHHOME" -n bashrc
+
+      tmux send-keys -t "$SESSION":2 \
         "$EDITOR \
         bashrc \
         bashrc-personal \
@@ -91,40 +96,48 @@ if [[ $# -eq 1 ]]; then
         my_prompt \
       " Enter
 
-      tmux select-window -t "$1":1
+      tmux select-window -t "$SESSION":1
       ;;
 
     # ---------------------------------------------------------------------- }}}
     # {{{ Create Bracco session
 
     "Bracco")
-      tmux new-session -c "$HOME/bracco" -n 'Coder'  -s "$1" -d
-      tmux new-window  -c "$HOME/bracco" -n 'Tester' -t "$1":2
+      WORKDIR="$HOME/bracco"
 
-      tmux select-window -t "$1":1
+      tmux new-session -s "$SESSION" -c "$WORKDIR" -n 'Coder' -d
+      tmux new-window  -s "$SETTION" -c "$WORKDIR" -n 'Tester'
+
+      tmux select-window -t "$SESSION":1
       ;;
 
     # ---------------------------------------------------------------------- }}}
     # {{{ Create havasu session
 
     "havasu")
+      WORKDIR="$GITPATH/havasu"
+
       getRepository havasu
-      tmux new-session -c "$GITPATH"/havasu -n Coder -s "$1" -d
+      tmux new-session -s "$SESSION" -c "$WORKDIR" -n 'Coder' -d
       ;;
 
     # ---------------------------------------------------------------------- }}}
     # {{{ Create KJV session
 
     "kjv")
-      tmux new-session -c "$GITPATH"/kjv -n 1611 -s "$1" -d
+      WORKDIR="$GITPATH/kjv"
+
+      tmux new-session -s "$SESSION" -c "$WORKDIR" -n 1611 -d
       ;;
 
     # ---------------------------------------------------------------------- }}}
     # {{{ Create Nvim session
 
     "Neovim")
-      tmux new-session -c "$GITPATH/nvim.traap" -n Coder -s "$1" -d
-      tmux send-keys -t "$1":1 \
+      WORKDIR="$GITPATH/nvim.traap"
+
+      tmux new-session -s "$SESSION" -c "$WORKDIR" -n 'Coder' -d
+      tmux send-keys   -t "$SESSION":1 \
         'nvim \
           init.lua \
           lua/traap/config/autocmds.lua \
@@ -134,15 +147,17 @@ if [[ $# -eq 1 ]]; then
           lua/traap/core/constants.lua \
           lua/traap/core/globals.lua \
         ' Enter
-      tmux select-window -t "$1":1
+      tmux select-window -t "$SESSION":1
       ;;
 
     # ---------------------------------------------------------------------- }}}
     # {{{ Create Hyprland session
 
     "Hyprland")
-      tmux new-session -c "$DOTHOME/hypr" -n Coder -s "$1" -d
-      tmux send-keys -t "$1":1 \
+      WORKDIR="$DOTHOME/hypr"
+
+      tmux new-session -s "$SESSION" -c "$WORKDIR" -n 'Coder' -d
+      tmux send-keys   -t "$SESSION":1 \
         'nvim \
           hyprland.conf \
           config/animations.conf \
@@ -154,34 +169,58 @@ if [[ $# -eq 1 ]]; then
           config/windowrules.conf \
           config/workspacerules.conf\
         ' Enter
-      tmux select-window -t "$1":1
+      tmux select-window -t "$SESSION":1
+      ;;
+
+    # ---------------------------------------------------------------------- }}}
+    # {{{ Create Paperboy session
+
+    "Paperboy")
+      WORKDIR="$WORKHOME/Paperboy"
+
+      tmux new-session   -s "$SESSION" -c "$WORKDIR" -n 'Coder' -d
+      tmux send-keys     -t "$SESSION":1 "nvim" Enter
+
+      tmux new-window    -t "$SESSION":2 -c "$WORKDIR" -n 'Tester'
+      tmux split-window  -t "$SESSION":2 -c "$WORKDIR" -bh
+
+      tmux send-keys     -t "$SESSION":2.1 "bin/rails s -p 3001" Enter
+      tmux send-keys     -t "$SESSION":2.2 "bundle exec sidekiq -v" Enter
+
+      tmux select-window -t "$SESSION":1
       ;;
 
     # ---------------------------------------------------------------------- }}}
     # {{{ Create Scratchpad session
 
     "Scratchpad")
-      tmux new-session -c "$WIKIHOME" -n 'Quick' -s "$1" -d
-      tmux send-keys -t "$1":1 "$EDITOR +WikiJournal" Enter
-      tmux select-window -t "$1":1
+      WORKDIR="$WIKIHOME"
+
+      tmux new-session   -s "$SESSION" -c "$WORKDIR" -n 'Quick' -d
+      tmux send-keys     -t "$SESSION":1 "$EDITOR +WikiJournal" Enter
+      tmux select-window -t "$SESSION":1
       ;;
 
     # ---------------------------------------------------------------------- }}}
     # {{{ Create tmux session
 
     "tmux")
-      tmux new-session -c "$GITPATH"/tmux -n Coder -s "$1" -d
-      tmux send-keys -t "$1":1 "$EDITOR tmux.conf" Enter
+      WORKDIR="$GITPATH/tmux"
+
+      tmux new-session -s "$SESSION" -c "$WORKDIR" -n 'Coder' -d
+      tmux send-keys   -t "$SESSION":1 "$EDITOR tmux.conf" Enter
       ;;
 
     # ---------------------------------------------------------------------- }}}
     # {{{ Create vim session
 
     "vim")
-      getRepository vim
-      tmux new-session -c "$GITPATH"/vim -n Coder -s "$1" -d
+      WORKDIR="$GITPATH/vim"
 
-      tmux send-keys -t "$1":1 \
+      getRepository vim
+      tmux new-session -s "$SESSION" -c "$WORKDIR" -n 'Coder' -d
+
+      tmux send-keys -t "$SESSION":1 \
         "vim \
         plug.vim \
         bundle/vim-bundle-keybindings/plugin/bundle-keybindings.vim \
@@ -190,69 +229,83 @@ if [[ $# -eq 1 ]]; then
         bootstrap.vim \
         " Enter
 
-      tmux select-window -t "$1":1
+      tmux select-window -t "$SESSION":1
       ;;
 
     # ---------------------------------------------------------------------- }}}
     # {{{ Create Upgrade session
 
     "Upgrade")
-      tmux new-session -c "$BASHHOME"/bin -n Admin -s "$1" -d
+      WORKDIR="$BASHHOME/bin"
+
+      tmux new-session -s "$SESSION" -c "$WORKDIR" -n 'Admin' -d
       tmux split-window -bh
 
-      tmux send-keys -t 1 "upgrade" enter
-      tmux send-keys -t 2 "gits -v" enter
+      tmux send-keys -t "$SESSION":1 "upgrade" Enter
+      tmux send-keys -t "$SESSION":2 "gits -v" Enter
+
+      tmux select-window -t "$SESSION":1
       ;;
 
     # ---------------------------------------------------------------------- }}}
     # {{{ Create Wiki session
 
     "Wiki")
-      tmux new-session -c "$WIKIHOME" -n Notebook -s "$1" -d
-      tmux new-window -c "$GITPATH" -n 'Coder' -t "$1":2
+      WORKDIR="$GITHOME/wiki"
 
-      tmux send-keys -t "$1":1 "$EDITOR $WIKIHOME/index.md" Enter
-      tmux select-window -t "$1":1
+      tmux new-session   -s "$SESSION" -c "$WORKDIR" -n 'Notebook' -d
+      tmux split-window -bh
+
+      tmux send-keys -t "$SESSION":1 "$EDITOR $WIKIHOME/index.md" Enter
+
+      tmux select-window -t "$SESSION":1
       ;;
 
     # ---------------------------------------------------------------------- }}}
     # {{{ Create Work session
 
     "Work")
-      tmux new-session -c "$WORKHOME/Wiki" -n Notebook -s "$1" -d
-      tmux new-window -c "$WORKHOME" -n 'Coder' -t "$1":2
+      WORKDIR="$WORKHOME/Wiki"
 
-      tmux send-keys -t "$1":1 "$EDITOR $WORKHOME/Wiki/index.md" Enter
-      tmux select-window -t "$1":1
+      tmux new-session   -s "$SESSION" -c "$WORKDIR" -n 'Notebook' -d
+      tmux split-window -bh
+
+      tmux send-keys -t "$SESSION":1 "$EDITOR $WIKIHOME/index.md" Enter
+
+      tmux select-window -t "$SESSION":1
       ;;
 
     # ---------------------------------------------------------------------- }}}
     # {{{ Create YouTube session
 
     "YouTube")
-      tmux new-session -c "$YOUTUBEHOME"    -n 'Notes' -s "$1" -d
-      tmux new-window -c "$YOUTUBEHOME/lsp" -n 'Coder' -t "$1":2
-      tmux new-window -c "$YOUTUBEHOME/lsp" -n 'Demo' -t "$1":3
+      WORKDIR="$YOUTUBEHOME"
 
-      tmux send-keys -t "$1":1 "$EDITOR $YOUTUBEHOME"/wiki/index.md Enter
-      tmux select-window -t "$1":1
+      tmux new-session -s "$SESSION" -c "$WORKDIR" -n 'Notes' -d
+      tmux new-window  -c "$YOUTUBEHOME/lsp" -n 'Coder' -t "$SESSION":2
+      tmux new-window  -c "$YOUTUBEHOME/lsp" -n 'Demo' -t "$SESSION":3
+
+      tmux send-keys -t "$SESSION":1 "$EDITOR $YOUTUBEHOME"/wiki/index.md Enter
+      tmux select-window -t "$SESSION":1
       ;;
 
     # ---------------------------------------------------------------------- }}}
     # {{{ Create Zero session
 
     "Zero")
-      tmux new-session -c "$GITPATH" -n 'Coder'  -s "$1" -d
-      tmux new-window  -c "$GITPATH" -n 'Tester' -t "$1":2
+      WORKDIR="$GITPATH"
 
-      tmux select-window -t "$1":1
+      tmux new-session -s "$SESSION" -c "$WORKDIR" -n 'Coder' -d
+      tmux new-window  -s "$SETTION" -c "$WORKDIR" -n 'Tester'
+
+      tmux select-window -t "$SESSION":1
       ;;
 
     # ---------------------------------------------------------------------- }}}
     # {{{ Session name not supported error.
 
     *)
-      echo "Session name $1 is not supported."
+      echo "Session name $SESSION is not supported."
       exit
       ;;
     esac
@@ -265,14 +318,14 @@ if [[ $# -eq 1 ]]; then
 
 else
   echo \
-    "Session name [ao|bash|Bracco|d|h|havasu|kjv|Nvim|Omarchy|Scratchpad|t|Upgrade|vim|Wiki|YouTube|Zero] is required" &&
+    "Session name ao|bash|Bracco|d|h|havasu|kjv|Nvim|Omarchy|Scratchpad|t|Upgrade|vim|Wiki|YouTube|Zero is required" &&
     exit
 fi
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Attach to tmux session.
 
-[[ -z $TMUX ]] && tmux attach -t "$1"
+ [ -z "$TMUX" ]  && tmux attach -t "$SESSION"
 exit 0
 
 # -------------------------------------------------------------------------- }}}
