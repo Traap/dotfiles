@@ -1,0 +1,86 @@
+#!/usr/bin/env bash
+# mountUp
+# Toggle CIFS mount state for County GSA shares (I: and H:)
+# Requires: Kerberos ticket, cifs-utils
+
+H_SHARE="/mnt/h"
+I_SHARE="/mnt/i"
+
+# Detect current user's UID and GID so mounts are writable
+MYUID=$(id -u)
+MYGID=$(id -g)
+
+# CIFS mount options enabling CRUD access
+CIFS_OPTS="sec=krb5,cruid=${MYUID},uid=${MYUID},gid=${MYGID},file_mode=0660,dir_mode=0770"
+
+# Check for kerberos ticket
+has_ticket() {
+  klist &>/dev/null
+}
+
+# mount helper
+mount_share() {
+  local mnt="$1"
+
+  echo "🔍 Checking Kerberos ticket..."
+  if ! has_ticket; then
+    echo "❌ No Kerberos ticket. Run: kinit 135272@ENT.CO.VENTURA.CA.US"
+    exit 1
+  fi
+
+  echo "📌 Mounting: $mnt"
+  if sudo mount -o "$CIFS_OPTS" "$mnt"; then
+    echo "✅ Mounted (CRUD-enabled): $mnt"
+  else
+    echo "❌ Failed to mount: $mnt"
+    exit 1
+  fi
+}
+
+# unmount helper
+unmount_share() {
+  local mnt="$1"
+  echo "📌 Unmounting: $mnt"
+  if sudo umount "$mnt"; then
+    echo "✅ Unmounted: $mnt"
+  else
+    echo "❌ Failed to unmount: $mnt"
+    exit 1
+  fi
+}
+
+toggle_share() {
+  local mnt="$1"
+
+  if mount | grep -q "on ${mnt} type cifs"; then
+    unmount_share "$mnt"
+  else
+    mount_share "$mnt"
+  fi
+}
+
+case "$1" in
+  i)
+    toggle_share "$I_SHARE"
+    ;;
+  h)
+    toggle_share "$H_SHARE"
+    ;;
+  all)
+    toggle_share "$I_SHARE"
+    toggle_share "$H_SHARE"
+    ;;
+  status)
+    echo "I: $(mount | grep /mnt/i >/dev/null && echo 'mounted' || echo 'not mounted')"
+    echo "H: $(mount | grep /mnt/h >/dev/null && echo 'mounted' || echo 'not mounted')"
+    ;;
+  *)
+    echo "Usage: gsa-toggle {i|h|all|status}"
+    echo
+    echo "  i       Toggle /mnt/i"
+    echo "  h       Toggle /mnt/h"
+    echo "  all     Toggle both"
+    echo "  status  Show mount state"
+    exit 1
+    ;;
+esac
