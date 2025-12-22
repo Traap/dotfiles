@@ -3,7 +3,7 @@
 bootstrap:
   - root_dir: bootstrap
   - repositories:
-      - alias: Arch
+      - alias: Archlinux
         url: git@github.com:Traap/bootstrap-archlinux.git
 
       - alias: BSS
@@ -13,16 +13,13 @@ bootstrap:
         url: git@github.com:Traap/dhf-docker
 
       - alias: Omarchy
-        url: https://github.com/basecamp/omarchy
+        url: git@github.com:Traap/bootstrap-omarchy.git
 
       - alias: Ubuntu
         url: git@github.com:Traap/bootstrap-ubuntu.git
 
       - alias: Utilities
         url: git@gsa-gitea:BSS/Utilities.git
-
-      - alias: WinEnv
-        url: git@github.com:Traap/bootstrap-win-env.git
 
       - alias: WinEnv
         url: git@github.com:Traap/bootstrap-win-env.git
