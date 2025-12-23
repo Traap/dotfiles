@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # mountUp
-# Toggle CIFS mount state for County GSA shares (I: and H:)
+# Toggle CIFS mount state for network shares (I: and H:)
 # Requires: Kerberos ticket, cifs-utils
 
 H_SHARE="/mnt/h"
@@ -24,7 +24,7 @@ mount_share() {
 
   echo "🔍 Checking Kerberos ticket..."
   if ! has_ticket; then
-    echo "❌ No Kerberos ticket. Run: kinit 135272@ENT.CO.VENTURA.CA.US"
+    echo "❌ No Kerberos ticket. Run: kinit AD_USER@AD_REALM"
     exit 1
   fi
 
