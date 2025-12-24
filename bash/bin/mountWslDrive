@@ -1,16 +1,16 @@
-#!/bin/bash
-# {{{ A function to USB drive D or E
+#!/usr/bin/env bash
+# {{{ A function to mount WSL2 network drives
 #
 # Name:
-#  mountUsg
+#  mountWslDrive
 #
 # Use:
-#  mountUsb [ |D|E]
+#  mountWslDrive [drive-letter]
 #
 # Argument:
-#  $1 - [ |D|E]
-#       [ ] or D mounts D
-#       E mounts E
+#  $1 - [drive-letter]
+#
+#  mountWslDrive i mounts /mni/i
 #
 # -------------------------------------------------------------------------- }}}
 # {{{ Validate argument.
@@ -18,26 +18,9 @@
 if [[ $# -eq 0  || $# -eq 1 ]]; then
 
 # -------------------------------------------------------------------------- }}}
-# {{{ Mount USB drive
+# {{{ Mount WSL Drive
 
-drive=d
-case $1 in
-  d)
-    drive=d
-    ;;
-  D)
-    drive=d
-    ;;
-  e)
-    drive=e
-    ;;
-  E)
-    drive=e
-    ;;
-  *)
-    drive=e
-    ;;
-esac
+drive=$1
 
 sudo mkdir -p /mnt/${drive}
 sudo mount -t drvfs ${drive}: /mnt/${drive}
@@ -56,4 +39,3 @@ fi
 exit 0
 
 # -------------------------------------------------------------------------- }}}
-
