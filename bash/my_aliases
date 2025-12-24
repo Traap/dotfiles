@@ -269,7 +269,7 @@ alias ,xs='$EDITOR $DOTHOME/sxhkd/sxhkdrc'
 # -------------------------------------------------------------------------- }}}
 # {{{ tmux sessions I frequently use.
 
-if [[ -n $WSL_DISTRO_NAME ]]; then
+if [[ -n $WSL_DISTRO_NAME && -z $TMUX ]]; then
   bind -x '"\en":"ao Neovim"'
   bind -x '"\ep":"ao Paperboy"'
   bind -x '"\eu":"ao Upgrade"'
