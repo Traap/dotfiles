@@ -11,11 +11,14 @@ case "$HOSTNAME" in
               monitors=~/.config/hypr/layout/high-res-laptop.conf
             fi
             ;;
+       DarkKnight)
+            monitors=~/.config/hypr/layout/ultra-gear.conf
+            ;;
        Ninja)
             monitors=~/.config/hypr/layout/high-res-laptop.conf
             ;;
         Tank)
-            monitors=~/.config/hypr/layout/3-27inch-monitors.conf
+            monitors=~/.config/hypr/layout/27inch-monitor.conf
             ;;
         Zero)
             monitors=~/.config/hypr/layout/low-res-laptop.conf
