@@ -166,6 +166,9 @@ gitea:
       - alias: cronjobs
         url: git@gsa-gitea:BSS/cronjobs.git
 
+      - alias: CustomTools
+        url: git@gsa-gitea:BSS/CustomTools.git
+
       - alias: DocAuto
         url: git@gsa-gitea:BSS/DocAuto.git
 
