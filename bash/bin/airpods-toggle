@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+DEVICE="40:B3:FA:09:D9:4D"
+
+STATUS=$(bluetoothctl info "$DEVICE" | grep "Connected" | awk '{print $2}')
+
+if [ "$STATUS" = "yes" ]; then
+    bluetoothctl disconnect "$DEVICE"
+    notify-send "AirPods" "Disconnected"
+else
+    bluetoothctl connect "$DEVICE"
+    notify-send "AirPods" "Connected"
+fi
