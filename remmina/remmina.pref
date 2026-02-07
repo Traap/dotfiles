@@ -138,3 +138,4 @@ periodic_news_last_checksum=
 periodic_usage_stats_permitted=false
 info_uid_prefix=6VN2O9IF2886HH
 disable_tip=true
+ssh_color_file=
