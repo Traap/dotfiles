@@ -415,8 +415,6 @@ soup:
 
       - alias: tlc-article
         url: git@github.com:Traap/tlc-article.git
-      - alias: tlc-article
-        url: git@github.com:Traap/tlc-article.git
 
 # -------------------------------------------------------------------------- }}}
 # {{{ vim_bundles
