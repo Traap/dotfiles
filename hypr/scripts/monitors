@@ -1,32 +1,37 @@
-#!/usr/bin/env bash
-NUM_MONITORS=$(hyprctl monitors | grep -c "Monitor")
+#!/usr/bin/env
+exit 0
+
+bash NUM_MONITORS=$(hyprctl monitors | grep -c "Monitor")
 
 case "$HOSTNAME" in
   GSA-AXA89M)
-            if [ "$NUM_MONITORS" -eq 1 ]; then
-              monitors=~/.config/hypr/layout/high-res-laptop.conf
-            elif [ "$NUM_MONITORS" -eq 2 ]; then
-              monitors=~/.config/hypr/layout/38inch-monitor-and-laptop.conf
-            else
-              monitors=~/.config/hypr/layout/high-res-laptop.conf
-            fi
-            ;;
-       DarkKnight)
-            monitors=~/.config/hypr/layout/ultra-gear.conf
-            ;;
-       Ninja)
-            monitors=~/.config/hypr/layout/high-res-laptop.conf
-            ;;
-        Tank)
-            monitors=~/.config/hypr/layout/27inch-monitor.conf
-            ;;
-        Zero)
-            monitors=~/.config/hypr/layout/low-res-laptop.conf
-            ;;
-     *) echo
-            monitors=~/.config/hypr/layout/high-res-laptop.conf
-            ;;
+    if [ "$NUM_MONITORS" -eq 1 ]; then
+      monitors=~/.config/hypr/layout/high-res-laptop.conf
+    elif [ "$NUM_MONITORS" -eq 2 ]; then
+      monitors=~/.config/hypr/layout/38inch-monitor-and-laptop.conf
+    else
+      monitors=~/.config/hypr/layout/high-res-laptop.conf
+    fi
+    ;;
+  DarkKnight)
+    if [ "$NUM_MONITORS" -eq 2 ]; then
+      monitors=~/.config/hypr/layout/ultra-gear.conf
+    else
+      monitors=~/.config/hypr/layout/27inch-monitor.conf
+    fi
+    ;;
+  Ninja)
+    monitors=~/.config/hypr/layout/high-res-laptop.conf
+    ;;
+  Tank)
+    monitors=~/.config/hypr/layout/27inch-monitor.conf
+    ;;
+  Zero)
+    monitors=~/.config/hypr/layout/low-res-laptop.conf
+    ;;
+  *)
+    monitors=~/.config/hypr/layout/high-res-laptop.conf
+    ;;
 esac
-
 
 cp $monitors ~/.config/hypr/monitors.conf
