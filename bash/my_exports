@@ -199,3 +199,13 @@ if [[ -d ${NEWDOCPATH} ]]; then
 fi
 
 # -------------------------------------------------------------------------- }}}
+# {{{ Puppeteer
+
+if command -v /usr/bin/chromium >/dev/null 2>&1; then
+  export PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium
+else
+   [[ $echoWarning == 1 ]] && echo "WARNING: chromium is not installed."
+fi
+export PUPPETEER_EXECUTABLE_PATH
+
+# -------------------------------------------------------------------------- }}}
