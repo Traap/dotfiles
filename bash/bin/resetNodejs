@@ -7,10 +7,9 @@ set -e
 
 # ------------------------------------------------------------------------------
 
-# TODO: Decide if remove is really needed.
-# echo "**********"
-# echo "Removing /usr/lib/node_modules"
-# sudo rm -rf /usr/lib/node_modules
+ echo "**********"
+ echo "Removing /usr/lib/node_modules"
+ sudo rm -rf /usr/lib/node_modules
 
 # ------------------------------------------------------------------------------
 
@@ -38,7 +37,7 @@ else
   os_packages=(
     "nodejs"
     "npm"
-    "yarn"
+    # "yarn"
     "node-gyp"
     "nodejs-nopt"
     "semver"
@@ -51,10 +50,10 @@ else
     "ts-node"
   )
 
-#  echo "**********"
-#  echo "Arch Linux node install"
-#  sudo pacman -R  --noconfirm "${os_packages[@]}"
-#  sudo pacman -Sy --noconfirm "${os_packages[@]}"
+ echo "**********"
+ echo "Arch Linux nuke all things node"
+ sudo pacman -R  --noconfirm "${os_packages[@]}"
+ sudo pacman -Sy --noconfirm "${os_packages[@]}"
 fi
 
 # ------------------------------------------------------------------------------
