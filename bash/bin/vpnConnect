@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# vpnConnect
+
+sudo snx-rs -c /etc/snx-rs/config.toml
