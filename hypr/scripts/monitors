@@ -14,11 +14,7 @@ case "$HOSTNAME" in
     fi
     ;;
   DarkKnight)
-    if [ "$NUM_MONITORS" -eq 2 ]; then
-      monitors=~/.config/hypr/layout/ultra-gear.conf
-    else
-      monitors=~/.config/hypr/layout/27inch-monitor.conf
-    fi
+    monitors=~/.config/hypr/layout/ultra-gear.conf
     ;;
   Ninja)
     monitors=~/.config/hypr/layout/high-res-laptop.conf
