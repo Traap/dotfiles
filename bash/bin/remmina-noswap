@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Restore caps:swapescape regardles of how Remmina exits.
+restore() {
+  hyprctl keyword input:kb_options "caps:swapescape" >/dev/null 2>&1 || true
+}
+
+# Such a beautiful command name: trap; to bad it's not traap! LOL
+trap restore EXIT INT TERM
+
+# Disable swap for the current Hyprland session
+hyprctl keyword input:kb_options "" >/dev/null 2>&1 || true
+
+# Run Remmina and wait for it to exit
+remmina "$@" &
+pid=$!
+wait "$pid" || true
