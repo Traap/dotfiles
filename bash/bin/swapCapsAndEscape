@@ -1,6 +1,16 @@
-#!/bin/bash
-if [[ $(lspci -nn | rg VirtualBox -c) == '' ]]; then
-  setxkbmap -option caps:swapescape
+#!/usr/bin/env bash
+set -euo pipefail
+
+is_hyprland() {
+  [[ -n "${HYPRLAND_INSTANCE_SIGNATURE:-}" ]] || pgrep -x Hyprland >/dev/null 2>&1
+}
+
+if [[ -z "$(lspci -nn | rg -c VirtualBox || true)" ]]; then
+  if is_hyprland; then
+    hyprctl keyword input:kb_options "caps:swapescape"
+  else
+    setxkbmap -option caps:swapescape
+  fi
   echo 'caps:swapescape WAS done.'
 else
   echo 'caps:swapescape was NOT done.'
