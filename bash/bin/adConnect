@@ -37,6 +37,7 @@ else
     AD_ONLINE=false
     warn "County network NOT detected — running in offline mode."
 fi
+
 # =====================================================================
 # DNS configuration (only when online)
 # Prefer eth0 when available, otherwise fall back to wlan0
