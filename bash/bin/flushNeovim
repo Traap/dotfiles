@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+
+# {{{ Remove Neovim Configuration
+
+removeNeovimConfiguration() {
+  removeDirIfPresent ~/.cache/nvim
+  removeDirIfPresent ~/.config/nvim
+  removeDirIfPresent ~/.local/share/nvim
+  removeDirIfPresent ~/.local/state/nvim
+}
+
+# -------------------------------------------------------------------------- }}}
+# {{{ Remove package Tracking Files
+
+removePackageTrackingFiles() {
+  rm -rfv ~/.config/nvim/lazy-lock.json
+  rm -rfv ~/.config/nvim/package-lock.json
+  rm -rfv ~/.config/nvim/plugin
+}
+
+# -------------------------------------------------------------------------- }}}
+
+removeNeovimConfiguration
+removePackageTrackingFiles
+rm ~/.neovim_in_use_okay_to_delete
