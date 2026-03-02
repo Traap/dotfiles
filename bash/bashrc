@@ -98,6 +98,25 @@ export PDF_VIEWER
 PNG_VIEWER=feh
 export PNG_VIEWER
 
+AD_DOMAIN=ent.co.ventura.ca.us
+export AD_DOMAIN
+
+AD_REALM=ENT.CO.VENTURA.CA.US
+export AD_REALM
+
+AD_DNS1=10.130.5.98
+export AD_DNS1
+
+AD_DNS2=10.130.5.100
+export AD_DNS2
+
+AD_USER=135272
+export AD_USER
+
+WIN_DOMAIN="ENT"
+export WIN_DOMAIN
+
+
 # -------------------------------------------------------------------------- }}}
 # {{{ Hook into personal configuation.
 

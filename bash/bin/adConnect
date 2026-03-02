@@ -37,14 +37,26 @@ else
     AD_ONLINE=false
     warn "County network NOT detected — running in offline mode."
 fi
-
 # =====================================================================
 # DNS configuration (only when online)
+# Prefer eth0 when available, otherwise fall back to wlan0
 # =====================================================================
 if $AD_ONLINE; then
-    info "Applying AD DNS configuration..."
-    sudo resolvectl dns wlan0 "$AD_DNS1" "$AD_DNS2" || true
-    sudo resolvectl domain wlan0 "$AD_LOWER" co.ventura.ca.us || true
+    iface=""
+    if ip link show eth0 >/dev/null 2>&1; then
+        iface="eth0"
+    elif ip link show wlan0 >/dev/null 2>&1; then
+        iface="wlan0"
+    else
+        warn "No eth0/wlan0 interface found — skipping resolvectl DNS config."
+        iface=""
+    fi
+
+    if [[ -n "$iface" ]]; then
+        info "Applying AD DNS configuration on $iface..."
+        sudo resolvectl dns "$iface" "$AD_DNS1" "$AD_DNS2" || true
+        sudo resolvectl domain "$iface" "$AD_LOWER" co.ventura.ca.us || true
+    fi
 fi
 
 # =====================================================================
