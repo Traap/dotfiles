@@ -38,7 +38,7 @@
       "urgent": ""
     },
     "sort-by-number": true,
-    "active-only": false,
+    "active-only": false
   },
 
   "idle_inhibitor": {
