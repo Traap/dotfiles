@@ -269,7 +269,7 @@ alias ,xs='$EDITOR $DOTHOME/sxhkd/sxhkdrc'
 # -------------------------------------------------------------------------- }}}
 # {{{ tmux sessions I frequently use.
 
-if [[ -n $WSL_DISTRO_NAME && -z $TMUX ]]; then
+if [[ -n $WSL_DISTRO_NAME ]]; then
   bind -x '"\en":"ao Neovim"'
   bind -x '"\ep":"ao Paperboy"'
   bind -x '"\eu":"ao Upgrade"'
@@ -283,7 +283,9 @@ if [[ -n $WSL_DISTRO_NAME && -z $TMUX ]]; then
   bind -x '"\eW":"tmux kill-session -t Work"'
   bind -x '"\eY":"tmux kill-session -t YouTube"'
   bind -x '"\eZ":"tmux kill-session -t Zero"'
+fi
 
+if [[ -n $WSL_DISTRO_NAME && -z $TMUX ]]; then
   echo "Mounting WSL Drives"
   "$BINHOME"/mountWslDrive i
   "$BINHOME"/mountWslDrive o
