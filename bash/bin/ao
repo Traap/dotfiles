@@ -250,29 +250,15 @@ if  [[ $# -eq 1 ]]; then
     # ---------------------------------------------------------------------- }}}
     # {{{ Create Wiki session
 
-    "Wiki")
-      WORKDIR="$GITHOME/wiki"
-
+    "Work")
+      WORKDIR="$WORKHOME"
       tmux new-session   -s "$SESSION" -c "$WORKDIR" -n 'Coder' -d
       tmux send-keys     -t "$SESSION":1 'nvim' Enter
 
       tmux new-window    -t "$SESSION":2 -c "$WORKDIR" -n 'Notebook' -d
-      tmux send-keys     -t "$SESSION":2 "$EDITOR $WORKDIR/index.md" Enter
+      tmux send-keys     -t "$SESSION":2 "$EDITOR $WORKDIR/Wiki/index.md" Enter
 
       tmux new-window    -t "$SESSION":3 -c "$WORKDIR" -n 'vscode' -d
-
-      tmux select-window -t "$SESSION":1
-      ;;
-    # ---------------------------------------------------------------------- }}}
-    # {{{ Create Work session
-
-    "Work")
-      WORKDIR="$WORKHOME/Wiki"
-
-      tmux new-session   -s "$SESSION" -c "$WORKDIR" -n 'Notebook' -d
-      tmux split-window -bh
-
-      tmux send-keys -t "$SESSION":1 "$EDITOR $WIKIHOME/index.md" Enter
 
       tmux select-window -t "$SESSION":1
       ;;
@@ -297,8 +283,10 @@ if  [[ $# -eq 1 ]]; then
     "Zero")
       WORKDIR="$GITPATH"
 
-      tmux new-session -s "$SESSION" -c "$WORKDIR" -n 'Coder' -d
-      tmux new-window  -s "$SETTION" -c "$WORKDIR" -n 'Tester'
+      tmux new-session   -s "$SESSION"   -c "$WORKDIR" -n 'Coder' -d
+      tmux new-window    -t "$SETTION":2 -c "$WORKDIR" -n 'Tester'
+      tmux new-window    -t "$SESSION":3 -c "$WORKDIR" -n 'Notebook' -d
+      tmux send-keys     -t "$SESSION":3 "$EDITOR $WORKDIR/wiki/index.md" Enter
 
       tmux select-window -t "$SESSION":1
       ;;

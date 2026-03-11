@@ -273,14 +273,14 @@ if [[ -n $WSL_DISTRO_NAME && -z $TMUX ]]; then
   bind -x '"\en":"ao Neovim"'
   bind -x '"\ep":"ao Paperboy"'
   bind -x '"\eu":"ao Upgrade"'
-  bind -x '"\ew":"ao Wiki"'
+  bind -x '"\ew":"ao Work"'
   bind -x '"\ey":"ao YouTube"'
   bind -x '"\ez":"ao Zero"'
 
   bind -x '"\eN":"tmux kill-session -t Neovim"'
   bind -x '"\eP":"tmux kill-session -t Paperboy"'
   bind -x '"\eU":"tmux kill-session -t Upgrade"'
-  bind -x '"\eW":"tmux kill-session -t Wiki"'
+  bind -x '"\eW":"tmux kill-session -t Work"'
   bind -x '"\eY":"tmux kill-session -t YouTube"'
   bind -x '"\eZ":"tmux kill-session -t Zero"'
 fi
