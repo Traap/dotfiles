@@ -283,6 +283,17 @@ if [[ -n $WSL_DISTRO_NAME && -z $TMUX ]]; then
   bind -x '"\eW":"tmux kill-session -t Work"'
   bind -x '"\eY":"tmux kill-session -t YouTube"'
   bind -x '"\eZ":"tmux kill-session -t Zero"'
+
+  echo "Mounting WSL Drives"
+  "$BINHOME"/mountWslDrive i
+  "$BINHOME"/mountWslDrive o
+  "$BINHOME"/mountWslDrive p
+  "$BINHOME"/mountWslDrive s
+  "$BINHOME"/mountWslDrive y
+  "$BINHOME"/mountWslDrive z
+
+  echo "Connecting to Kerberos Realm"
+  kinit "$AD_USER@$AD_REALM"
 fi
 
 # -------------------------------------------------------------------------- }}}

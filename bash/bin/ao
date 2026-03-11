@@ -248,7 +248,7 @@ if  [[ $# -eq 1 ]]; then
       ;;
 
     # ---------------------------------------------------------------------- }}}
-    # {{{ Create Wiki session
+    # {{{ Create Work session
 
     "Work")
       WORKDIR="$WORKHOME"
@@ -259,6 +259,7 @@ if  [[ $# -eq 1 ]]; then
       tmux send-keys     -t "$SESSION":2 "$EDITOR $WORKDIR/Wiki/index.md" Enter
 
       tmux new-window    -t "$SESSION":3 -c "$WORKDIR" -n 'vscode' -d
+      tmux send-keys     -t "$SESSION":3 "code-insiders ." Enter
 
       tmux select-window -t "$SESSION":1
       ;;
