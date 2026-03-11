@@ -253,14 +253,16 @@ if  [[ $# -eq 1 ]]; then
     "Wiki")
       WORKDIR="$GITHOME/wiki"
 
-      tmux new-session   -s "$SESSION" -c "$WORKDIR" -n 'Notebook' -d
-      tmux split-window -bh
+      tmux new-session   -s "$SESSION" -c "$WORKDIR" -n 'Coder' -d
+      tmux send-keys     -t "$SESSION":1 'nvim' Enter
 
-      tmux send-keys -t "$SESSION":1 "$EDITOR $WIKIHOME/index.md" Enter
+      tmux new-window    -t "$SESSION":2 -c "$WORKDIR" -n 'Notebook' -d
+      tmux send-keys     -t "$SESSION":2 "$EDITOR $WORKDIR/index.md" Enter
+
+      tmux new-window    -t "$SESSION":3 -c "$WORKDIR" -n 'vscode' -d
 
       tmux select-window -t "$SESSION":1
       ;;
-
     # ---------------------------------------------------------------------- }}}
     # {{{ Create Work session
 
