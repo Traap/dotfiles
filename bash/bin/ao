@@ -252,18 +252,15 @@ if  [[ $# -eq 1 ]]; then
 
     "Work")
       WORKDIR="$WORKHOME"
-      tmux new-session   -s "$SESSION" -c "$WORKDIR" -n 'Coder' -d
-      tmux send-keys     -t "$SESSION":1 'nvim' Enter
 
-      tmux new-window    -t "$SESSION":2 -c "$WORKDIR" -n 'Notebook' -d
-      tmux send-keys     -t "$SESSION":2 "$EDITOR $WORKDIR/Wiki/index.md" Enter
+      tmux new-session  -d -s "$SESSION"   -c "$WORKDIR" -n 'Coder' 'nvim'
+      tmux split-window -h -t "$SESSION":1 -c "$WORKDIR" 'codex'
 
-      tmux new-window    -t "$SESSION":3 -c "$WORKDIR" -n 'vscode' -d
-      tmux send-keys     -t "$SESSION":3 "code-insiders ." Enter
+      tmux new-window   -d -t "$SESSION":2 -c "$WORKDIR" -n 'Notebook' "$EDITOR $WORKDIR/Wiki/index.md"
+      tmux new-window   -d -t "$SESSION":3 -c "$WORKDIR" -n 'vscode' 'code-insiders .'
 
-      tmux select-window -t "$SESSION":1
+      tmux select-window   -t "$SESSION":1.1
       ;;
-
     # ---------------------------------------------------------------------- }}}
     # {{{ Create YouTube session
 
