@@ -267,7 +267,12 @@ alias ,xb='$EDITOR $DOTHOME/bspwm/bspwmrc'
 alias ,xs='$EDITOR $DOTHOME/sxhkd/sxhkdrc'
 
 # -------------------------------------------------------------------------- }}}
-# {{{ tmux sessions I frequently use.
+# {{{ TMUX / ao launch and terminate bindings.
+#      NOTE: These bindings are duplicated in three places:
+#     1. dotfiles/bash/my_aliases
+#     2. dotfiles/tmux/tmux.conf
+#     3. dotfile/hypr/bindings.conf
+#     This is done to ensure they work regardless of where they are used.
 
 if [[ -n $WSL_DISTRO_NAME && -z $HYPRLAND_INSTANCE_SIGNATURE ]]; then
   bind -x '"\en":"ao Neovim"'
@@ -285,18 +290,21 @@ if [[ -n $WSL_DISTRO_NAME && -z $HYPRLAND_INSTANCE_SIGNATURE ]]; then
   bind -x '"\eZ":"tmux kill-session -t Zero"'
 fi
 
-if [[ -n $WSL_DISTRO_NAME && -z $TMUX ]]; then
-  echo "Mounting WSL Drives"
-  "$BINHOME"/mountWslDrive i
-  "$BINHOME"/mountWslDrive o
-  "$BINHOME"/mountWslDrive p
-  "$BINHOME"/mountWslDrive s
-  "$BINHOME"/mountWslDrive y
-  "$BINHOME"/mountWslDrive z
+# -------------------------------------------------------------------------- }}}
+# {{{ WSL2 mounts and Kerberos Realm connections.
 
-  echo "Connecting to Kerberos Realm"
-  kinit "$AD_USER@$AD_REALM"
-fi
+# if [[ -n $WSL_DISTRO_NAME && -z $TMUX ]]; then
+#   echo "Mounting WSL Drives"
+#   "$BINHOME"/mountWslDrive i
+#   "$BINHOME"/mountWslDrive o
+#   "$BINHOME"/mountWslDrive p
+#   "$BINHOME"/mountWslDrive s
+#   "$BINHOME"/mountWslDrive y
+#   "$BINHOME"/mountWslDrive z
+#
+#   echo "Connecting to Kerberos Realm"
+#   kinit "$AD_USER@$AD_REALM"
+# fi
 
 # -------------------------------------------------------------------------- }}}
 # {{{ archlinux tlmgr (texlive manager)
