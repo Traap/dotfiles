@@ -190,12 +190,6 @@ gitea:
       - alias: Records
         url: git@gsa-gitea:BSS/Records.git
 
-      - alias: Presentations
-        url: git@gsa-gitea:BSS/Presentations.git
-
-      - alias: Records
-        url: git@gsa-gitea:BSS/Records.git
-
       - alias: Scans
         url: git@gsa-gitea:BSS/Scans.git
 
