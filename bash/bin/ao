@@ -253,14 +253,23 @@ if  [[ $# -eq 1 ]]; then
     "Work")
       WORKDIR="$WORKHOME"
 
-      tmux new-session  -d -s "$SESSION"   -c "$WORKDIR" -n 'Coder' 'nvim'
-      tmux split-window -h -t "$SESSION":1 -c "$WORKDIR" 'codex'
+      tmux new-session   -s "$SESSION"   -c "$WORKDIR" -n 'Coder'    -d
+      tmux split-window  -t "$SESSION":1 -h
+      tmux new-window    -t "$SETTION":2 -c "$WORKDIR" -n 'Tester'
+      tmux new-window    -t "$SESSION":3 -c "$WORKDIR" -n 'Notebook' -d
+      tmux new-window    -t "$SESSION":4 -c "$WORKDIR" -n 'vscode'   -d
+      tmux new-window    -t "$SESSION":5 -c "$WORKDIR" -n 'VPN'   -d
 
-      tmux new-window   -d -t "$SESSION":2 -c "$WORKDIR" -n 'Notebook' "$EDITOR $WORKDIR/Wiki/index.md"
-      tmux new-window   -d -t "$SESSION":3 -c "$WORKDIR" -n 'vscode' 'code-insiders .'
+      tmux send-keys     -t "$SESSION":5   "vpnConnect" Enter
+      tmux send-keys     -t "$SESSION":4   "code-insiders ." Enter
+      tmux send-keys     -t "$SESSION":3   "$EDITOR $WORKDIR/Wiki/index.md" Enter
+      tmux send-keys     -t "$SESSION":1.2 "codex" Enter
+      tmux send-keys     -t "$SESSION":1.1 "nvim" Enter
 
-      tmux select-window   -t "$SESSION":1.1
+      tmux select-window -t "$SESSION":1
+      tmux select-pane   -t "$SETTION":1.1
       ;;
+
     # ---------------------------------------------------------------------- }}}
     # {{{ Create YouTube session
 
@@ -281,12 +290,20 @@ if  [[ $# -eq 1 ]]; then
     "Zero")
       WORKDIR="$GITHOME"
 
-      tmux new-session   -s "$SESSION"   -c "$WORKDIR" -n 'Coder' -d
+      tmux new-session   -s "$SESSION"   -c "$WORKDIR" -n 'Coder'    -d
+      tmux split-window  -t "$SESSION":1 -h
       tmux new-window    -t "$SETTION":2 -c "$WORKDIR" -n 'Tester'
       tmux new-window    -t "$SESSION":3 -c "$WORKDIR" -n 'Notebook' -d
-      tmux send-keys     -t "$SESSION":3 "$EDITOR $WIKIHOME/index.md" Enter
+
+      tmux send-keys     -t "$SESSION":3   "$EDITOR $WORKDIR/Wiki/index.md" Enter
+      tmux send-keys     -t "$SESSION":1.2 "codex" Enter
+      tmux send-keys     -t "$SESSION":1.1 "nvim" Enter
 
       tmux select-window -t "$SESSION":1
+      tmux select-pane   -t "$SETTION":1.1
+
+      tmux select-window -t "$SESSION":1
+      tmux select-pane   -t "$SETTION":1.1
       ;;
 
     # ---------------------------------------------------------------------- }}}
