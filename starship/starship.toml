@@ -33,18 +33,21 @@ style = 'bold cyan'
 [git_branch]
 symbol = " "
 format = '\[[$branch$symbol]($style)'
-
 style = "bold purple"
 
 [git_status]
-format = '[$up_to_date$conflicted$diverged$ahead$behind$modified$deleted$untracked$stashed]($style)\]'
+format = '[$up_to_date$ahead$behind$diverged$conflicted$staged$modified$deleted$renamed$typechanged$untracked$stashed]($style)\]'
 style = 'bold cyan'
+
 ahead = '|⇡ ${count}'
 behind = '|⇣ ${count}'
 conflicted = '|'
 deleted = '|🗑 ${count}'
-diverged = '|⇕ ⇡${ahead_count}⇣${behind_count}'
-modified = '| ${count}'
-stashed = '|󰏖 ${count}'
-untracked = '|🤷 ${count}'
+diverged = '|⇕⇡ ${ahead_count}⇣${behind_count}'
 up_to_date = '|'
+modified = '| ${count}'
+renamed = '|» ${count}'
+staged = '| ● ${count}'
+stashed = '|󰏖  ${count}'
+typechanged = '|T ${count}'
+untracked = ' |🤷 ${count}'
