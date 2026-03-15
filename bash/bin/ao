@@ -295,7 +295,7 @@ if  [[ $# -eq 1 ]]; then
       tmux new-window    -t "$SETTION":2 -c "$WORKDIR" -n 'Tester'
       tmux new-window    -t "$SESSION":3 -c "$WORKDIR" -n 'Notebook' -d
 
-      tmux send-keys     -t "$SESSION":3   "$EDITOR $WORKDIR/Wiki/index.md" Enter
+      tmux send-keys     -t "$SESSION":3   "$EDITOR $WORKDIR/wiki/index.md" Enter
       tmux send-keys     -t "$SESSION":1.2 "codex" Enter
       tmux send-keys     -t "$SESSION":1.1 "nvim" Enter
 
