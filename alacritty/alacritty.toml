@@ -53,3 +53,6 @@ opacity = 0.8
 [window.class]
 general = "Alacritty"
 instance = "Alacritty"
+
+[terminal]
+osc52 = "CopyPaste"
