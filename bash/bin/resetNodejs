@@ -1,21 +1,23 @@
 #!/bin/bash
 
 # ------------------------------------------------------------------------------
-# Exit on error
-
-set -e
-
+# Reset Node.js installation
 # ------------------------------------------------------------------------------
 
- echo "**********"
- echo "Removing /usr/lib/node_modules"
- sudo rm -rf /usr/lib/node_modules
+echo "**********"
+echo "Resetting Node.js installation"
+
+if [[ -d /usr/lib/node_modules ]]; then
+  echo "Removing /usr/lib/node_modules"
+  sudo rm -rf /usr/lib/node_modules
+else
+  echo "/usr/lib/node_modules does not exist, skipping"
+fi
 
 # ------------------------------------------------------------------------------
 
 if which apt &> /dev/null; then
-  # Ubuntu
-  curl -fsSL https://deb.nodesource.com/setup_current.x | sudo -E bash -
+  curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
   os_packages=(
     "nodejs"
     "yarn"
@@ -30,30 +32,27 @@ if which apt &> /dev/null; then
 
   echo "**********"
   echo "Ubuntu node install"
-  sudo apt install    -y "${os_packages[@]}"
+  sudo apt install -y "${os_packages[@]}"
 
-else
-  # Arch Linux
+elif which pacman &> /dev/null; then
   os_packages=(
     "nodejs"
     "npm"
-    # "yarn"
     "node-gyp"
-    "nodejs-nopt"
-    "semver"
   )
   node_packages=(
-#    "@angular/cli"
-#    "@nestjs/cli"
     "neovim"
     "pm2"
     "ts-node"
   )
 
- echo "**********"
- echo "Arch Linux nuke all things node"
- sudo pacman -R  --noconfirm "${os_packages[@]}"
- sudo pacman -Sy --noconfirm "${os_packages[@]}"
+  echo "**********"
+  echo "Arch Linux reinstalling node packages"
+  sudo pacman -Syu --noconfirm --needed "${os_packages[@]}"
+
+else
+  echo "No supported package manager found (apt or pacman)"
+  exit 1
 fi
 
 # ------------------------------------------------------------------------------
@@ -61,7 +60,8 @@ fi
 for n in "${node_packages[@]}"; do
   echo "**********"
   echo "sudo npm install -g $n"
-  sudo npm install -g $n
+  sudo npm install -g "$n"
 done
 
-# ------------------------------------------------------------------------------
+echo "**********"
+echo "Done!"
