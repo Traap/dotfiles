@@ -1,7 +1,7 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # ------------------------------------------------------------------------------
-# Reset Node.js installation
+# NodeJs HARD reset.
 # ------------------------------------------------------------------------------
 
 echo "**********"
@@ -16,8 +16,7 @@ fi
 
 # ------------------------------------------------------------------------------
 
-if which apt &> /dev/null; then
-  curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+if command -v apt >/dev/null 2>&1; then
   os_packages=(
     "nodejs"
     "yarn"
@@ -31,10 +30,13 @@ if which apt &> /dev/null; then
   )
 
   echo "**********"
-  echo "Ubuntu node install"
+  echo "Ubuntu installing OS packages"
+
+  curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+  sudo apt update
   sudo apt install -y "${os_packages[@]}"
 
-elif which pacman &> /dev/null; then
+elif command -v pacman >/dev/null 2>&1; then
   os_packages=(
     "nodejs"
     "npm"
@@ -44,7 +46,6 @@ elif which pacman &> /dev/null; then
     "@mermaid-js/mermaid-cli"
     "@openai/codex"
     "neovim"
-    "node-gyp"
     "pm2"
     "semver"
     "ts-node"
@@ -52,7 +53,7 @@ elif which pacman &> /dev/null; then
   )
 
   echo "**********"
-  echo "Arch Linux reinstalling node packages"
+  echo "Arch Linux installing OS packages"
   sudo pacman -Syu --noconfirm --needed "${os_packages[@]}"
 
 else
@@ -62,11 +63,16 @@ fi
 
 # ------------------------------------------------------------------------------
 
-for n in "${node_packages[@]}"; do
-  echo "**********"
-  echo "sudo npm install -g $n"
-  sudo npm install -g "$n"
-done
+echo "**********"
+echo "Reinstalling global node packages"
+
+sudo env "PATH=$PATH" npm install -g "${node_packages[@]}" \
+  && echo "NodeJS packages installed." \
+  || echo "Failed to install NodeJS packages."
+
+echo "**********"
+echo "Installed global packages:"
+sudo env "PATH=$PATH" npm ls -g --depth=0 || true
 
 echo "**********"
 echo "Done!"
