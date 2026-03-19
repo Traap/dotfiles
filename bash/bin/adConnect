@@ -63,8 +63,8 @@ fi
 # =====================================================================
 #  Kerberos login
 # =====================================================================
-info "Running kinit for $AD_USER@$AD_DOMAIN..."
-if kinit "$AD_USER@$AD_DOMAIN"; then
+info "Running kinit for $AD_USER@$AD_REALM..."
+if kinit "$AD_USER@$AD_REALM"; then
     info "Kerberos ticket acquired."
 else
     warn "Kerberos login failed."
@@ -77,13 +77,24 @@ info "Current Kerberos tickets:"
 klist || warn "No active Kerberos tickets."
 
 # =====================================================================
+# Mount network drives
+# =====================================================================
+   echo "Mounting WSL Drives"
+   "$BINHOME"/mountWslDrive i
+   "$BINHOME"/mountWslDrive o
+   "$BINHOME"/mountWslDrive p
+   "$BINHOME"/mountWslDrive s
+   "$BINHOME"/mountWslDrive y
+   "$BINHOME"/mountWslDrive z
+
+# =====================================================================
 # AD identity resolution test
 # =====================================================================
 info "Checking SSSD identity for $WIN_DOMAIN\\$AD_USER..."
 if timeout 3 getent passwd "$WIN_DOMAIN\\$AD_USER" >/dev/null; then
     info "SSSD successfully resolved AD user."
 else
-    warn "SSSD identity lookup failed — may be initializing or offline."
+    warn "SSSD identity lookup failed ΓÇö may be initializing or offline."
 fi
 
 info "adConnect complete."

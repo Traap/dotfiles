@@ -41,9 +41,14 @@ elif which pacman &> /dev/null; then
     "node-gyp"
   )
   node_packages=(
+    "@mermaid-js/mermaid-cli"
+    "@openai/codex"
     "neovim"
+    "node-gyp"
     "pm2"
+    "semver"
     "ts-node"
+    "yarn"
   )
 
   echo "**********"
