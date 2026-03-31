@@ -5,7 +5,7 @@
 # Be absolutely sure that /dev/sda is your USB device and not your system drive.
 # ------------------------------------------------------------------------
 
-DEVICE="/dev/sda"
+DEVICE="/dev/sdb"
 PART="${DEVICE}1"
 LABEL="FastUSB"
 MOUNTPOINT="/mnt/usb"
