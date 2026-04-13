@@ -181,11 +181,11 @@ gitea:
       - alias: P2M
         url: git@gsa-gitea:BSS/P2M.git
 
-      - alias: Presentations
-        url: git@gsa-gitea:BSS/Presentations.git
-
       - alias: Paperboy
         url: git@gsa-gitea:BSS/Paperboy.git
+
+      - alias: Presentations
+        url: git@gsa-gitea:BSS/Presentations.git
 
       - alias: Records
         url: git@gsa-gitea:BSS/Records.git
