@@ -175,6 +175,9 @@ gitea:
       - alias: LeaveOfAbsence
         url: git@gsa-gitea:BSS/LeaveOfAbsence.git
 
+      - alias: loaf
+        url: git@gsa-gitea:BSS/loaf.git
+
       - alias: OversizedScan
         url: git@gsa-gitea:BSS/OversizedScan.git
 
@@ -195,6 +198,9 @@ gitea:
 
       - alias: Stores
         url: git@gsa-gitea:BSS/Stores.git
+
+      - alias: SqlDump
+        url: git@gsa-gitea:BSS/sqldump.git
 
       - alias: VcPrint
         url: git@gsa-gitea:BSS/VcPrint.git
