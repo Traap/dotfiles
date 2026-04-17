@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+package="${1:-@openai/codex}"
+
+sudo env "PATH=$PATH" npm install -g "${package}" \
+  && echo "NodeJS package installed." \
+  || echo "Failed to install NodeJS package."
