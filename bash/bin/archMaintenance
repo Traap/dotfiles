@@ -1,0 +1,264 @@
+#!/usr/bin/env bash
+# archMaintenance
+# {{{ Documentation
+
+# Arch-focused maintenance script:
+#   1. Remove logs older than 3 days
+#   2. Vacuum systemd journal older than 3 days
+#   3. Remove temp/crash files older than 3 days
+#   4. Clean pacman cache with paccache
+#   5. Prune Docker unused data
+#   6. Run Snapper timeline cleanup
+#
+# Notes:
+#   - Dry run supported for file cleanup and paccache listing
+#   - Docker and Snapper "dry run" is limited because those tools do not offer
+#     equally rich dry-run behavior for all prune operations
+#   - Review carefully before first production run
+
+# -------------------------------------------------------------------------- }}}
+# {{{ Global variable declaration.
+
+set -euo pipefail
+
+DAYS=3
+DRYRUN=false
+VERBOSE=false
+WITH_PACCACHE=true
+WITH_DOCKER=true
+WITH_DOCKER_VOLUMES=false
+WITH_SNAPPER=true
+INSTALL_PACMAN_CONTRIB=false
+
+# -------------------------------------------------------------------------- }}}
+# {{{ function: usage
+
+usage() {
+  cat <<'EOF'
+Usage:
+  maintenance-prune-arch [options]
+
+Options:
+  --dry-run       Dry run where supported
+  -v              Verbose
+  -days DAYS      Age threshold in days (default: 3)
+
+  --no-paccache   Skip pacman cache cleanup
+  --no-docker     Skip docker cleanup
+  --docker-volumes
+                  Also prune unused docker volumes
+  --no-snapper    Skip snapper cleanup
+  --install-paccache
+                  Install pacman-contrib if paccache is missing
+  -h, --help      Show help
+EOF
+}
+
+# -------------------------------------------------------------------------- }}}
+# {{{ function: log
+
+log() {
+  printf '%s\n' "$*"
+}
+
+# -------------------------------------------------------------------------- }}}
+# {{{ function: run_cmd
+
+run_cmd() {
+  if $DRYRUN; then
+    printf '[dry-run] %s\n' "$*"
+  else
+    eval "$@"
+  fi
+}
+
+# -------------------------------------------------------------------------- }}}
+# {{{ function: find_delete
+
+find_delete() {
+  local path="$1"
+  shift
+
+  if [[ ! -d "$path" ]]; then
+    $VERBOSE && log "Skipping missing directory: $path"
+    return 0
+  fi
+
+  if $DRYRUN; then
+    log "[dry-run] Candidates in $path older than $DAYS day(s):"
+    find "$path" -xdev "$@" -mtime +"$DAYS" -print
+  else
+    $VERBOSE && log "Deleting from $path older than $DAYS day(s)"
+    find "$path" -xdev "$@" -mtime +"$DAYS" -print -delete
+  fi
+}
+
+# -------------------------------------------------------------------------- }}}
+# {{{ Argument validation
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --dry-run)
+      DRYRUN=true
+      shift
+      ;;
+    -v|--verbose)
+      VERBOSE=true
+      shift
+      ;;
+    --days)
+      DAYS="${2:-}"
+      shift 2
+      ;;
+    --no-paccache)
+      WITH_PACCACHE=false
+      shift
+      ;;
+    --no-docker)
+      WITH_DOCKER=false
+      shift
+      ;;
+    --docker-volumes)
+      WITH_DOCKER_VOLUMES=true
+      shift
+      ;;
+    --no-snapper)
+      WITH_SNAPPER=false
+      shift
+      ;;
+    --install-paccache)
+      INSTALL_PACMAN_CONTRIB=true
+      shift
+      ;;
+    -h|--help)
+      usage
+      exit 0
+      ;;
+    *)
+      log "Unknown option: $1"
+      usage
+      exit 1
+      ;;
+  esac
+done
+
+if ! [[ "$DAYS" =~ ^[0-9]+$ ]]; then
+  log "DAYS must be an integer."
+  exit 1
+fi
+
+if [[ "${EUID:-$(id -u)}" -ne 0 ]]; then
+  log "Please run as root:"
+  log "  sudo $0"
+  exit 1
+fi
+
+# -------------------------------------------------------------------------- }}}
+# {{{ Cleanup started
+
+log "Starting maintenance prune with threshold: $DAYS day(s)"
+
+# -------------------------------------------------------------------------- }}}
+# {{{ 1. Traditional logs older than N days
+
+find_delete /var/log -type f \( -name '*.log' -o -name '*.log.*' -o -name '*.gz' -o -name '*.old' \)
+
+# -------------------------------------------------------------------------- }}}
+# {{{ 2. systemd journal older than N days
+
+if command -v journalctl >/dev/null 2>&1; then
+  run_cmd "journalctl --vacuum-time=${DAYS}d"
+else
+  log "journalctl not found; skipping journal cleanup."
+fi
+
+# -------------------------------------------------------------------------- }}}
+# {{{ 3. Other temporary/crash data older than N days
+
+find_delete /tmp -mindepth 1
+find_delete /var/tmp -mindepth 1
+find_delete /var/crash -type f
+find_delete /var/lib/systemd/coredump -type f
+
+# -------------------------------------------------------------------------- }}}
+# {{{ 4. Pacman cache cleanup via paccache
+
+if $WITH_PACCACHE; then
+  if ! command -v paccache >/dev/null 2>&1; then
+    if $INSTALL_PACMAN_CONTRIB; then
+      if $DRYRUN; then
+        log "[dry-run] Would install pacman-contrib to provide paccache"
+      else
+        log "Installing pacman-contrib to provide paccache"
+        pacman -Sy --noconfirm pacman-contrib
+      fi
+    else
+      log "paccache not found. Install it with:"
+      log "  sudo pacman -Sy pacman-contrib"
+      log "Or rerun this script with: --install-paccache"
+    fi
+  fi
+
+  if command -v paccache >/dev/null 2>&1; then
+    # Keep packages newer than 3 days untouched, and also keep 2 versions.
+    # This is intentionally conservative.
+    if $DRYRUN; then
+      log "[dry-run] paccache candidates:"
+      paccache -dvk2
+    else
+      log "Running paccache cleanup"
+      paccache -rk2
+    fi
+  fi
+fi
+
+# -------------------------------------------------------------------------- }}}
+# {{{ 5. Docker cleanup
+
+if $WITH_DOCKER; then
+  if command -v docker >/dev/null 2>&1; then
+    if $DRYRUN; then
+      log "[dry-run] Docker disk usage before prune:"
+      docker system df || true
+
+      log "[dry-run] Would run: docker system prune -af"
+      if $WITH_DOCKER_VOLUMES; then
+        log "[dry-run] Would run: docker system prune -af --volumes"
+      fi
+    else
+      log "Running docker prune"
+      if $WITH_DOCKER_VOLUMES; then
+        docker system prune -af --volumes
+      else
+        docker system prune -af
+      fi
+    fi
+  else
+    $VERBOSE && log "docker not installed; skipping docker cleanup."
+  fi
+fi
+
+# -------------------------------------------------------------------------- }}}
+# {{{ 6. Snapper cleanup
+
+if $WITH_SNAPPER; then
+  if command -v snapper >/dev/null 2>&1; then
+    if $DRYRUN; then
+      log "[dry-run] Current snapper snapshots:"
+      snapper list || true
+      log "[dry-run] Would run: snapper cleanup timeline"
+    else
+      log "Running snapper timeline cleanup"
+      snapper cleanup timeline
+    fi
+  else
+    $VERBOSE && log "snapper not installed; skipping snapper cleanup."
+  fi
+fi
+
+# -------------------------------------------------------------------------- }}}
+# {{{ Cleanup done
+
+log "Maintenance prune complete."
+
+# -------------------------------------------------------------------------- }}}
