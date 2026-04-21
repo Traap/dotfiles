@@ -4,6 +4,11 @@
 set -o vi
 
 # -------------------------------------------------------------------------- }}}
+# {{{ sudo - reset terminal state before sudo
+
+alias sudo='stty sane 2>/dev/null; sudo'
+
+# -------------------------------------------------------------------------- }}}
 # {{{ latexrun is defined when present.
 
 if fileExists "$GITHOME"/latexrun/latexrun; then
