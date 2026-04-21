@@ -1,0 +1,51 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+dryrun=false
+
+# Parse arguments
+for arg in "$@"; do
+  case "$arg" in
+    --dry-run|-n)
+      dryrun=true
+      ;;
+    *)
+      echo "Unknown option: $arg"
+      exit 1
+      ;;
+  esac
+done
+
+# Get current snapshot number
+current=$(snapper list | awk '$3 == "current" {print $1}')
+
+if [[ -z "$current" ]]; then
+  echo "Error: Could not determine current snapshot."
+  exit 1
+fi
+
+echo "Current snapshot: $current"
+
+# Get all snapshot IDs except current
+snapshots=$(snapper list | awk -v cur="$current" 'NR > 2 && $1 != cur {print $1}')
+
+if [[ -z "$snapshots" ]]; then
+  echo "No snapshots to delete."
+  exit 0
+fi
+
+echo "Snapshots to delete:"
+echo "$snapshots"
+
+if [[ "$dryrun" == true ]]; then
+  echo
+  echo "Dry run enabled. No snapshots will be deleted."
+  echo "Command would be:"
+  echo "sudo snapper delete $snapshots"
+else
+  echo
+  echo "Deleting snapshots..."
+  sudo snapper delete $snapshots
+  echo "Done."
+fi
