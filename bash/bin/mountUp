@@ -1,10 +1,7 @@
 #!/usr/bin/env bash
 # mountUp
-# Toggle CIFS mount state for network shares (I: and H:)
-# Requires: Kerberos ticket, cifs-utils
-
-H_SHARE="/mnt/h"
-I_SHARE="/mnt/i"
+# Toggle CIFS mount state for a network share mounted at /mnt/<drive-letter>
+# Requires: Kerberos ticket, cifs-utils, and an /etc/fstab entry for the mountpoint
 
 # Detect current user's UID and GID so mounts are writable
 MYUID=$(id -u)
@@ -59,28 +56,15 @@ toggle_share() {
   fi
 }
 
-case "$1" in
-  i)
-    toggle_share "$I_SHARE"
-    ;;
-  h)
-    toggle_share "$H_SHARE"
-    ;;
-  all)
-    toggle_share "$I_SHARE"
-    toggle_share "$H_SHARE"
-    ;;
-  status)
-    echo "I: $(mount | grep /mnt/i >/dev/null && echo 'mounted' || echo 'not mounted')"
-    echo "H: $(mount | grep /mnt/h >/dev/null && echo 'mounted' || echo 'not mounted')"
-    ;;
-  *)
-    echo "Usage: gsa-toggle {i|h|all|status}"
-    echo
-    echo "  i       Toggle /mnt/i"
-    echo "  h       Toggle /mnt/h"
-    echo "  all     Toggle both"
-    echo "  status  Show mount state"
-    exit 1
-    ;;
-esac
+if [[ $# -ne 1 || ! $1 =~ ^[[:alpha:]]$ ]]; then
+  echo "Usage: mountUp [drive-letter]"
+  echo
+  echo "  mountUp i    Toggle /mnt/i"
+  echo "  mountUp h    Toggle /mnt/h"
+  echo
+  echo "Corresponding CIFS definition in /ets/fstab is required!"
+  exit 1
+fi
+
+drive=${1,,}
+toggle_share "/mnt/${drive}"
