@@ -340,7 +340,7 @@ pdf() {
 }
 
 # -------------------------------------------------------------------------- }}}
-# {{{ Archvie extractor
+# {{{ Archive extractor
 
 # ex = EXtractor for all kinds of archives
 # usage: ex <file>
@@ -367,6 +367,22 @@ ex() {
 	else
 		echo "'$1' is not a valid file"
 	fi
+}
+
+# -------------------------------------------------------------------------- }}}
+# {{{ Distinguish Bare Metal vs WSL vs VM
+
+is_vm() {
+  systemd-detect-virt --quiet
+}
+
+is_wsl() {
+  [[ -n "${WSL_DISTRO_NAME:-}" ]] && return 0
+  grep -qiE "(microsoft|wsl)" /proc/sys/kernel/osrelease 2>/dev/null
+}
+
+is_bare_metal() {
+  ! is_wsl && ! is_vm
 }
 
 # -------------------------------------------------------------------------- }}}
