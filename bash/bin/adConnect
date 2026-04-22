@@ -79,13 +79,21 @@ klist || warn "No active Kerberos tickets."
 # =====================================================================
 # Mount network drives
 # =====================================================================
-   echo "Mounting WSL Drives"
-   "$BINHOME"/mountWslDrive i
-   "$BINHOME"/mountWslDrive o
-   "$BINHOME"/mountWslDrive p
-   "$BINHOME"/mountWslDrive s
-   "$BINHOME"/mountWslDrive y
-   "$BINHOME"/mountWslDrive z
+
+if is_wsl; then
+  echo "Mounting WSL Drives"
+  "$BINHOME"/mountWslDrive i
+  "$BINHOME"/mountWslDrive o
+  "$BINHOME"/mountWslDrive p
+  "$BINHOME"/mountWslDrive s
+  "$BINHOME"/mountWslDrive y
+  "$BINHOME"/mountWslDrive z
+else
+  "$BINHOME"/mountUp i
+  "$BINHOME"/mountUp o
+  "$BINHOME"/mountUp p
+  "$BINHOME"/mountUp s
+fi
 
 # =====================================================================
 # AD identity resolution test
