@@ -254,7 +254,7 @@ if  [[ $# -eq 1 ]]; then
       WORKDIR="$WORKHOME"
 
       tmux new-session   -s "$SESSION"   -c "$WORKDIR" -n 'Coder'    -d
-      tmux split-window  -t "$SESSION":1 -h
+      tmux split-window  -t "$SESSION":1 -c "$WORKDIR" -h
       tmux new-window    -t "$SETTION":2 -c "$WORKDIR" -n 'Tester'
       tmux new-window    -t "$SESSION":3 -c "$WORKDIR" -n 'Notebook' -d
       tmux new-window    -t "$SESSION":4 -c "$WORKDIR" -n 'vscode'   -d
@@ -291,7 +291,7 @@ if  [[ $# -eq 1 ]]; then
       WORKDIR="$GITHOME"
 
       tmux new-session   -s "$SESSION"   -c "$WORKDIR" -n 'Coder'    -d
-      tmux split-window  -t "$SESSION":1 -h
+      tmux split-window  -t "$SESSION":1 -c "$WORKDIR" -h
       tmux new-window    -t "$SETTION":2 -c "$WORKDIR" -n 'Tester'
       tmux new-window    -t "$SESSION":3 -c "$WORKDIR" -n 'Notebook' -d
 
