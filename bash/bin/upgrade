@@ -1,6 +1,8 @@
 #!/bin/bash
 # {{{ function: Update system-wide Ruby gems using gem.
 
+BINHOME="${BINHOME:-$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)}"
+
 updateRubyGems() {
   sayAndDo "gem update --system --no-document"
 }
@@ -30,15 +32,15 @@ updatePython() {
 # -------------------------------------------------------------------------- }}}
 # {{{ function: Update operating system packages useing apt-get or yay.
 upgrade() {
-  if programExists apt-get; then
+  if "$BINHOME"/programExists apt-get; then
 
     sayAndDo "sudo apt-get -y upgrade"
     sayAndDo "sudo apt-get -y update"
     sayAndDo "sudo npm install --global"
 
-  elif programExists pacman; then
+  elif "$BINHOME"/programExists pacman; then
     # Use all cores.
-    if fileExists ~/.bin/main/000*; then
+    if "$BINHOME"/fileExists ~/.bin/main/000*; then
       sh ~/.bin/main/000*
     fi
 

@@ -1,6 +1,4 @@
-#!/bin/sh
-# ------------------------------------------------------------------------------
+#!/bin/bash
 # A check for the existence of a file.  Report error when files does not exist.
-# ------------------------------------------------------------------------------
-fileExists "$@" || echo "Error: file $@ does not exist."
-# ------------------------------------------------------------------------------
+BINHOME="${BINHOME:-$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)}"
+"$BINHOME"/fileExists "$@" || echo "Error: file $@ does not exist."

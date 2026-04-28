@@ -32,52 +32,10 @@ if [[ useBase16 == true ]]; then
 fi
 
 # -------------------------------------------------------------------------- }}}
-# {{{ A check for the existence of a directory.
-
-dirExists() {
-  [[ -d "$1" ]]
-}
-
-# -------------------------------------------------------------------------- }}}
-# {{{ A check for the existence of a file.
-
-fileExists() {
-  [[ -f "$1" ]]
-}
-
-# -------------------------------------------------------------------------- }}}
-# {{{ A check for the host name.
-
-hostName() {
- [[ ${HOSTNAME} =~ "$1" ]]
-}
-
-# -------------------------------------------------------------------------- }}}
-# {{{ A check for the existence of a program on my path.
-
-programExists() {
-  which "$1" &> /dev/null ;
-}
-
-# -------------------------------------------------------------------------- }}}
-# {{{ A check for the operating system type.
-
-osType() {
- [[ ${OSTYPE} =~ "$1" ]]
-}
-
-# -------------------------------------------------------------------------- }}}
-# {{{ A check for the operating system name.
-
-osName() {
-  [[ (! -z "$(which lsb_release 2>/dev/null)") && (! -z "$(lsb_release -i | rg "$1" -c)") ]]
-}
-
-# -------------------------------------------------------------------------- }}}
 # {{{ Append to PATH
 
 appendToPath() {
-  if dirExists "$1"; then
+  if [[ -d "$1" ]]; then
     if [[ -n $PATH ]]; then
       [[ ":$PATH:" != *"$1"* ]] && export PATH="${PATH}:$1"
     else
@@ -90,7 +48,7 @@ appendToPath() {
 # {{{ Prepend to PATH
 
 prependToPath() {
-  if dirExists "$1"; then
+  if [[ -d "$1" ]]; then
     if [[ -n $PATH ]]; then
       [[ ":$PATH:" != *"$1"* ]] && export PATH="$1"
     else
@@ -103,7 +61,7 @@ prependToPath() {
 # {{{ Append to INFOPATH
 
 appendToInfoPath() {
-  if dirExists "$1"; then
+  if [[ -d "$1" ]]; then
     if [[ -n $INFOPATH ]]; then
       [[ ":$INFOPATH:" != *"$1"* ]] && export INFOPATH="${INFOPATH}:$1"
     else
@@ -116,7 +74,7 @@ appendToInfoPath() {
 # {{{ Append to MANPATH
 
 appendToManPath() {
-  if dirExists "$1"; then
+  if [[ -d "$1" ]]; then
     if [[ -n $MANPATH  ]]; then
       [[ ":$MANPATH:" != *"$1"* ]] && export MANPATH="${MANPATH}:$1"
     else
@@ -128,7 +86,7 @@ appendToManPath() {
 # -------------------------------------------------------------------------- }}}
 # {{{ Disable features / programs running on OSX.
 
-if osType "darwin"; then
+if [[ ${OSTYPE} =~ "darwin" ]]; then
   msa() { Launchctl remove com.microsoft.SyncServicesAgent ; }
   pah() { defaults write -g ApplePressAndHoldEnable -bool false ; }
 fi
@@ -142,7 +100,7 @@ title() { echo -n -e "\033]0;$1\007"; }
 # {{{ kill latexmk processes
 
 latexmkkill() {
-  if osType "msys"; then
+  if "$BINHOME"/osType "msys"; then
     for pid in $(ps aux | awk '/latexmk/ {print $1}'); do kill -9 $pid; done
     for pid in $(ps aux | awk '/perl/    {print $1}'); do kill -9 $pid; done
   else
@@ -368,21 +326,3 @@ ex() {
 		echo "'$1' is not a valid file"
 	fi
 }
-
-# -------------------------------------------------------------------------- }}}
-# {{{ Distinguish Bare Metal vs WSL vs VM
-
-is_vm() {
-  systemd-detect-virt --quiet
-}
-
-is_wsl() {
-  [[ -n "${WSL_DISTRO_NAME:-}" ]] && return 0
-  grep -qiE "(microsoft|wsl)" /proc/sys/kernel/osrelease 2>/dev/null
-}
-
-is_bare_metal() {
-  ! is_wsl && ! is_vm
-}
-
-# -------------------------------------------------------------------------- }}}

@@ -11,21 +11,21 @@ alias sudo='stty sane 2>/dev/null; sudo'
 # -------------------------------------------------------------------------- }}}
 # {{{ latexrun is defined when present.
 
-if fileExists "$GITHOME"/latexrun/latexrun; then
+if "$BINHOME"/fileExists "$GITHOME"/latexrun/latexrun; then
 	alias latexrun='$GITHOME/latex/latexrun/latexrun'
 fi
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Tmux setup.
 
-if fileExists /usr/bin/tmux; then
+if "$BINHOME"/fileExists /usr/bin/tmux; then
 	alias tmux='tmux -2'
 fi
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Use bat and exa when they are installed.
 
-if osType "msys"; then
+if "$BINHOME"/osType "msys"; then
 	alias cat='bat -p'
   if command -v eza >/dev/null 2>&1; then
     alias ls='eza'
@@ -34,7 +34,7 @@ if osType "msys"; then
   fi
 
 else
-  if osName "Ubuntu"; then
+  if "$BINHOME"/osName "Ubuntu"; then
 	  [ -f /usr/bin/batcat ] && alias cat='batcat -p'
   else
 	  [ -f /usr/bin/bat ] && alias cat='bat -p'
@@ -148,7 +148,7 @@ alias gd='cd $GITHOME'
 alias hh='cd $GITHOME/HowardHouse'
 alias ic='cd $HOME/img-clip'
 
-if osType "msys"; then
+if "$BINHOME"/osType "msys"; then
   alias nd='cd $LOCALAPPDATA/nvim'
 else
   alias nd='cd $GITHOME/nvim.traap'
@@ -191,7 +191,7 @@ alias bls="betterlockscreen -u /usr/share/backgrounds/arcolinux/"
 # -------------------------------------------------------------------------- }}}
 # {{{ Brew wants me to own usr/local
 
-if osType "darwin"; then
+if "$BINHOME"/osType "darwin"; then
 	alias ulo='sudo chown -R $(whoami) /usr/local'
 fi
 
@@ -240,8 +240,8 @@ alias jctl="journalctl -p 3 -xb"
 # -------------------------------------------------------------------------- }}}
 # {{{ Perforce defaults.
 
-if osType "linux"; then
-	if hostName "Ryder"; then
+if "$BINHOME"/osType "linux"; then
+		if "$BINHOME"/hostName "Ryder"; then
 		alias p4='${P4DISK}/2013.1/p4'
 		alias p4d='${P4DISK}/2013.1/p4d'
 	fi

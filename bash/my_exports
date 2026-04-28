@@ -5,13 +5,13 @@ echoWarning=0
 # {{{ Default BROWSER
 
 if [[ -z $WSL_DISTRO_NAME ]]; then
-  if programExists brave-browser; then
+  if "$BINHOME"/programExists brave-browser; then
     BROWSER=$(which brave-browser)
-  elif programExists brave; then
+  elif "$BINHOME"/programExists brave; then
     BROWSER=$(which brave)
-  elif programExists chrome; then
+  elif "$BINHOME"/programExists chrome; then
     BROWSER=$(which chrome)
-  elif programExists firefox; then
+  elif "$BINHOME"/programExists firefox; then
     BROWSER=$(which firefox)
   else
     BROWSER=""
@@ -26,10 +26,10 @@ export BROWSER
 # -------------------------------------------------------------------------- }}}
 # {{{ TUI file manager
 
-if programExists yazi; then
+if "$BINHOME"/programExists yazi; then
   FILE=$(which yazi)
 fi
-  if ! osType "msys"; then
+  if ! "$BINHOME"/osType "msys"; then
     TERMINAL=""
     [[ $echoWarning == 1 ]] && echo "WARNING: yazi"
   fi
@@ -38,14 +38,14 @@ export FILE
 # -------------------------------------------------------------------------- }}}
 # {{{ TERMINAL
 
-if programExists ghostty; then
+if "$BINHOME"/programExists ghostty; then
   TERMINAL=$(which ghostty)
-elif programExists alacritty; then
+elif "$BINHOME"/programExists alacritty; then
   TERMINAL=$(which alacritty)
-elif programExists kitty; then
+elif "$BINHOME"/programExists kitty; then
   TERMINAL=$(which kitty)
 else
-  if ! osType "msys"; then
+  if ! "$BINHOME"/osType "msys"; then
     TERMINAL=""
     [[ $echoWarning == 1 ]] && echo "WARNING: alacritty, ghostty or kitty are not installed."
   fi
@@ -55,7 +55,7 @@ export TERMINAL
 # -------------------------------------------------------------------------- }}}
 # {{{ Darwin CLI and LS colors.
 
-if osType "darwin"; then
+if "$BINHOME"/osType "darwin"; then
   export CLICOLOR=1
   export LSCOLORS=GxFxBxDxCxegedabagacad
 fi
@@ -63,7 +63,7 @@ fi
 # -------------------------------------------------------------------------- }}}
 # {{{ amber location.
 
-if dirExists ${SOUPHOME}/amber; then
+if "$BINHOME"/dirExists ${SOUPHOME}/amber; then
    AMBERPATH=${SOUPHOME}/amber
 else
   AMBERPATH=""
@@ -80,7 +80,7 @@ fi
 # -------------------------------------------------------------------------- }}}
 # {{{ autodoc location.
 
-if  dirExists ${SOUPHOME}/autodoc; then
+if  "$BINHOME"/dirExists ${SOUPHOME}/autodoc; then
   AUTODOCPATH=${SOUPHOME}/autodoc
 else
   [[ $echoWarning == 1 ]] && echo "WARNING: autodoc is not installed."
@@ -91,7 +91,7 @@ export AUTODOCPATH
 # -------------------------------------------------------------------------- }}}
 # {{{ docbld location and function.  These must go together.
 
-if dirExists ${SOUPHOME}/docbld; then
+if "$BINHOME"/dirExists ${SOUPHOME}/docbld; then
   DOCBLDPATH=${SOUPHOME}/docbld
 else
   [[ $echoWarning == 1 ]] && echo "WARNING: docbld is not installed."
@@ -102,7 +102,7 @@ export DOCBLDPATH
 # -------------------------------------------------------------------------- }}}
 # {{{ dotnet
 
-if dirExists ${HOME}/.dotnet; then
+if "$BINHOME"/dirExists ${HOME}/.dotnet; then
   DOTNET_ROOT=${HOME}/.dotnet
   export PATH=$PATH:$DOTNET_ROOT:$DOTNET_ROOT/tools
 else
@@ -113,7 +113,7 @@ export DOTNET_ROOT
 # -------------------------------------------------------------------------- }}}
 # {{{ emend location.
 
-if dirExists ${SOUPHOME}/emend; then
+if "$BINHOME"/dirExists ${SOUPHOME}/emend; then
    EMENDPATH=${SOUPHOME}/emend
 else
   EMENDPATH=""
@@ -131,9 +131,9 @@ fi
 # {{{ Editor.
 
 export MANWIDTH=76
-if programExists nvim; then
+if "$BINHOME"/programExists nvim; then
   EDITOR=$(which nvim)
-elif programExists vim; then
+elif "$BINHOME"/programExists vim; then
   EDITOR=$(which vim)
 else
   EDITOR=""
@@ -144,9 +144,9 @@ export EDITOR
 # -------------------------------------------------------------------------- }}}
 # {{{ File manager
 
-if programExists nautilus; then
+if "$BINHOME"/programExists nautilus; then
   FILEMANAGER=$(which nautilus)
-elif programExists thunar; then
+elif "$BINHOME"/programExists thunar; then
   FILEMANAGER=$(which thunar)
 else
   FILEMANAGER=""
@@ -176,7 +176,7 @@ export HISTCONTROL=ignoreboth:erasedups
 # -------------------------------------------------------------------------- }}}
 # {{{ JAVA locations.
 
-if dirExists ${HOME}/build/lclasses/main; then
+if "$BINHOME"/dirExists ${HOME}/build/lclasses/main; then
   CLASSPATH=build/classes/main:build/classes/test
   export CLASSPATH
 fi
@@ -184,7 +184,7 @@ fi
 # -------------------------------------------------------------------------- }}}
 # {{{ newdoc location and functions.  These must go together.
 
-if dirExists ${SOUPHOME}/newdoc; then
+if "$BINHOME"/dirExists ${SOUPHOME}/newdoc; then
    NEWDOCPATH=${SOUPHOME}/newdoc
 else
    [[ $echoWarning == 1 ]] && echo "WARNING: newdoc is not installed."

@@ -1,0 +1,4 @@
+#!/bin/bash
+# A check for Windows Subsystem for Linux.
+[[ -n "${WSL_DISTRO_NAME:-}" ]] && exit 0
+grep -qiE "(microsoft|wsl)" /proc/sys/kernel/osrelease 2>/dev/null

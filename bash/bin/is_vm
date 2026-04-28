@@ -1,0 +1,3 @@
+#!/bin/bash
+# A check for virtualized environments.
+systemd-detect-virt --quiet

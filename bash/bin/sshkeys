@@ -1,43 +1,64 @@
 #!/bin/bash
 
 sshkeys() {
-  local agentName agentCheck=1 cmpTo
+  local agentName agentOutput key nullglobWasSet
   local AGENT_ENV_FILE="${HOME}/.ssh/agent_env"
 
   case "$OSTYPE" in
-    msys*)   agentName="/usr/bin/ssh-agent"; cmpTo=0 ;;
-    linux*)  agentName="ssh-agent";          cmpTo=1 ;;
+    msys*)   agentName="/usr/bin/ssh-agent" ;;
+    linux*)  agentName="ssh-agent" ;;
     *)       echo "Unsupported OS: $OSTYPE"; return 1 ;;
   esac
+
+  if ! command -v "$agentName" >/dev/null 2>&1; then
+    echo "ERROR: $agentName is not installed or not on PATH."
+    return 1
+  fi
 
   # Load existing agent vars if the file exists
   if [[ -f "$AGENT_ENV_FILE" ]]; then
     source "$AGENT_ENV_FILE" > /dev/null
 
     # Check if agent is alive and socket exists
-    if ! kill -0 "$SSH_AGENT_PID" 2>/dev/null || [[ ! -S "$SSH_AUTH_SOCK" ]]; then
+    if [[ -z "${SSH_AGENT_PID:-}" || -z "${SSH_AUTH_SOCK:-}" ]] ||
+       ! kill -0 "$SSH_AGENT_PID" 2>/dev/null ||
+       [[ ! -S "$SSH_AUTH_SOCK" ]]; then
       rm -f "$AGENT_ENV_FILE"
       unset SSH_AGENT_PID SSH_AUTH_SOCK
     fi
   fi
 
   # Start a new agent if necessary
-  if [[ -z "$SSH_AGENT_PID" || -z "$SSH_AUTH_SOCK" ]]; then
-    eval "$(ssh-agent -s)" > /dev/null
-    echo "export SSH_AUTH_SOCK=$SSH_AUTH_SOCK" > "$AGENT_ENV_FILE"
-    echo "export SSH_AGENT_PID=$SSH_AGENT_PID" >> "$AGENT_ENV_FILE"
+  if [[ -z "${SSH_AGENT_PID:-}" || -z "${SSH_AUTH_SOCK:-}" ]]; then
+    if ! agentOutput=$("$agentName" -s); then
+      unset SSH_AGENT_PID SSH_AUTH_SOCK
+      rm -f "$AGENT_ENV_FILE"
+      echo "ERROR: $agentName failed to start."
+      return 1
+    fi
+
+    eval "$agentOutput" > /dev/null
+
+    if [[ -z "${SSH_AGENT_PID:-}" || -z "${SSH_AUTH_SOCK:-}" || ! -S "$SSH_AUTH_SOCK" ]]; then
+      unset SSH_AGENT_PID SSH_AUTH_SOCK
+      rm -f "$AGENT_ENV_FILE"
+      echo "ERROR: $agentName did not provide a usable agent socket."
+      return 1
+    fi
+
+    mkdir -p "$(dirname "$AGENT_ENV_FILE")"
+    printf 'export SSH_AUTH_SOCK=%q\n' "$SSH_AUTH_SOCK" > "$AGENT_ENV_FILE"
+    printf 'export SSH_AGENT_PID=%q\n' "$SSH_AGENT_PID" >> "$AGENT_ENV_FILE"
 
     # Add keys only when a new agent is started
     if [[ -d $SSHHOME ]]; then
+      shopt -q nullglob && nullglobWasSet=true || nullglobWasSet=false
+      shopt -s nullglob
       for key in "$SSHHOME"/*.pub; do
-        if [[ ! -f "$key" ]]; then
-          echo "ERROR: $SSHHOME does not have any public keys."
-          continue
-        else
-          echo "ssh-add: ${key%.*}"
-          ssh-add "${key%.*}" 2>/dev/null
-        fi
+        echo "ssh-add: ${key%.*}"
+        ssh-add "${key%.*}" 2>/dev/null
       done
+      [[ $nullglobWasSet == true ]] || shopt -u nullglob
     else
       echo "ERROR: SSHHOME is not defined or not a directory."
     fi

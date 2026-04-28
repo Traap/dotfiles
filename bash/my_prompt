@@ -15,7 +15,7 @@ prompt() {
 if [[ ${OSTYPE} =~ "linux" ]] ||
 	[[ ${OSTYPE} =~ "cygwin" ]] ||
 	[[ ${OSTYPE} =~ "msys" ]]; then
-	if fileExists "$HOME"/.bash-git-prompt/gitprompt.sh; then
+	if "$BINHOME"/fileExists "$HOME"/.bash-git-prompt/gitprompt.sh; then
 		prompt
 		source "$HOME"/.bash-git-prompt/gitprompt.sh
 	fi

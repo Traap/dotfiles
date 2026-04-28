@@ -1,0 +1,4 @@
+#!/bin/bash
+# A check for bare metal environments.
+BINHOME="${BINHOME:-$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)}"
+! "$BINHOME"/is_wsl && ! "$BINHOME"/is_vm

@@ -1,0 +1,3 @@
+#!/bin/bash
+# A check for the existence of a directory.
+[[ -d "$1" ]]
