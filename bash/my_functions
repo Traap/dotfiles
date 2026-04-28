@@ -70,7 +70,7 @@ osType() {
 # {{{ A check for the operating system name.
 
 osName() {
-  [[ (! -z "$(which lbs_relese 2>/dev/null)") && (! -z "$(lsb_release -i | rg "$1" -c)") ]]
+  [[ (! -z "$(which lsb_release 2>/dev/null)") && (! -z "$(lsb_release -i | rg "$1" -c)") ]]
 }
 
 # -------------------------------------------------------------------------- }}}

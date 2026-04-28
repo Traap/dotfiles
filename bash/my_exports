@@ -134,7 +134,7 @@ export MANWIDTH=76
 if programExists nvim; then
   EDITOR=$(which nvim)
 elif programExists vim; then
-  EDITOR=$(which nvim)
+  EDITOR=$(which vim)
 else
   EDITOR=""
   [[ $echoWarning == 1 ]] && echo "WARNING: vim or nvim are not installed."
