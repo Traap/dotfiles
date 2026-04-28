@@ -82,15 +82,7 @@ klist || warn "No active Kerberos tickets."
 # Mount network drives
 # =====================================================================
 
-if "$BINHOME"/is_wsl; then
-  if "$BINHOME"/hostName "GSA-AXA98M"; then
-    echo "Mounting WSL Drives"
-    "$BINHOME"/mountWslDrive i
-    "$BINHOME"/mountWslDrive h
-    "$BINHOME"/mountWslDrive o
-    "$BINHOME"/mountWslDrive s
-  fi
-else
+if "$BINHOME"/is_bare_metal; then
   if "$BINHOME"/hostName "GSA-M98AXA"; then
     "$BINHOME"/mountUp i
     "$BINHOME"/mountUp h
