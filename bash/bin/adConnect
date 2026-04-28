@@ -94,11 +94,39 @@ fi
 # =====================================================================
 # AD identity resolution test
 # =====================================================================
-info "Checking SSSD identity for $WIN_DOMAIN\\$AD_USER..."
-if timeout 3 getent passwd "$WIN_DOMAIN\\$AD_USER" >/dev/null; then
-    info "SSSD successfully resolved AD user."
+if ! awk '
+    $1 == "passwd:" {
+        for (i = 2; i <= NF; i++) {
+            if ($i == "sss") {
+                found = 1
+            }
+        }
+    }
+    END { exit found ? 0 : 1 }
+' /etc/nsswitch.conf; then
+    warn "NSS passwd lookups do not include sss; getent cannot query SSSD."
+    warn "Add sss to the passwd/group lines in /etc/nsswitch.conf, then restart SSSD."
 else
-    warn "SSSD identity lookup failed ΓÇö may be initializing or offline."
+    info "Checking SSSD identity for $AD_USER..."
+    sssd_identity_found=false
+    sssd_identity_candidates=(
+        "$WIN_DOMAIN\\$AD_USER"
+        "$AD_USER@$AD_LOWER"
+        "$AD_USER"
+    )
+
+    for sssd_identity in "${sssd_identity_candidates[@]}"; do
+        if timeout 5 getent passwd "$sssd_identity" >/dev/null 2>&1; then
+            info "SSSD successfully resolved AD user as $sssd_identity."
+            sssd_identity_found=true
+            break
+        fi
+    done
+
+    if ! $sssd_identity_found; then
+        warn "SSSD identity lookup failed; tried: ${sssd_identity_candidates[*]}"
+        warn "SSSD may still be initializing, offline, or configured for a different name format."
+    fi
 fi
 
 info "adConnect complete."
