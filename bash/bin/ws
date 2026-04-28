@@ -1,2 +1,5 @@
 #!/bin/bash
+# Word search.
+# 1. Find a word in files.
+# 2. Count the work in files.
 clear && rg -i -e "$1" && rg -i -e "$1" -c

@@ -1,6 +1,4 @@
 #!/bin/bash
-# ------------------------------------------------------------------------------
 # Start lightdm (display manager)
-# ------------------------------------------------------------------------------
 sudo systemctl disable lightdm
 sudo systemctl stop    lightdm

@@ -1,8 +1,5 @@
 #!/bin/bash
-# ------------------------------------------------------------------------------
 # Symlinks I use alot from Xwindows
-# ------------------------------------------------------------------------------
 ln -fsv ~/git/dotfiles/profile      ~/.profile
 ln -fsv ~/git/dotfiles/xinitrc      ~/.xinitrc
 ln -fsv ~/git/dotfiles/xprofile     ~/.xprofile
-# ------------------------------------------------------------------------------

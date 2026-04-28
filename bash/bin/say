@@ -1,5 +1,5 @@
 #!/bin/bash
-# {{{ Tell them what is about to happen.
+# Tell them what is about to happen.
 # Arguments:
 #   1 - the message.
 
@@ -8,5 +8,4 @@ say() {
   echo "${1}"
 }
 
-# -------------------------------------------------------------------------- }}}
 say "$@"

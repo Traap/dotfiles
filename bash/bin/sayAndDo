@@ -1,5 +1,5 @@
 #!/bin/bash
-# {{{ Say and Do the command provided.
+# Say and Do the command provided.
 # Arguments:
 #   1 - the command provided.
 
@@ -9,5 +9,4 @@ sayAndDo() {
   echo
 }
 
-# -------------------------------------------------------------------------- }}}
 sayAndDo "$@"
