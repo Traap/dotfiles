@@ -15,6 +15,8 @@ info()  { green  "[INFO]  $*"; }
 warn()  { yellow "[WARN]  $*"; }
 fail()  { red    "[FAIL]  $*"; }
 
+
+
 # =====================================================================
 # Environment (from /etc/environment.d/27-Traap.conf)
 # =====================================================================
@@ -24,9 +26,53 @@ fail()  { red    "[FAIL]  $*"; }
 : "${AD_DNS2:?AD_DNS2 not set}"
 : "${WIN_DOMAIN:?WIN_DOMAIN not set}"
 
+AD_IDENTITY_TEST=false
 AD_REALM="${AD_DOMAIN^^}"
 AD_LOWER="${AD_DOMAIN,,}"
 KEYTAB="$HOME/.config/krb5/user.keytab"
+SSSD_LOOKUP_RETRIES="${SSSD_LOOKUP_RETRIES:-6}"
+SSSD_LOOKUP_DELAY="${SSSD_LOOKUP_DELAY:-5}"
+SYSTEM_KEYTAB="/etc/krb5.keytab"
+
+sssd_available() {
+    command -v systemctl >/dev/null 2>&1 && systemctl list-unit-files sssd.service >/dev/null 2>&1
+}
+
+check_sssd_keytab() {
+    if [[ ! -e "$SYSTEM_KEYTAB" ]]; then
+        warn "SSSD system keytab is missing: $SYSTEM_KEYTAB"
+        warn "User kinit can still work, but SSSD AD identity lookups need a host keytab from a domain join."
+        return 1
+    fi
+
+    if [[ ! -r "$SYSTEM_KEYTAB" ]]; then
+        warn "SSSD system keytab exists but is not readable by this user: $SYSTEM_KEYTAB"
+        return 0
+    fi
+
+    if command -v klist >/dev/null 2>&1 && ! klist -k "$SYSTEM_KEYTAB" >/dev/null 2>&1; then
+        warn "SSSD system keytab exists but klist cannot read usable entries from it: $SYSTEM_KEYTAB"
+        return 1
+    fi
+
+    return 0
+}
+
+report_sssd_state() {
+    if ! sssd_available; then
+        warn "sssd.service is not installed or not known to systemd."
+        return 1
+    fi
+
+    if systemctl is-active --quiet sssd; then
+        info "sssd.service is active."
+        return 0
+    fi
+
+    warn "sssd.service is not active; identity lookup is expected to fail."
+    systemctl --no-pager --plain status sssd 2>/dev/null | sed -n '1,8p' || true
+    return 1
+}
 
 # =====================================================================
 # Detect County Network
@@ -44,22 +90,31 @@ fi
 # DNS configuration (only when online)
 # Prefer eth0 when available, otherwise fall back to wlan0
 # =====================================================================
-if $AD_ONLINE; then
-    iface=""
-    if ip link show eth0 >/dev/null 2>&1; then
-        iface="eth0"
-    elif ip link show wlan0 >/dev/null 2>&1; then
-        iface="wlan0"
-    else
-        warn "No eth0/wlan0 interface found — skipping resolvectl DNS config."
-        iface=""
-    fi
+if $AD_IDENTITY_TEST; then
+  if $AD_ONLINE; then
+      iface=""
+      if ip link show eth0 >/dev/null 2>&1; then
+          iface="eth0"
+      elif ip link show wlan0 >/dev/null 2>&1; then
+          iface="wlan0"
+      else
+          warn "No eth0/wlan0 interface found — skipping resolvectl DNS config."
+          iface=""
+      fi
 
-    if [[ -n "$iface" ]]; then
-        info "Applying AD DNS configuration on $iface..."
-        sudo resolvectl dns "$iface" "$AD_DNS1" "$AD_DNS2" || true
-        sudo resolvectl domain "$iface" "$AD_LOWER" co.ventura.ca.us || true
-    fi
+      if [[ -n "$iface" ]]; then
+          info "Applying AD DNS configuration on $iface..."
+          sudo resolvectl dns "$iface" "$AD_DNS1" "$AD_DNS2" || true
+          sudo resolvectl domain "$iface" "$AD_LOWER" co.ventura.ca.us || true
+
+          if sssd_available; then
+              check_sssd_keytab || true
+              info "Restarting SSSD after DNS update..."
+              sudo systemctl restart sssd || warn "Unable to restart SSSD; identity lookup may need more time."
+              report_sssd_state || true
+          fi
+      fi
+  fi
 fi
 
 # =====================================================================
@@ -84,49 +139,64 @@ klist || warn "No active Kerberos tickets."
 
 if "$BINHOME"/is_bare_metal; then
   if "$BINHOME"/hostName "GSA-M98AXA"; then
-    "$BINHOME"/mountUp i
-    "$BINHOME"/mountUp h
-    "$BINHOME"/mountUp o
-    "$BINHOME"/mountUp s
+     "$BINHOME"/mountUp i
+     "$BINHOME"/mountUp h
+     "$BINHOME"/mountUp o
+     "$BINHOME"/mountUp s
   fi
 fi
 
 # =====================================================================
 # AD identity resolution test
 # =====================================================================
-if ! awk '
-    $1 == "passwd:" {
-        for (i = 2; i <= NF; i++) {
-            if ($i == "sss") {
-                found = 1
-            }
-        }
-    }
-    END { exit found ? 0 : 1 }
-' /etc/nsswitch.conf; then
-    warn "NSS passwd lookups do not include sss; getent cannot query SSSD."
-    warn "Add sss to the passwd/group lines in /etc/nsswitch.conf, then restart SSSD."
-else
-    info "Checking SSSD identity for $AD_USER..."
-    sssd_identity_found=false
-    sssd_identity_candidates=(
-        "$WIN_DOMAIN\\$AD_USER"
-        "$AD_USER@$AD_LOWER"
-        "$AD_USER"
-    )
 
-    for sssd_identity in "${sssd_identity_candidates[@]}"; do
-        if timeout 5 getent passwd "$sssd_identity" >/dev/null 2>&1; then
-            info "SSSD successfully resolved AD user as $sssd_identity."
-            sssd_identity_found=true
-            break
-        fi
-    done
+if $AD_IDENTITY_TEST; then
+  if ! awk '
+      $1 == "passwd:" {
+          for (i = 2; i <= NF; i++) {
+              if ($i == "sss") {
+                  found = 1
+              }
+          }
+      }
+      END { exit found ? 0 : 1 }
+  ' /etc/nsswitch.conf; then
+      warn "NSS passwd lookups do not include sss; getent cannot query SSSD."
+      warn "Add sss to the passwd/group lines in /etc/nsswitch.conf, then restart SSSD."
+  else
+      check_sssd_keytab || true
+      report_sssd_state || true
 
-    if ! $sssd_identity_found; then
-        warn "SSSD identity lookup failed; tried: ${sssd_identity_candidates[*]}"
-        warn "SSSD may still be initializing, offline, or configured for a different name format."
-    fi
+      info "Checking SSSD identity for $AD_USER..."
+      sssd_identity_found=false
+      sssd_identity_candidates=(
+          "$WIN_DOMAIN\\$AD_USER"
+          "${WIN_DOMAIN,,}\\$AD_USER"
+          "$AD_USER@$AD_LOWER"
+          "$AD_USER@$AD_REALM"
+          "$AD_USER"
+      )
+
+      for ((attempt = 1; attempt <= SSSD_LOOKUP_RETRIES; attempt++)); do
+          for sssd_identity in "${sssd_identity_candidates[@]}"; do
+              if timeout 5 getent passwd "$sssd_identity" >/dev/null 2>&1; then
+                  info "SSSD successfully resolved AD user as $sssd_identity."
+                  sssd_identity_found=true
+                  break 2
+              fi
+          done
+
+          if (( attempt < SSSD_LOOKUP_RETRIES )); then
+              info "SSSD identity lookup not ready; retrying in ${SSSD_LOOKUP_DELAY}s..."
+              sleep "$SSSD_LOOKUP_DELAY"
+          fi
+      done
+
+      if ! $sssd_identity_found; then
+          warn "SSSD identity lookup failed; tried: ${sssd_identity_candidates[*]}"
+          warn "SSSD may be offline, misconfigured, or unable to reach AD after reboot."
+      fi
+  fi
 fi
 
 info "adConnect complete."
