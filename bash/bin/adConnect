@@ -16,7 +16,6 @@ warn()  { yellow "[WARN]  $*"; }
 fail()  { red    "[FAIL]  $*"; }
 
 
-
 # =====================================================================
 # Environment (from /etc/environment.d/27-Traap.conf)
 # =====================================================================
@@ -26,7 +25,7 @@ fail()  { red    "[FAIL]  $*"; }
 : "${AD_DNS2:?AD_DNS2 not set}"
 : "${WIN_DOMAIN:?WIN_DOMAIN not set}"
 
-AD_IDENTITY_TEST=false
+AD_IDENTITY_TEST=true
 AD_REALM="${AD_DOMAIN^^}"
 AD_LOWER="${AD_DOMAIN,,}"
 KEYTAB="$HOME/.config/krb5/user.keytab"
