@@ -245,6 +245,7 @@ if [[ $# -eq 1 ]]; then
     "Scratchpad")   toggle_winclass "$1" "$WIKIHOME" ;;
        "Upgrade")   toggle_winclass "$1" "$HOME" ;;
           "Wiki")   toggle_winclass "$1" "$WIKIHOME" ;;
+          "Work")   toggle_winclass "$1" "$WORKHOME" ;;
        "YouTube")   toggle_winclass "$1" "$GITHOME/youtube" ;;
           "Zero")   toggle_winclass "$1" "$GITHOME" ;;
     *)
