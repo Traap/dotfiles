@@ -169,6 +169,9 @@ gitea:
       - alias: CustomTools
         url: git@gsa-gitea:BSS/CustomTools.git
 
+      - alias: DataRunner
+        url: git@gsa-gitea:BSS/DataRunner.git
+
       - alias: DocAuto
         url: git@gsa-gitea:BSS/DocAuto.git
 
