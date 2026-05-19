@@ -181,6 +181,9 @@ gitea:
       - alias: loaf
         url: git@gsa-gitea:BSS/loaf.git
 
+      - alias: LockBox
+        url: git@gsa-gitea:GaryHoward/LockBox.git
+
       - alias: OversizedScan
         url: git@gsa-gitea:BSS/OversizedScan.git
 
