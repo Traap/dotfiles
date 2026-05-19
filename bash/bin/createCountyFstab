@@ -1,0 +1,44 @@
+#!/usr/bin/env bash
+# Create /etc/fstab entries for County AD CIFS shares used by mountUp.
+set -euo pipefail
+
+if (( EUID != 0 )); then
+  echo "Run with sudo: sudo $0" >&2
+  exit 1
+fi
+
+AD_USER="${AD_USER:-135272}"
+BACKUP="/etc/fstab.codex-backup-$(date +%Y%m%d-%H%M%S)"
+TMP_FSTAB="$(mktemp)"
+
+cleanup() {
+  rm -f "$TMP_FSTAB"
+}
+trap cleanup EXIT
+
+mkdir -p /mnt/h /mnt/i /mnt/o /mnt/s /mnt/y /mnt/z
+cp -a /etc/fstab "$BACKUP"
+
+awk '
+  BEGIN { skip = 0 }
+  /^# County AD CIFS shares\./ { skip = 1; next }
+  skip && /^\/\/gsa-/ { next }
+  skip && NF == 0 { skip = 0; next }
+  { print }
+' /etc/fstab > "$TMP_FSTAB"
+
+cat >> "$TMP_FSTAB" <<EOF
+
+# County AD CIFS shares. mountUp supplies Kerberos, UID, GID, and mode options at mount time.
+//gsa-fs02/GSA/Users/${AD_USER}	/mnt/h	cifs	noauto,nofail,_netdev	0 0
+//gsa-fs02/gsa	/mnt/i	cifs	noauto,nofail,_netdev	0 0
+//gsa-oms/HotFolder	/mnt/o	cifs	noauto,nofail,_netdev	0 0
+//gsa-fs02/gsa/BUSINESS_SUPPORT/Scan\040Center/Oversized\040Scan\040Data	/mnt/s	cifs	noauto,nofail,_netdev	0 0
+//gsa-fs01	/mnt/y	cifs	noauto,nofail,_netdev	0 0
+//gsa-fs01	/mnt/z	cifs	noauto,nofail,_netdev	0 0
+EOF
+
+install -m 0644 "$TMP_FSTAB" /etc/fstab
+
+echo "Backed up /etc/fstab to $BACKUP"
+findmnt --verify --verbose

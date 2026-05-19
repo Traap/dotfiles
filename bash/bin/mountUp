@@ -62,7 +62,7 @@ if [[ $# -ne 1 || ! $1 =~ ^[[:alpha:]]$ ]]; then
   echo "  mountUp i    Toggle /mnt/i"
   echo "  mountUp h    Toggle /mnt/h"
   echo
-  echo "Corresponding CIFS definition in /ets/fstab is required!"
+  echo "Corresponding CIFS definition in /etc/fstab is required!"
   exit 1
 fi
 
