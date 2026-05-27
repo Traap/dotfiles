@@ -5,9 +5,9 @@ sshkeys() {
   local AGENT_ENV_FILE="${HOME}/.ssh/agent_env"
 
   case "$OSTYPE" in
-    msys*)   agentName="/usr/bin/ssh-agent" ;;
-    linux*)  agentName="ssh-agent" ;;
-    *)       echo "Unsupported OS: $OSTYPE"; return 1 ;;
+    msys*|cygwin*) agentName="/usr/bin/ssh-agent" ;;
+    linux*)        agentName="ssh-agent" ;;
+    *)             echo "Unsupported OS: $OSTYPE"; return 1 ;;
   esac
 
   if ! command -v "$agentName" >/dev/null 2>&1; then
