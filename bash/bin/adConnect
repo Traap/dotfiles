@@ -76,10 +76,16 @@ report_sssd_state() {
 # =====================================================================
 # Detect County Network
 # =====================================================================
-info "Checking AD network ($AD_DNS1)..."
-if ping -c1 -W2 "$AD_DNS1" >/dev/null 2>&1; then
+info "Checking AD network ($AD_LOWER)..."
+if getent hosts "$AD_LOWER" >/dev/null 2>&1; then
     AD_ONLINE=true
-    info "County network detected."
+    info "County network detected by DNS."
+elif getent hosts co.ventura.ca.us >/dev/null 2>&1; then
+    AD_ONLINE=true
+    info "County network detected by DNS."
+elif ping -c1 -W2 "$AD_DNS1" >/dev/null 2>&1; then
+    AD_ONLINE=true
+    info "County network detected by ping."
 else
     AD_ONLINE=false
     warn "County network NOT detected — running in offline mode."
