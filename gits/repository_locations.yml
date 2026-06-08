@@ -154,6 +154,9 @@ gitea:
       - alias: Aim
         url: git@gsa-gitea:BSS/AIM.git
 
+      - alias: ActiveDirectory
+        url: git@gsa-gitea:BSS/ActiveDirectory.git
+
       - alias: Billing
         url: git@gsa-gitea:BSS/Billing.git
 
