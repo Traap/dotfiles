@@ -17,6 +17,7 @@ __end  () { [[ $__verbose == true ]] && echo "  end: $1"; }
 
 __guarded_source() {
   local file="$1"
+  local guard
 
   # Derive a valid guard name from the basename of "$file"
   guard="$(basename "$file" | tr -c '[:alnum:]_' '_')"
