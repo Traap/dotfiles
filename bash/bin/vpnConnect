@@ -1,4 +1,18 @@
 #!/usr/bin/env bash
 # vpnConnect
 
-sudo snx-rs -c /etc/snx-rs/config.toml
+set -euo pipefail
+
+BINHOME="${BINHOME:-$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)}"
+SNX_CONFIG="${SNX_CONFIG:-/etc/snx-rs/config.toml}"
+
+if ! command -v snx-rs >/dev/null 2>&1; then
+  echo "ERROR: snx-rs is not installed or not on PATH." >&2
+  exit 127
+fi
+
+sudo snx-rs -c "$SNX_CONFIG"
+
+if [[ -x "$BINHOME/adConnect" ]]; then
+  "$BINHOME/adConnect"
+fi
