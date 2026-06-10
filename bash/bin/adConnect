@@ -15,7 +15,6 @@ info()  { green  "[INFO]  $*"; }
 warn()  { yellow "[WARN]  $*"; }
 fail()  { red    "[FAIL]  $*"; }
 
-
 # =====================================================================
 # Environment (from /etc/environment.d/27-Traap.conf)
 # =====================================================================
@@ -32,6 +31,11 @@ KEYTAB="$HOME/.config/krb5/user.keytab"
 SSSD_LOOKUP_RETRIES="${SSSD_LOOKUP_RETRIES:-6}"
 SSSD_LOOKUP_DELAY="${SSSD_LOOKUP_DELAY:-5}"
 SYSTEM_KEYTAB="/etc/krb5.keytab"
+AD_CONNECT_GUARD="${AD_CONNECT_GUARD:-${XDG_RUNTIME_DIR:-/tmp}/adConnect.$UID.started}"
+
+if [[ -d "$AD_CONNECT_GUARD" ]]; then
+    exit 0
+fi
 
 sssd_available() {
     command -v systemctl >/dev/null 2>&1 && systemctl list-unit-files sssd.service >/dev/null 2>&1
@@ -76,7 +80,6 @@ report_sssd_state() {
 # =====================================================================
 # Detect County Network
 # =====================================================================
-info "Checking AD network ($AD_LOWER)..."
 if getent hosts "$AD_LOWER" >/dev/null 2>&1; then
     AD_ONLINE=true
     info "County network detected by DNS."
@@ -87,9 +90,13 @@ elif ping -c1 -W2 "$AD_DNS1" >/dev/null 2>&1; then
     AD_ONLINE=true
     info "County network detected by ping."
 else
-    AD_ONLINE=false
-    warn "County network NOT detected — running in offline mode."
+    exit 0
 fi
+
+if ! mkdir "$AD_CONNECT_GUARD" 2>/dev/null; then
+    exit 0
+fi
+trap 'rmdir "$AD_CONNECT_GUARD" 2>/dev/null || true' ERR
 
 # =====================================================================
 # DNS configuration (only when online)
