@@ -33,9 +33,14 @@ done
 sshkeys
 
 # -------------------------------------------------------------------------- }}}
-#e {{ Neovim appname aliases
+# {{ Neovim appname aliases
 
 [[ -f "$HOME/.config/nvims/nvim_appnames" ]] && \
   __guarded_source "$HOME/.config/nvims/nvim_appnames"
+
+# -------------------------------------------------------------------------- }}}
+# {{ Connect to active directory
+
+adConnect
 
 # -------------------------------------------------------------------------- }}}
