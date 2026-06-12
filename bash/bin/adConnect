@@ -31,11 +31,70 @@ KEYTAB="$HOME/.config/krb5/user.keytab"
 SSSD_LOOKUP_RETRIES="${SSSD_LOOKUP_RETRIES:-6}"
 SSSD_LOOKUP_DELAY="${SSSD_LOOKUP_DELAY:-5}"
 SYSTEM_KEYTAB="/etc/krb5.keytab"
-AD_CONNECT_GUARD="${AD_CONNECT_GUARD:-${XDG_RUNTIME_DIR:-/tmp}/adConnect.$UID.started}"
+AD_RECONNECT_AFTER_SECONDS="${AD_RECONNECT_AFTER_SECONDS:-86400}"
+AD_CONNECT_STATE_DIR="${AD_CONNECT_STATE_DIR:-${XDG_STATE_HOME:-$HOME/.local/state}/adConnect}"
+AD_CONNECT_STATE_FILE="${AD_CONNECT_STATE_FILE:-$AD_CONNECT_STATE_DIR/state}"
+AD_CONNECT_LOCK="${AD_CONNECT_LOCK:-${XDG_RUNTIME_DIR:-/tmp}/adConnect.$UID.lock}"
+AD_CONNECT_FORCE="${AD_CONNECT_FORCE:-false}"
 
-if [[ -d "$AD_CONNECT_GUARD" ]]; then
+if [[ ! "$AD_RECONNECT_AFTER_SECONDS" =~ ^[0-9]+$ ]]; then
+    warn "Invalid AD_RECONNECT_AFTER_SECONDS=$AD_RECONNECT_AFTER_SECONDS; using 86400."
+    AD_RECONNECT_AFTER_SECONDS=86400
+fi
+
+LAST_SUCCESS_EPOCH=0
+LAST_BOOT_ID=""
+CURRENT_BOOT_ID="$(cat /proc/sys/kernel/random/boot_id 2>/dev/null || printf unknown)"
+NOW_EPOCH="$(date +%s)"
+
+if [[ -r "$AD_CONNECT_STATE_FILE" ]]; then
+    while IFS='=' read -r key value; do
+        case "$key" in
+            last_success_epoch)
+                if [[ "$value" =~ ^[0-9]+$ ]]; then
+                    LAST_SUCCESS_EPOCH="$value"
+                fi
+                ;;
+            boot_id)
+                LAST_BOOT_ID="$value"
+                ;;
+        esac
+    done < "$AD_CONNECT_STATE_FILE"
+fi
+
+RECONNECT_REQUIRED=false
+RECONNECT_REASON=""
+
+if [[ "$AD_CONNECT_FORCE" == true || "$AD_CONNECT_FORCE" == 1 ]]; then
+    RECONNECT_REQUIRED=true
+    RECONNECT_REASON="forced"
+elif (( LAST_SUCCESS_EPOCH == 0 )); then
+    RECONNECT_REQUIRED=true
+    RECONNECT_REASON="no previous successful reconnect"
+elif [[ "$LAST_BOOT_ID" != "$CURRENT_BOOT_ID" ]]; then
+    RECONNECT_REQUIRED=true
+    RECONNECT_REASON="system reboot detected"
+elif (( NOW_EPOCH - LAST_SUCCESS_EPOCH >= AD_RECONNECT_AFTER_SECONDS )); then
+    RECONNECT_REQUIRED=true
+    RECONNECT_REASON="last reconnect is at least 24 hours old"
+elif (( NOW_EPOCH < LAST_SUCCESS_EPOCH )); then
+    RECONNECT_REQUIRED=true
+    RECONNECT_REASON="saved reconnect timestamp is in the future"
+fi
+
+if ! $RECONNECT_REQUIRED; then
+    seconds_remaining=$((AD_RECONNECT_AFTER_SECONDS - (NOW_EPOCH - LAST_SUCCESS_EPOCH)))
+    info "AD reconnect not required; next reconnect in ${seconds_remaining}s."
     exit 0
 fi
+
+info "AD reconnect required: $RECONNECT_REASON."
+
+if ! mkdir "$AD_CONNECT_LOCK" 2>/dev/null; then
+    warn "adConnect is already running: $AD_CONNECT_LOCK"
+    exit 0
+fi
+trap 'rmdir "$AD_CONNECT_LOCK" 2>/dev/null || true' EXIT
 
 sssd_available() {
     command -v systemctl >/dev/null 2>&1 && systemctl list-unit-files sssd.service >/dev/null 2>&1
@@ -93,11 +152,6 @@ else
     exit 0
 fi
 
-if ! mkdir "$AD_CONNECT_GUARD" 2>/dev/null; then
-    exit 0
-fi
-trap 'rmdir "$AD_CONNECT_GUARD" 2>/dev/null || true' ERR
-
 # =====================================================================
 # DNS configuration (only when online)
 # Prefer eth0 when available, otherwise fall back to wlan0
@@ -134,8 +188,10 @@ fi
 # =====================================================================
 info "Running kinit for $AD_USER@$AD_REALM..."
 if kinit "$AD_USER@$AD_REALM"; then
+    KINIT_OK=true
     info "Kerberos ticket acquired."
 else
+    KINIT_OK=false
     warn "Kerberos login failed."
 fi
 
@@ -209,6 +265,19 @@ if $AD_IDENTITY_TEST; then
           warn "SSSD may be offline, misconfigured, or unable to reach AD after reboot."
       fi
   fi
+fi
+
+if $KINIT_OK; then
+    mkdir -p "$AD_CONNECT_STATE_DIR"
+    state_tmp="$AD_CONNECT_STATE_FILE.$$"
+    {
+        printf 'last_success_epoch=%s\n' "$NOW_EPOCH"
+        printf 'boot_id=%s\n' "$CURRENT_BOOT_ID"
+    } > "$state_tmp"
+    mv "$state_tmp" "$AD_CONNECT_STATE_FILE"
+    info "Recorded successful AD reconnect state."
+else
+    warn "AD reconnect state was not updated because Kerberos login failed."
 fi
 
 info "adConnect complete."
