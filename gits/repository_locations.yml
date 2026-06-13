@@ -178,6 +178,9 @@ gitea:
       - alias: DocAuto
         url: git@gsa-gitea:BSS/DocAuto.git
 
+      - alias: GsaWebsite
+        url: git@gsa-gitea:BSS/GsaWebsite.git
+
       - alias: LeaveOfAbsence
         url: git@gsa-gitea:BSS/LeaveOfAbsence.git
 
