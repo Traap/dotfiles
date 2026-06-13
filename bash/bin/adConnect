@@ -20,6 +20,73 @@ warn()  { yellow "[WARN]  $*"; }
 fail()  { red    "[FAIL]  $*"; }
 
 # -------------------------------------------------------------------------- }}}
+# {{{ User documentation
+
+print_help() {
+    cat <<'HELP'
+adConnect - reconnect Active Directory resources when an AD network is reachable
+
+Usage:
+  adConnect
+  adConnect --help
+
+Behavior:
+  - Exits silently when the AD domain or AD DNS server is not reachable.
+  - Skips repeated reconnect work until the saved state expires, unless forced.
+  - Refreshes Kerberos credentials with kinit when reconnect is required.
+  - Optionally applies AD DNS settings and restarts SSSD.
+  - Mounts configured network drives on the known bare-metal work host.
+  - Checks Kerberos tickets and SSSD identity resolution for diagnostics.
+
+Required environment:
+  AD_DOMAIN      Kerberos/AD DNS domain, for example ent.example.org.
+  AD_DNS1        Primary AD DNS server used for fast reachability checks.
+  AD_DNS2        Secondary AD DNS server, needed when DNS configuration runs.
+  AD_USER        AD user principal name without the realm.
+  WIN_DOMAIN     NetBIOS domain used for SSSD identity lookup attempts.
+
+Optional environment:
+  AD_CONNECT_FORCE=true
+      Force reconnect work even when saved state is still fresh.
+
+  AD_CONNECT_CONFIGURE_DNS=false
+      Skip resolvectl DNS changes and SSSD restart.  vpnConnect uses this so
+      the VPN tunnel's network settings are not disturbed after connect.
+
+  AD_CONNECT_NETWORK_TIMEOUT=0.25
+      Maximum seconds to spend on each AD reachability probe before silently
+      treating the current network as non-AD.
+
+  AD_RECONNECT_AFTER_SECONDS=86400
+      Minimum age in seconds before another successful reconnect is required.
+
+  AD_CONNECT_STATE_DIR
+  AD_CONNECT_STATE_FILE
+  AD_CONNECT_LOCK
+      Override the default state and lock locations.
+
+Exit status:
+  0  Completed, skipped because reconnect was not required, or exited quietly
+     because no AD network was reachable.
+  1+ Command, Kerberos, sudo, or shell failure from reconnect work.
+HELP
+}
+
+case "${1:-}" in
+    -h|--help)
+        print_help
+        exit 0
+        ;;
+    "")
+        ;;
+    *)
+        fail "Unknown argument: $1"
+        printf 'Usage: adConnect [--help]\n' >&2
+        exit 2
+        ;;
+esac
+
+# -------------------------------------------------------------------------- }}}
 # {{{ Environment (from /etc/environment.d/27-Traap.conf)
 
 : "${AD_DOMAIN:?AD_DOMAIN not set}"
@@ -44,6 +111,7 @@ AD_CONNECT_STATE_FILE="${AD_CONNECT_STATE_FILE:-$AD_CONNECT_STATE_DIR/state}"
 AD_CONNECT_LOCK="${AD_CONNECT_LOCK:-${XDG_RUNTIME_DIR:-/tmp}/adConnect.$UID.lock}"
 AD_CONNECT_FORCE="${AD_CONNECT_FORCE:-false}"
 AD_CONNECT_NETWORK_TIMEOUT="${AD_CONNECT_NETWORK_TIMEOUT:-0.25}"
+AD_CONNECT_CONFIGURE_DNS="${AD_CONNECT_CONFIGURE_DNS:-true}"
 
 if [[ ! "$AD_CONNECT_NETWORK_TIMEOUT" =~ ^[0-9]+([.][0-9]+)?$ ]]; then
     AD_CONNECT_NETWORK_TIMEOUT=0.25
@@ -213,7 +281,7 @@ report_sssd_state() {
 # {{{ DNS configuration (only when online)
 # Prefer eth0 when available, otherwise fall back to wlan0
 
-if $AD_IDENTITY_TEST; then
+if $AD_IDENTITY_TEST && [[ "$AD_CONNECT_CONFIGURE_DNS" != false && "$AD_CONNECT_CONFIGURE_DNS" != 0 ]]; then
   if $AD_ONLINE; then
       iface=""
       if ip link show eth0 >/dev/null 2>&1; then
