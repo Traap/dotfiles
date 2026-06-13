@@ -22,11 +22,8 @@ fail()  { red    "[FAIL]  $*"; }
 # -------------------------------------------------------------------------- }}}
 # {{{ Environment (from /etc/environment.d/27-Traap.conf)
 
-: "${AD_USER:?AD_USER not set}"
 : "${AD_DOMAIN:?AD_DOMAIN not set}"
 : "${AD_DNS1:?AD_DNS1 not set}"
-: "${AD_DNS2:?AD_DNS2 not set}"
-: "${WIN_DOMAIN:?WIN_DOMAIN not set}"
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Runtime configuration
@@ -46,10 +43,10 @@ AD_CONNECT_STATE_DIR="${AD_CONNECT_STATE_DIR:-${XDG_STATE_HOME:-$HOME/.local/sta
 AD_CONNECT_STATE_FILE="${AD_CONNECT_STATE_FILE:-$AD_CONNECT_STATE_DIR/state}"
 AD_CONNECT_LOCK="${AD_CONNECT_LOCK:-${XDG_RUNTIME_DIR:-/tmp}/adConnect.$UID.lock}"
 AD_CONNECT_FORCE="${AD_CONNECT_FORCE:-false}"
+AD_CONNECT_NETWORK_TIMEOUT="${AD_CONNECT_NETWORK_TIMEOUT:-0.25}"
 
-if [[ ! "$AD_RECONNECT_AFTER_SECONDS" =~ ^[0-9]+$ ]]; then
-    warn "Invalid AD_RECONNECT_AFTER_SECONDS=$AD_RECONNECT_AFTER_SECONDS; using 86400."
-    AD_RECONNECT_AFTER_SECONDS=86400
+if [[ ! "$AD_CONNECT_NETWORK_TIMEOUT" =~ ^[0-9]+([.][0-9]+)?$ ]]; then
+    AD_CONNECT_NETWORK_TIMEOUT=0.25
 fi
 
 # -------------------------------------------------------------------------- }}}
@@ -60,17 +57,40 @@ fi
 # useful to report, so exit silently before evaluating reconnect state or
 # printing any informational messages.
 
-if getent hosts "$AD_LOWER" >/dev/null 2>&1; then
+ad_name_resolves() {
+    if command -v timeout >/dev/null 2>&1; then
+        timeout "$AD_CONNECT_NETWORK_TIMEOUT" getent hosts "$1" >/dev/null 2>&1
+    else
+        getent hosts "$1" >/dev/null 2>&1
+    fi
+}
+
+ad_dns_reachable() {
+    command -v timeout >/dev/null 2>&1 || return 1
+    timeout "$AD_CONNECT_NETWORK_TIMEOUT" ping -n -c1 "$AD_DNS1" >/dev/null 2>&1
+}
+
+if ad_name_resolves "$AD_LOWER"; then
     AD_ONLINE=true
     info "AD network detected by DNS."
-elif getent hosts co.ventura.ca.us >/dev/null 2>&1; then
+elif ad_name_resolves co.ventura.ca.us; then
     AD_ONLINE=true
     info "AD network detected by DNS."
-elif ping -c1 -W2 "$AD_DNS1" >/dev/null 2>&1; then
+elif ad_dns_reachable; then
     AD_ONLINE=true
     info "AD network detected by ping."
 else
     exit 0
+fi
+
+# The remaining settings are only needed after AD is reachable.
+: "${AD_USER:?AD_USER not set}"
+: "${AD_DNS2:?AD_DNS2 not set}"
+: "${WIN_DOMAIN:?WIN_DOMAIN not set}"
+
+if [[ ! "$AD_RECONNECT_AFTER_SECONDS" =~ ^[0-9]+$ ]]; then
+    warn "Invalid AD_RECONNECT_AFTER_SECONDS=$AD_RECONNECT_AFTER_SECONDS; using 86400."
+    AD_RECONNECT_AFTER_SECONDS=86400
 fi
 
 # -------------------------------------------------------------------------- }}}
