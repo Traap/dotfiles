@@ -276,7 +276,7 @@ alias ,xs='$EDITOR $DOTHOME/sxhkd/sxhkdrc'
 # {{{ TMUX / ao launch and terminate bindings.
 #      NOTE: These bindings are duplicated in three places:
 #     1. dotfiles/bash/my_aliases
-#     2. dotfiles/tmux/tmux.conf
+#     2. tmux/tmux.conf
 #     3. dotfile/hypr/bindings.conf
 #     This is done to ensure they work regardless of where they are used.
 
