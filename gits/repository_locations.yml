@@ -343,9 +343,6 @@ rails:
       - alias: blog
         url: git@github.com:Traap/blog.git
 
-      - alias: eflow
-        url: git@github.com:Traap/eflow.git
-
       - alias: RailsStore
         url: git@github.com:Traap/RailsStore.git
 
@@ -357,6 +354,9 @@ rails:
 
       - alias: Ruby
         url: https://github.com/ruby/ruby.git
+
+      - alias: RailsModel
+        url: https://github.com/ruby/bootstrap-rails.git
 
 # -------------------------------------------------------------------------- }}}
 # {{{ soup
