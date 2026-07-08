@@ -100,15 +100,21 @@ if  [[ $# -eq 1 ]]; then
       ;;
 
     # ---------------------------------------------------------------------- }}}
-    # {{{ Create Bracco session
+    # {{{ Create DataRunner session
 
-    "Bracco")
-      WORKDIR="$HOME/bracco"
+    "DataRunner")
+      WORKDIR="$WORKHOME/DataRunner"
+      tmux new-session   -s "$SESSION"   -c "$WORKDIR" -n 'Coder'    -d
+      tmux split-window  -t "$SESSION":1 -c "$WORKDIR" -h
+      tmux new-window    -t "$SESSION":2 -c "$WORKDIR" -n 'Server' -d
+      tmux new-window    -t "$SETTION":3 -c "$WORKDIR" -n 'Tester'  -d
 
-      tmux new-session -s "$SESSION" -c "$WORKDIR" -n 'Coder' -d
-      tmux new-window  -s "$SETTION" -c "$WORKDIR" -n 'Tester'
+      tmux send-keys     -t "$SESSION":2.1 "bundle exec rails server -p 3002" Enter
+      tmux send-keys     -t "$SESSION":1.2 "codex" Enter
+      tmux send-keys     -t "$SESSION":1.1 "nvim" Enter
 
       tmux select-window -t "$SESSION":1
+      tmux select-pane   -t "$SETTION":1.1
       ;;
 
     # ---------------------------------------------------------------------- }}}
@@ -177,21 +183,23 @@ if  [[ $# -eq 1 ]]; then
 
     "Paperboy")
       WORKDIR="$WORKHOME/Paperboy"
+      tmux new-session   -s "$SESSION"   -c "$WORKDIR" -n 'Coder'    -d
+      tmux split-window  -t "$SESSION":1 -c "$WORKDIR" -h
+      tmux new-window    -t "$SESSION":2 -c "$WORKDIR" -n 'Server' -d
+      tmux split-window  -t "$SESSION":2 -c "$WORKDIR" -h
+      tmux new-window    -t "$SETTION":3 -c "$WORKDIR" -n 'Tester'  -d
 
-      tmux new-session   -s "$SESSION" -c "$WORKDIR" -n 'Coder' -d
-      tmux send-keys     -t "$SESSION":1 "nvim" Enter
-
-      tmux new-window    -t "$SESSION":2 -c "$WORKDIR" -n 'Tester'
-      tmux split-window  -t "$SESSION":2 -c "$WORKDIR" -bh
-
-      tmux send-keys     -t "$SESSION":2.1 "bin/rails s -p 3001" Enter
+      tmux send-keys     -t "$SESSION":2.1 "bundle exec rails server -p 3001" Enter
       tmux send-keys     -t "$SESSION":2.2 "bundle exec sidekiq -v" Enter
+      tmux send-keys     -t "$SESSION":1.2 "codex" Enter
+      tmux send-keys     -t "$SESSION":1.1 "nvim" Enter
 
       tmux select-window -t "$SESSION":1
+      tmux select-pane   -t "$SETTION":1.1
       ;;
 
     # ---------------------------------------------------------------------- }}}
-    # {{{ Create Scratchpad session
+    # {{{ Create Scratchpad sessiom
 
     "Scratchpad")
       WORKDIR="$WIKIHOME"
@@ -255,10 +263,10 @@ if  [[ $# -eq 1 ]]; then
 
       tmux new-session   -s "$SESSION"   -c "$WORKDIR" -n 'Coder'    -d
       tmux split-window  -t "$SESSION":1 -c "$WORKDIR" -h
-      tmux new-window    -t "$SETTION":2 -c "$WORKDIR" -n 'Tester'
+      tmux new-window    -t "$SETTION":2 -c "$WORKDIR" -n 'Tester'  -d
       tmux new-window    -t "$SESSION":3 -c "$WORKDIR" -n 'Notebook' -d
-      tmux new-window    -t "$SESSION":4 -c "$WORKDIR" -n 'vscode'   -d
-      tmux new-window    -t "$SESSION":5 -c "$WORKDIR" -n 'VPN'   -d
+      tmux new-window    -t "$SESSION":4 -c "$WORKDIR" -n 'vscode'  -d
+      tmux new-window    -t "$SESSION":5 -c "$WORKDIR" -n 'VPN' -d
 
       tmux send-keys     -t "$SESSION":5   "vpnConnect" Enter
       tmux send-keys     -t "$SESSION":4   "code-insiders ." Enter
@@ -323,7 +331,7 @@ if  [[ $# -eq 1 ]]; then
 
 else
   echo \
-    "Session name ao|bash|Bracco|d|h|havasu|kjv|Nvim|Omarchy|Scratchpad|t|Upgrade|vim|Wiki|YouTube|Zero is required" &&
+    "Session name ao|bash|d|DataRunner|h|havasu|kjv|Nvim|Omarchy|Paperboy|Scratchpad|t|Upgrade|vim|Wiki|YouTube|Zero is required" &&
     exit
 fi
 
