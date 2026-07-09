@@ -246,7 +246,7 @@ if  [[ $# -eq 1 ]]; then
     "vpn")
       WORKDIR="$WORKHOME"
 
-      tmux new-window    -t "$SESSION":1 -c "$WORKDIR" -n 'VPN' -d
+      tmux new-session   -s "$SESSION" -c "$WORKDIR" -n 'VPN' -d
 
       tmux send-keys     -t "$SESSION":1   "vpnConnect" Enter
 
@@ -274,7 +274,7 @@ if  [[ $# -eq 1 ]]; then
     "Work")
       WORKDIR="$WORKHOME"
 
-      tmux new-window    -t "$SESSION"  -c "$WORKDIR" -n 'Notebook' -d
+      tmux new-session   -s "$SESSION" -c "$WORKDIR" -n 'Notebook' -d
       tmux new-window    -t "$SESSION":2 -c "$WORKDIR" -n 'vscode'  -d
 
       tmux send-keys     -t "$SESSION":2   "code-insiders ." Enter
