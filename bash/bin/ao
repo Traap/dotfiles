@@ -18,7 +18,7 @@
 #
 # Notes:
 #   1. A session is created or attached to.
-#   2. A new session is added if ao is used from with a tmux session.
+#   2. A new session is added if ao is used from within a tmux session.
 #
 # -------------------------------------------------------------------------- }}}
 # {{{ function to clone or pull a repository as needed.
@@ -81,7 +81,7 @@ if  [[ $# -eq 1 ]]; then
       WORKDIR="$BASHHOME"
 
       tmux new-session -s "$SESSION"   -c "$WORKDIR" -n dotfiles -d
-      tmux new-window  -s "$SESSION":2 -c "$WORKDIR" -c "$BASHHOME" -n bashrc
+      tmux new-window  -t "$SESSION":2 -c "$BASHHOME" -n bashrc
 
       tmux send-keys -t "$SESSION":2 \
         "$EDITOR \
@@ -107,14 +107,14 @@ if  [[ $# -eq 1 ]]; then
       tmux new-session   -s "$SESSION"   -c "$WORKDIR" -n 'Coder'    -d
       tmux split-window  -t "$SESSION":1 -c "$WORKDIR" -h
       tmux new-window    -t "$SESSION":2 -c "$WORKDIR" -n 'Server' -d
-      tmux new-window    -t "$SETTION":3 -c "$WORKDIR" -n 'Tester'  -d
+      tmux new-window    -t "$SESSION":3 -c "$WORKDIR" -n 'Tester'  -d
 
       tmux send-keys     -t "$SESSION":2.1 "bundle exec rails server -p 3002" Enter
       tmux send-keys     -t "$SESSION":1.2 "codex" Enter
       tmux send-keys     -t "$SESSION":1.1 "nvim" Enter
 
       tmux select-window -t "$SESSION":1
-      tmux select-pane   -t "$SETTION":1.1
+      tmux select-pane   -t "$SESSION":1.1
       ;;
 
     # ---------------------------------------------------------------------- }}}
@@ -187,7 +187,7 @@ if  [[ $# -eq 1 ]]; then
       tmux split-window  -t "$SESSION":1 -c "$WORKDIR" -h
       tmux new-window    -t "$SESSION":2 -c "$WORKDIR" -n 'Server' -d
       tmux split-window  -t "$SESSION":2 -c "$WORKDIR" -h
-      tmux new-window    -t "$SETTION":3 -c "$WORKDIR" -n 'Tester'  -d
+      tmux new-window    -t "$SESSION":3 -c "$WORKDIR" -n 'Tester'  -d
 
       tmux send-keys     -t "$SESSION":2.1 "bundle exec rails server -p 3001" Enter
       tmux send-keys     -t "$SESSION":2.2 "bundle exec sidekiq -v" Enter
@@ -195,11 +195,11 @@ if  [[ $# -eq 1 ]]; then
       tmux send-keys     -t "$SESSION":1.1 "nvim" Enter
 
       tmux select-window -t "$SESSION":1
-      tmux select-pane   -t "$SETTION":1.1
+      tmux select-pane   -t "$SESSION":1.1
       ;;
 
     # ---------------------------------------------------------------------- }}}
-    # {{{ Create Scratchpad sessiom
+    # {{{ Create Scratchpad session
 
     "Scratchpad")
       WORKDIR="$WIKIHOME"
@@ -305,7 +305,7 @@ if  [[ $# -eq 1 ]]; then
 
       tmux new-session   -s "$SESSION"   -c "$WORKDIR" -n 'Coder'    -d
       tmux split-window  -t "$SESSION":1 -c "$WORKDIR" -h
-      tmux new-window    -t "$SETTION":2 -c "$WORKDIR" -n 'Tester'
+      tmux new-window    -t "$SESSION":2 -c "$WORKDIR" -n 'Tester'
       tmux new-window    -t "$SESSION":3 -c "$WORKDIR" -n 'Notebook' -d
 
       tmux send-keys     -t "$SESSION":3   "$EDITOR $WORKDIR/wiki/index.md" Enter
@@ -313,10 +313,10 @@ if  [[ $# -eq 1 ]]; then
       tmux send-keys     -t "$SESSION":1.1 "nvim" Enter
 
       tmux select-window -t "$SESSION":1
-      tmux select-pane   -t "$SETTION":1.1
+      tmux select-pane   -t "$SESSION":1.1
 
       tmux select-window -t "$SESSION":1
-      tmux select-pane   -t "$SETTION":1.1
+      tmux select-pane   -t "$SESSION":1.1
       ;;
 
     # ---------------------------------------------------------------------- }}}
@@ -351,7 +351,7 @@ else
   "  t          | Baseball Triple; three splits" \
   "  Upgrade    | Upgrade Operating System and Neovim" \
   "  vim        | Vim configuration" \
-  "  vpn        | Start a Vpn Sessoin" \
+  "  vpn        | Start a Vpn Session" \
   "  Work       | Work Notebook and code-insiders" \
   "  YouTube    | YouTube Notebook" \
   "  Zero       | General session at home"
