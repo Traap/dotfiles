@@ -241,6 +241,19 @@ if  [[ $# -eq 1 ]]; then
       ;;
 
     # ---------------------------------------------------------------------- }}}
+    # {{{ Create vpn session
+
+    "vpn")
+      WORKDIR="$WORKHOME"
+
+      tmux new-window    -t "$SESSION":1 -c "$WORKDIR" -n 'VPN' -d
+
+      tmux send-keys     -t "$SESSION":1   "vpnConnect" Enter
+
+      tmux select-window -t "$SESSION":1
+      ;;
+
+    # ---------------------------------------------------------------------- }}}
     # {{{ Create Upgrade session
 
     "Upgrade")
@@ -261,21 +274,13 @@ if  [[ $# -eq 1 ]]; then
     "Work")
       WORKDIR="$WORKHOME"
 
-      tmux new-session   -s "$SESSION"   -c "$WORKDIR" -n 'Coder'    -d
-      tmux split-window  -t "$SESSION":1 -c "$WORKDIR" -h
-      tmux new-window    -t "$SETTION":2 -c "$WORKDIR" -n 'Tester'  -d
-      tmux new-window    -t "$SESSION":3 -c "$WORKDIR" -n 'Notebook' -d
-      tmux new-window    -t "$SESSION":4 -c "$WORKDIR" -n 'vscode'  -d
-      tmux new-window    -t "$SESSION":5 -c "$WORKDIR" -n 'VPN' -d
+      tmux new-window    -t "$SESSION"  -c "$WORKDIR" -n 'Notebook' -d
+      tmux new-window    -t "$SESSION":2 -c "$WORKDIR" -n 'vscode'  -d
 
-      tmux send-keys     -t "$SESSION":5   "vpnConnect" Enter
-      tmux send-keys     -t "$SESSION":4   "code-insiders ." Enter
-      tmux send-keys     -t "$SESSION":3   "$EDITOR $WORKDIR/Wiki/index.md" Enter
-      tmux send-keys     -t "$SESSION":1.2 "codex" Enter
-      tmux send-keys     -t "$SESSION":1.1 "nvim" Enter
+      tmux send-keys     -t "$SESSION":2   "code-insiders ." Enter
+      tmux send-keys     -t "$SESSION":1   "$EDITOR $WORKDIR/Wiki/index.md" Enter
 
       tmux select-window -t "$SESSION":1
-      tmux select-pane   -t "$SETTION":1.1
       ;;
 
     # ---------------------------------------------------------------------- }}}
@@ -330,9 +335,27 @@ if  [[ $# -eq 1 ]]; then
 # {{{ Display usage
 
 else
-  echo \
-    "Session name ao|bash|d|DataRunner|h|havasu|kjv|Nvim|Omarchy|Paperboy|Scratchpad|t|Upgrade|vim|Wiki|YouTube|Zero is required" &&
-    exit
+  printf '%s\n' \
+  "Session name required:" \
+  "  ao         | ao configuration" \
+  "  bash       | bash configuration" \
+  "  d          | Baseball Double; two split" \
+  "  DataRunner | DataRunner application" \
+  "  h          | Baseball Home Run; four splits" \
+  "  havasu     | Havasu LaTeX Beamer" \
+  "  kjv        | King James Bible Note taking" \
+  "  Nvim       | Neovim configuration" \
+  "  Omarchy    | Omarchy configuration" \
+  "  Paperboy   | Paperboy application" \
+  "  Scratchpad | Daily Journal" \
+  "  t          | Baseball Triple; three splits" \
+  "  Upgrade    | Upgrade Operating System and Neovim" \
+  "  vim        | Vim configuration" \
+  "  vpn        | Start a Vpn Sessoin" \
+  "  Work       | Work Notebook and code-insiders" \
+  "  YouTube    | YouTube Notebook" \
+  "  Zero       | General session at home"
+  exit
 fi
 
 # -------------------------------------------------------------------------- }}}
