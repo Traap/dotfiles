@@ -238,23 +238,33 @@ notify() {
 
 if [[ $# -eq 1 ]]; then
   case "$1" in
-        "Bracco")   toggle_winclass "$1" "$HOME/bracco" ;;
-        "Hyprland") toggle_winclass "$1" "$DOTHOME/hypr" ;;
-        "Neovim")   toggle_winclass "$1" "$GITHOME/nvim.traap" ;;
-        "Paperboy") toggle_winclass "$1" "$WORKHOME" ;;
-    "Scratchpad")   toggle_winclass "$1" "$WIKIHOME" ;;
-       "Upgrade")   toggle_winclass "$1" "$HOME" ;;
-          "Wiki")   toggle_winclass "$1" "$WIKIHOME" ;;
-          "Work")   toggle_winclass "$1" "$WORKHOME" ;;
-       "YouTube")   toggle_winclass "$1" "$GITHOME/youtube" ;;
-          "Zero")   toggle_winclass "$1" "$GITHOME" ;;
+        "DataRunner")  toggle_winclass "$1" "$WORKHOME/DataRunner" ;;
+        "Hyprland")    toggle_winclass "$1" "$DOTHOME/hypr" ;;
+        "Neovim")      toggle_winclass "$1" "$GITHOME/nVIM.TRAAP" ;;
+        "Paperboy")    toggle_winclass "$1" "$WORKHOME/Paperboy" ;;
+    "Scratchpad")      toggle_winclass "$1" "$WIKIHOME" ;;
+       "Upgrade")      toggle_winclass "$1" "$HOME" ;;
+          "Wiki")      toggle_winclass "$1" "$WIKIHOME" ;;
+          "Work")      toggle_winclass "$1" "$WORKHOME" ;;
+       "YouTube")      toggle_winclass "$1" "$GITHOME/youtube" ;;
+          "Zero")      toggle_winclass "$1" "$GITHOME" ;;
     *)
       echo "Toggling option not supported"
       exit
       ;;
   esac
 else
-  echo "toggler [Hyprland|Neovim|Scratchpad|Upgrade|Wiki|YouTube|Zero]"
+  printf '%s\n' \
+  "Toggler name required:" \
+  "  DataRunner | DataRunner application" \
+  "  Hyprland   | Hyperland configuraiton" \
+  "  Neovim     | Neovim configuration" \
+  "  Scratchpad | Daily Journal" \
+  "  Upgrade    | Upgrade Operating System and Neovim" \
+  "  Wiki       | Personal Notebook and code-insiders" \
+  "  Work       | Work Notebook and code-insiders" \
+  "  YouTube    | YouTube Notebook" \
+  "  Zero       | General session at home"
 fi
 
 # -------------------------------------------------------------------------- }}}

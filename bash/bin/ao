@@ -274,13 +274,13 @@ if  [[ $# -eq 1 ]]; then
     "Work")
       WORKDIR="$WORKHOME"
 
-      tmux new-session   -s "$SESSION" -c "$WORKDIR" -n 'Notebook' -d
-      tmux new-window    -t "$SESSION":2 -c "$WORKDIR" -n 'vscode'  -d
+      tmux new-session   -s "$SESSION" -c "$WORKDIR" -n 'Coder' -d
+      tmux new-window    -t "$SESSION":2 -c "$WORKDIR" -n 'Notebook'  -d
 
-      tmux send-keys     -t "$SESSION":2   "code-insiders ." Enter
-      tmux send-keys     -t "$SESSION":1   "$EDITOR $WORKDIR/Wiki/index.md" Enter
+      tmux send-keys     -t "$SESSION":2   "$EDITOR $WORKDIR/Wiki/index.md" Enter
+      tmux send-keys     -t "$SESSION":1   "code-insiders ." Enter
 
-      tmux select-window -t "$SESSION":1
+      tmux select-window -t "$SESSION":2
       ;;
 
     # ---------------------------------------------------------------------- }}}
