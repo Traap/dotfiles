@@ -27,7 +27,7 @@ print_help() {
 adConnect - reconnect Active Directory resources when an AD network is reachable
 
 Usage:
-  adConnect
+  adConnect [--force]
   adConnect --help
 
 Behavior:
@@ -72,19 +72,23 @@ Exit status:
 HELP
 }
 
-case "${1:-}" in
-    -h|--help)
-        print_help
-        exit 0
-        ;;
-    "")
-        ;;
-    *)
-        fail "Unknown argument: $1"
-        printf 'Usage: adConnect [--help]\n' >&2
-        exit 2
-        ;;
-esac
+while (($#)); do
+    case "$1" in
+        -h|--help)
+            print_help
+            exit 0
+            ;;
+        -f|--force)
+            AD_CONNECT_FORCE=true
+            ;;
+        *)
+            fail "Unknown argument: $1"
+            printf 'Usage: adConnect [--force] [--help]\n' >&2
+            exit 2
+            ;;
+    esac
+    shift
+done
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Environment (from /etc/environment.d/27-Traap.conf)
@@ -116,6 +120,10 @@ AD_CONNECT_CONFIGURE_DNS="${AD_CONNECT_CONFIGURE_DNS:-true}"
 if [[ ! "$AD_CONNECT_NETWORK_TIMEOUT" =~ ^[0-9]+([.][0-9]+)?$ ]]; then
     AD_CONNECT_NETWORK_TIMEOUT=0.25
 fi
+
+ad_connect_truthy() {
+    [[ "$1" == true || "$1" == 1 ]]
+}
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Detect AD network
@@ -174,6 +182,10 @@ LAST_BOOT_ID=""
 CURRENT_BOOT_ID="$(cat /proc/sys/kernel/random/boot_id 2>/dev/null || printf unknown)"
 NOW_EPOCH="$(date +%s)"
 
+if ad_connect_truthy "$AD_CONNECT_FORCE"; then
+    rm -f "$AD_CONNECT_STATE_FILE" "$AD_CONNECT_STATE_FILE".* 2>/dev/null || true
+fi
+
 if [[ -r "$AD_CONNECT_STATE_FILE" ]]; then
     while IFS='=' read -r key value; do
         case "$key" in
@@ -192,7 +204,7 @@ fi
 RECONNECT_REQUIRED=false
 RECONNECT_REASON=""
 
-if [[ "$AD_CONNECT_FORCE" == true || "$AD_CONNECT_FORCE" == 1 ]]; then
+if ad_connect_truthy "$AD_CONNECT_FORCE"; then
     RECONNECT_REQUIRED=true
     RECONNECT_REASON="forced"
 elif (( LAST_SUCCESS_EPOCH == 0 )); then
