@@ -249,30 +249,6 @@ if "$BINHOME"/osType "linux"; then
 fi
 
 # -------------------------------------------------------------------------- }}}
-# {{{ File I edit frequently.  These aliases mirror keybinds used in Vim.
-#     TODO: 2023.12.22 Consider pruning this list.
-
-alias ,ec='$EDITOR $GITHOME/ssh/config.vim'
-alias ,ed='$EDITOR $GITHOME/vim/custom-dictionary.utf-8.add'
-alias ,eg='$EDITOR $GITHOME/ssh/gitconfig'
-alias ,en='$EDITOR $GITHOME/nvim.traap/init.lua'
-alias ,em='$EDITOR $GITHOME/vim/minimal-plug.vim'
-alias ,et='$EDITOR $GITHOME/tmux/tmux.conf'
-alias ,ev='$EDITOR $GITHOME/vim/vimrc'
-
-alias ,ma='$EDITOR $BASHHOME/my_aliases'
-alias ,mb='$EDITOR $BASHHOME/bashrc'
-alias ,mc='$EDITOR $BASHHOME/my_completions'
-alias ,me='$EDITOR $BASHHOME/my_exports'
-alias ,mf='$EDITOR $BASHHOME/my_functions'
-alias ,mp='$EDITOR $BASHHOME/my_paths'
-alias ,mt='$EDITOR $BASHHOME/my_prompt'
-alias ,mz='$EDITOR $BASHHOME/bashrc-personal'
-
-alias ,xb='$EDITOR $DOTHOME/bspwm/bspwmrc'
-alias ,xs='$EDITOR $DOTHOME/sxhkd/sxhkdrc'
-
-# -------------------------------------------------------------------------- }}}
 # {{{ TMUX / ao launch and terminate bindings.
 #      NOTE: These bindings are duplicated in three places:
 #     1. dotfiles/bash/my_aliases
