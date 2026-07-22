@@ -9,7 +9,7 @@
 #     That is why __begin and __end are called directly.
 
 if ! declare -p __verbose &>/dev/null; then
-  readonly __verbose=false
+  readonly __verbose=true
 fi
 
 __begin() { [[ $__verbose == true ]] && echo "begin: $1"; }
@@ -24,6 +24,7 @@ __guarded_source() {
 
   # Skip everything if the guard has already been run.
   if declare -p "$guard" &>/dev/null; then
+    [[ $__verbose == true ]] && echo "guard: $1"
     return
   fi
 
@@ -49,122 +50,10 @@ __begin ".bashrc"
 [[ ":$PATH:" != *":/bin:"* ]] && export PATH="${PATH}:/bin"
 
 # -------------------------------------------------------------------------- }}}
-# {{{ Define directory exports that my_functions use.
+# {{{ Hook into personal configuration.
 
-BBHOME=$HOME/bb
-export BBHOME
-
-CFGHOME=$HOME/.config
-export CFGHOME
-
-GITHOME=$HOME/git
-export GITHOME
-
-GITPATH=$GITHOME
-export GITPATH
-
-DOTHOME=$GITHOME/dotfiles
-export DOTHOME
-
-BASHHOME=$DOTHOME/bash
-export BASHHOME
-
-BINHOME=$BASHHOME/bin
-export BINHOME
-
-NVIMHOME=$GITHOME/nvim.traap
-export NVIMHOME
-
-SOUPHOME=$HOME/soup
-export SOUPHOME
-
-SSHHOME=$GITHOME/ssh
-export SSHHOME
-
-VIMHOME=$GITHOME/vim
-export VIMHOME
-
-WIKIHOME=$GITHOME/wiki
-export WIKIHOME
-
-WORKHOME=$HOME/gitea
-export WORKHOME
-
-YOUTUBEHOME=$GITHOME/youtube
-export YOUTUBEHOME
-
-PDF_VIEWER=okular
-export PDF_VIEWER
-
-PNG_VIEWER=feh
-export PNG_VIEWER
-
-AD_DOMAIN=ent.co.ventura.ca.us
-export AD_DOMAIN
-
-AD_REALM=ENT.CO.VENTURA.CA.US
-export AD_REALM
-
-AD_DNS1=10.130.5.98
-export AD_DNS1
-
-AD_DNS2=10.130.5.100
-export AD_DNS2
-
-AD_USER=135272
-export AD_USER
-
-WIN_DOMAIN="ENT"
-export WIN_DOMAIN
-
+BASHHOME=${BASHHOME:-$HOME/git/dotfiles/bash}
+__guarded_source "$BASHHOME/bashrc_personal"
 
 # -------------------------------------------------------------------------- }}}
-# {{{ Hook into personal configuation.
-
-__guarded_source $BASHHOME/bashrc_personal
-
-# -------------------------------------------------------------------------- }}}
-# {{{ Sometime other programs automagically update my bashrc.
-
-[[ -f $HOME/traap/.ghcup/env ]] && \
-    . $HOME/traap/.ghcup/env
-
-[[ -f $SSHHOME/agent_env ]] && \
-    . $SSHHOME/agent_env
-
-[ -f ~/.fzf.bash ] && . ~/.fzf.bash
-
-[[ -f /usr/share/fzf/completion.bash ]]  && \
-    . /usr/share/fzf/completion.bash
-
-[[ -f /usr/share/fzf/key-bindings.bash ]] && \
-    . /usr/share/fzf/key-bindings.bash
-
-[[ -f $HOME/.config/lua-language-server/3rd/luamake/luamake ]] && \
-      alias luamake=$HOME/.config/lua-language-server/3rd/luamake/luamake
-
-[[ -f $HOME/lib/azure-cli/az.completion ]] && \
-    . $HOME/lib/azure-cli/az.completion
-
-[[ -f $HOME/.cargo/env ]] && \
-   .  $HOME/.cargo/env
-
-if [[ -f $HOME/.cargo/env ]]; then
-  export NVM_DIR="$HOME/.nvm"
-  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-  [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
-fi
-
-if command -v uv &>/dev/null; then
-  eval "$(uv generate-shell-completion bash)"
-fi
-
-if command -v mise &>/dev/null; then
-  eval "$(mise activate bash)"
-fi
-
-if command -v starship &>/dev/null; then
-  eval "$(starship init bash)"
-fi
-
-# -------------------------------------------------------------------------- }}}
+__end ".bashrc"

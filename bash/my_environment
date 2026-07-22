@@ -1,0 +1,29 @@
+#!/bin/bash
+# {{{ Directory and service settings used by the remaining my_* files.
+
+export BBHOME="$HOME/bb"
+export CFGHOME="$HOME/.config"
+export GITHOME="$HOME/git"
+export GITPATH="$GITHOME"
+export DOTHOME="$GITHOME/dotfiles"
+export BASHHOME="$DOTHOME/bash"
+export BINHOME="$BASHHOME/bin"
+export NVIMHOME="$GITHOME/nvim.traap"
+export SOUPHOME="$HOME/soup"
+export SSHHOME="$GITHOME/ssh"
+export VIMHOME="$GITHOME/vim"
+export WIKIHOME="$GITHOME/wiki"
+export WORKHOME="$HOME/gitea"
+export YOUTUBEHOME="$GITHOME/youtube"
+
+export PDF_VIEWER=okular
+export PNG_VIEWER=feh
+
+export AD_DOMAIN=ent.co.ventura.ca.us
+export AD_REALM=ENT.CO.VENTURA.CA.US
+export AD_DNS1=10.130.5.98
+export AD_DNS2=10.130.5.100
+export AD_USER=135272
+export WIN_DOMAIN=ENT
+
+# -------------------------------------------------------------------------- }}}

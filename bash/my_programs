@@ -1,0 +1,37 @@
+#!/bin/bash
+# {{{ Settings installed or updated by other programs.
+
+[[ -f "$HOME/traap/.ghcup/env" ]] && source "$HOME/traap/.ghcup/env"
+[[ -f "$SSHHOME/agent_env" ]] && source "$SSHHOME/agent_env"
+[[ -f "$HOME/.fzf.bash" ]] && source "$HOME/.fzf.bash"
+
+[[ -f /usr/share/fzf/completion.bash ]] && \
+  source /usr/share/fzf/completion.bash
+[[ -f /usr/share/fzf/key-bindings.bash ]] && \
+  source /usr/share/fzf/key-bindings.bash
+
+if [[ -f "$HOME/.config/lua-language-server/3rd/luamake/luamake" ]]; then
+  alias luamake="$HOME/.config/lua-language-server/3rd/luamake/luamake"
+fi
+
+[[ -f "$HOME/lib/azure-cli/az.completion" ]] && \
+  source "$HOME/lib/azure-cli/az.completion"
+[[ -f "$HOME/.cargo/env" ]] && source "$HOME/.cargo/env"
+
+export NVM_DIR="$HOME/.nvm"
+[[ -s "$NVM_DIR/nvm.sh" ]] && source "$NVM_DIR/nvm.sh"
+[[ -s "$NVM_DIR/bash_completion" ]] && source "$NVM_DIR/bash_completion"
+
+if command -v uv &>/dev/null; then
+  eval "$(uv generate-shell-completion bash)"
+fi
+
+if command -v mise &>/dev/null; then
+  eval "$(mise activate bash)"
+fi
+
+if command -v starship &>/dev/null; then
+  eval "$(starship init bash)"
+fi
+
+# -------------------------------------------------------------------------- }}}
