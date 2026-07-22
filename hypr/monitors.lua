@@ -1,5 +1,25 @@
+local function detected_hostname()
+  local hostname = os.getenv("HOSTNAME")
+  if hostname and hostname ~= "" then
+    return hostname
+  end
+
+  local file = io.open("/etc/hostname", "r")
+  if not file then
+    return ""
+  end
+
+  hostname = file:read("*l") or ""
+  file:close()
+  return hostname
+end
+
 local function set_workspace_monitor(workspace, monitor)
-  hl.workspace_rule({ workspace = tostring(workspace), monitor = monitor })
+  hl.workspace_rule({
+    workspace = tostring(workspace),
+    monitor = monitor,
+    persistent = true,
+  })
 end
 
 local function apply_layout(monitors, workspace_monitors)
@@ -41,7 +61,7 @@ local layouts = {
 
   high_res_laptop_with_38inch = {
     monitors = {
-      { output = "eDP-1", mode = "3840x2400@60", position = "0x0", scale = 1.6 },
+      { output = "eDP-1",    mode = "3840x2400@60",    position = "0x0",     scale = 1.6 },
       { output = "HDMI-A-1", mode = "3840x2160@59.94", position = "0x-2160", scale = 1 },
     },
     workspaces = split_workspaces("eDP-1", "HDMI-A-1"),
@@ -49,7 +69,7 @@ local layouts = {
 
   ultra_gear = {
     monitors = {
-      { output = "DP-4", mode = "2560x2160@75", position = "0x0", scale = 1 },
+      { output = "DP-4",     mode = "2560x2160@75", position = "0x0",    scale = 1 },
       { output = "HDMI-A-1", mode = "2560x2160@75", position = "2560x0", scale = 1 },
     },
     workspaces = split_workspaces("DP-4", "HDMI-A-1"),
@@ -70,7 +90,7 @@ local layouts = {
   },
 }
 
-local hostname = os.getenv("HOSTNAME") or ""
+local hostname = detected_hostname()
 local monitor_count = #hl.get_monitors()
 local selected = layouts.high_res_laptop
 
@@ -81,7 +101,7 @@ elseif hostname == "GSA-AXA89M" then
 elseif hostname == "DarkKnight" then
   selected = layouts.ultra_gear
 elseif hostname == "Ninja" then
-  selected = layouts.high_res_laptop
+  selected = layouts.low_res_laptop
 elseif hostname == "Tank" then
   selected = layouts.twenty_seven_inch
 elseif hostname == "Zero" then
