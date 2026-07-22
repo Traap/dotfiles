@@ -9,7 +9,7 @@
 #     That is why __begin and __end are called directly.
 
 if ! declare -p __verbose &>/dev/null; then
-  readonly __verbose=true
+  readonly __verbose=false
 fi
 
 __begin() { [[ $__verbose == true ]] && echo "begin: $1"; }
