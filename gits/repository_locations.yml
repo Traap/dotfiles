@@ -178,6 +178,9 @@ gitea:
       - alias: DocAuto
         url: git@gsa-gitea:BSS/DocAuto.git
 
+      - alias: GsaScanQA
+        url: git@gsa-gitea:BSS/GSAScanQA.git
+
       - alias: GsaWebsite
         url: git@gsa-gitea:BSS/GsaWebsite.git
 
