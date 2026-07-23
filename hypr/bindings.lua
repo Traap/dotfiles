@@ -170,17 +170,6 @@ bind_dispatch(
 bind_dispatch("SUPER + SHIFT + S", "Toggle silent", hl.dsp.workspace.toggle_special())
 
 -- ------------------------------------------------------------------------- }}}
--- {{{ Switch workspaces relative to the active workspace.
-
-bind_dispatch("SUPER + CTRL + right", "Switch workspace right", hl.dsp.focus({ workspace = "r+1" }))
-
-bind_dispatch("SUPER + CTRL + left", "Switch workspace left", hl.dsp.focus({ workspace = "r-1" }))
-
-bind_dispatch("SUPER + CTRL + up", "Switch workspace up", hl.dsp.focus({ workspace = "empty" }))
-
-bind_dispatch("SUPER + CTRL + down", "Switch workspace down", hl.dsp.focus({ workspace = "empty" }))
-
--- ------------------------------------------------------------------------- }}}
 -- {{{ Resize active window.
 
 bind_dispatch(
