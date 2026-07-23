@@ -11,11 +11,11 @@ local function bind(keys, description, dispatcher)
   o.bind(keys, description, dispatcher)
 end
 
-local function bind_dispatch(keys, description, dispatcher)
+local function bind_dispatch(keys, description, ...)
   unbind(keys)
-  local name, argument = dispatcher:match("^(%S+)%s*(.*)$")
-  local action = argument == "" and hl.dsp.exec_raw(name) or hl.dsp.exec_raw(name, argument)
-  hl.bind(keys, action, { description = description })
+  for _, dispatcher in ipairs({ ... }) do
+    o.bind(keys, description, dispatcher)
+  end
 end
 
 -- -------------------------------------------------------------------------- }}}
@@ -112,33 +112,37 @@ bind("ALT + SHIFT + Z", "Kill Zero", "tmux kill-session -t Zero")
 -- ------------------------------------------------------------------------- }}}
 -- {{{ Hide/unhide active workspace.
 
-bind_dispatch("ALT + A", "Toggle Workspace", "togglespecialworkspace magic")
-bind_dispatch("ALT + A", "Toggle Workspace", "movetoworkspace +0")
-bind_dispatch("ALT + A", "Toggle Workspace", "togglespecialworkspace magic")
-bind_dispatch("ALT + A", "Toggle Workspace", "movetoworkspace special:magic")
-bind_dispatch("ALT + A", "Toggle Workspace", "togglespecialworkspace magic")
+bind_dispatch(
+  "ALT + A",
+  "Toggle Workspace",
+  hl.dsp.workspace.toggle_special("magic"),
+  hl.dsp.window.move({ workspace = "+0" }),
+  hl.dsp.workspace.toggle_special("magic"),
+  hl.dsp.window.move({ workspace = "special:magic" }),
+  hl.dsp.workspace.toggle_special("magic")
+)
 
 -- ------------------------------------------------------------------------- }}}
 -- {{{ Vim-style directional focus movement.
 
-bind_dispatch("ALT + H", "Move focus left", "movefocus l")
+bind_dispatch("ALT + H", "Move focus left", hl.dsp.focus({ direction = "l" }))
 
-bind_dispatch("ALT + J", "Move focus down", "movefocus d")
+bind_dispatch("ALT + J", "Move focus down", hl.dsp.focus({ direction = "d" }))
 
-bind_dispatch("ALT + K", "Move focus up", "movefocus u")
+bind_dispatch("ALT + K", "Move focus up", hl.dsp.focus({ direction = "u" }))
 
-bind_dispatch("ALT + L", "Move focus right", "movefocus r")
+bind_dispatch("ALT + L", "Move focus right", hl.dsp.focus({ direction = "r" }))
 
 -- ------------------------------------------------------------------------- }}}
 -- {{{ Move active window between monitors/workspaces.
 
-bind_dispatch("ALT + SHIFT + H", "Move active left", "movewindow l")
+bind_dispatch("ALT + SHIFT + H", "Move active left", hl.dsp.window.move({ direction = "l" }))
 
-bind_dispatch("ALT + SHIFT + J", "Move active down", "movewindow d")
+bind_dispatch("ALT + SHIFT + J", "Move active down", hl.dsp.window.move({ direction = "d" }))
 
-bind_dispatch("ALT + SHIFT + K", "Move active up", "movewindow u")
+bind_dispatch("ALT + SHIFT + K", "Move active up", hl.dsp.window.move({ direction = "u" }))
 
-bind_dispatch("ALT + SHIFT + L", "Move active right", "movewindow r")
+bind_dispatch("ALT + SHIFT + L", "Move active right", hl.dsp.window.move({ direction = "r" }))
 
 -- ------------------------------------------------------------------------- }}}
 -- {{{ Move window silently to workspace.
@@ -157,31 +161,51 @@ end
 -- ------------------------------------------------------------------------- }}}
 -- {{{ Special workspaces (scratchpad).
 
-bind_dispatch("SUPER + ALT + S", "Move to silent", "movetoworkspacesilent special")
+bind_dispatch(
+  "SUPER + ALT + S",
+  "Move to silent",
+  hl.dsp.window.move({ workspace = "special", follow = false })
+)
 
-bind_dispatch("SUPER + SHIFT + S", "Toggle silent", "togglespecialworkspace")
+bind_dispatch("SUPER + SHIFT + S", "Toggle silent", hl.dsp.workspace.toggle_special())
 
 -- ------------------------------------------------------------------------- }}}
 -- {{{ Switch workspaces relative to the active workspace.
 
-bind_dispatch("SUPER + CTRL + right", "Switch workspace right", "workspace r+1")
+bind_dispatch("SUPER + CTRL + right", "Switch workspace right", hl.dsp.focus({ workspace = "r+1" }))
 
-bind_dispatch("SUPER + CTRL + left", "Switch workspace left", "workspace r-1")
+bind_dispatch("SUPER + CTRL + left", "Switch workspace left", hl.dsp.focus({ workspace = "r-1" }))
 
-bind_dispatch("SUPER + CTRL + up", "Switch workspace up", "workspace empty")
+bind_dispatch("SUPER + CTRL + up", "Switch workspace up", hl.dsp.focus({ workspace = "empty" }))
 
-bind_dispatch("SUPER + CTRL + down", "Switch workspace down", "workspace empty")
+bind_dispatch("SUPER + CTRL + down", "Switch workspace down", hl.dsp.focus({ workspace = "empty" }))
 
 -- ------------------------------------------------------------------------- }}}
 -- {{{ Resize active window.
 
-bind_dispatch("SUPER + SHIFT + H", "Resize active left", "resizeactive -15 0")
+bind_dispatch(
+  "SUPER + SHIFT + H",
+  "Resize active left",
+  hl.dsp.window.resize({ x = -15, y = 0, relative = true })
+)
 
-bind_dispatch("SUPER + SHIFT + J", "Resize active right", "resizeactive 0 15")
+bind_dispatch(
+  "SUPER + SHIFT + J",
+  "Resize active right",
+  hl.dsp.window.resize({ x = 0, y = 15, relative = true })
+)
 
-bind_dispatch("SUPER + SHIFT + K", "Resize active up", "resizeactive 0 -15")
+bind_dispatch(
+  "SUPER + SHIFT + K",
+  "Resize active up",
+  hl.dsp.window.resize({ x = 0, y = -15, relative = true })
+)
 
-bind_dispatch("SUPER + SHIFT + L", "Resize active down", "resizeactive 15 0")
+bind_dispatch(
+  "SUPER + SHIFT + L",
+  "Resize active down",
+  hl.dsp.window.resize({ x = 15, y = 0, relative = true })
+)
 
 -- ------------------------------------------------------------------------- }}}
 -- {{{ Trigger when the switch is turning off.
