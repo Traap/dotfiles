@@ -48,6 +48,7 @@ createSymLinks() {
     ln -fsv ~/git/dotfiles/remmina                ~/.config/remmina
     ln -fsv ~/git/dotfiles/rofi                   ~/.config/rofi
     ln -fsv ~/git/dotfiles/sk/screenkey.json      ~/.config/screenkey.json
+    ln -fsv ~/git/dotfiles/sb                     ~/.config/session_bindings
     ln -fsv ~/git/dotfiles/starship/starship.toml ~/.config/starship.toml
     ln -fsv ~/git/dotfiles/sxhkd                  ~/.config/sxhkd
     ln -fsv ~/git/tmux                            ~/.config/tmux
@@ -110,6 +111,7 @@ deleteSymLinks() {
     rm -rfv ~/.config/remmina
     rm -rfv ~/.config/rofi
     rm -rfv ~/.config/screenkey.json
+    rm -rfv ~/.config/session_bindings
     rm -rfv ~/.config/starship
     rm -rfv ~/.config/sxhkd
     rm -rfv ~/.config/tmux

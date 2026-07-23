@@ -79,35 +79,16 @@ bind("SUPER + SHIFT + M", "Menu", "omarchy-menu")
 
 -- -------------------------------------------------------------------------- }}}
 -- {{{ Toggle tmux sessions.
---      NOTE: Keep these in sync with bash aliases and tmux config.
 
-bind("ALT + D", "Toggle DataRunner", vars.bin_home .. "/toggler DataRunner")
-
-bind("ALT + N", "Toggle Neovim", vars.bin_home .. "/toggler Neovim")
-
-bind("ALT + P", "Toggle Paperboy", vars.bin_home .. "/toggler Paperboy")
-
-bind("ALT + U", "Toggle Upgrade", vars.bin_home .. "/toggler Upgrade")
-
-bind("ALT + W", "Toggle Work", vars.bin_home .. "/toggler Work")
-
-bind("ALT + Y", "Toggle YouTube", vars.bin_home .. "/toggler YouTube")
-
-bind("ALT + Z", "Toggle Zero", vars.bin_home .. "/toggler Zero")
-
-bind("ALT + SHIFT + D", "Kill DataRunner", "tmux kill-session -t DataRunner")
-
-bind("ALT + SHIFT + N", "Kill Neovim", "tmux kill-session -t Neovim")
-
-bind("ALT + SHIFT + P", "Kill Paperboy", "tmux kill-session -t Paperboy")
-
-bind("ALT + SHIFT + U", "Kill Upgrade", "tmux kill-session -t Upgrade")
-
-bind("ALT + SHIFT + W", "Kill Work", "tmux kill-session -t Work")
-
-bind("ALT + SHIFT + Y", "Kill YouTube", "tmux kill-session -t YouTube")
-
-bind("ALT + SHIFT + Z", "Kill Zero", "tmux kill-session -t Zero")
+local session_bindings_home = os.getenv("SESSION_BINDINGS_HOME")
+if not session_bindings_home then
+  print("WARNING: SESSION_BINDINGS_HOME is not defined.")
+else
+  local session_bindings = session_bindings_home .. "/hypr.lua"
+  if o.cmd_present(session_bindings) then
+    dofile(session_bindings)
+  end
+end
 
 -- ------------------------------------------------------------------------- }}}
 -- {{{ Hide/unhide active workspace.

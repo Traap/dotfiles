@@ -3,6 +3,7 @@
 
 export BBHOME="$HOME/bb"
 export CFGHOME="$HOME/.config"
+export SESSION_BINDINGS_HOME="$CFGHOME/session_bindings"
 export GITHOME="$HOME/git"
 export GITPATH="$GITHOME"
 export DOTHOME="$GITHOME/dotfiles"
