@@ -19,13 +19,15 @@
 
 # Devine global variables.
 
-AO=$BINHOME/ao
+SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)
+AO=$SCRIPT_DIR/ao
 _verbose=true
 _displayTime=2500
 _tmuxSession=""
 _dir=""
 DESKTOP=""
 _winclass=()
+_window_is_hidden=false
 _workspace_id=-1
 
 set_global_variables() {
@@ -82,11 +84,25 @@ check_bspwm_requirements(){
 # {{{ Search Hyprland for winclass name using _tmuxSession.
 
 find_hyperland_winclass(){
+  local clients
+
+  clients=$(hyprctl clients -j)
   readarray -t _winclass < <(
-    hyprctl clients -j | jq -r --arg name "$_tmuxSession" '
-    .[] | select(.title | contains($name)) | .address
-    '
+    jq -r --arg name "$_tmuxSession" '
+      .[]
+      | select(.initialTitle == $name or .title == $name)
+      | .address
+    ' <<< "$clients"
   )
+
+  if jq -e --arg workspace "special:$_tmuxSession" '
+    any(.[];
+      (.initialTitle == $workspace[8:] or .title == $workspace[8:])
+      and .workspace.name == $workspace
+    )
+  ' <<< "$clients" >/dev/null; then
+    _window_is_hidden=true
+  fi
 }
 
 # -------------------------------------------------------------------------- }}}
@@ -140,9 +156,9 @@ start_terminal() {
   notify "Create $_tmuxSession"
 
   cd "$_dir" || exit
-  touch /tmp/"$_tmuxSession"
   case "$DESKTOP" in
     bspwm)
+      touch /tmp/"$_tmuxSession"
       ghostty --x11-instance-name="$_tmuxSession" --command="$AO $_tmuxSession"
       ;;
     hyprland)
@@ -157,16 +173,17 @@ start_terminal() {
 hide_terminal(){
   notify "Hide $_tmuxSession"
 
-  rm /tmp/"$_tmuxSession"
   case "$DESKTOP" in
     bspwm)
+      rm /tmp/"$_tmuxSession"
       for id in "${_winclass[@]}"; do
         xdo hide "$id";
       done
       ;;
     hyprland)
       for id in "${_winclass[@]}"; do
-        hyprctl dispatch movetoworkspacesilent special:"$_tmuxSession",address:"$id"
+        hyprctl eval \
+          "local w = hl.get_window(\"address:$id\"); return hl.dispatch(hl.dsp.window.move({ workspace = \"special:$_tmuxSession\", follow = false, window = w }))"
       done
       ;;
   esac
@@ -178,9 +195,9 @@ hide_terminal(){
 show_terminal(){
   notify "Show $_tmuxSession"
 
-  touch /tmp/"$_tmuxSession"
   case "$DESKTOP" in
     bspwm)
+      touch /tmp/"$_tmuxSession"
       for id in "${_winclass[@]}"; do
         xdo show "$id";
         # wmctrl -i -a "$id"
@@ -188,8 +205,8 @@ show_terminal(){
       ;;
     hyprland)
       for id in "${_winclass[@]}"; do
-        hyprctl dispatch movetoworkspace "$_workspace_id",address:"$id"
-        hyprctl dispatch focuswindow address:"$id"
+        hyprctl eval \
+          "local w = hl.get_window(\"address:$id\"); return hl.dispatch(hl.dsp.window.move({ workspace = \"$_workspace_id\", follow = true, window = w }))"
       done
       ;;
   esac
@@ -216,9 +233,13 @@ toggle_winclass() {
   if [[ -z "$_winclass" ]]; then
     start_terminal
   else
-    if [[ -f /tmp/"$_tmuxSession" ]]; then
+    if [[ $DESKTOP == hyprland && $_window_is_hidden == true ]]; then
+      show_terminal
+    elif [[ $DESKTOP == hyprland ]]; then
       hide_terminal
-    elif [[ ! -f /tmp/"$_tmuxSession" ]]; then
+    elif [[ -f /tmp/"$_tmuxSession" ]]; then
+      hide_terminal
+    else
       show_terminal
     fi
   fi

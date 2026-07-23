@@ -101,7 +101,7 @@ bind("ALT + SHIFT + N", "Kill Neovim", "tmux kill-session -t Neovim")
 
 bind("ALT + SHIFT + P", "Kill Paperboy", "tmux kill-session -t Paperboy")
 
-bind("ALT + SHIFT + U", "Kill Upgrade", "tmux kill-session -t YouTube")
+bind("ALT + SHIFT + U", "Kill Upgrade", "tmux kill-session -t Upgrade")
 
 bind("ALT + SHIFT + W", "Kill Work", "tmux kill-session -t Work")
 
