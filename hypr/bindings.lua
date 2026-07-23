@@ -112,15 +112,16 @@ bind("ALT + SHIFT + Z", "Kill Zero", "tmux kill-session -t Zero")
 -- ------------------------------------------------------------------------- }}}
 -- {{{ Hide/unhide active workspace.
 
-bind_dispatch(
-  "ALT + A",
-  "Toggle Workspace",
-  hl.dsp.workspace.toggle_special("magic"),
-  hl.dsp.window.move({ workspace = "+0" }),
-  hl.dsp.workspace.toggle_special("magic"),
-  hl.dsp.window.move({ workspace = "special:magic" }),
-  hl.dsp.workspace.toggle_special("magic")
-)
+unbind("ALT + A")
+hl.bind("ALT + A", function()
+  local magic = hl.get_workspace("special:magic")
+
+  if magic and magic.windows > 0 then
+    hl.dispatch(hl.dsp.workspace.toggle_special("magic"))
+  else
+    hl.dispatch(hl.dsp.window.move({ workspace = "special:magic", follow = false }))
+  end
+end, { description = "Toggle Workspace" })
 
 -- ------------------------------------------------------------------------- }}}
 -- {{{ Vim-style directional focus movement.
@@ -157,17 +158,6 @@ for workspace = 1, 10 do
     { description = "Silently move to workspace " .. workspace }
   )
 end
-
--- ------------------------------------------------------------------------- }}}
--- {{{ Special workspaces (scratchpad).
-
-bind_dispatch(
-  "SUPER + ALT + S",
-  "Move to silent",
-  hl.dsp.window.move({ workspace = "special", follow = false })
-)
-
-bind_dispatch("SUPER + SHIFT + S", "Toggle silent", hl.dsp.workspace.toggle_special())
 
 -- ------------------------------------------------------------------------- }}}
 -- {{{ Resize active window.
