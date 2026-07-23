@@ -1,3 +1,5 @@
+-- {{{ Local lua functions
+
 local vars = require("hypr.vars")
 
 local function unbind(keys)
@@ -5,16 +7,21 @@ local function unbind(keys)
 end
 
 local function bind_dispatch(keys, description, dispatcher)
-  hl.bind(keys, hl.dsp.exec_raw(dispatcher), { description = description })
+  local name, argument = dispatcher:match("^(%S+)%s*(.*)$")
+  local action = argument == "" and hl.dsp.exec_raw(name) or hl.dsp.exec_raw(name, argument)
+  hl.bind(keys, action, { description = description })
 end
 
--- Launch applications.
+-- -------------------------------------------------------------------------- }}}
+-- {{{ Launch applications.
+
 o.bind("SUPER + A", "ChatGPT", 'omarchy-launch-webapp "https://chatgpt.com"')
 
-unbind("SUPER + SHIFT + E")
 unbind("SUPER + E")
-o.bind("SUPER + SHIFT + E", "Calendar", 'omarchy-launch-or-focus-webapp Calendar "https://app.hey.com/calendar/weeks/"')
 o.bind("SUPER + E", "Email", 'omarchy-launch-or-focus-webapp Email "https://app.hey.com"')
+
+unbind("SUPER + SHIFT + E")
+o.bind("SUPER + SHIFT + E", "Calendar", 'omarchy-launch-or-focus-webapp Calendar "https://app.hey.com/calendar/weeks/"')
 
 unbind("SUPER + L")
 o.bind("SUPER + L", "Lock Screen", "omarchy-lock-screen")
@@ -37,9 +44,12 @@ o.bind("SUPER + R", "Toggle Bracco", vars.bin_home .. "/remmina-noswap")
 unbind("SUPER + RETURN")
 o.bind("SUPER + RETURN", "Terminal", "ghostty")
 
-unbind("SUPER + SPACE")
+-- Hyprland physical keycode for the / key.
 unbind("SUPER + code:61")
 unbind("SUPER + ALT + code:61")
+
+unbind("SUPER + SPACE")
+
 o.bind("SUPER + SLASH", "Launch apps", "omarchy-launch-walker")
 
 unbind("SUPER + S")
@@ -84,7 +94,10 @@ o.bind("SUPER + CTRL + W", "Browser (private)", vars.browser .. " --private")
 unbind("SUPER + SHIFT + M")
 o.bind("SUPER + SHIFT + M", "Menu", "omarchy-menu")
 
--- Toggle tmux sessions. Keep these in sync with bash aliases and tmux config.
+-- -------------------------------------------------------------------------- }}}
+-- {{{ Toggle tmux sessions.
+--      NOTE: Keep these in sync with bash aliases and tmux config.
+
 unbind("ALT + D")
 o.bind("ALT + D", "Toggle DataRunner", vars.bin_home .. "/toggler DataRunner")
 
@@ -126,8 +139,9 @@ o.bind("ALT + SHIFT + Y", "Kill YouTube", "tmux kill-session -t YouTube")
 
 unbind("ALT + SHIFT + Z")
 o.bind("ALT + SHIFT + Z", "Kill Zero", "tmux kill-session -t Zero")
+-- ------------------------------------------------------------------------- }}}
+-- {{{ Hide/unhide active workspace.
 
--- Hide/unhide active workspace.
 unbind("ALT + A")
 bind_dispatch("ALT + A", "Toggle Workspace", "togglespecialworkspace magic")
 bind_dispatch("ALT + A", "Toggle Workspace", "movetoworkspace +0")
@@ -135,7 +149,9 @@ bind_dispatch("ALT + A", "Toggle Workspace", "togglespecialworkspace magic")
 bind_dispatch("ALT + A", "Toggle Workspace", "movetoworkspace special:magic")
 bind_dispatch("ALT + A", "Toggle Workspace", "togglespecialworkspace magic")
 
--- Vim-style directional focus movement.
+-- ------------------------------------------------------------------------- }}}
+-- {{{ Vim-style directional focus movement.
+
 unbind("ALT + H")
 bind_dispatch("ALT + H", "Move focus left", "movefocus l")
 
@@ -148,7 +164,9 @@ bind_dispatch("ALT + K", "Move focus up", "movefocus u")
 unbind("ALT + L")
 bind_dispatch("ALT + L", "Move focus right", "movefocus r")
 
--- Move active window between monitors/workspaces.
+-- ------------------------------------------------------------------------- }}}
+-- {{{ Move active window between monitors/workspaces.
+
 unbind("ALT + SHIFT + H")
 bind_dispatch("ALT + SHIFT + H", "Move active left", "movewindow l")
 
@@ -161,7 +179,9 @@ bind_dispatch("ALT + SHIFT + K", "Move active up", "movewindow u")
 unbind("ALT + SHIFT + L")
 bind_dispatch("ALT + SHIFT + L", "Move active right", "movewindow r")
 
--- Move window silently to workspace.
+-- ------------------------------------------------------------------------- }}}
+-- {{{ Move window silently to workspace.
+
 for workspace = 1, 10 do
   local key = "code:" .. tostring(workspace + 9)
   unbind("SUPER + SHIFT + ALT + " .. key)
@@ -173,14 +193,18 @@ for workspace = 1, 10 do
   )
 end
 
--- Special workspaces (scratchpad).
+-- ------------------------------------------------------------------------- }}}
+-- {{{ Special workspaces (scratchpad).
+
 unbind("SUPER + ALT + S")
 bind_dispatch("SUPER + ALT + S", "Move to silent", "movetoworkspacesilent special")
 
 unbind("SUPER + SHIFT + S")
 bind_dispatch("SUPER + SHIFT + S", "Toggle silent", "togglespecialworkspace")
 
--- Switch workspaces relative to the active workspace.
+-- ------------------------------------------------------------------------- }}}
+-- {{{ Switch workspaces relative to the active workspace.
+
 unbind("SUPER + CTRL + right")
 bind_dispatch("SUPER + CTRL + right", "Switch workspace right", "workspace r+1")
 
@@ -193,7 +217,9 @@ bind_dispatch("SUPER + CTRL + up", "Switch workspace up", "workspace empty")
 unbind("SUPER + CTRL + down")
 bind_dispatch("SUPER + CTRL + down", "Switch workspace down", "workspace empty")
 
--- Resize active window.
+-- ------------------------------------------------------------------------- }}}
+-- {{{ Resize active window.
+
 unbind("SUPER + SHIFT + H")
 bind_dispatch("SUPER + SHIFT + H", "Resize active left", "resizeactive -15 0")
 
@@ -206,4 +232,10 @@ bind_dispatch("SUPER + SHIFT + K", "Resize active up", "resizeactive 0 -15")
 unbind("SUPER + SHIFT + L")
 bind_dispatch("SUPER + SHIFT + L", "Resize active down", "resizeactive 15 0")
 
-hl.bind("switch:on:Lid Switch", hl.dsp.exec_cmd("swaylock && systemctl suspend"), { locked = true })
+-- ------------------------------------------------------------------------- }}}
+-- {{{ Trigger when the switch is turning off.
+
+hl.bind("switch:on:Lid Switch",
+  hl.dsp.exec_cmd("swaylock && systemctl suspend"), { locked = true })
+
+-- ------------------------------------------------------------------------- }}}
