@@ -163,12 +163,13 @@ bind_dispatch("ALT + SHIFT + L", "Move active right", "movewindow r")
 
 -- Move window silently to workspace.
 for workspace = 1, 10 do
-  local key = workspace == 10 and "0" or tostring(workspace)
+  local key = "code:" .. tostring(workspace + 9)
   unbind("SUPER + SHIFT + ALT + " .. key)
-  bind_dispatch(
+  unbind("SUPER + ALT + " .. key)
+  hl.bind(
     "SUPER + ALT + " .. key,
-    "Silently move to workspace " .. workspace,
-    "movetoworkspacesilent " .. workspace
+    hl.dsp.window.move({ workspace = tostring(workspace), follow = false }),
+    { description = "Silently move to workspace " .. workspace }
   )
 end
 
