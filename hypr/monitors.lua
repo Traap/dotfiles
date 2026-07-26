@@ -1,3 +1,5 @@
+local omarchy_monitor_scale = 1
+
 local function detected_hostname()
   local hostname = os.getenv("HOSTNAME")
   if hostname and hostname ~= "" then
@@ -84,7 +86,7 @@ local layouts = {
 
   low_res_laptop = {
     monitors = {
-      { output = "eDP-1", mode = "2560x1440@60", position = "0x0", scale = 1 },
+      { output = "eDP-1", mode = "preferred", position = "0x0", scale = omarchy_monitor_scale },
     },
     workspaces = all_workspaces_on("eDP-1"),
   },

@@ -96,6 +96,9 @@ mp_left=false
 rdp_auth_filter=
 start_fullscreen=false
 start_dynres=false
+floating_toolbar_monitor=0
+toolbar_fix_position_multimon=true
+fullscreen_toolbar_delay=0
 
 [ssh_colors]
 background=rgb(213,204,186)

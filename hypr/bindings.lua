@@ -168,9 +168,3 @@ bind_dispatch(
 )
 
 -- ------------------------------------------------------------------------- }}}
--- {{{ Trigger when the switch is turning off.
-
-hl.bind("switch:on:Lid Switch",
-  hl.dsp.exec_cmd("swaylock && systemctl suspend"), { locked = true })
-
--- ------------------------------------------------------------------------- }}}
