@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "id": "local.workspaces",
+  "name": "Workspaces",
+  "version": "1.0.0",
+  "author": "Local",
+  "description": "Cloned from omarchy.workspaces",
+  "kinds": [
+    "bar-widget"
+  ],
+  "entryPoints": {
+    "barWidget": "Widget.qml"
+  },
+  "barWidget": {
+    "displayName": "Workspaces",
+    "description": "Cloned from omarchy.workspaces",
+    "category": "Compositor",
+    "allowMultiple": false
+  },
+  "omarchy": {
+    "clonedFrom": "omarchy.workspaces",
+    "clonedFromPath": "/usr/share/omarchy/shell/plugins/bar/widgets/Workspaces.qml"
+  }
+}

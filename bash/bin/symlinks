@@ -42,6 +42,9 @@ createSymLinks() {
     ln -fsv ~/git/dotfiles/kitty                  ~/.config/kitty
     ln -fsv ~/git/dotfiles/mako                   ~/.config/mako
     ln -fsv ~/git/dotfiles/neofetch               ~/.config/neofetch
+    ln -fsv ~/git/dotfiles/omarchy/shell.json     ~/.config/omarchy/shell.json
+    ln -fsv ~/git/dotfiles/omarchy/shell.toml     ~/.config/omarchy/shell.toml
+    ln -fsv ~/git/dotfiles/omarchy/plugins        ~/.config/omarchy/plugins
     ln -fsv ~/git/dotfiles/pamac                  ~/.config/pamac
     ln -fsv ~/git/dotfiles/picom                  ~/.config/picom
     ln -fsv ~/git/dotfiles/polybar                ~/.config/polybar
@@ -51,7 +54,6 @@ createSymLinks() {
     ln -fsv ~/git/dotfiles/sb                     ~/.config/session_bindings
     ln -fsv ~/git/dotfiles/starship/starship.toml ~/.config/starship.toml
     ln -fsv ~/git/dotfiles/sxhkd                  ~/.config/sxhkd
-    ln -fsv ~/git/tmux                            ~/.config/tmux
     ln -fsv ~/git/dotfiles/volumeicon             ~/.config/volumeicon
     ln -fsv ~/git/dotfiles/wallpaper              ~/.config/wallpaper
     ln -fsv ~/git/dotfiles/walker                 ~/.config/walker
@@ -63,6 +65,7 @@ createSymLinks() {
     ln -fsv ~/git/dotfiles/swaylock               ~/.config/swaylock
     ln -fsv ~/git/dotfiles/yazi                   ~/.config/yazi
     ln -fsv ~/git/nvim.traap                      ~/.config/nvim
+    ln -fsv ~/git/tmux                            ~/.config/tmux
 
     # Symlinks at $HOME
     ln -fsv ~/git/dotfiles/bash/bash_logout       ~/.bash_logout
@@ -105,6 +108,9 @@ deleteSymLinks() {
     rm -rfv ~/.config/mako
     rm -rfv ~/.config/nvim
     rm -rfv ~/.config/neofetch
+    rm -rfv ~/.config/omarchy/plugins
+    rm -rfv ~/.config/omarchy/shell.json
+    rm -rfv ~/.config/omarchy/shell.toml
     rm -rfv ~/.config/pamac
     rm -rfv ~/.config/picom
     rm -rfv ~/.config/polybar

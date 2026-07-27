@@ -1,0 +1,14 @@
+[bar]
+background = "#000000"
+background-alpha = 0.0
+text = "#b7bdf8"
+active = "#c6a0f6"
+scale-with-font = false
+size-horizontal = 30
+size-vertical = 30
+
+[font]
+base-size = 14
+body = 18
+icon = 18
+icon-large = 18
