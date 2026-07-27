@@ -37,7 +37,7 @@ hl.config({
   },
 
   layout = {
-    single_window_aspect_ratio = { 1.1, 1 },
+    single_window_aspect_ratio = { 1.33, 1 },
   },
 
   master = {
