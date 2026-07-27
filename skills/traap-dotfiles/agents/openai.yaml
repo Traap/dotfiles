@@ -1,0 +1,4 @@
+interface:
+  display_name: "Traap Dotfiles"
+  short_description: "Maintain Traap’s cross-platform development environment"
+  default_prompt: "Use $traap-dotfiles to improve my terminal configuration."
