@@ -36,6 +36,10 @@ hl.config({
     resize_on_border = true,
   },
 
+  layout = {
+    single_window_aspect_ratio = { 1.1, 1 },
+  },
+
   master = {
     new_status = "slave",
   },
