@@ -1,0 +1,10 @@
+[Unit]
+Description=Schedule Active Directory reconnects
+
+[Timer]
+OnBootSec=15s
+OnUnitInactiveSec=5min
+Unit=ad-connect.service
+
+[Install]
+WantedBy=timers.target

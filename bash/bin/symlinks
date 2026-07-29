@@ -26,6 +26,7 @@ createSymLinks() {
   if [[ $createSymLinksFlag == 1 ]]; then
     echo "Creating symbolic links."
     mkdir -p ~/.config
+    mkdir -p ~/.config/systemd/user/timers.target.wants
 
     # Symlinks at .config
     ln -fsv ~/git/dotfiles/Thunar                 ~/.config/Thunar
@@ -63,6 +64,12 @@ createSymLinks() {
     ln -fsv ~/git/dotfiles/wofi                   ~/.config/wofi
     ln -fsv ~/git/dotfiles/wofifull               ~/.config/wofifull
     ln -fsv ~/git/dotfiles/swaylock               ~/.config/swaylock
+    ln -fsv ~/git/dotfiles/systemd/user/ad-connect.service \
+      ~/.config/systemd/user/ad-connect.service
+    ln -fsv ~/git/dotfiles/systemd/user/ad-connect.timer \
+      ~/.config/systemd/user/ad-connect.timer
+    ln -fsv ../ad-connect.timer \
+      ~/.config/systemd/user/timers.target.wants/ad-connect.timer
     ln -fsv ~/git/dotfiles/yazi                   ~/.config/yazi
     ln -fsv ~/git/nvim.traap                      ~/.config/nvim
     ln -fsv ~/git/tmux                            ~/.config/tmux
@@ -130,6 +137,9 @@ deleteSymLinks() {
     rm -rfv ~/.config/wofi
     rm -rfv ~/.config/wofifull
     rm -rfv ~/.config/swaylock
+    rm -fv ~/.config/systemd/user/ad-connect.service
+    rm -fv ~/.config/systemd/user/ad-connect.timer
+    rm -fv ~/.config/systemd/user/timers.target.wants/ad-connect.timer
     rm -rfv ~/.config/yazi
 
     # Symlinks at $HOME

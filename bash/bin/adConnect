@@ -27,7 +27,7 @@ print_help() {
 adConnect - reconnect Active Directory resources when an AD network is reachable
 
 Usage:
-  adConnect [--force]
+  adConnect [--force] [--noninteractive]
   adConnect --help
 
 Behavior:
@@ -48,6 +48,13 @@ Required environment:
 Optional environment:
   AD_CONNECT_FORCE=true
       Force reconnect work even when saved state is still fresh.
+
+  AD_CONNECT_NONINTERACTIVE=true
+      Acquire Kerberos credentials from AD_CONNECT_KEYTAB without reading the
+      terminal.  Intended for the ad-connect.service user unit.
+
+  AD_CONNECT_KEYTAB=~/.config/krb5/user.keytab
+      User keytab used by noninteractive reconnects.
 
   AD_CONNECT_CONFIGURE_DNS=false
       Skip resolvectl DNS changes and SSSD restart.  vpnConnect uses this so
@@ -81,9 +88,14 @@ while (($#)); do
         -f|--force)
             AD_CONNECT_FORCE=true
             ;;
+        --noninteractive)
+            AD_CONNECT_NONINTERACTIVE=true
+            ;;
         *)
             fail "Unknown argument: $1"
-            printf 'Usage: adConnect [--force] [--help]\n' >&2
+            printf \
+                'Usage: adConnect [--force] [--noninteractive] [--help]\n' \
+                >&2
             exit 2
             ;;
     esac
@@ -105,7 +117,7 @@ done
 AD_IDENTITY_TEST=true
 AD_REALM="${AD_DOMAIN^^}"
 AD_LOWER="${AD_DOMAIN,,}"
-KEYTAB="$HOME/.config/krb5/user.keytab"
+AD_CONNECT_KEYTAB="${AD_CONNECT_KEYTAB:-$HOME/.config/krb5/user.keytab}"
 SSSD_LOOKUP_RETRIES="${SSSD_LOOKUP_RETRIES:-6}"
 SSSD_LOOKUP_DELAY="${SSSD_LOOKUP_DELAY:-5}"
 SYSTEM_KEYTAB="/etc/krb5.keytab"
@@ -115,6 +127,7 @@ AD_CONNECT_STATE_FILE="${AD_CONNECT_STATE_FILE:-$AD_CONNECT_STATE_DIR/state}"
 AD_CONNECT_LOCK="${AD_CONNECT_LOCK:-${XDG_RUNTIME_DIR:-/tmp}/adConnect.$UID.lock}"
 AD_CONNECT_LOCK_OWNER="$AD_CONNECT_LOCK/owner"
 AD_CONNECT_FORCE="${AD_CONNECT_FORCE:-false}"
+AD_CONNECT_NONINTERACTIVE="${AD_CONNECT_NONINTERACTIVE:-false}"
 AD_CONNECT_NETWORK_TIMEOUT="${AD_CONNECT_NETWORK_TIMEOUT:-0.25}"
 AD_CONNECT_CONFIGURE_DNS="${AD_CONNECT_CONFIGURE_DNS:-true}"
 
@@ -129,6 +142,14 @@ ad_connect_truthy() {
 ad_connect_remove_lock() {
     rm -f "$AD_CONNECT_LOCK_OWNER" 2>/dev/null || true
     rmdir "$AD_CONNECT_LOCK" 2>/dev/null || true
+}
+
+ad_connect_sudo() {
+    if ad_connect_truthy "$AD_CONNECT_NONINTERACTIVE"; then
+        sudo -n "$@"
+    else
+        sudo "$@"
+    fi
 }
 
 if ad_connect_truthy "$AD_CONNECT_FORCE"; then
@@ -407,6 +428,13 @@ report_sssd_state() {
 # {{{ DNS configuration (only when online)
 # Prefer eth0 when available, otherwise fall back to wlan0
 
+if ad_connect_truthy "$AD_CONNECT_NONINTERACTIVE" &&
+   [[ ! -r "$AD_CONNECT_KEYTAB" ]]; then
+    fail "Noninteractive Kerberos keytab is not readable: $AD_CONNECT_KEYTAB"
+    warn "Run adConnect -f interactively or provision the user keytab."
+    exit 1
+fi
+
 if $AD_IDENTITY_TEST && [[ "$AD_CONNECT_CONFIGURE_DNS" != false && "$AD_CONNECT_CONFIGURE_DNS" != 0 ]]; then
   if $AD_ONLINE; then
       iface=""
@@ -421,13 +449,16 @@ if $AD_IDENTITY_TEST && [[ "$AD_CONNECT_CONFIGURE_DNS" != false && "$AD_CONNECT_
 
       if [[ -n "$iface" ]]; then
           info "Applying AD DNS configuration on $iface..."
-          sudo resolvectl dns "$iface" "$AD_DNS1" "$AD_DNS2" || true
-          sudo resolvectl domain "$iface" "$AD_LOWER" co.ventura.ca.us || true
+          ad_connect_sudo resolvectl dns \
+              "$iface" "$AD_DNS1" "$AD_DNS2" || true
+          ad_connect_sudo resolvectl domain \
+              "$iface" "$AD_LOWER" co.ventura.ca.us || true
 
           if sssd_available; then
               check_sssd_keytab || true
               info "Restarting SSSD after DNS update..."
-              sudo systemctl restart sssd || warn "Unable to restart SSSD; identity lookup may need more time."
+              ad_connect_sudo systemctl restart sssd ||
+                  warn "Unable to restart SSSD; identity lookup may need time."
               report_sssd_state || true
           fi
       fi
@@ -440,8 +471,15 @@ fi
 # Prompt for or refresh the user's AD Kerberos ticket.  The reconnect state
 # is updated only when this succeeds.
 
-info "Running kinit for $AD_USER@$AD_REALM..."
-if kinit "$AD_USER@$AD_REALM"; then
+if ad_connect_truthy "$AD_CONNECT_NONINTERACTIVE"; then
+    info "Running noninteractive kinit for $AD_USER@$AD_REALM..."
+    kinit_command=(kinit -k -t "$AD_CONNECT_KEYTAB" "$AD_USER@$AD_REALM")
+else
+    info "Running interactive kinit for $AD_USER@$AD_REALM..."
+    kinit_command=(kinit "$AD_USER@$AD_REALM")
+fi
+
+if "${kinit_command[@]}"; then
     KINIT_OK=true
     info "Kerberos ticket acquired."
 else
