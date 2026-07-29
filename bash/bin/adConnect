@@ -126,9 +126,13 @@ ad_connect_truthy() {
     [[ "$1" == true || "$1" == 1 ]]
 }
 
-if ad_connect_truthy "$AD_CONNECT_FORCE"; then
+ad_connect_remove_lock() {
     rm -f "$AD_CONNECT_LOCK_OWNER" 2>/dev/null || true
     rmdir "$AD_CONNECT_LOCK" 2>/dev/null || true
+}
+
+if ad_connect_truthy "$AD_CONNECT_FORCE"; then
+    ad_connect_remove_lock
 fi
 
 # -------------------------------------------------------------------------- }}}
@@ -272,6 +276,15 @@ elif (( NOW_EPOCH - LAST_SUCCESS_EPOCH >= AD_RECONNECT_AFTER_SECONDS )); then
 elif (( NOW_EPOCH < LAST_SUCCESS_EPOCH )); then
     RECONNECT_REQUIRED=true
     RECONNECT_REASON="saved reconnect timestamp is in the future"
+fi
+
+# A lock created before or during a reboot cannot represent reconnect work
+# worth preserving.  Startup may abandon it after recording the new Linux boot
+# ID, so the ordinary boot-ID and PID checks alone are not sufficient.
+if [[ "$RECONNECT_REASON" == "Windows reboot detected" ||
+      "$RECONNECT_REASON" == "WSL reboot detected" ||
+      "$RECONNECT_REASON" == "system reboot detected" ]]; then
+    ad_connect_remove_lock
 fi
 
 if ! $RECONNECT_REQUIRED; then
