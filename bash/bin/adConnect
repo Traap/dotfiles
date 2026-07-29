@@ -191,6 +191,17 @@ CURRENT_LINUX_BOOT_ID="$(
 CURRENT_WINDOWS_BOOT_ID=""
 NOW_EPOCH="$(date +%s)"
 
+ad_connect_normalize_windows_boot_id() {
+    local boot_id="$1"
+
+    # CIM can vary the fractional FileTime ticks for the same Windows boot.
+    if [[ "$boot_id" =~ ^[0-9]{17,}$ ]]; then
+        printf '%s' "$((boot_id / 10000000))"
+    else
+        printf '%s' "$boot_id"
+    fi
+}
+
 if "$BINHOME"/is_wsl && command -v powershell.exe >/dev/null 2>&1; then
     windows_boot_command='(Get-CimInstance Win32_OperatingSystem).'
     windows_boot_command+='LastBootUpTime.ToFileTimeUtc()'
@@ -198,6 +209,9 @@ if "$BINHOME"/is_wsl && command -v powershell.exe >/dev/null 2>&1; then
         powershell.exe -NoProfile -NonInteractive -Command \
             "$windows_boot_command" \
             2>/dev/null | tr -d '\r' || true
+    )"
+    CURRENT_WINDOWS_BOOT_ID="$(
+        ad_connect_normalize_windows_boot_id "$CURRENT_WINDOWS_BOOT_ID"
     )"
 fi
 
@@ -223,7 +237,9 @@ if [[ -r "$AD_CONNECT_STATE_FILE" ]]; then
                 LAST_LINUX_BOOT_ID="$value"
                 ;;
             windows_boot_id)
-                LAST_WINDOWS_BOOT_ID="$value"
+                LAST_WINDOWS_BOOT_ID="$(
+                    ad_connect_normalize_windows_boot_id "$value"
+                )"
                 ;;
         esac
     done < "$AD_CONNECT_STATE_FILE"
