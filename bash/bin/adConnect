@@ -113,6 +113,7 @@ AD_RECONNECT_AFTER_SECONDS="${AD_RECONNECT_AFTER_SECONDS:-86400}"
 AD_CONNECT_STATE_DIR="${AD_CONNECT_STATE_DIR:-${XDG_STATE_HOME:-$HOME/.local/state}/adConnect}"
 AD_CONNECT_STATE_FILE="${AD_CONNECT_STATE_FILE:-$AD_CONNECT_STATE_DIR/state}"
 AD_CONNECT_LOCK="${AD_CONNECT_LOCK:-${XDG_RUNTIME_DIR:-/tmp}/adConnect.$UID.lock}"
+AD_CONNECT_LOCK_OWNER="$AD_CONNECT_LOCK/owner"
 AD_CONNECT_FORCE="${AD_CONNECT_FORCE:-false}"
 AD_CONNECT_NETWORK_TIMEOUT="${AD_CONNECT_NETWORK_TIMEOUT:-0.25}"
 AD_CONNECT_CONFIGURE_DNS="${AD_CONNECT_CONFIGURE_DNS:-true}"
@@ -126,6 +127,7 @@ ad_connect_truthy() {
 }
 
 if ad_connect_truthy "$AD_CONNECT_FORCE"; then
+    rm -f "$AD_CONNECT_LOCK_OWNER" 2>/dev/null || true
     rmdir "$AD_CONNECT_LOCK" 2>/dev/null || true
 fi
 
@@ -236,7 +238,8 @@ if ad_connect_truthy "$AD_CONNECT_FORCE"; then
 elif (( LAST_SUCCESS_EPOCH == 0 )); then
     RECONNECT_REQUIRED=true
     RECONNECT_REASON="no previous successful reconnect"
-elif [[ -n "$CURRENT_WINDOWS_BOOT_ID" &&
+elif [[ -n "$LAST_WINDOWS_BOOT_ID" &&
+        -n "$CURRENT_WINDOWS_BOOT_ID" &&
         "$LAST_WINDOWS_BOOT_ID" != "$CURRENT_WINDOWS_BOOT_ID" ]]; then
     RECONNECT_REQUIRED=true
     RECONNECT_REASON="Windows reboot detected"
@@ -267,14 +270,62 @@ info "AD reconnect required: $RECONNECT_REASON."
 # {{{ Single-run lock
 #
 # Multiple callers may invoke adConnect during login, VPN, or network
-# changes.  The lock directory keeps those calls from prompting for Kerberos
-# credentials or restarting services at the same time.
+# changes.  Record the owning process and boot so locks left behind by a WSL
+# restart can be distinguished from a reconnect that is still running.
 
-if ! mkdir "$AD_CONNECT_LOCK" 2>/dev/null; then
+ad_connect_lock_is_active() {
+    local lock_boot_id=""
+    local lock_pid=""
+
+    [[ -r "$AD_CONNECT_LOCK_OWNER" ]] || return 1
+
+    while IFS='=' read -r key value; do
+        case "$key" in
+            boot_id)
+                lock_boot_id="$value"
+                ;;
+            pid)
+                lock_pid="$value"
+                ;;
+        esac
+    done < "$AD_CONNECT_LOCK_OWNER"
+
+    [[ "$lock_boot_id" == "$CURRENT_LINUX_BOOT_ID" ]] || return 1
+    [[ "$lock_pid" =~ ^[0-9]+$ ]] || return 1
+    kill -0 "$lock_pid" 2>/dev/null
+}
+
+ad_connect_acquire_lock() {
+    local attempt
+
+    for attempt in 1 2; do
+        if mkdir "$AD_CONNECT_LOCK" 2>/dev/null; then
+            {
+                printf 'pid=%s\n' "$$"
+                printf 'boot_id=%s\n' "$CURRENT_LINUX_BOOT_ID"
+            } > "$AD_CONNECT_LOCK_OWNER"
+            return 0
+        fi
+
+        # Give a concurrent owner time to finish writing its metadata.
+        sleep 0.1
+        ad_connect_lock_is_active && return 1
+
+        rm -f "$AD_CONNECT_LOCK_OWNER" 2>/dev/null || true
+        rmdir "$AD_CONNECT_LOCK" 2>/dev/null || true
+    done
+
+    return 1
+}
+
+if ! ad_connect_acquire_lock; then
     warn "adConnect is already running: $AD_CONNECT_LOCK"
     exit 0
 fi
-trap 'rmdir "$AD_CONNECT_LOCK" 2>/dev/null || true' EXIT
+trap '
+    rm -f "$AD_CONNECT_LOCK_OWNER"
+    rmdir "$AD_CONNECT_LOCK" 2>/dev/null || true
+' EXIT
 
 # -------------------------------------------------------------------------- }}}
 # {{{ SSSD health helpers
