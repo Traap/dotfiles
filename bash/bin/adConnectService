@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# {{{ adConnectService — Load environment for the systemd user service
+
+set -euo pipefail
+
+BASHHOME="${BASHHOME:-$HOME/git/dotfiles/bash}"
+source "$BASHHOME/my_environment"
+
+exec "$BASHHOME/bin/adConnect" --noninteractive
+
+# -------------------------------------------------------------------------- }}}

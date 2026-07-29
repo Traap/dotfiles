@@ -1,11 +1,10 @@
 [Unit]
 Description=Reconnect Active Directory resources
-Documentation=journalctl --user -u ad-connect.service
+Documentation=man:journalctl(1)
 ConditionPathExists=%h/.config/krb5/user.keytab
 
 [Service]
 Type=oneshot
-EnvironmentFile=-/etc/environment.d/27-Traap.conf
-ExecStart=%h/git/dotfiles/bash/bin/adConnect --noninteractive
+ExecStart=%h/git/dotfiles/bash/bin/adConnectService
 StandardInput=null
 TimeoutStartSec=2min
