@@ -125,6 +125,10 @@ ad_connect_truthy() {
     [[ "$1" == true || "$1" == 1 ]]
 }
 
+if ad_connect_truthy "$AD_CONNECT_FORCE"; then
+    rmdir "$AD_CONNECT_LOCK" 2>/dev/null || true
+fi
+
 # -------------------------------------------------------------------------- }}}
 # {{{ Detect AD network
 #
@@ -172,18 +176,33 @@ fi
 # -------------------------------------------------------------------------- }}}
 # {{{ Reconnect state
 #
-# A successful Kerberos reconnect writes a timestamp and boot ID.  This
-# block reads that state, decides whether enough time or a reboot requires a
-# new reconnect, and skips the rest of the script when the current ticket
-# state is still fresh.
+# A successful Kerberos reconnect writes a timestamp and boot IDs.  Linux's
+# boot ID detects a WSL instance restart.  The Windows boot time distinguishes
+# a host reboot from a WSL-only restart.
 
 LAST_SUCCESS_EPOCH=0
-LAST_BOOT_ID=""
-CURRENT_BOOT_ID="$(cat /proc/sys/kernel/random/boot_id 2>/dev/null || printf unknown)"
+LAST_LINUX_BOOT_ID=""
+LAST_WINDOWS_BOOT_ID=""
+CURRENT_LINUX_BOOT_ID="$(
+    cat /proc/sys/kernel/random/boot_id 2>/dev/null || printf unknown
+)"
+CURRENT_WINDOWS_BOOT_ID=""
 NOW_EPOCH="$(date +%s)"
 
+if "$BINHOME"/is_wsl && command -v powershell.exe >/dev/null 2>&1; then
+    windows_boot_command='(Get-CimInstance Win32_OperatingSystem).'
+    windows_boot_command+='LastBootUpTime.ToFileTimeUtc()'
+    CURRENT_WINDOWS_BOOT_ID="$(
+        powershell.exe -NoProfile -NonInteractive -Command \
+            "$windows_boot_command" \
+            2>/dev/null | tr -d '\r' || true
+    )"
+fi
+
 if ad_connect_truthy "$AD_CONNECT_FORCE"; then
-    rm -f "$AD_CONNECT_STATE_FILE" "$AD_CONNECT_STATE_FILE".* 2>/dev/null || true
+    rm -f \
+        "$AD_CONNECT_STATE_FILE" "$AD_CONNECT_STATE_FILE".* \
+        2>/dev/null || true
 fi
 
 if [[ -r "$AD_CONNECT_STATE_FILE" ]]; then
@@ -195,7 +214,14 @@ if [[ -r "$AD_CONNECT_STATE_FILE" ]]; then
                 fi
                 ;;
             boot_id)
-                LAST_BOOT_ID="$value"
+                # Read state written before Linux and Windows IDs were split.
+                LAST_LINUX_BOOT_ID="$value"
+                ;;
+            linux_boot_id)
+                LAST_LINUX_BOOT_ID="$value"
+                ;;
+            windows_boot_id)
+                LAST_WINDOWS_BOOT_ID="$value"
                 ;;
         esac
     done < "$AD_CONNECT_STATE_FILE"
@@ -210,9 +236,17 @@ if ad_connect_truthy "$AD_CONNECT_FORCE"; then
 elif (( LAST_SUCCESS_EPOCH == 0 )); then
     RECONNECT_REQUIRED=true
     RECONNECT_REASON="no previous successful reconnect"
-elif [[ "$LAST_BOOT_ID" != "$CURRENT_BOOT_ID" ]]; then
+elif [[ -n "$CURRENT_WINDOWS_BOOT_ID" &&
+        "$LAST_WINDOWS_BOOT_ID" != "$CURRENT_WINDOWS_BOOT_ID" ]]; then
     RECONNECT_REQUIRED=true
-    RECONNECT_REASON="system reboot detected"
+    RECONNECT_REASON="Windows reboot detected"
+elif [[ "$LAST_LINUX_BOOT_ID" != "$CURRENT_LINUX_BOOT_ID" ]]; then
+    RECONNECT_REQUIRED=true
+    if "$BINHOME"/is_wsl; then
+        RECONNECT_REASON="WSL reboot detected"
+    else
+        RECONNECT_REASON="system reboot detected"
+    fi
 elif (( NOW_EPOCH - LAST_SUCCESS_EPOCH >= AD_RECONNECT_AFTER_SECONDS )); then
     RECONNECT_REQUIRED=true
     RECONNECT_REASON="last reconnect is at least 24 hours old"
@@ -429,7 +463,8 @@ if $KINIT_OK; then
     state_tmp="$AD_CONNECT_STATE_FILE.$$"
     {
         printf 'last_success_epoch=%s\n' "$NOW_EPOCH"
-        printf 'boot_id=%s\n' "$CURRENT_BOOT_ID"
+        printf 'linux_boot_id=%s\n' "$CURRENT_LINUX_BOOT_ID"
+        printf 'windows_boot_id=%s\n' "$CURRENT_WINDOWS_BOOT_ID"
     } > "$state_tmp"
     mv "$state_tmp" "$AD_CONNECT_STATE_FILE"
     info "Recorded successful AD reconnect state."
