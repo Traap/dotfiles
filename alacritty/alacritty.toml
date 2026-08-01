@@ -19,19 +19,19 @@ WINT_X11_SCALE_FACTOR = "1.0"
 size = 12
 
 [font.bold]
-family = "JetBrainsMono Nerd Font Mono"
+family = "CaskaydiaMono Nerd Font"
 style = "Bold"
 
 [font.bold_italic]
-family = "JetBrainsMono Nerd Font Mono"
+family = "CaskaydiaMono Nerd Font"
 style = "BoldItalic"
 
 [font.italic]
-family = "JetBrainsMono Nerd Font Mono"
+family = "CaskaydiaMono Nerd Font"
 style = "MediumItalic"
 
 [font.normal]
-family = "JetBrainsMono Nerd Font Mono"
+family = "CaskaydiaMono Nerd Font"
 style = "Medium"
 
 [mouse]
