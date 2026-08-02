@@ -1,3 +1,5 @@
+-- Override Omarchy keybindings with personal launchers and window controls.
+
 -- {{{ Local lua functions
 
 local vars = require("hypr.vars")
@@ -85,6 +87,7 @@ if not session_bindings_home then
   print("WARNING: SESSION_BINDINGS_HOME is not defined.")
 else
   local session_bindings = session_bindings_home .. "/hypr.lua"
+  -- Keep machine- or project-specific tmux session bindings outside dotfiles.
   if o.cmd_present(session_bindings) then
     dofile(session_bindings)
   end
@@ -97,6 +100,7 @@ unbind("ALT + A")
 hl.bind("ALT + A", function()
   local magic = hl.get_workspace("special:magic")
 
+  -- Reuse one special workspace as a quick hide/unhide target.
   if magic and magic.windows > 0 then
     hl.dispatch(hl.dsp.workspace.toggle_special("magic"))
   else

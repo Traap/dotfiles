@@ -1,3 +1,5 @@
+-- Start personal session services after Hyprland has initialized.
+
 hl.on("hyprland.start", function()
   -- Slow app launch fix -- set systemd vars before starting session services.
   hl.exec_cmd("systemctl --user import-environment $(env | cut -d'=' -f 1)")
@@ -13,4 +15,5 @@ hl.on("hyprland.start", function()
   hl.exec_cmd("sleep 2 && omarchy-hook post-boot")
 end)
 
+-- Load SSH keys outside shell startup so graphical apps inherit the agent.
 o.exec_on_start("~/git/dotfiles/bash/bin/sshkeys")

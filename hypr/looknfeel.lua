@@ -1,3 +1,7 @@
+-- Override Omarchy appearance, layout, animation, and device settings.
+
+local monitor_profile = require("hypr.monitor_profile")
+
 hl.config({
   animations = {
     enabled = true,
@@ -37,8 +41,9 @@ hl.config({
   },
 
   layout = {
-    -- single_window_aspect_ratio = { 1.33, 1 },
-    single_window_aspect_ratio = nil,
+    -- Wide monitors cap lonely windows; smaller layouts keep full width.
+    single_window_aspect_ratio =
+      monitor_profile.single_window_aspect_ratio(),
   },
 
   master = {

@@ -1,3 +1,5 @@
+-- Override global and tagged window rules after Omarchy defaults load.
+
 o.window(".*", { opacity = "1.00 override 1.00 override" })
 
 -- Increase Omarchy's default floating-window size.

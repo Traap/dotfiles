@@ -1,3 +1,5 @@
+-- Compose Omarchy's defaults with personal Hyprland overrides.
+
 -- Omarchy's bootstrap keeps path setup out of this user config.
 dofile((os.getenv("OMARCHY_PATH") or "/usr/share/omarchy") .. "/default/hypr/bootstrap.lua")
 

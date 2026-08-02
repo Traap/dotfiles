@@ -1,3 +1,5 @@
+-- Shared command and path defaults for personal Hyprland modules.
+
 return {
   bin_home = "~/git/dotfiles/bash/bin",
   browser = "brave",

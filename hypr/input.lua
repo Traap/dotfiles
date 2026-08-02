@@ -1,3 +1,5 @@
+-- Configure keyboard, pointer, and touchpad behavior.
+
 hl.config({
   input = {
     kb_layout = "us",

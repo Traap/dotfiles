@@ -1,3 +1,5 @@
+-- Keep workspaces persistent and launch preferred apps on empty activation.
+
 local vars = require("hypr.vars")
 
 local launch_on_empty = {
@@ -36,6 +38,7 @@ local function launch_active_workspace_if_empty()
     return
   end
 
+  -- Debounce launches while Hyprland is still reporting an empty workspace.
   launch_pending[id] = true
   hl.exec_cmd(command)
   hl.timer(function()
