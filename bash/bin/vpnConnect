@@ -25,6 +25,12 @@ info()  { green  "[INFO]  $*"; }
 warn()  { yellow "[WARN]  $*"; }
 fail()  { red    "[FAIL]  $*"; }
 
+notify() {
+  if command -v notify-send >/dev/null 2>&1; then
+    notify-send --app-name="vpnConnect" "$@" || true
+  fi
+}
+
 # -------------------------------------------------------------------------- }}}
 # {{{ User documentation
 
@@ -40,6 +46,7 @@ Behavior:
   - Prompts for a VPN password on the controlling terminal unless a password
     source is provided through the environment.
   - Starts snx-rs in the background and streams its log output.
+  - Sends a desktop notification when the VPN connects and disconnects.
   - Waits for the tunnel-ready log line before launching adConnect.
   - Calls adConnect with AD_CONNECT_CONFIGURE_DNS=false so the established VPN
     tunnel's DNS and routing are not rewritten during the post-connect hook.
@@ -128,6 +135,11 @@ cleanup() {
   if [[ -n "${SNX_LOG:-}" && -e "$SNX_LOG" ]]; then
     rm -f "$SNX_LOG"
   fi
+
+  if ${VPN_CONNECTED:-false}; then
+    notify "VPN disconnected" "The VPN tunnel has closed."
+    VPN_CONNECTED=false
+  fi
 }
 
 # -------------------------------------------------------------------------- }}}
@@ -188,16 +200,19 @@ fi
 sudo -n snx-rs "${snx_args[@]}" >"$SNX_LOG" 2>&1 &
 SNX_PID=$!
 ad_connect_started=false
+VPN_CONNECTED=false
 
-tail -n +1 -F --pid="$SNX_PID" "$SNX_LOG" 2>/dev/null | while IFS= read -r line; do
+while IFS= read -r line; do
   line="${line//$'\r'/}"
   printf '%s\n' "$line"
 
   if ! $ad_connect_started && [[ "$line" == *"$SNX_READY_PATTERN"* ]]; then
     ad_connect_started=true
+    VPN_CONNECTED=true
+    notify "VPN connected" "The VPN tunnel is ready."
     run_ad_connect || warn "adConnect failed; leaving VPN tunnel running." >&2
   fi
-done
+done < <(tail -n +1 -F --pid="$SNX_PID" "$SNX_LOG" 2>/dev/null)
 
 wait "$SNX_PID"
 
