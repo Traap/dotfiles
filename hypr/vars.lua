@@ -2,7 +2,7 @@
 
 return {
   bin_home = "~/git/dotfiles/bash/bin",
-  browser = "brave",
+  browser = "chromium",
   editor = os.getenv("EDITOR") or "nvim",
   file_manager = "nautilus",
   hypr_dir = "~/.config/hypr",
