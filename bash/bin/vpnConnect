@@ -26,8 +26,21 @@ warn()  { yellow "[WARN]  $*"; }
 fail()  { red    "[FAIL]  $*"; }
 
 notify() {
-  if command -v notify-send >/dev/null 2>&1; then
-    notify-send --app-name="vpnConnect" "$@" || true
+  if command -v omarchy-notification-send >/dev/null 2>&1; then
+    # Omarchy treats this as intentional command feedback, so it remains
+    # visible while Do Not Disturb is enabled.
+    if ! omarchy-notification-send "$@"; then
+      warn "Desktop notification failed: $*" >&2
+      return 1
+    fi
+  elif command -v notify-send >/dev/null 2>&1; then
+    if ! notify-send --app-name="vpnConnect" "$@"; then
+      warn "Desktop notification failed: $*" >&2
+      return 1
+    fi
+  else
+    warn "No desktop notification command is installed; notification skipped." >&2
+    return 1
   fi
 }
 
@@ -40,6 +53,7 @@ vpnConnect - start an snx-rs VPN tunnel and run adConnect when it is ready
 
 Usage:
   vpnConnect
+  vpnConnect --notify-test
   vpnConnect --help
 
 Behavior:
@@ -52,6 +66,11 @@ Behavior:
     tunnel's DNS and routing are not rewritten during the post-connect hook.
   - Leaves the VPN process running until snx-rs exits or vpnConnect receives a
     signal that triggers cleanup.
+
+Testing:
+  --notify-test
+      Send the same notification used when a connected tunnel closes, without
+      starting snx-rs or changing the VPN connection.
 
 Required commands:
   snx-rs
@@ -94,6 +113,10 @@ case "${1:-}" in
     print_help
     exit 0
     ;;
+  --notify-test)
+    notify "VPN disconnected" "The VPN tunnel has closed."
+    exit $?
+    ;;
   "")
     ;;
   *)
@@ -127,6 +150,16 @@ run_ad_connect() {
 # {{{ Cleanup
 
 cleanup() {
+  local exit_status=$?
+
+  # Notify before waiting for the privileged child.  In particular, terminal
+  # shutdown and Ctrl-C must not leave the visible disconnect behind a child
+  # process that is slow to exit.
+  if ${VPN_CONNECTED:-false}; then
+    VPN_CONNECTED=false
+    notify "VPN disconnected" "The VPN tunnel has closed." || true
+  fi
+
   if [[ -n "${SNX_PID:-}" ]] && kill -0 "$SNX_PID" 2>/dev/null; then
     kill "$SNX_PID" 2>/dev/null || true
     wait "$SNX_PID" 2>/dev/null || true
@@ -136,10 +169,15 @@ cleanup() {
     rm -f "$SNX_LOG"
   fi
 
-  if ${VPN_CONNECTED:-false}; then
-    notify "VPN disconnected" "The VPN tunnel has closed."
-    VPN_CONNECTED=false
-  fi
+  return "$exit_status"
+}
+
+handle_signal() {
+  local signal=$1
+  local status=$2
+
+  warn "Received $signal; closing the VPN tunnel." >&2
+  exit "$status"
 }
 
 # -------------------------------------------------------------------------- }}}
@@ -176,6 +214,9 @@ read_snx_password() {
 # {{{ Start VPN and stream logs
 
 trap cleanup EXIT
+trap 'handle_signal HUP 129' HUP
+trap 'handle_signal INT 130' INT
+trap 'handle_signal TERM 143' TERM
 
 if [[ ! -r /dev/tty ]]; then
   fail "No attached TTY to get user input." >&2
