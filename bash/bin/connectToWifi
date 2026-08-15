@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+if ! command -v nmcli >/dev/null 2>&1; then
+  echo "connectToWifi: nmcli is required to connect to Wi-Fi." >&2
+  exit 127
+fi
+
+printf "SSID: "
+IFS= read -r ssid
+
+if [[ -z "$ssid" ]]; then
+  echo "connectToWifi: SSID cannot be empty." >&2
+  exit 1
+fi
+
+printf "Password for %s: " "$ssid"
+IFS= read -rs password
+printf "\n"
+
+if [[ -z "$password" ]]; then
+  echo "connectToWifi: password cannot be empty." >&2
+  exit 1
+fi
+
+nmcli device wifi connect "$ssid" password "$password"
