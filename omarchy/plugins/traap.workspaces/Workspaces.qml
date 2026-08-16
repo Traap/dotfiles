@@ -6,15 +6,7 @@ import qs.Ui
 
 BarWidget {
   id: root
-  moduleName: "local.workspaces"
-
-  readonly property color activeWorkspaceColor: setting("activeColor", bar ? bar.urgent : Color.urgent)
-  readonly property color hoverWorkspaceColor: setting("hoverColor", bar ? bar.barForeground : Color.foreground)
-  readonly property color inactiveWorkspaceColor: setting("inactiveColor", bar ? bar.barForeground : Color.foreground)
-  readonly property real emptyWorkspaceOpacity: {
-    var value = Number(setting("emptyOpacity", 0.5))
-    return isFinite(value) ? Math.max(0, Math.min(1, value)) : 0.5
-  }
+  moduleName: "omarchy.workspaces"
 
   function workspaceById(id) {
     var values = Hyprland.workspaces.values
@@ -67,20 +59,14 @@ BarWidget {
         readonly property bool focused: Hyprland.focusedWorkspace !== null && Hyprland.focusedWorkspace.id === modelData
 
         bar: root.bar
-        active: focused
-        activeColor: root.activeWorkspaceColor
-        foreground: workspaceHover.hovered ? root.hoverWorkspaceColor : root.inactiveWorkspaceColor
         text: modelData === 10 ? "0" : String(modelData)
-        opacity: occupied || focused || workspaceHover.hovered ? 1 : root.emptyWorkspaceOpacity
+        active: focused
+        opacity: occupied || focused ? 1 : 0.5
         horizontalMargin: 6
         verticalPadding: 6
         fixedWidth: root.vertical ? root.barSize : Style.space(20)
         fixedHeight: root.barSize
         onPressed: function() { root.focusWorkspace(modelData) }
-
-        HoverHandler {
-          id: workspaceHover
-        }
       }
     }
   }
