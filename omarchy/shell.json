@@ -13,6 +13,9 @@
           "verticalFormat": "HH\n—\nmm"
         },
         {
+          "id": "omarchy.keyboard-layout"
+        },
+        {
           "id": "omarchy.weather"
         },
         {
@@ -24,16 +27,15 @@
           "id": "omarchy.menu"
         },
         {
-          "id": "local.workspaces",
-          "emptyOpacity": "0.80",
-          "activeColor": "#dd00ff",
-          "hoverColor": "#ffaf00",
-          "inactiveColor": "#97efff"
+          "id": "traap.workspaces"
         }
       ],
       "right": [
         {
           "id": "omarchy.tray"
+        },
+        {
+          "id": "omarchy.agents"
         },
         {
           "id": "omarchy.bluetooth"
