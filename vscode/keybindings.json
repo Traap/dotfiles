@@ -1,0 +1,69 @@
+[
+  {
+    "key": "ctrl-h",
+    "command": "workbench.action.focusLeftGroup",
+    "when": "editorTextFocus"
+  },
+  {
+    "key": "ctrl-j",
+    "command": "workbench.action.focusBelowGroup",
+    "when": "editorTextFocus"
+  },
+  {
+    "key": "ctrl-k",
+    "command": "workbench.action.focusAboveGroup",
+    "when": "editorTextFocus"
+  },
+  {
+    "key": "ctrl-l",
+    "command": "workbench.action.focusRightGroup",
+    "when": "editorTextFocus"
+  },
+  {
+    "key": "space s v",
+    "command": "workbench.action.splitEditorRight",
+    "when": "editorTextFocus && neovim.mode == 'normal'"
+  },
+  {
+    "key": "space e",
+    "command": "workbench.action.toggleSidebarVisibility",
+    "when": "neovim.mode == 'normal'"
+  },
+  {
+    "key": "space f f",
+    "command": "workbench.action.quickOpen",
+    "when": "editorTextFocus && neovim.mode == 'normal'"
+  },
+  {
+    "key": "space s c",
+    "command": "workbench.action.openSettingsJson",
+    "when": "neovim.mode == 'normal'"
+  },
+  {
+    "key": "space s g",
+    "command": "workbench.action.findInFiles",
+    "when": "neovim.mode == 'normal'"
+  },
+  {
+    "key": "space s j",
+    "command": "workbench.action.splitEditorDown",
+    "when": "editorTextFocus && neovim.mode == 'normal'"
+  },
+  {
+    "key": "space s k",
+    "command": "workbench.action.openGlobalKeybindingsFile",
+    "when": "neovim.mode == 'normal'"
+  },
+  {
+    "key": "] space",
+    "command": "vscode-neovim.send",
+    "args": "o<Esc>",
+    "when": "editorTextFocus && neovim.init && neovim.mode == 'normal'"
+  },
+  {
+    "key": "[ space",
+    "command": "vscode-neovim.send",
+    "args": "O<Esc>",
+    "when": "editorTextFocus && neovim.init && neovim.mode == 'normal'"
+  }
+]
