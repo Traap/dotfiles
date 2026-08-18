@@ -27,7 +27,7 @@ local gsa_axa89m_launch_on_empty = {
   },
   ["2"] = vars.file_manager,
   ["3"] = 'omarchy-launch-or-focus-webapp Email "https://app.hey.com"',
-  ["4"] = vars.terminal .. " -e btop",
+  ["4"] = vars.bin_home .. "/toggler Upgrade",
   ["5"] = {
     "code-insiders",
     vars.browser .. " --new-window http://localhost:3001",
