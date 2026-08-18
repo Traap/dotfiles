@@ -4,6 +4,11 @@ local M = {}
 
 local omarchy_monitor_scale = 1
 
+-- EDID descriptions stay stable when the dock renumbers DVI connectors.
+local gsa_laptop = "desc:Samsung Display Corp. 0x4165"
+local gsa_ultrawide = "desc:LG Electronics LG ULTRAWIDE 404NTMXBJ251"
+local gsa_mirror = "desc:Toshiba America Info Systems Inc TOSHIBA-TV 0x01010101"
+
 local function detected_hostname()
   local hostname = os.getenv("HOSTNAME")
   if hostname and hostname ~= "" then
@@ -46,6 +51,14 @@ local function connected_monitors()
   end
 
   return hl.get_monitors()
+end
+
+local function connected_monitor_descriptions()
+  local descriptions = {}
+  for _, monitor in ipairs(connected_monitors()) do
+    descriptions[monitor.description] = true
+  end
+  return descriptions
 end
 
 local function find_ultra_gear_full_width_output()
@@ -116,55 +129,73 @@ local layouts = {
   high_res_laptop = {
     monitors = {
       {
-        output = "eDP-1",
+        output = gsa_laptop,
         mode = "3840x2400@60",
         position = "0x0",
         scale = 1.875,
       },
     },
-    workspaces = all_workspaces_on("eDP-1"),
+    workspaces = all_workspaces_on(gsa_laptop),
   },
 
   high_res_laptop_with_ultrawide = {
     monitors = {
       {
-        output = "eDP-1",
+        output = gsa_laptop,
         mode = "3840x2400@60",
         position = "0x0",
         scale = 1.6,
       },
       {
-        output = "DVI-I-2",
+        output = gsa_ultrawide,
         mode = "3440x1440@72",
         position = "0x-1440",
         scale = 1,
       },
     },
-    workspaces = split_workspaces("HDMI-A-1", "eDP-1"),
+    workspaces = split_workspaces(gsa_ultrawide, gsa_laptop),
+  },
+
+  high_res_laptop_with_mirror = {
+    monitors = {
+      {
+        output = gsa_laptop,
+        mode = "3840x2400@60",
+        position = "0x0",
+        scale = 1.6,
+      },
+      {
+        output = gsa_mirror,
+        mode = "3840x2160@30",
+        mirror = gsa_laptop,
+        scale = 1,
+      },
+    },
+    workspaces = all_workspaces_on(gsa_laptop),
   },
 
   high_res_laptop_with_ultrawide_and_mirror = {
     monitors = {
       {
-        output = "eDP-1",
+        output = gsa_laptop,
         mode = "3840x2400@60",
         position = "0x0",
         scale = 1.6,
       },
       {
-        output = "DVI-I-2",
+        output = gsa_ultrawide,
         mode = "3440x1440@72",
         position = "0x-1440",
         scale = 1,
       },
       {
-        output = "DVI-I-1",
+        output = gsa_mirror,
         mode = "3840x2160@30",
-        mirror = "eDP-1",
+        mirror = gsa_laptop,
         scale = 1,
       },
     },
-    workspaces = split_workspaces("DVI-I-2", "eDP-1"),
+    workspaces = split_workspaces(gsa_ultrawide, gsa_laptop),
   },
 
   twenty_seven_inch = {
@@ -235,14 +266,19 @@ end
 
 function M.current_layout()
   local hostname = detected_hostname()
-  local monitor_count = #connected_monitors()
+  local descriptions = connected_monitor_descriptions()
 
-  -- Hostnames select stable personal profiles; monitor count refines docks.
-  if hostname == "GSA-AXA89M" and monitor_count == 3 then
-    return layouts.high_res_laptop_with_ultrawide_and_mirror
-  elseif hostname == "GSA-AXA89M" and monitor_count == 2 then
-    return layouts.high_res_laptop_with_ultrawide
-  elseif hostname == "GSA-AXA89M" then
+  -- Select dock layouts by EDID, independent of volatile connector names.
+  if hostname == "GSA-AXA89M" then
+    local has_ultrawide = descriptions["LG Electronics LG ULTRAWIDE 404NTMXBJ251"]
+    local has_mirror = descriptions["Toshiba America Info Systems Inc TOSHIBA-TV 0x01010101"]
+    if has_ultrawide and has_mirror then
+      return layouts.high_res_laptop_with_ultrawide_and_mirror
+    elseif has_ultrawide then
+      return layouts.high_res_laptop_with_ultrawide
+    elseif has_mirror then
+      return layouts.high_res_laptop_with_mirror
+    end
     return layouts.high_res_laptop
   elseif hostname == "DarkKnight" then
     return ultra_gear_layout()
