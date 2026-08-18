@@ -186,11 +186,9 @@ if  [[ $# -eq 1 ]]; then
       tmux new-session   -s "$SESSION"   -c "$WORKDIR" -n 'Coder'    -d
       tmux split-window  -t "$SESSION":1 -c "$WORKDIR" -h
       tmux new-window    -t "$SESSION":2 -c "$WORKDIR" -n 'Server' -d
-      tmux split-window  -t "$SESSION":2 -c "$WORKDIR" -h
       tmux new-window    -t "$SESSION":3 -c "$WORKDIR" -n 'Tester'  -d
 
-      tmux send-keys     -t "$SESSION":2.1 "bundle exec rails server -p 3001" Enter
-      tmux send-keys     -t "$SESSION":2.2 "bundle exec sidekiq -v" Enter
+      tmux send-keys     -t "$SESSION":2.1 "./restart" Enter
       tmux send-keys     -t "$SESSION":1.2 "codex" Enter
       tmux send-keys     -t "$SESSION":1.1 "nvim" Enter
 
