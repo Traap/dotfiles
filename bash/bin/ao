@@ -276,7 +276,9 @@ if  [[ $# -eq 1 ]]; then
       tmux new-window    -t "$SESSION":2 -c "$WORKDIR" -n 'Notebook'  -d
 
       tmux send-keys     -t "$SESSION":2   "$EDITOR $WORKDIR/Wiki/index.md" Enter
-      tmux send-keys     -t "$SESSION":1   "code-insiders ." Enter
+      if [[ $HOSTNAME != "GSA-AXA89M" ]]; then
+        tmux send-keys   -t "$SESSION":1   "code-insiders ." Enter
+      fi
 
       tmux select-window -t "$SESSION":2
       ;;
