@@ -94,7 +94,7 @@ local function ultra_gear_layout()
 
   return {
     monitors = {
-      { output = "DP-3",     disabled = true },
+      { output = "DP-3", disabled = true },
       {
         output = "DP-4",
         mode = "2560x2160@75",
@@ -134,13 +134,37 @@ local layouts = {
         scale = 1.6,
       },
       {
-        output = "HDMI-A-1",
+        output = "DVI-I-2",
         mode = "3440x1440@72",
         position = "0x-1440",
         scale = 1,
       },
     },
     workspaces = split_workspaces("HDMI-A-1", "eDP-1"),
+  },
+
+  high_res_laptop_with_ultrawide_and_mirror = {
+    monitors = {
+      {
+        output = "eDP-1",
+        mode = "3840x2400@60",
+        position = "0x0",
+        scale = 1.6,
+      },
+      {
+        output = "DVI-I-2",
+        mode = "3440x1440@72",
+        position = "0x-1440",
+        scale = 1,
+      },
+      {
+        output = "DVI-I-1",
+        mode = "3840x2160@30",
+        mirror = "eDP-1",
+        scale = 1,
+      },
+    },
+    workspaces = split_workspaces("DVI-I-2", "eDP-1"),
   },
 
   twenty_seven_inch = {
@@ -214,7 +238,9 @@ function M.current_layout()
   local monitor_count = #connected_monitors()
 
   -- Hostnames select stable personal profiles; monitor count refines docks.
-  if hostname == "GSA-AXA89M" and monitor_count == 2 then
+  if hostname == "GSA-AXA89M" and monitor_count == 3 then
+    return layouts.high_res_laptop_with_ultrawide_and_mirror
+  elseif hostname == "GSA-AXA89M" and monitor_count == 2 then
     return layouts.high_res_laptop_with_ultrawide
   elseif hostname == "GSA-AXA89M" then
     return layouts.high_res_laptop
