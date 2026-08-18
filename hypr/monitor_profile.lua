@@ -125,7 +125,7 @@ local layouts = {
     workspaces = all_workspaces_on("eDP-1"),
   },
 
-  high_res_laptop_with_38inch = {
+  high_res_laptop_with_ultrawide = {
     monitors = {
       {
         output = "eDP-1",
@@ -135,12 +135,12 @@ local layouts = {
       },
       {
         output = "HDMI-A-1",
-        mode = "3840x2160@59.94",
-        position = "0x-2160",
+        mode = "3440x1440@72",
+        position = "0x-1440",
         scale = 1,
       },
     },
-    workspaces = split_workspaces("eDP-1", "HDMI-A-1"),
+    workspaces = split_workspaces("HDMI-A-1", "eDP-1"),
   },
 
   twenty_seven_inch = {
@@ -215,7 +215,7 @@ function M.current_layout()
 
   -- Hostnames select stable personal profiles; monitor count refines docks.
   if hostname == "GSA-AXA89M" and monitor_count == 2 then
-    return layouts.high_res_laptop_with_38inch
+    return layouts.high_res_laptop_with_ultrawide
   elseif hostname == "GSA-AXA89M" then
     return layouts.high_res_laptop
   elseif hostname == "DarkKnight" then
