@@ -84,13 +84,24 @@ bind("SUPER + SHIFT + M", "Menu", "omarchy-menu")
 
 local session_bindings_home = os.getenv("SESSION_BINDINGS_HOME")
 if not session_bindings_home then
-  print("WARNING: SESSION_BINDINGS_HOME is not defined.")
-else
+  local config_home = os.getenv("XDG_CONFIG_HOME")
+  local home = os.getenv("HOME")
+  if not config_home and home then
+    config_home = home .. "/.config"
+  end
+  if config_home then
+    session_bindings_home = config_home .. "/session_bindings"
+  end
+end
+
+if session_bindings_home then
   local session_bindings = session_bindings_home .. "/hypr.lua"
   -- Keep machine- or project-specific tmux session bindings outside dotfiles.
   if o.cmd_present(session_bindings) then
     dofile(session_bindings)
   end
+else
+  print("WARNING: Unable to locate the session bindings directory.")
 end
 
 -- ------------------------------------------------------------------------- }}}
