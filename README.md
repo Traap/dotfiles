@@ -91,6 +91,17 @@ unit.  The one-shot service:
 The timer runs shortly after boot and retries periodically.  `vpnConnect`
 continues to invoke `adConnect` with VPN-specific DNS behavior.
 
+Kerberos CIFS entries under `/mnt` can be accessed before the first ticket is
+available.  Install the mount-unit retry policy so those early failures do not
+leave an automount permanently rate-limited:
+
+```bash
+sudo install -D -m 644 \
+  systemd/system/mnt-.mount.d/kerberos-retry.conf \
+  /etc/systemd/system/mnt-.mount.d/kerberos-retry.conf
+sudo systemctl daemon-reload
+```
+
 The keytab is a local credential and must never be committed.  Provision or
 replace it interactively with:
 
