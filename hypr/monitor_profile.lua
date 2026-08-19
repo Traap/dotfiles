@@ -73,6 +73,34 @@ local function connected_monitor_descriptions()
   return descriptions
 end
 
+local function connected_drm_edid_contains(needle)
+  -- At login, the kernel can know about a dock display before Hyprland has
+  -- emitted monitor.added. Read the already-connected DRM EDIDs so the first
+  -- config pass chooses the dock layout instead of briefly putting every
+  -- persistent workspace on the laptop display.
+  local paths = io.popen(
+    "find /sys/class/drm -maxdepth 2 -name edid -type f -print 2>/dev/null"
+  )
+  if not paths then
+    return false
+  end
+
+  for path in paths:lines() do
+    local edid = io.open(path, "rb")
+    if edid then
+      local contents = edid:read("*a") or ""
+      edid:close()
+      if contents:find(needle, 1, true) then
+        paths:close()
+        return true
+      end
+    end
+  end
+
+  paths:close()
+  return false
+end
+
 local function monitor_for_description(description)
   for _, monitor in ipairs(connected_monitors()) do
     if monitor.description == description then
@@ -305,7 +333,9 @@ function M.current_layout()
 
   -- Select dock layouts by EDID, independent of volatile connector names.
   if hostname == "GSA-AXA89M" then
-    local has_ultrawide = descriptions["LG Electronics LG ULTRAWIDE 404NTMXBJ251"]
+    local has_ultrawide =
+      descriptions["LG Electronics LG ULTRAWIDE 404NTMXBJ251"]
+      or connected_drm_edid_contains("404NTMXBJ251")
     if has_ultrawide then
       local ultrawide = monitor_for_description(
         "LG Electronics LG ULTRAWIDE 404NTMXBJ251"
@@ -315,7 +345,7 @@ function M.current_layout()
 
       -- The alternate HDMI path exposes a 16:9 preferred mode, which leaves
       -- part of the ultrawide panel unused. Use its advertised 64:27 mode.
-      if ultrawide.physical_width < 800 then
+      if ultrawide and ultrawide.physical_width < 800 then
         mode = "2560x1080@60"
         position = "0x-1080"
       end
