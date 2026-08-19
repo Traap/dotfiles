@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# A config reload reconfigures the source monitor after its mirror rule, which
+# clears the relationship. Apply it again after the reload has fully settled.
+sleep 3
+hyprctl eval "hl.monitor({ output = \"$1\", mode = \"$2\", position = \"auto\", scale = 1, mirror = \"$3\" })"

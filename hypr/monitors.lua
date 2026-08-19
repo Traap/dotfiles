@@ -26,7 +26,27 @@ local selected = monitor_profile.current_layout()
 -- Monitor rules and workspace affinity come from the same selected profile.
 apply_layout(selected.monitors, selected.workspaces)
 
-if hostname == "DarkKnight" then
+if hostname == "GSA-AXA89M" then
+  for _, monitor in ipairs(selected.monitors) do
+    if monitor.mirror then
+      local script = os.getenv("HOME")
+        .. "/.config/hypr/scripts/apply-gsa-mirror"
+      hl.exec_cmd(
+        script
+          .. " "
+          .. monitor.output
+          .. " "
+          .. monitor.mode
+          .. " "
+          .. monitor.mirror
+      )
+    end
+  end
+
+  hl.on("monitor.added", function()
+    hl.exec_cmd("hyprctl reload")
+  end)
+elseif hostname == "DarkKnight" then
   local function ultra_gear_layout_is_applied()
     local monitors = hl.get_monitors()
     local full_width_output =

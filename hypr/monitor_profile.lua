@@ -6,8 +6,20 @@ local omarchy_monitor_scale = 1
 
 -- EDID descriptions stay stable when the dock renumbers DVI connectors.
 local gsa_laptop = "desc:Samsung Display Corp. 0x4165"
+local gsa_laptop_output = "eDP-1"
 local gsa_ultrawide = "desc:LG Electronics LG ULTRAWIDE 404NTMXBJ251"
-local gsa_mirror = "desc:Toshiba America Info Systems Inc TOSHIBA-TV 0x01010101"
+local gsa_mirror =
+  "desc:Toshiba America Info Systems Inc TOSHIBA-TV 0x01010101"
+local gsa_mirror_candidates = {
+  {
+    description = "Toshiba America Info Systems Inc TOSHIBA-TV 0x01010101",
+    mode = "3840x2160@30",
+  },
+  {
+    description = "DLOGIC Ltd. No Monitor USB_6015-2233",
+    mode = "1920x1080@60",
+  },
+}
 
 local function detected_hostname()
   local hostname = os.getenv("HOSTNAME")
@@ -59,6 +71,27 @@ local function connected_monitor_descriptions()
     descriptions[monitor.description] = true
   end
   return descriptions
+end
+
+local function monitor_for_description(description)
+  for _, monitor in ipairs(connected_monitors()) do
+    if monitor.description == description then
+      return monitor
+    end
+  end
+
+  return nil
+end
+
+local function connected_mirror()
+  for _, candidate in ipairs(gsa_mirror_candidates) do
+    local monitor = monitor_for_description(candidate.description)
+    if monitor then
+      return monitor.name, candidate.mode
+    end
+  end
+
+  return nil, nil
 end
 
 local function find_ultra_gear_full_width_output()
@@ -167,7 +200,8 @@ local layouts = {
       {
         output = gsa_mirror,
         mode = "3840x2160@30",
-        mirror = gsa_laptop,
+        -- Hyprland's mirror target must be a connector name, not a desc selector.
+        mirror = gsa_laptop_output,
         scale = 1,
       },
     },
@@ -191,7 +225,8 @@ local layouts = {
       {
         output = gsa_mirror,
         mode = "3840x2160@30",
-        mirror = gsa_laptop,
+        -- Hyprland's mirror target must be a connector name, not a desc selector.
+        mirror = gsa_laptop_output,
         scale = 1,
       },
     },
@@ -271,7 +306,37 @@ function M.current_layout()
   -- Select dock layouts by EDID, independent of volatile connector names.
   if hostname == "GSA-AXA89M" then
     local has_ultrawide = descriptions["LG Electronics LG ULTRAWIDE 404NTMXBJ251"]
-    local has_mirror = descriptions["Toshiba America Info Systems Inc TOSHIBA-TV 0x01010101"]
+    if has_ultrawide then
+      local ultrawide = monitor_for_description(
+        "LG Electronics LG ULTRAWIDE 404NTMXBJ251"
+      )
+      local mode = "3440x1440@72"
+      local position = "0x-1440"
+
+      -- The alternate HDMI path exposes a 16:9 preferred mode, which leaves
+      -- part of the ultrawide panel unused. Use its advertised 64:27 mode.
+      if ultrawide.physical_width < 800 then
+        mode = "2560x1080@60"
+        position = "0x-1080"
+      end
+
+      layouts.high_res_laptop_with_ultrawide.monitors[2].mode = mode
+      layouts.high_res_laptop_with_ultrawide.monitors[2].position = position
+      layouts.high_res_laptop_with_ultrawide_and_mirror.monitors[2].mode = mode
+      layouts.high_res_laptop_with_ultrawide_and_mirror.monitors[2].position =
+        position
+    end
+    local mirror_output, mirror_mode = connected_mirror()
+    local has_mirror = mirror_output ~= nil
+    if has_mirror then
+      -- Mirroring requires connector names on both sides of the relationship.
+      layouts.high_res_laptop_with_mirror.monitors[2].output = mirror_output
+      layouts.high_res_laptop_with_mirror.monitors[2].mode = mirror_mode
+      layouts.high_res_laptop_with_ultrawide_and_mirror.monitors[3].output =
+        mirror_output
+      layouts.high_res_laptop_with_ultrawide_and_mirror.monitors[3].mode =
+        mirror_mode
+    end
     if has_ultrawide and has_mirror then
       return layouts.high_res_laptop_with_ultrawide_and_mirror
     elseif has_ultrawide then
