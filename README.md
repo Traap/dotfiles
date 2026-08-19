@@ -83,6 +83,8 @@ unit.  The one-shot service:
 - Detects Windows, WSL, and Linux reboots.
 - Uses `~/.config/krb5/user.keytab` without reading terminal input.
 - Refreshes Kerberos credentials when reconnect state requires it.
+- Refreshes every eight hours by default, before a typical ten-hour ticket
+  expires.
 - Uses noninteractive sudo for DNS and SSSD maintenance.
 - Records successful reconnect state and avoids repeated work.
 

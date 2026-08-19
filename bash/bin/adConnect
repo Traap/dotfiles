@@ -64,7 +64,7 @@ Optional environment:
       Maximum seconds to spend on each AD reachability probe before silently
       treating the current network as non-AD.
 
-  AD_RECONNECT_AFTER_SECONDS=86400
+  AD_RECONNECT_AFTER_SECONDS=28800
       Minimum age in seconds before another successful reconnect is required.
 
   AD_CONNECT_STATE_DIR
@@ -121,7 +121,7 @@ AD_CONNECT_KEYTAB="${AD_CONNECT_KEYTAB:-$HOME/.config/krb5/user.keytab}"
 SSSD_LOOKUP_RETRIES="${SSSD_LOOKUP_RETRIES:-6}"
 SSSD_LOOKUP_DELAY="${SSSD_LOOKUP_DELAY:-5}"
 SYSTEM_KEYTAB="/etc/krb5.keytab"
-AD_RECONNECT_AFTER_SECONDS="${AD_RECONNECT_AFTER_SECONDS:-86400}"
+AD_RECONNECT_AFTER_SECONDS="${AD_RECONNECT_AFTER_SECONDS:-28800}"
 AD_CONNECT_STATE_DIR="${AD_CONNECT_STATE_DIR:-${XDG_STATE_HOME:-$HOME/.local/state}/adConnect}"
 AD_CONNECT_STATE_FILE="${AD_CONNECT_STATE_FILE:-$AD_CONNECT_STATE_DIR/state}"
 AD_CONNECT_LOCK="${AD_CONNECT_LOCK:-${XDG_RUNTIME_DIR:-/tmp}/adConnect.$UID.lock}"
@@ -196,8 +196,8 @@ fi
 : "${WIN_DOMAIN:?WIN_DOMAIN not set}"
 
 if [[ ! "$AD_RECONNECT_AFTER_SECONDS" =~ ^[0-9]+$ ]]; then
-    warn "Invalid AD_RECONNECT_AFTER_SECONDS=$AD_RECONNECT_AFTER_SECONDS; using 86400."
-    AD_RECONNECT_AFTER_SECONDS=86400
+    warn "Invalid AD_RECONNECT_AFTER_SECONDS=$AD_RECONNECT_AFTER_SECONDS; using 28800."
+    AD_RECONNECT_AFTER_SECONDS=28800
 fi
 
 # -------------------------------------------------------------------------- }}}
@@ -293,7 +293,7 @@ elif [[ "$LAST_LINUX_BOOT_ID" != "$CURRENT_LINUX_BOOT_ID" ]]; then
     fi
 elif (( NOW_EPOCH - LAST_SUCCESS_EPOCH >= AD_RECONNECT_AFTER_SECONDS )); then
     RECONNECT_REQUIRED=true
-    RECONNECT_REASON="last reconnect is at least 24 hours old"
+    RECONNECT_REASON="reconnect interval has elapsed"
 elif (( NOW_EPOCH < LAST_SUCCESS_EPOCH )); then
     RECONNECT_REQUIRED=true
     RECONNECT_REASON="saved reconnect timestamp is in the future"
