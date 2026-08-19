@@ -13,10 +13,12 @@ local gsa_mirror =
 local gsa_mirror_candidates = {
   {
     description = "Toshiba America Info Systems Inc TOSHIBA-TV 0x01010101",
+    edid_product = "TOSHIBA-TV",
     mode = "3840x2160@30",
   },
   {
     description = "DLOGIC Ltd. No Monitor USB_6015-2233",
+    edid_product = "USB_6015-2233",
     mode = "1920x1080@60",
   },
 }
@@ -73,7 +75,7 @@ local function connected_monitor_descriptions()
   return descriptions
 end
 
-local function connected_drm_edid_contains(needle)
+local function connected_drm_output_with_edid(needle)
   -- At login, the kernel can know about a dock display before Hyprland has
   -- emitted monitor.added. Read the already-connected DRM EDIDs so the first
   -- config pass chooses the dock layout instead of briefly putting every
@@ -92,13 +94,17 @@ local function connected_drm_edid_contains(needle)
       edid:close()
       if contents:find(needle, 1, true) then
         paths:close()
-        return true
+        return path:match("/card%d+%-(.+)/edid$")
       end
     end
   end
 
   paths:close()
-  return false
+  return nil
+end
+
+local function connected_drm_edid_contains(needle)
+  return connected_drm_output_with_edid(needle) ~= nil
 end
 
 local function monitor_for_description(description)
@@ -116,6 +122,14 @@ local function connected_mirror()
     local monitor = monitor_for_description(candidate.description)
     if monitor then
       return monitor.name, candidate.mode
+    end
+
+    -- The kernel often exposes the display before Hyprland has added it.
+    -- Select the mirror profile on the first config pass so we do not miss
+    -- monitor.added while this file is still being evaluated.
+    local output = connected_drm_output_with_edid(candidate.edid_product)
+    if output then
+      return output, candidate.mode
     end
   end
 

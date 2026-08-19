@@ -3,4 +3,19 @@
 # A config reload reconfigures the source monitor after its mirror rule, which
 # clears the relationship. Apply it again after the reload has fully settled.
 sleep 3
-hyprctl eval "hl.monitor({ output = \"$1\", mode = \"$2\", position = \"auto\", scale = 1, mirror = \"$3\" })"
+
+output=$1
+mode=$2
+source=$3
+
+monitors=$(hyprctl monitors all -j)
+source_id=$(jq -r --arg source "$source" \
+  '.[] | select(.name == $source) | .id' <<<"$monitors")
+
+if jq -e --arg output "$output" --arg source_id "$source_id" \
+  '.[] | select(.name == $output and .mirrorOf == $source_id)' \
+  <<<"$monitors" >/dev/null; then
+  exit 0
+fi
+
+hyprctl eval "hl.monitor({ output = \"$output\", mode = \"$mode\", position = \"auto\", scale = 1, mirror = \"$source\" })"

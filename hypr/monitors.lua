@@ -27,19 +27,30 @@ local selected = monitor_profile.current_layout()
 apply_layout(selected.monitors, selected.workspaces)
 
 if hostname == "GSA-AXA89M" then
+  local function apply_mirror(monitor)
+    local script = os.getenv("HOME")
+      .. "/.config/hypr/scripts/apply-gsa-mirror"
+    hl.exec_cmd(
+      script
+        .. " "
+        .. monitor.output
+        .. " "
+        .. monitor.mode
+        .. " "
+        .. monitor.mirror
+    )
+  end
+
   for _, monitor in ipairs(selected.monitors) do
     if monitor.mirror then
-      local script = os.getenv("HOME")
-        .. "/.config/hypr/scripts/apply-gsa-mirror"
-      hl.exec_cmd(
-        script
-          .. " "
-          .. monitor.output
-          .. " "
-          .. monitor.mode
-          .. " "
-          .. monitor.mirror
-      )
+      apply_mirror(monitor)
+
+      -- Dock initialization can reconfigure the output after the first
+      -- mirror command. The script is idempotent, so layout events repair a
+      -- cleared relationship without reacting forever to their own change.
+      hl.on("monitor.layout_changed", function()
+        apply_mirror(monitor)
+      end)
     end
   end
 
