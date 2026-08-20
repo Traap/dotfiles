@@ -55,7 +55,12 @@ if hostname == "GSA-AXA89M" then
   end
 
   hl.on("monitor.added", function()
-    hl.exec_cmd("hyprctl reload")
+    -- Dock outputs can emit monitor.added before their EDID and final connector
+    -- state have settled. Reload after a short delay so current_layout() sees
+    -- the TV and installs its mirror repair handler.
+    hl.timer(function()
+      hl.exec_cmd("hyprctl reload")
+    end, { timeout = 1000, type = "oneshot" })
   end)
 elseif hostname == "DarkKnight" then
   local function ultra_gear_layout_is_applied()

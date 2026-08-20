@@ -5,8 +5,8 @@ local M = {}
 local omarchy_monitor_scale = 1
 
 -- EDID descriptions stay stable when the dock renumbers DVI connectors.
-local gsa_laptop = "desc:Samsung Display Corp. 0x4165"
 local gsa_laptop_output = "eDP-1"
+local gsa_laptop = gsa_laptop_output
 local gsa_ultrawide = "desc:LG Electronics LG ULTRAWIDE 404NTMXBJ251"
 local gsa_mirror =
   "desc:Toshiba America Info Systems Inc TOSHIBA-TV 0x01010101"
