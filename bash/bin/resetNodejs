@@ -54,7 +54,7 @@ elif command -v pacman >/dev/null 2>&1; then
 
   echo "**********"
   echo "Arch Linux installing OS packages"
-  sudo pacman -Syu --noconfirm --needed "${os_packages[@]}"
+  sudo env OMARCHY_ALLOW_DIRECT_PACMAN=1 pacman -Syu --noconfirm --needed "${os_packages[@]}"
 
 else
   echo "No supported package manager found (apt or pacman)"

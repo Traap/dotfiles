@@ -45,7 +45,7 @@ upgrade() {
     fi
 
     # Update archlinux and community packages.
-    sayAndDo "yay -Syyu --needed --noconfirm --noprogressbar"
+    sayAndDo "env OMARCHY_ALLOW_DIRECT_PACMAN=1 yay -Syu --needed --noconfirm --noprogressbar"
   else
     echo "WARNING: Unknown package management system."
     exit
