@@ -15,6 +15,9 @@ bootstrap:
       - alias: Omarchy
         url: git@github.com:Traap/bootstrap-omarchy.git
 
+      - alias: Quattro
+        url: git@github.com:Traap/omarchy.git
+
       - alias: Ubuntu
         url: git@github.com:Traap/bootstrap-ubuntu.git
 
