@@ -91,6 +91,15 @@ unit.  The one-shot service:
 The timer runs shortly after boot and retries periodically.  `vpnConnect`
 continues to invoke `adConnect` with VPN-specific DNS behavior.
 
+`vpnConnect` uses `snx-rs` to authenticate through DUO Mobile and establish the
+VPN tunnel.  A DUO approval does not always mean the tunnel is ready: the VPN
+gateway can return `is_authenticated=true` without the SSL `active_key` that
+`snx-rs` needs to build the tunnel.  In that case `snx-rs` exits with an error
+even though authentication succeeded.  `vpnConnect` automatically retries this
+failure up to three total attempts by default.  It invokes `adConnect` only
+after `snx-rs` reports `Tunnel connected`.  Set `SNX_MAX_ATTEMPTS` or
+`SNX_RETRY_DELAY` to adjust the retry behavior.
+
 Kerberos CIFS entries under `/mnt` can be accessed before the first ticket is
 available.  Install the mount-unit retry policy so those early failures do not
 leave an automount permanently rate-limited:

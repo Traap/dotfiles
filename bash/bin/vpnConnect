@@ -13,6 +13,9 @@ SNX_IKE_PERSIST="${SNX_IKE_PERSIST:-false}"
 SNX_READY_PATTERN="${SNX_READY_PATTERN:-Tunnel connected}"
 SNX_USER="${SNX_USER:-${AD_USER:-}}"
 VPN_CONNECT_AD_FORCE="${VPN_CONNECT_AD_FORCE:-false}"
+SNX_MAX_ATTEMPTS="${SNX_MAX_ATTEMPTS:-3}"
+SNX_RETRY_DELAY="${SNX_RETRY_DELAY:-2}"
+SNX_RETRY_PATTERN="${SNX_RETRY_PATTERN:-active[_ -]?key}"
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Console output helpers
@@ -60,6 +63,8 @@ Behavior:
   - Prompts for a VPN password on the controlling terminal unless a password
     source is provided through the environment.
   - Starts snx-rs in the background and streams its log output.
+  - Retries when an authenticated gateway response does not contain the SSL
+    active_key needed to create the tunnel.
   - Sends a desktop notification when the VPN connects and disconnects.
   - Waits for the tunnel-ready log line before launching adConnect.
   - Calls adConnect with AD_CONNECT_CONFIGURE_DNS=false so the established VPN
@@ -76,6 +81,8 @@ Required commands:
   snx-rs
   sudo
   base64
+  grep
+  sleep
   tail
 
 Optional environment:
@@ -102,6 +109,16 @@ Optional environment:
       Set true to pass AD_CONNECT_FORCE=true to adConnect after the tunnel is
       ready.  The default lets adConnect skip work when its saved state is
       still fresh.
+
+  SNX_MAX_ATTEMPTS=3
+      Maximum snx-rs attempts for a missing active_key response.
+
+  SNX_RETRY_DELAY=2
+      Seconds to wait before retrying a missing active_key response.
+
+  SNX_RETRY_PATTERN='active[_ -]?key'
+      Extended regular expression used to recognize the retryable snx-rs
+      error.  Matching is case-insensitive.
 
 Exit status:
   Returns the snx-rs process exit status after log streaming completes.
@@ -132,6 +149,16 @@ esac
 if ! command -v snx-rs >/dev/null 2>&1; then
   fail "snx-rs is not installed or not on PATH." >&2
   exit 127
+fi
+
+if [[ ! "$SNX_MAX_ATTEMPTS" =~ ^[1-9][0-9]*$ ]]; then
+  fail "SNX_MAX_ATTEMPTS must be a positive integer." >&2
+  exit 2
+fi
+
+if [[ ! "$SNX_RETRY_DELAY" =~ ^[0-9]+([.][0-9]+)?$ ]]; then
+  fail "SNX_RETRY_DELAY must be a non-negative number." >&2
+  exit 2
 fi
 
 # -------------------------------------------------------------------------- }}}
@@ -225,7 +252,6 @@ fi
 
 SNX_LOG="$(mktemp "${TMPDIR:-/tmp}/vpnConnect.snx-rs.XXXXXX")"
 
-info "Starting snx-rs with ike-persist=$SNX_IKE_PERSIST."
 sudo -v
 
 snx_args=(
@@ -238,23 +264,52 @@ if [[ -n "$SNX_USER" ]]; then
   snx_args+=(--user-name "$SNX_USER")
 fi
 
-sudo -n snx-rs "${snx_args[@]}" >"$SNX_LOG" 2>&1 &
-SNX_PID=$!
 ad_connect_started=false
 VPN_CONNECTED=false
+attempt=1
 
-while IFS= read -r line; do
-  line="${line//$'\r'/}"
-  printf '%s\n' "$line"
+while (( attempt <= SNX_MAX_ATTEMPTS )); do
+  : >"$SNX_LOG"
+  info "Starting snx-rs attempt $attempt of $SNX_MAX_ATTEMPTS with ike-persist=$SNX_IKE_PERSIST."
 
-  if ! $ad_connect_started && [[ "$line" == *"$SNX_READY_PATTERN"* ]]; then
-    ad_connect_started=true
-    VPN_CONNECTED=true
-    notify "VPN connected" "The VPN tunnel is ready."
-    run_ad_connect || warn "adConnect failed; leaving VPN tunnel running." >&2
+  sudo -n snx-rs "${snx_args[@]}" >"$SNX_LOG" 2>&1 &
+  SNX_PID=$!
+
+  while IFS= read -r line; do
+    line="${line//$'\r'/}"
+    printf '%s\n' "$line"
+
+    if ! $ad_connect_started && [[ "$line" == *"$SNX_READY_PATTERN"* ]]; then
+      ad_connect_started=true
+      VPN_CONNECTED=true
+      notify "VPN connected" "The VPN tunnel is ready."
+      run_ad_connect || warn "adConnect failed; leaving VPN tunnel running." >&2
+    fi
+  done < <(tail -n +1 -F --pid="$SNX_PID" "$SNX_LOG" 2>/dev/null)
+
+  if wait "$SNX_PID"; then
+    snx_status=0
+  else
+    snx_status=$?
   fi
-done < <(tail -n +1 -F --pid="$SNX_PID" "$SNX_LOG" 2>/dev/null)
+  SNX_PID=""
 
-wait "$SNX_PID"
+  if (( snx_status == 0 )) || $VPN_CONNECTED; then
+    exit "$snx_status"
+  fi
+
+  if ! grep -Eqi -- "$SNX_RETRY_PATTERN" "$SNX_LOG"; then
+    exit "$snx_status"
+  fi
+
+  if (( attempt == SNX_MAX_ATTEMPTS )); then
+    fail "snx-rs did not receive an active_key after $SNX_MAX_ATTEMPTS attempts." >&2
+    exit "$snx_status"
+  fi
+
+  warn "The gateway authenticated the login but did not provide an active_key; retrying in $SNX_RETRY_DELAY seconds." >&2
+  sleep "$SNX_RETRY_DELAY"
+  ((attempt += 1))
+done
 
 # -------------------------------------------------------------------------- }}}
