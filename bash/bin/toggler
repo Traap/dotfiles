@@ -53,6 +53,17 @@ set_global_variables() {
 }
 
 # -------------------------------------------------------------------------- }}}
+# {{{ Prevent concurrent Hyprland toggles for the same session.
+
+lock_hyprland_toggle() {
+  local runtime_dir=${XDG_RUNTIME_DIR:-/tmp}
+  local lock_file=$runtime_dir/traap-toggler-"$_tmuxSession".lock
+
+  exec 9>"$lock_file"
+  flock -n 9
+}
+
+# -------------------------------------------------------------------------- }}}
 # {{{ Search Bspwm for winclass name using _tmuxSession
 
 find_bspwm_winclass(){
@@ -162,7 +173,11 @@ start_terminal() {
       ghostty --x11-instance-name="$_tmuxSession" --command="$AO $_tmuxSession"
       ;;
     hyprland)
-      ghostty --title="$_tmuxSession" --command="$AO $_tmuxSession"
+      ghostty --title="$_tmuxSession" --command="$AO $_tmuxSession" 9>&-
+
+      # Ghostty can return before Hyprland publishes the new surface. Keep the
+      # parent lock briefly so another workspace event cannot launch it again.
+      sleep 2
       ;;
   esac
 }
@@ -226,6 +241,10 @@ show_terminal(){
 
 toggle_winclass() {
   set_global_variables "$1" "$2"
+
+  if [[ $DESKTOP == hyprland ]] && ! lock_hyprland_toggle; then
+    exit 0
+  fi
 
   # NOTE: Uncomment when are debugging.
   # notify "Search $_tmuxSession"

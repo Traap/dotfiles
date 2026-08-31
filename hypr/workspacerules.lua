@@ -9,7 +9,7 @@ local default_launch_on_empty = {
   ["3"] = vars.office,
   ["4"] = vars.terminal .. " -e btop",
   ["5"] = "code-insiders",
-  ["6"] = os.getenv("HOME") .. "/.config/hypr/scripts/launch-zero",
+  ["6"] = vars.bin_home .. "/toggler Zero",
   ["7"] = {
     vars.browser .. " --new-window https://teams.microsoft.com/v2/",
     vars.browser .. " --new-window https://owa.ventura.org",
