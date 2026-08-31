@@ -9,7 +9,7 @@ local default_launch_on_empty = {
   ["3"] = vars.office,
   ["4"] = vars.terminal .. " -e btop",
   ["5"] = "code-insiders",
-  ["6"] = vars.bin_home .. "/toggler Zero",
+  ["6"] = os.getenv("HOME") .. "/.config/hypr/scripts/launch-zero",
   ["7"] = {
     vars.browser .. " --new-window https://teams.microsoft.com/v2/",
     vars.browser .. " --new-window https://owa.ventura.org",
@@ -55,6 +55,10 @@ end
 
 local launch_pending = {}
 
+local function launch_on_workspace(workspace, command)
+  hl.exec_cmd("[workspace " .. workspace .. " silent] " .. command)
+end
+
 local function launch_active_workspace_if_empty()
   local workspace = hl.get_active_workspace()
   if not workspace or not workspace.is_empty then
@@ -71,10 +75,10 @@ local function launch_active_workspace_if_empty()
   launch_pending[id] = true
   if type(command) == "table" then
     for _, cmd in ipairs(command) do
-      hl.exec_cmd(cmd)
+      launch_on_workspace(id, cmd)
     end
   else
-    hl.exec_cmd(command)
+    launch_on_workspace(id, command)
   end
   hl.timer(function()
     launch_pending[id] = nil
