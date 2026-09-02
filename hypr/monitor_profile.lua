@@ -64,7 +64,16 @@ local function connected_monitors()
     return {}
   end
 
-  return hl.get_monitors()
+  local monitors = hl.get_monitors()
+
+  -- Omarchy's keybindings menu scans this config with a metatable-backed
+  -- no-op proxy in place of Hyprland. Iterating that proxy never terminates
+  -- because every numeric lookup appears to exist.
+  if type(monitors) ~= "table" or getmetatable(monitors) ~= nil then
+    return {}
+  end
+
+  return monitors
 end
 
 local function connected_monitor_descriptions()
