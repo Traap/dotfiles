@@ -2,6 +2,7 @@
 
 local vars = require("hypr.vars")
 local monitor_profile = require("hypr.monitor_profile")
+local edge_webapp = vars.hypr_dir .. "/scripts/omarchy-launch-edge-webapp"
 
 local default_launch_on_empty = {
   ["1"] = 'omarchy-launch-or-focus-webapp Email "https://app.hey.com"',
@@ -11,8 +12,8 @@ local default_launch_on_empty = {
   ["5"] = "code-insiders",
   ["6"] = vars.bin_home .. "/toggler Zero",
   ["7"] = {
-    vars.browser .. " --new-window https://teams.microsoft.com/v2/",
-    vars.browser .. " --new-window https://owa.ventura.org",
+    edge_webapp .. ' "https://teams.microsoft.com/v2/"',
+    edge_webapp .. ' "https://owa.ventura.org"',
   },
   ["8"] = vars.browser .. " --new-window https://www.github.com/Traap/",
   ["9"] = 'omarchy-launch-webapp "https://www.kingjamesbibleonline.org"',
@@ -22,8 +23,8 @@ local default_launch_on_empty = {
 -- Customize these commands for GSA-AXA89M without changing other hosts.
 local gsa_axa89m_launch_on_empty = {
   ["1"] = {
-    vars.browser .. " --new-window https://teams.microsoft.com/v2/",
-    vars.browser .. " --new-window https://owa.ventura.org",
+    edge_webapp .. ' "https://teams.microsoft.com/v2/"',
+    edge_webapp .. ' "https://owa.ventura.org"',
   },
   ["2"] = vars.file_manager,
   ["3"] = 'omarchy-launch-or-focus-webapp Email "https://app.hey.com"',

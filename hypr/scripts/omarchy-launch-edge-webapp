@@ -1,0 +1,10 @@
+#!/bin/bash
+
+set -euo pipefail
+
+if (( $# == 0 )); then
+  echo "Usage: omarchy-launch-edge-webapp <url> [browser-arguments...]" >&2
+  exit 2
+fi
+
+exec setsid uwsm-app -- microsoft-edge-stable --app="$1" "${@:2}"
