@@ -7,4 +7,15 @@ if (( $# == 0 )); then
   exit 2
 fi
 
-exec setsid uwsm-app -- microsoft-edge-stable --app="$1" "${@:2}"
+runtime_dir=${XDG_RUNTIME_DIR:-/tmp}
+url_key=$(printf '%s' "$1" | sha256sum | cut -d' ' -f1)
+lock_file="$runtime_dir/omarchy-edge-webapp-$url_key.lock"
+
+# Hyprland can emit both startup and workspace activation before Edge maps its
+# window. Keep one launcher per URL alive briefly so the second event cannot
+# start a duplicate app window.
+exec 9>"$lock_file"
+flock -n 9 || exit 0
+
+setsid uwsm-app -- microsoft-edge-stable --app="$1" "${@:2}"
+sleep 5
