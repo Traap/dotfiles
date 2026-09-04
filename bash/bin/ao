@@ -361,7 +361,11 @@ fi
 # -------------------------------------------------------------------------- }}}
 # {{{ Attach to tmux session.
 
- [ -z "$TMUX" ]  && tmux attach -t "$SESSION"
+if [[ -n ${TMUX:-} ]]; then
+  tmux switch-client -t "$SESSION"
+else
+  tmux attach-session -t "$SESSION"
+fi
 exit 0
 
 # -------------------------------------------------------------------------- }}}
