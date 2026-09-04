@@ -173,10 +173,11 @@ start_terminal() {
       ghostty --x11-instance-name="$_tmuxSession" --command="$AO $_tmuxSession"
       ;;
     hyprland)
-      ghostty --title="$_tmuxSession" --command="$AO $_tmuxSession" 9>&-
+      ghostty --title="$_tmuxSession" --command="$AO $_tmuxSession" 9>&- &
 
       # Ghostty can return before Hyprland publishes the new surface. Keep the
-      # parent lock briefly so another workspace event cannot launch it again.
+      # parent lock briefly so another workspace event cannot launch it again,
+      # but do not hold it for the lifetime of the terminal.
       sleep 2
       ;;
   esac
