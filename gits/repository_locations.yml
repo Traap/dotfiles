@@ -214,6 +214,9 @@ gitea:
       - alias: Scans
         url: git@gsa-gitea:BSS/Scans.git
 
+      - alias: smb_shortcut
+        url: git@gsa-gitea:BSS/smb_shortcut.git
+
       - alias: Stores
         url: git@gsa-gitea:BSS/Stores.git
 

@@ -57,3 +57,5 @@ __guarded_source "$BASHHOME/bashrc_personal"
 
 # -------------------------------------------------------------------------- }}}
 __end ".bashrc"
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
