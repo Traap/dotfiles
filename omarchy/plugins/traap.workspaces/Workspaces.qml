@@ -1,3 +1,5 @@
+pragma ComponentBehavior: Bound
+
 import QtQuick
 import QtQuick.Layouts
 import Quickshell.Hyprland
@@ -32,7 +34,7 @@ BarWidget {
 
   function focusWorkspace(id) {
     if (!root.bar) return
-    root.bar.run("hyprctl dispatch " + Util.shellQuote("hl.dsp.focus({ workspace = \"" + id + "\" })"))
+    Util.execDetached("hyprctl dispatch " + Util.shellQuote("hl.dsp.focus({ workspace = \"" + id + "\" })"))
   }
 
   readonly property real trailingGap: root.vertical ? 0 : Style.spaceReal(1.5)
@@ -60,8 +62,8 @@ BarWidget {
 
         bar: root.bar
         text: modelData === 10 ? "0" : String(modelData)
-        active: focused
-        opacity: occupied || focused ? 1 : 0.5
+        active: focused || tooltipHovered
+        opacity: occupied || focused || tooltipHovered ? 1 : 0.5
         horizontalMargin: 6
         verticalPadding: 6
         fixedWidth: root.vertical ? root.barSize : Style.space(20)
