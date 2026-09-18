@@ -79,6 +79,9 @@ bind("SUPER + CTRL + W", "Browser (private)", vars.browser .. " --private")
 
 bind("SUPER + SHIFT + M", "Menu", "omarchy-menu")
 
+-- Replace Omarchy's default notification dismissal binding.
+o.rebind("SUPER + comma", "Tensaku", "tensaku")
+
 -- -------------------------------------------------------------------------- }}}
 -- {{{ Toggle tmux sessions.
 
