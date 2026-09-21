@@ -387,8 +387,8 @@ soup:
       - alias: amber
         url: git@github.com:Traap/amber.git
 
-      - alias: ametrine
-        url: git@github.com:Traap/ametrine.git
+      - alias: daryn
+        url: git@github.com:Traap/daryn.git
 
       - alias: autodoc
         url: git@github.com:Traap/autodoc.git
