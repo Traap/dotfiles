@@ -7,6 +7,10 @@
           "id": "omarchy.indicators"
         },
         {
+          "id": "omacom.elsewhen",
+          "zones": "Los Angeles|America/Los_Angeles, New York|America/New_York, London|Europe/London, Dubai|Asia/Dubai, Tokyo|Asia/Tokyo"
+        },
+        {
           "format": "dddd HH:mm",
           "formatAlt": "d MMMM 'W'ww yyyy",
           "id": "omarchy.clock",
