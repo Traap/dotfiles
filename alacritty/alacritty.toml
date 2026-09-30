@@ -1,15 +1,15 @@
 [general]
 live_config_reload = true
 import = [
-    "/home/traap/.config/alacritty/fonts.toml"
-  , "/home/traap/.config/alacritty/themes/.default.toml"
+  "/home/traap/.config/alacritty/fonts.toml",
+  "/home/traap/.config/alacritty/themes/.default.toml",
 ]
 
 [colors]
 draw_bold_text_with_bright_colors = true
 
 [cursor]
-style = {shape = "Beam", blinking = "On"}
+style = { shape = "Beam", blinking = "On" }
 
 [env]
 TERM = "alacritty"
