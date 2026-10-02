@@ -100,5 +100,5 @@
 [help]
   format = html
 
-[include]
-  path = .gitconfig_local_machine
+[includeIf "gitdir:/home/traap/gitea/"]
+  path = ~/.gitconfig_local_machine
