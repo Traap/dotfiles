@@ -37,3 +37,10 @@ fi
 # fi
 
 # -------------------------------------------------------------------------- }}}
+# {{{ Paperboy shell settings
+
+if  "$BINHOME"/fileExists "$WORKHOME"/Paperboy/bin/shell-init; then
+  source "$WORKHOME"/Paperboy/bin/shell-init
+fi
+
+# -------------------------------------------------------------------------- }}}
