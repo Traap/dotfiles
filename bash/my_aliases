@@ -166,6 +166,8 @@ alias wd='cd $WIKIHOME'
 alias wk='cd $WORKHOME'
 alias yd='cd $YOUTUBEHOME'
 
+alias pb='cd $WORKHOME/Paperboy'
+
 alias cal='cd $CFGHOME/alacritty'
 alias cbs='cd $CFGHOME/bspwm'
 alias cdc='cd $CFGHOME/dconf'
