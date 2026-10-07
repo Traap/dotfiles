@@ -151,8 +151,15 @@ local function find_ultra_gear_full_width_output()
     outputs[monitor.name] = monitor
   end
 
-  -- Prefer DisplayPort for the 165 Hz link. HDMI remains a supported fallback.
-  for _, output in ipairs({ "DP-4", "HDMI-A-1" }) do
+  -- Prefer direct DisplayPort, then USB-C DisplayPort Alt Mode. HDMI remains
+  -- a supported fallback when neither DisplayPort path is available.
+  for _, output in ipairs({
+    "DP-4",
+    "DP-1",
+    "DP-2",
+    "DP-3",
+    "HDMI-A-1",
+  }) do
     local monitor = outputs[output]
     -- PIP reports each half as 520 mm wide; full-width mode reports 1040 mm.
     if monitor and monitor.physical_width >= 1000 then
@@ -175,9 +182,15 @@ local function ultra_gear_layout()
       },
     }
 
-    -- Remove the unused PIP half and any output retained from the old DP-3
-    -- single-monitor profile.
-    for _, output in ipairs({ "DP-3", "DP-4", "HDMI-A-1" }) do
+    -- Remove unused DP paths and any output retained from the old PIP or
+    -- single-monitor profiles.
+    for _, output in ipairs({
+      "DP-1",
+      "DP-2",
+      "DP-3",
+      "DP-4",
+      "HDMI-A-1",
+    }) do
       if output ~= full_width_output then
         table.insert(monitors, { output = output, disabled = true })
       end
