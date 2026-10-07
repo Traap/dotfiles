@@ -255,7 +255,17 @@ br() {
 }
 
 master() {
-  br master
+  local git_dir common_dir
+
+  git_dir="$(git rev-parse --path-format=absolute --git-dir)" || return
+  common_dir="$(git rev-parse --path-format=absolute --git-common-dir)" || return
+
+  if [[ "$git_dir" == "$common_dir" ]]; then
+    br master
+  else
+    cd "$(dirname "$common_dir")" || return
+  fi
+
   clear
   git logg -15
 }
