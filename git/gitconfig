@@ -26,6 +26,8 @@
   st     = status  --short  --branch
   undo   = "!f()  {  git  reset  --hard  $(git  rev-parse  --abbrev-ref  HEAD)@{${1-1}};  };  f"
   pushup = push  -u  origin  HEAD
+  wl     = worktree list
+
 
 [user]
   email = gary.a.howard@mac.com
