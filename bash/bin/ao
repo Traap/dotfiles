@@ -110,7 +110,7 @@ if  [[ $# -eq 1 ]]; then
       tmux new-window    -t "$SESSION":3 -c "$WORKDIR" -n 'Tester'  -d
 
       tmux send-keys     -t "$SESSION":2.1 "bundle exec rails server -p 3002" Enter
-      tmux send-keys     -t "$SESSION":1.2 "codex" Enter
+      tmux send-keys     -t "$SESSION":1.2 "grok" Enter
       tmux send-keys     -t "$SESSION":1.1 "nvim" Enter
 
       tmux select-window -t "$SESSION":1
@@ -189,7 +189,7 @@ if  [[ $# -eq 1 ]]; then
       tmux new-window    -t "$SESSION":3 -c "$WORKDIR" -n 'Tester'  -d
 
       tmux send-keys     -t "$SESSION":2.1 "bin/solid" Enter
-      tmux send-keys     -t "$SESSION":1.2 "codex" Enter
+      tmux send-keys     -t "$SESSION":1.2 "grok" Enter
       tmux send-keys     -t "$SESSION":1.1 "nvim" Enter
 
       tmux select-window -t "$SESSION":1
@@ -309,7 +309,7 @@ if  [[ $# -eq 1 ]]; then
       tmux new-window    -t "$SESSION":3 -c "$WORKDIR" -n 'Notebook' -d
 
       tmux send-keys     -t "$SESSION":3   "$EDITOR $WORKDIR/wiki/index.md" Enter
-      tmux send-keys     -t "$SESSION":1.2 "codex" Enter
+      tmux send-keys     -t "$SESSION":1.2 "grok" Enter
       tmux send-keys     -t "$SESSION":1.1 "nvim" Enter
 
       tmux select-window -t "$SESSION":1
