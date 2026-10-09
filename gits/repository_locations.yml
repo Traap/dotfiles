@@ -169,6 +169,9 @@ gitea:
       - alias: ChartOfAccounts
         url: git@gsa-gitea:BSS/ChartOfAccounts.git
 
+      - alias: ClassSalary
+        url: git@gsa-gitea:BSS/ClassSalary.git
+
       - alias: cronjobs
         url: git@gsa-gitea:BSS/cronjobs.git
 
