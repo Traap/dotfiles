@@ -8,6 +8,27 @@ dofile((os.getenv("OMARCHY_PATH") or "/usr/share/omarchy") .. "/default/hypr/boo
 require("default.hypr.helpers")
 local require_optional = require("default.hypr.require_optional")
 
+-- Stock tiling bindings call o.workspaces. Loading
+-- default.hypr.monitor-workspaces would also put each monitor on its own
+-- workspace block and fight hypr.monitors, so these stay global workspaces 1-10.
+o.workspaces = {
+  focus = function(workspace)
+    return hl.dsp.focus({ workspace = tostring(workspace) })
+  end,
+  move_window = function(workspace, follow)
+    return hl.dsp.window.move({
+      workspace = tostring(workspace),
+      follow = follow ~= false,
+    })
+  end,
+  move_to_monitor = function(direction)
+    return hl.dsp.workspace.move({ monitor = direction })
+  end,
+  move_window_to_monitor = function(direction)
+    return hl.dsp.window.move({ monitor = direction })
+  end,
+}
+
 if _G.omarchy_default_bindings ~= false then
   require("default.hypr.bindings.media")
   require("default.hypr.bindings.clipboard")
