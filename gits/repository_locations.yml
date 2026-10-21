@@ -184,6 +184,9 @@ gitea:
       - alias: DocAuto
         url: git@gsa-gitea:BSS/DocAuto.git
 
+      - alias: EIS
+        url: git@gsa-gitea:GaryHoward/EIS.git
+
       - alias: GsaScanQA
         url: git@gsa-gitea:BSS/GSAScanQA.git
 
