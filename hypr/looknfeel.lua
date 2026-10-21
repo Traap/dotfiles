@@ -15,6 +15,13 @@ hl.config({
     active_opacity = 0.80,
     inactive_opacity = 0.80,
 
+    -- Leave unfocused, modal, and special-workspace windows at full brightness.
+    dim_inactive = false,
+    dim_modal = false,
+    dim_strength = 0,
+    dim_special = 0,
+    dim_around = 0,
+
     rounding = 8,
 
     blur = {
