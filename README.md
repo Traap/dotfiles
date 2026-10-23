@@ -100,6 +100,15 @@ failure up to three total attempts by default.  It invokes `adConnect` only
 after `snx-rs` reports `Tunnel connected`.  Set `SNX_MAX_ATTEMPTS` or
 `SNX_RETRY_DELAY` to adjust the retry behavior.
 
+After the tunnel is up, `snx-rs` exits with `Tunnel disconnected` and
+`Error: Keepalive failed` when IPSec keepalives go unanswered.  `vpnConnect`
+starts a new tunnel instead of leaving that drop as the end of the session.
+The wait doubles from `SNX_RECONNECT_DELAY` up to `SNX_RECONNECT_MAX_DELAY`.
+Set `SNX_RECONNECT=false` to keep the old exit-on-disconnect behavior.  Ctrl-C
+still closes the tunnel.  The VPN password is stored in a mode 600 runtime
+config for the life of `vpnConnect` and is not passed on the `snx-rs` command
+line.
+
 Kerberos CIFS entries under `/mnt` can be accessed before the first ticket is
 available.  Install the mount-unit retry policy so those early failures do not
 leave an automount permanently rate-limited:

@@ -16,6 +16,16 @@ VPN_CONNECT_AD_FORCE="${VPN_CONNECT_AD_FORCE:-false}"
 SNX_MAX_ATTEMPTS="${SNX_MAX_ATTEMPTS:-3}"
 SNX_RETRY_DELAY="${SNX_RETRY_DELAY:-2}"
 SNX_RETRY_PATTERN="${SNX_RETRY_PATTERN:-active[_ -]?key}"
+SNX_RECONNECT="${SNX_RECONNECT:-true}"
+SNX_RECONNECT_ATTEMPTS="${SNX_RECONNECT_ATTEMPTS:-0}"
+SNX_RECONNECT_DELAY="${SNX_RECONNECT_DELAY:-5}"
+SNX_RECONNECT_MAX_DELAY="${SNX_RECONNECT_MAX_DELAY:-60}"
+# Anchor at end of line so a recovered "Keepalive failed, retrying" trace does
+# not look like the fatal "Error: Keepalive failed" exit.
+if [[ -z "${SNX_KEEPALIVE_PATTERN:-}" ]]; then
+  SNX_KEEPALIVE_PATTERN='Keepalive failed\.?[[:space:]]*$'
+fi
+SNX_SUDO_REFRESH_SECONDS="${SNX_SUDO_REFRESH_SECONDS:-60}"
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Console output helpers
@@ -62,6 +72,9 @@ Usage:
 Behavior:
   - Prompts for a VPN password on the controlling terminal unless a password
     source is provided through the environment.
+  - Writes that password into a mode 600 runtime config and passes the file to
+    snx-rs.  The password is not placed on the command line, so process
+    listings and sudo logs do not record it.  The file is removed on exit.
   - Starts snx-rs in the background and streams its log output.
   - Retries when an authenticated gateway response does not contain the SSL
     active_key needed to create the tunnel.
@@ -69,6 +82,13 @@ Behavior:
   - Waits for the tunnel-ready log line before launching adConnect.
   - Calls adConnect with AD_CONNECT_CONFIGURE_DNS=false so the established VPN
     tunnel's DNS and routing are not rewritten during the post-connect hook.
+  - Restarts snx-rs when an established tunnel exits because keepalive failed
+    or another unexpected error.  snx-rs prints "Tunnel disconnected" and
+    "Error: Keepalive failed" after unanswered IPSec keepalives.  Ctrl-C, a
+    clean snx-rs exit, and a reconnect that never reaches the tunnel stop the
+    script instead of looping.
+  - Refreshes the sudo timestamp while it is running so a later reconnect is
+    not blocked by an expired sudo credential.
   - Leaves the VPN process running until snx-rs exits or vpnConnect receives a
     signal that triggers cleanup.
 
@@ -87,23 +107,25 @@ Required commands:
 
 Optional environment:
   SNX_CONFIG=/etc/snx-rs/config.toml
-      snx-rs configuration file.
+      snx-rs configuration file.  Its settings are copied into the runtime
+      config.  Later vpnConnect settings override copied values.
 
   SNX_IKE_PERSIST=false
-      Value passed to snx-rs --ike-persist.
+      Value written as ike-persist.  false avoids restoring an IKE session
+      that can come back up with keepalive already dead.
 
   SNX_READY_PATTERN="Tunnel connected"
       Log text that indicates the VPN tunnel is ready for adConnect.
 
   SNX_USER=$AD_USER
-      VPN user name passed to snx-rs --user-name when non-empty.
+      VPN user name written into the runtime config when non-empty.
 
   SNX_PASSWORD_B64
       Base64-encoded VPN password.  When set, no password prompt is shown.
 
   SNX_PASSWORD_CMD
       Shell command that prints the raw VPN password.  Its output is base64
-      encoded before being passed to snx-rs.
+      encoded before being written into the runtime config.
 
   VPN_CONNECT_AD_FORCE=false
       Set true to pass AD_CONNECT_FORCE=true to adConnect after the tunnel is
@@ -111,7 +133,8 @@ Optional environment:
       still fresh.
 
   SNX_MAX_ATTEMPTS=3
-      Maximum snx-rs attempts for a missing active_key response.
+      Maximum snx-rs attempts for a missing active_key response, including
+      each reconnect that has not reached the tunnel yet.
 
   SNX_RETRY_DELAY=2
       Seconds to wait before retrying a missing active_key response.
@@ -120,8 +143,35 @@ Optional environment:
       Extended regular expression used to recognize the retryable snx-rs
       error.  Matching is case-insensitive.
 
+  SNX_RECONNECT=true
+      Restart after an established tunnel dies unexpectedly.  Set false to
+      exit when the connected tunnel closes.
+
+  SNX_RECONNECT_ATTEMPTS=0
+      Maximum automatic reconnects after the tunnel has been up.  0 means no
+      limit.  A tunnel that stays up for at least SNX_RECONNECT_MAX_DELAY
+      seconds resets this count and the reconnect wait.
+
+  SNX_RECONNECT_DELAY=5
+      Initial seconds to wait before reconnecting a dropped tunnel.
+
+  SNX_RECONNECT_MAX_DELAY=60
+      Maximum reconnect wait.  The wait doubles after each dropped tunnel
+      until it reaches this value.
+
+  SNX_KEEPALIVE_PATTERN='Keepalive failed\.?[[:space:]]*$'
+      Extended regular expression matched against the snx-rs log after a
+      non-zero exit.  The default matches the English fatal error and ignores
+      the "Keepalive failed, retrying" trace line.  Matching is
+      case-insensitive.
+
+  SNX_SUDO_REFRESH_SECONDS=60
+      How often to refresh the sudo timestamp.  Keep this below sudo's
+      timestamp_timeout so reconnects can start without a password prompt.
+
 Exit status:
   Returns the snx-rs process exit status after log streaming completes.
+  Ctrl-C exits 130.  A configuration error exits 2.
 HELP
 }
 
@@ -138,7 +188,7 @@ case "${1:-}" in
     ;;
   *)
     fail "Unknown argument: $1"
-    printf 'Usage: vpnConnect [--help]\n' >&2
+    printf 'Usage: vpnConnect [--help|--notify-test]\n' >&2
     exit 2
     ;;
 esac
@@ -146,18 +196,65 @@ esac
 # -------------------------------------------------------------------------- }}}
 # {{{ Dependency validation
 
+require_uint() {
+  local name=$1
+  local value=$2
+  local minimum=$3
+
+  if [[ ! "$value" =~ ^[0-9]+$ ]]; then
+    fail "$name must be an integer greater than or equal to $minimum." >&2
+    exit 2
+  fi
+
+  if (( value < minimum )); then
+    fail "$name must be an integer greater than or equal to $minimum." >&2
+    exit 2
+  fi
+}
+
+require_bool() {
+  local name=$1
+  local value=$2
+
+  case "$value" in
+    true|false) ;;
+    *)
+      fail "$name must be true or false." >&2
+      exit 2
+      ;;
+  esac
+}
+
 if ! command -v snx-rs >/dev/null 2>&1; then
   fail "snx-rs is not installed or not on PATH." >&2
   exit 127
 fi
 
-if [[ ! "$SNX_MAX_ATTEMPTS" =~ ^[1-9][0-9]*$ ]]; then
-  fail "SNX_MAX_ATTEMPTS must be a positive integer." >&2
-  exit 2
+if ! command -v sudo >/dev/null 2>&1; then
+  fail "sudo is not installed or not on PATH." >&2
+  exit 127
 fi
+
+if [[ ! -r "$SNX_CONFIG" ]]; then
+  fail "snx-rs config is not readable: $SNX_CONFIG" >&2
+  exit 1
+fi
+
+require_uint SNX_MAX_ATTEMPTS "$SNX_MAX_ATTEMPTS" 1
+require_uint SNX_RECONNECT_ATTEMPTS "$SNX_RECONNECT_ATTEMPTS" 0
+require_uint SNX_RECONNECT_DELAY "$SNX_RECONNECT_DELAY" 0
+require_uint SNX_RECONNECT_MAX_DELAY "$SNX_RECONNECT_MAX_DELAY" 0
+require_uint SNX_SUDO_REFRESH_SECONDS "$SNX_SUDO_REFRESH_SECONDS" 1
+require_bool SNX_IKE_PERSIST "$SNX_IKE_PERSIST"
+require_bool SNX_RECONNECT "$SNX_RECONNECT"
 
 if [[ ! "$SNX_RETRY_DELAY" =~ ^[0-9]+([.][0-9]+)?$ ]]; then
   fail "SNX_RETRY_DELAY must be a non-negative number." >&2
+  exit 2
+fi
+
+if (( SNX_RECONNECT_MAX_DELAY < SNX_RECONNECT_DELAY )); then
+  fail "SNX_RECONNECT_MAX_DELAY must be greater than or equal to SNX_RECONNECT_DELAY." >&2
   exit 2
 fi
 
@@ -176,6 +273,27 @@ run_ad_connect() {
 # -------------------------------------------------------------------------- }}}
 # {{{ Cleanup
 
+stop_sudo_refresh() {
+  local refresh_pid="${SUDO_REFRESH_PID:-}"
+
+  SUDO_REFRESH_PID=""
+  if [[ -n "$refresh_pid" ]] && kill -0 "$refresh_pid" 2>/dev/null; then
+    kill "$refresh_pid" 2>/dev/null || true
+    wait "$refresh_pid" 2>/dev/null || true
+  fi
+}
+
+remove_runtime_files() {
+  if [[ -n "${SNX_LOG:-}" && -e "$SNX_LOG" ]]; then
+    rm -f -- "$SNX_LOG"
+  fi
+
+  if [[ -n "${SNX_RUNTIME_CONFIG:-}" && -f "$SNX_RUNTIME_CONFIG" ]]; then
+    : >"$SNX_RUNTIME_CONFIG"
+    rm -f -- "$SNX_RUNTIME_CONFIG"
+  fi
+}
+
 cleanup() {
   local exit_status=$?
 
@@ -192,10 +310,8 @@ cleanup() {
     wait "$SNX_PID" 2>/dev/null || true
   fi
 
-  if [[ -n "${SNX_LOG:-}" && -e "$SNX_LOG" ]]; then
-    rm -f "$SNX_LOG"
-  fi
-
+  stop_sudo_refresh
+  remove_runtime_files
   return "$exit_status"
 }
 
@@ -237,6 +353,64 @@ read_snx_password() {
   printf '%s' "$password" | encode_base64
 }
 
+# snx-rs accepts one config file.  Copy the operator config and append the
+# session values so the password stays out of argv.  The parser keeps the
+# last assignment for each key.
+write_runtime_config() {
+  local password_b64=$1
+  local previous_umask
+
+  previous_umask="$(umask)"
+  umask 077
+  SNX_RUNTIME_CONFIG="$(mktemp "${TMPDIR:-/tmp}/vpnConnect.runtime.XXXXXX")"
+  umask "$previous_umask"
+
+  {
+    cat -- "$SNX_CONFIG"
+    printf '\n'
+    if [[ -n "$SNX_USER" ]]; then
+      printf 'user-name=%s\n' "$SNX_USER"
+    fi
+    printf 'password=%s\n' "$password_b64"
+    printf 'ike-persist=%s\n' "$SNX_IKE_PERSIST"
+  } >"$SNX_RUNTIME_CONFIG"
+
+  chmod 600 "$SNX_RUNTIME_CONFIG"
+}
+
+# -------------------------------------------------------------------------- }}}
+# {{{ sudo timestamp
+
+start_sudo_refresh() {
+  if [[ -n "${SUDO_REFRESH_PID:-}" ]] && kill -0 "$SUDO_REFRESH_PID" 2>/dev/null; then
+    return 0
+  fi
+
+  (
+    sleep_pid=""
+    trap 'if [[ "$sleep_pid" =~ ^[1-9][0-9]*$ ]]; then kill "$sleep_pid" 2>/dev/null || true; fi; exit 0' TERM INT HUP
+    while true; do
+      sleep "$SNX_SUDO_REFRESH_SECONDS" &
+      sleep_pid=$!
+      if ! wait "$sleep_pid"; then
+        exit 0
+      fi
+      sleep_pid=""
+      sudo -n -v >/dev/null 2>&1 || exit 0
+    done
+  ) &
+  SUDO_REFRESH_PID=$!
+}
+
+ensure_sudo() {
+  if ! sudo -n -v >/dev/null 2>&1; then
+    warn "sudo credentials expired. Enter your password to keep the VPN available." >&2
+    sudo -v
+  fi
+
+  start_sudo_refresh
+}
+
 # -------------------------------------------------------------------------- }}}
 # {{{ Start VPN and stream logs
 
@@ -250,28 +424,39 @@ if [[ ! -r /dev/tty ]]; then
   exit 1
 fi
 
+previous_umask="$(umask)"
+umask 077
 SNX_LOG="$(mktemp "${TMPDIR:-/tmp}/vpnConnect.snx-rs.XXXXXX")"
+umask "$previous_umask"
 
-sudo -v
+ensure_sudo
+
+snx_password_b64="$(read_snx_password)"
+write_runtime_config "$snx_password_b64"
+unset snx_password_b64 SNX_PASSWORD_B64 SNX_PASSWORD_CMD
 
 snx_args=(
-  -c "$SNX_CONFIG"
-  --ike-persist "$SNX_IKE_PERSIST"
-  --password "$(read_snx_password)"
+  -c "$SNX_RUNTIME_CONFIG"
 )
-
-if [[ -n "$SNX_USER" ]]; then
-  snx_args+=(--user-name "$SNX_USER")
-fi
 
 ad_connect_started=false
 VPN_CONNECTED=false
 attempt=1
+reconnects=0
+reconnect_delay=$SNX_RECONNECT_DELAY
+session_ready_at=""
 
-while (( attempt <= SNX_MAX_ATTEMPTS )); do
+while true; do
   : >"$SNX_LOG"
-  info "Starting snx-rs attempt $attempt of $SNX_MAX_ATTEMPTS with ike-persist=$SNX_IKE_PERSIST."
+  session_ready_at=""
 
+  if (( reconnects == 0 )); then
+    info "Starting snx-rs attempt $attempt of $SNX_MAX_ATTEMPTS with ike-persist=$SNX_IKE_PERSIST."
+  else
+    info "Reconnecting snx-rs (reconnect $reconnects, connect attempt $attempt of $SNX_MAX_ATTEMPTS) with ike-persist=$SNX_IKE_PERSIST."
+  fi
+
+  ensure_sudo
   sudo -n snx-rs "${snx_args[@]}" >"$SNX_LOG" 2>&1 &
   SNX_PID=$!
 
@@ -282,7 +467,8 @@ while (( attempt <= SNX_MAX_ATTEMPTS )); do
     if ! $ad_connect_started && [[ "$line" == *"$SNX_READY_PATTERN"* ]]; then
       ad_connect_started=true
       VPN_CONNECTED=true
-      notify "VPN connected" "The VPN tunnel is ready."
+      session_ready_at=$SECONDS
+      notify "VPN connected" "The VPN tunnel is ready." || true
       run_ad_connect || warn "adConnect failed; leaving VPN tunnel running." >&2
     fi
   done < <(tail -n +1 -F --pid="$SNX_PID" "$SNX_LOG" 2>/dev/null)
@@ -293,6 +479,48 @@ while (( attempt <= SNX_MAX_ATTEMPTS )); do
     snx_status=$?
   fi
   SNX_PID=""
+
+  # snx-rs exits after five unanswered IPSec keepalives.  The log contains
+  # "Keepalive failed" and the process status is non-zero.  A clean exit or a
+  # failure before the tunnel is ready is handled below.
+  reconnect_reason=""
+  if [[ "$SNX_RECONNECT" == true ]] && (( snx_status != 0 )) && grep -Eqi -- "$SNX_KEEPALIVE_PATTERN" "$SNX_LOG"; then
+    reconnect_reason="keepalive failed"
+  elif [[ "$SNX_RECONNECT" == true ]] && (( snx_status != 0 )) && $VPN_CONNECTED; then
+    reconnect_reason="snx-rs exited with status $snx_status"
+  fi
+
+  if [[ -n "$reconnect_reason" ]]; then
+    # A long-lived tunnel starts a new reconnect budget.  A zero maximum wait
+    # disables that reset so the attempt cap still counts every drop.
+    if [[ -n "$session_ready_at" ]] && (( SNX_RECONNECT_MAX_DELAY > 0 )) && (( SECONDS - session_ready_at >= SNX_RECONNECT_MAX_DELAY )); then
+      reconnects=0
+      reconnect_delay=$SNX_RECONNECT_DELAY
+    fi
+
+    if (( SNX_RECONNECT_ATTEMPTS > 0 )) && (( reconnects >= SNX_RECONNECT_ATTEMPTS )); then
+      VPN_CONNECTED=false
+      fail "VPN reconnect limit of $SNX_RECONNECT_ATTEMPTS reached ($reconnect_reason)." >&2
+      notify "VPN disconnected" "The VPN tunnel closed and reconnect attempts are exhausted." || true
+      exit "$snx_status"
+    fi
+
+    reconnects=$((reconnects + 1))
+    VPN_CONNECTED=false
+    ad_connect_started=false
+    attempt=1
+    warn "The VPN tunnel closed ($reconnect_reason); reconnecting in ${reconnect_delay}s." >&2
+    notify "VPN disconnected" "The VPN tunnel closed (${reconnect_reason}). Reconnecting." || true
+    sleep "$reconnect_delay"
+
+    if (( reconnect_delay < SNX_RECONNECT_MAX_DELAY )); then
+      reconnect_delay=$((reconnect_delay * 2))
+      if (( reconnect_delay > SNX_RECONNECT_MAX_DELAY )); then
+        reconnect_delay=$SNX_RECONNECT_MAX_DELAY
+      fi
+    fi
+    continue
+  fi
 
   if (( snx_status == 0 )) || $VPN_CONNECTED; then
     exit "$snx_status"
@@ -309,7 +537,7 @@ while (( attempt <= SNX_MAX_ATTEMPTS )); do
 
   warn "The gateway authenticated the login but did not provide an active_key; retrying in $SNX_RETRY_DELAY seconds." >&2
   sleep "$SNX_RETRY_DELAY"
-  ((attempt += 1))
+  attempt=$((attempt + 1))
 done
 
 # -------------------------------------------------------------------------- }}}
