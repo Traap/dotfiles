@@ -21,7 +21,6 @@ hl.config({
     dim_strength = 0,
     dim_special = 0,
     dim_around = 0,
-
     rounding = 8,
 
     blur = {
@@ -52,7 +51,7 @@ hl.config({
   layout = {
     -- Wide monitors cap lonely windows; smaller layouts keep full width.
     single_window_aspect_ratio =
-      monitor_profile.single_window_aspect_ratio(),
+        monitor_profile.single_window_aspect_ratio(),
   },
 
   master = {

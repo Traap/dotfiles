@@ -12,3 +12,17 @@ base-size = 14
 body = 18
 icon = 18
 icon-large = 18
+
+# Full-screen dim behind overlays. 0 leaves the desktop unchanged.
+# Menu also covers clipboard, emojis, and reminders.
+[menu]
+scrim-alpha = 0.0
+
+[launcher]
+scrim-alpha = 0.0
+
+[polkit]
+scrim-alpha = 0.0
+
+[image-picker]
+scrim-alpha = 0.0
