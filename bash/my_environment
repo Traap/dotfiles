@@ -20,11 +20,45 @@ export YOUTUBEHOME="$GITHOME/youtube"
 export PDF_VIEWER=okular
 export PNG_VIEWER=feh
 
+# OS id from /etc/os-release. OSTYPE stays the shell platform:
+# linux-gnu on Arch and WSL, msys on Git Bash, darwin on macOS.
+OS_ID=unknown
+if [[ -r /etc/os-release ]]; then
+  while IFS= read -r __os_line || [[ -n ${__os_line:-} ]]; do
+    [[ $__os_line == ID=* ]] || continue
+    OS_ID=${__os_line#ID=}
+    OS_ID=${OS_ID//\"/}
+    OS_ID=${OS_ID//$'\r'/}
+    break
+  done < /etc/os-release
+  unset __os_line
+fi
+export OS_ID
+
 export AD_DOMAIN=ent.co.ventura.ca.us
 export AD_REALM=ENT.CO.VENTURA.CA.US
 export AD_DNS1=10.130.5.98
 export AD_DNS2=10.130.5.100
 export AD_USER=135272
 export WIN_DOMAIN=ENT
+
+# County root ISDPWCAROOT01 is not in the system store, so Gitea on port
+# 3000 fails certificate checks. Rebuild the user bundle when the system
+# store or the root is newer. A second start leaves a current bundle
+# alone. A missing root leaves the system store in place.
+__ca_dir="${HOME}/.local/share/ca-certificates"
+__ca_root="${__ca_dir}/ISDPWCAROOT01.crt"
+__ca_bundle="${__ca_dir}/ca-bundle.crt"
+__ca_system=/etc/ssl/certs/ca-certificates.crt
+if [[ -r ${__ca_root} && -r ${__ca_system} ]]; then
+  if [[ ! -r ${__ca_bundle} || ${__ca_system} -nt ${__ca_bundle} || ${__ca_root} -nt ${__ca_bundle} ]]; then
+    cat "${__ca_system}" "${__ca_root}" > "${__ca_bundle}"
+  fi
+  export SSL_CERT_FILE="${__ca_bundle}"
+  export CURL_CA_BUNDLE="${__ca_bundle}"
+  export REQUESTS_CA_BUNDLE="${__ca_bundle}"
+  export GIT_SSL_CAINFO="${__ca_bundle}"
+fi
+unset __ca_dir __ca_root __ca_bundle __ca_system
 
 # -------------------------------------------------------------------------- }}}

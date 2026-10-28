@@ -37,7 +37,7 @@ fi
 appendToPath "$HOME"/.cargo/bin
 
 # Ruby Environment Manager
-if "$BINHOME"/programExists rbenv; then
+if programExists rbenv; then
   eval "$(rbenv init - n)"
 fi
 

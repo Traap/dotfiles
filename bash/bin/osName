@@ -1,3 +1,7 @@
 #!/bin/bash
-# A check for the operating system name.
-command -v lsb_release >/dev/null 2>&1 && lsb_release -i | rg -q "$1"
+# Match an os-release ID. The comparison is case-insensitive, so
+# "Ubuntu" matches ID=ubuntu on Ubuntu and WSL Ubuntu.
+[[ -r /etc/os-release ]] || exit 1
+id=$(awk -F= '$1=="ID"{gsub(/["\r]/,"",$2); print tolower($2); exit}' \
+  /etc/os-release)
+[[ $id == "${1,,}" ]]

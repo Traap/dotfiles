@@ -11,21 +11,21 @@ alias sudo='stty sane 2>/dev/null; sudo'
 # -------------------------------------------------------------------------- }}}
 # {{{ latexrun is defined when present.
 
-if "$BINHOME"/fileExists "$GITHOME"/latexrun/latexrun; then
+if fileExists "$GITHOME/latexrun/latexrun"; then
 	alias latexrun='$GITHOME/latex/latexrun/latexrun'
 fi
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Tmux setup.
 
-if "$BINHOME"/fileExists /usr/bin/tmux; then
+if fileExists /usr/bin/tmux; then
 	alias tmux='tmux -2'
 fi
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Use bat and exa when they are installed.
 
-if "$BINHOME"/osType "msys"; then
+if osType msys; then
 	alias cat='bat -p'
   if command -v eza >/dev/null 2>&1; then
     alias ls='eza'
@@ -34,7 +34,7 @@ if "$BINHOME"/osType "msys"; then
   fi
 
 else
-  if "$BINHOME"/osName "Ubuntu"; then
+  if [[ ${OS_ID:-} == ubuntu ]]; then
 	  [ -f /usr/bin/batcat ] && alias cat='batcat -p'
   else
 	  [ -f /usr/bin/bat ] && alias cat='bat -p'
@@ -48,7 +48,7 @@ fi
 alias cgits='clear && gits'
 alias cls='clear'
 alias encrypt='$BINHOME/encrypt'
-if [[ $(rg --ignore-case '"Ubuntu' /etc/os-release -c 2>/dev/null) -gt 0 ]]; then
+if [[ ${OS_ID:-} == ubuntu ]]; then
 	alias fd='fdfind'
 	alias fde='fdfind --no-ignore --extension'
 else
@@ -150,7 +150,7 @@ alias gd='cd $GITHOME'
 alias hh='cd $GITHOME/HowardHouse'
 alias ic='cd $HOME/img-clip'
 
-if "$BINHOME"/osType "msys"; then
+if osType msys; then
   alias nd='cd $LOCALAPPDATA/nvim'
 else
   alias nd='cd $GITHOME/nvim.traap'
@@ -195,7 +195,7 @@ alias bls="betterlockscreen -u /usr/share/backgrounds/arcolinux/"
 # -------------------------------------------------------------------------- }}}
 # {{{ Brew wants me to own usr/local
 
-if "$BINHOME"/osType "darwin"; then
+if osType darwin; then
 	alias ulo='sudo chown -R $(whoami) /usr/local'
 fi
 
@@ -244,7 +244,7 @@ alias jctl="journalctl -p 3 -xb"
 # -------------------------------------------------------------------------- }}}
 # {{{ Perforce defaults.
 
-if "$BINHOME"/osType "linux"; then
+if osType linux; then
 		if "$BINHOME"/hostName "Ryder"; then
 		alias p4='${P4DISK}/2013.1/p4'
 		alias p4d='${P4DISK}/2013.1/p4d'

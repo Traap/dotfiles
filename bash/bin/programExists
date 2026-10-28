@@ -1,4 +1,4 @@
 #!/bin/bash
 # A check for the existence of a file.
-programExists() { which "$1" &> /dev/null ; }
+programExists() { command -v -- "$1" >/dev/null 2>&1; }
 programExists "$@"

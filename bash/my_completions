@@ -1,14 +1,16 @@
 #!/bin/bash
 # {{{ Brew => https://brew.sh/
 
-if "$BINHOME"/osType "darwin"; then
+if osType darwin; then
   if [[ -f $(brew --prefix)/etc/bash_completion ]]; then
     . $(brew --prefix)/etc/bash_completion
   fi
 else
-  d=.dircolors
-  test -r $d && eval "$(dircolors $d)"
-  if "$BINHOME"/fileExists /usr/share/bash-completion/bash_completion; then
+  # ~/.dircolors is the linked file. A relative name follows the cwd.
+  if [[ -r $HOME/.dircolors ]]; then
+    eval "$(dircolors "$HOME/.dircolors")"
+  fi
+  if fileExists /usr/share/bash-completion/bash_completion; then
     . /usr/share/bash-completion/bash_completion
   fi
 fi
@@ -16,8 +18,8 @@ fi
 # -------------------------------------------------------------------------- }}}
 # {{{ iTerm2 shell integration => https://www.iterm2.com/
 
-if "$BINHOME"/osType "darwin"; then
-  if "$BINHOME"/fileExists ${HOME}/.iterm2_shell_integration.bash; then
+if osType darwin; then
+  if fileExists "${HOME}/.iterm2_shell_integration.bash"; then
     source ${HOME}/.iterm2_shell_integration.bash
   fi
 fi
@@ -25,7 +27,7 @@ fi
 # -------------------------------------------------------------------------- }}}
 # {{{ Travis integration
 
-if "$BINHOME"/fileExists ${HOME}/.travis/travis.sh; then
+if fileExists "${HOME}/.travis/travis.sh"; then
   source ${HOME}/.travis/travis.sh
 fi
 

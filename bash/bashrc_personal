@@ -3,13 +3,22 @@
 #
 # Bash scripting cheatsheet => https://devhints.io/bash
 
-echo "$HOSTNAME running $OSTYPE"
+# {{{ Interactive terminal setup.
+#     Arch, WSL, and Git Bash all source this file. A non-interactive
+#     login, such as ssh host command, keeps PATH and EDITOR and returns
+#     before completions, program hooks, and the ssh agent.
+
+if [[ $- == *i* ]]; then
+  [[ -t 0 ]] && stty -ixon
+  echo "$HOSTNAME running $OSTYPE"
+fi
 
 # -------------------------------------------------------------------------- }}}
-# {{{ Disable ctrl-s, ctrl-q, and set infinite history.
+# {{{ Unlimited history. -1 is the Bash 4.3+ spelling. An empty value
+#     leaves the default 500-line list on Bash 5.3.
 
-stty -ixon
-HISTSIZE='' HISTFILESIZE=''
+HISTSIZE=-1
+HISTFILESIZE=-1
 
 # -------------------------------------------------------------------------- }}}
 # {{{ shopt
@@ -23,8 +32,16 @@ shopt -s expand_aliases # expand aliases
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Customize my shell. Array order matters.
+#     The first group sets PATH and EDITOR. The second group is interactive.
 
-my_array=("environment" "functions" "exports" "aliases" "paths" "completions" "programs")
+my_array=("environment" "functions" "exports" "aliases" "paths")
+for m in "${my_array[@]}"; do
+  [[ -f "$BASHHOME/my_$m" ]] && __guarded_source "$BASHHOME/my_$m"
+done
+
+[[ $- == *i* ]] || return
+
+my_array=("completions" "programs")
 for m in "${my_array[@]}"; do
   [[ -f "$BASHHOME/my_$m" ]] && __guarded_source "$BASHHOME/my_$m"
 done
@@ -37,5 +54,15 @@ sshkeys
 
 [[ -f "$HOME/.config/nvims/nvim_appnames" ]] && \
   __guarded_source "$HOME/.config/nvims/nvim_appnames"
+
+# -------------------------------------------------------------------------- }}}
+# {{{ Share history after Starship has installed its prompt hook.
+
+history_sync() { history -a; }
+
+case ":${PROMPT_COMMAND:-}:" in
+  *history_sync*) ;;
+  *) PROMPT_COMMAND="history_sync${PROMPT_COMMAND:+;$PROMPT_COMMAND}" ;;
+esac
 
 # -------------------------------------------------------------------------- }}}

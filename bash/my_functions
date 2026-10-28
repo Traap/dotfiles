@@ -32,12 +32,21 @@ if [[ useBase16 == true ]]; then
 fi
 
 # -------------------------------------------------------------------------- }}}
-# {{{ Append to PATH
+# {{{ Capability checks. In-shell so startup does not fork a script.
+#     bash/bin keeps the same checks for scripts started outside the shell.
+
+programExists() { command -v -- "$1" >/dev/null 2>&1; }
+fileExists()    { [[ -f $1 ]]; }
+dirExists()     { [[ -d $1 ]]; }
+osType()        { [[ ${OSTYPE:-} == *"$1"* ]]; }
+
+# -------------------------------------------------------------------------- }}}
+# {{{ Append to PATH. Match a whole entry so /bin is not /usr/bin.
 
 appendToPath() {
-  if [[ -d "$1" ]]; then
-    if [[ -n $PATH ]]; then
-      [[ ":$PATH:" != *"$1"* ]] && export PATH="${PATH}:$1"
+  if [[ -d $1 ]]; then
+    if [[ -n ${PATH:-} ]]; then
+      [[ ":$PATH:" != *":$1:"* ]] && export PATH="${PATH}:$1"
     else
       export PATH="$1"
     fi
@@ -48,9 +57,9 @@ appendToPath() {
 # {{{ Prepend to PATH
 
 prependToPath() {
-  if [[ -d "$1" ]]; then
-    if [[ -n $PATH ]]; then
-      [[ ":$PATH:" != *"$1"* ]] && export PATH="$1"
+  if [[ -d $1 ]]; then
+    if [[ -n ${PATH:-} ]]; then
+      [[ ":$PATH:" != *":$1:"* ]] && export PATH="$1:${PATH}"
     else
       export PATH="$1"
     fi
@@ -61,9 +70,9 @@ prependToPath() {
 # {{{ Append to INFOPATH
 
 appendToInfoPath() {
-  if [[ -d "$1" ]]; then
-    if [[ -n $INFOPATH ]]; then
-      [[ ":$INFOPATH:" != *"$1"* ]] && export INFOPATH="${INFOPATH}:$1"
+  if [[ -d $1 ]]; then
+    if [[ -n ${INFOPATH:-} ]]; then
+      [[ ":$INFOPATH:" != *":$1:"* ]] && export INFOPATH="${INFOPATH}:$1"
     else
       export INFOPATH="$1"
     fi
@@ -74,9 +83,9 @@ appendToInfoPath() {
 # {{{ Append to MANPATH
 
 appendToManPath() {
-  if [[ -d "$1" ]]; then
-    if [[ -n $MANPATH  ]]; then
-      [[ ":$MANPATH:" != *"$1"* ]] && export MANPATH="${MANPATH}:$1"
+  if [[ -d $1 ]]; then
+    if [[ -n ${MANPATH:-} ]]; then
+      [[ ":$MANPATH:" != *":$1:"* ]] && export MANPATH="${MANPATH}:$1"
     else
       export MANPATH="$1"
     fi
@@ -100,7 +109,7 @@ title() { echo -n -e "\033]0;$1\007"; }
 # {{{ kill latexmk processes
 
 latexmkkill() {
-  if "$BINHOME"/osType "msys"; then
+  if osType msys; then
     for pid in $(ps aux | awk '/latexmk/ {print $1}'); do kill -9 $pid; done
     for pid in $(ps aux | awk '/perl/    {print $1}'); do kill -9 $pid; done
   else

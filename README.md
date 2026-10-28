@@ -15,10 +15,16 @@ module from running more than once in a shell.
 The personal configuration enables:
 
 - Vi command-line editing.
-- Unlimited, appended command history.
+- Unlimited, appended command history (`HISTSIZE=-1`).
 - Automatic directory changes and spelling correction.
 - Dotfile globbing and multiline history preservation.
 - SSH agent keys and Neovim application aliases when available.
+
+A non-interactive login shell, such as `ssh host command`, loads the
+environment, functions, exports, aliases, and `PATH`, then returns.
+Completions, fzf, mise, Starship, and `sshkeys` run only in an
+interactive shell. `history -a` records each interactive command after
+Starship installs its prompt hook.
 
 The `bash/my_*` modules load in this order:
 

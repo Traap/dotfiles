@@ -2,13 +2,28 @@
 # {{{ Settings installed or updated by other programs.
 
 [[ -f "$HOME/traap/.ghcup/env" ]] && source "$HOME/traap/.ghcup/env"
-[[ -f "$SSHHOME/agent_env" ]] && source "$SSHHOME/agent_env"
-[[ -f "$HOME/.fzf.bash" ]] && source "$HOME/.fzf.bash"
 
-[[ -f /usr/share/fzf/completion.bash ]] && \
-  source /usr/share/fzf/completion.bash
-[[ -f /usr/share/fzf/key-bindings.bash ]] && \
-  source /usr/share/fzf/key-bindings.bash
+# sshkeys writes ~/.ssh/agent_env on Arch, WSL, and Git Bash.
+[[ -f "$HOME/.ssh/agent_env" ]] && source "$HOME/.ssh/agent_env"
+
+# One fzf initializer. `fzf --bash` covers keys and completion.
+# Otherwise use the user file, then the distro files. Never more than one.
+if command -v fzf >/dev/null 2>&1; then
+  __fzf_bash="$(fzf --bash 2>/dev/null)" || __fzf_bash=""
+else
+  __fzf_bash=""
+fi
+if [[ -n $__fzf_bash ]]; then
+  eval "$__fzf_bash"
+elif [[ -f $HOME/.fzf.bash ]]; then
+  source "$HOME/.fzf.bash"
+else
+  [[ -f /usr/share/fzf/completion.bash ]] && \
+    source /usr/share/fzf/completion.bash
+  [[ -f /usr/share/fzf/key-bindings.bash ]] && \
+    source /usr/share/fzf/key-bindings.bash
+fi
+unset __fzf_bash
 
 if [[ -f "$HOME/.config/lua-language-server/3rd/luamake/luamake" ]]; then
   alias luamake="$HOME/.config/lua-language-server/3rd/luamake/luamake"
@@ -23,22 +38,34 @@ export NVM_DIR="$HOME/.nvm"
 [[ -s "$NVM_DIR/nvm.sh" ]] && source "$NVM_DIR/nvm.sh"
 [[ -s "$NVM_DIR/bash_completion" ]] && source "$NVM_DIR/bash_completion"
 
-if command -v uv &>/dev/null; then
-  eval "$(uv generate-shell-completion bash)"
+# Cache the generated completion. Regenerate when the uv binary changes.
+if command -v uv >/dev/null 2>&1; then
+  __uv_bin="$(command -v uv)"
+  __uv_completion="${XDG_CACHE_HOME:-$HOME/.cache}/dotfiles/uv.bash"
+  if [[ ! -s $__uv_completion || $__uv_completion -ot $__uv_bin ]]; then
+    mkdir -p -- "${__uv_completion%/*}"
+    if ! uv generate-shell-completion bash > "$__uv_completion"; then
+      rm -f -- "$__uv_completion"
+    fi
+  fi
+  [[ -s $__uv_completion ]] && source "$__uv_completion"
+  unset __uv_bin __uv_completion
 fi
 
-if command -v mise &>/dev/null; then
-  eval "$(mise activate bash)"
+# Shims avoid mise's per-prompt hook. A directory change does not
+# switch tool versions until `mise activate` is run without --shims.
+if command -v mise >/dev/null 2>&1; then
+  eval "$(mise activate bash --shims)"
 fi
 
-if command -v starship &>/dev/null; then
+if command -v starship >/dev/null 2>&1; then
   eval "$(starship init bash)"
 fi
 
 export PATH="$HOME/.grok/bin:$PATH"
-[[ -r "$HOME/.grok/completions/bash/grok.bash" ]] && source "$HOME/.grok/completions/bash/grok.bash"
+[[ -r "$HOME/.grok/completions/bash/grok.bash" ]] && \
+  source "$HOME/.grok/completions/bash/grok.bash"
 
-if  "$BINHOME"/fileExists "$WORKHOME"/Paperboy/bin/shell-init; then
-  source "$WORKHOME"/Paperboy/bin/shell-init
+if fileExists "$WORKHOME/Paperboy/bin/shell-init"; then
+  source "$WORKHOME/Paperboy/bin/shell-init"
 fi
-
