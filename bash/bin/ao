@@ -183,17 +183,15 @@ if  [[ $# -eq 1 ]]; then
 
     "Paperboy")
       WORKDIR="$WORKHOME/Paperboy"
-      tmux new-session   -s "$SESSION"   -c "$WORKDIR" -n 'Coder'    -d
-      tmux split-window  -t "$SESSION":1 -c "$WORKDIR" -h
-      tmux new-window    -t "$SESSION":2 -c "$WORKDIR" -n 'Server' -d
-      tmux new-window    -t "$SESSION":3 -c "$WORKDIR" -n 'Tester'  -d
+      tmux new-session   -s "$SESSION"   -c "$WORKDIR" -n 'Master'    -d
+      tmux new-window    -t "$SESSION":2 -c "$WORKDIR" -n 'Notebook'  -d
+      tmux new-window    -t "$SESSION":3 -c "$WORKDIR" -n 'Spare01' -d
+      tmux new-window    -t "$SESSION":4 -c "$WORKDIR" -n 'Spare02'  -d
 
-      tmux send-keys     -t "$SESSION":2.1 "bin/dev" Enter
-      tmux send-keys     -t "$SESSION":1.2 "grok" Enter
-      tmux send-keys     -t "$SESSION":1.1 "nvim" Enter
+      tmux send-keys     -t "$SESSION":2 "$EDITOR $WORKHOMW/Wiki/index.md" Enter
+      tmux send-keys     -t "$SESSION":1 "bin/dev && wt list" Enter
 
       tmux select-window -t "$SESSION":1
-      tmux select-pane   -t "$SESSION":1.1
       ;;
 
     # ---------------------------------------------------------------------- }}}
