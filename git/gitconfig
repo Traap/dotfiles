@@ -17,7 +17,7 @@
   pom    = push  origin  master
   rbc    = rebase  --continue
   rbi    = rebase  -i  origin/master
-  rbs    = rebase  --ski        p
+  rbs    = rebase  --skip
   suo    = push  --set-upstream  origin
   cma    = commit  --all  -m
   gm     = "!git  checkout  $1;git  merge  @{1-}"
@@ -28,7 +28,6 @@
   undo   = "!f()  {  git  reset  --hard  $(git  rev-parse  --abbrev-ref  HEAD)@{${1-1}};  };  f"
   pushup = push  -u  origin  HEAD
   wl     = worktree list
-
 
 [user]
   email = gary.a.howard@mac.com
