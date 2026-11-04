@@ -5,9 +5,10 @@
   del    = clean -fd --no-quiet
   head   = rev-parse HEAD
   last   = show --name-status HEAD
-  logd   = log  --color  --graph  --abbrev-commit  --pretty=format:'%Cred%h%Creset  -%C(yellow)%d%Creset  %s  %Cgreen(%cD)  %C(bold  blue)<%an>%Creset'
-  logg   = log  --color  --graph  --abbrev-commit  --pretty=format:'%Cred%h%Creset  -%C(yellow)%d%Creset  %s  %Cgreen(%cr)  %C(bold  blue)<%an>%Creset'
-  logi   = log  --color  --graph  --abbrev-commit  --pretty=format:'%Cred%h%Creset  -%C(yellow)%d%Creset  %s  %Cgreen(%ci)  %C(bold  blue)<%an>%Creset'
+  lo     = log  --oneline
+  ld     = log  --color  --graph  --abbrev-commit  --pretty=format:'%Cred%h%Creset  -%C(yellow)%d%Creset  %s  %Cgreen(%cD)  %C(bold  blue)<%an>%Creset'
+  lg     = log  --color  --graph  --abbrev-commit  --pretty=format:'%Cred%h%Creset  -%C(yellow)%d%Creset  %s  %Cgreen(%cr)  %C(bold  blue)<%an>%Creset'
+  li     = log  --color  --graph  --abbrev-commit  --pretty=format:'%Cred%h%Creset  -%C(yellow)%d%Creset  %s  %Cgreen(%ci)  %C(bold  blue)<%an>%Creset'
   to     = log  --no-walk  --tags  --pretty=format:'%C(auto)%aI  %H  %d'  --decorate=full
   tt     = log  --no-walk  --tags  --pretty=format:'%C(auto)%H  %d'  --decorate=full
   t3     = log  --no-walk  --tags  --pretty=format:'%C(auto)%h  %d'  --decorate=full
@@ -16,7 +17,7 @@
   pom    = push  origin  master
   rbc    = rebase  --continue
   rbi    = rebase  -i  origin/master
-  rbs    = rebase  --skip
+  rbs    = rebase  --ski        p
   suo    = push  --set-upstream  origin
   cma    = commit  --all  -m
   gm     = "!git  checkout  $1;git  merge  @{1-}"
