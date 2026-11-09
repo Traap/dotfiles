@@ -26,6 +26,7 @@ createSymLinks() {
   if [[ $createSymLinksFlag == 1 ]]; then
     echo "Creating symbolic links."
     mkdir -p ~/.config
+    mkdir -p ~/.local/share/applications
     mkdir -p ~/.config/systemd/user/timers.target.wants
 
     # Symlinks at .config
@@ -50,6 +51,8 @@ createSymLinks() {
     ln -fsv ~/git/dotfiles/picom                  ~/.config/picom
     ln -fsv ~/git/dotfiles/polybar                ~/.config/polybar
     ln -fsv ~/git/dotfiles/remmina                ~/.config/remmina
+    ln -fsv ~/git/dotfiles/applications/org.remmina.Remmina.desktop \
+      ~/.local/share/applications/org.remmina.Remmina.desktop
     ln -fsv ~/git/dotfiles/rofi                   ~/.config/rofi
     ln -fsv ~/git/dotfiles/sk/screenkey.json      ~/.config/screenkey.json
     ln -fsv ~/git/dotfiles/sb                     ~/.config/session_bindings

@@ -39,7 +39,7 @@ bind("SUPER + O", "LibreOffice", vars.office)
 
 bind("SUPER + Q", "Kill all", hl.dsp.window.close())
 
-bind("SUPER + R", "Toggle Bracco", vars.bin_home .. "/remmina-noswap")
+bind("SUPER + R", "Toggle Bracco", vars.bin_home .. "/remmina-launch")
 
 bind("SUPER + RETURN", "Terminal", "ghostty")
 
