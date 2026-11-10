@@ -23,23 +23,11 @@ end
 -- -------------------------------------------------------------------------- }}}
 -- {{{ Launch applications.
 
-bind("SUPER + A", "ChatGPT", 'omarchy-launch-webapp "https://chatgpt.com"')
-
-bind("SUPER + E", "Email", 'omarchy-launch-or-focus-webapp Email "https://app.hey.com"')
-
-bind("SUPER + SHIFT + E", "Calendar", 'omarchy-launch-or-focus-webapp Calendar "https://app.hey.com/calendar/weeks/"')
-
-bind("SUPER + L", "Lock Screen", "omarchy-lock-screen")
-
 bind("SUPER + N", "File Manager", vars.file_manager)
 
 bind("SUPER + P", "1 Password", vars.password_manager)
 
-bind("SUPER + O", "LibreOffice", vars.office)
-
 bind("SUPER + Q", "Kill all", hl.dsp.window.close())
-
-bind("SUPER + R", "Toggle Bracco", vars.bin_home .. "/remmina-launch")
 
 bind("SUPER + RETURN", "Terminal", "ghostty")
 
@@ -47,6 +35,7 @@ bind("SUPER + RETURN", "Terminal", "ghostty")
 unbind("SUPER + code:61")
 unbind("SUPER + ALT + code:61")
 
+-- Don't use
 unbind("SUPER + SPACE")
 
 bind("SUPER + SLASH", "Launch apps", "omarchy-launch-walker")
@@ -60,18 +49,6 @@ bind("SUPER + T", "Outlook", 'omarchy-launch-or-focus-webapp Outlook "https://ou
 bind("SUPER + V", "OBS", "obs")
 
 bind("SUPER + W", "Browser", vars.browser)
-
-bind("SUPER + Y", "YouTube", 'omarchy-launch-or-focus-webapp YouTube "https://youtube.com/"')
-
-bind("SUPER + Z", "Screen Key", "screenkey")
-
-bind("SUPER + CTRL + B", "System btop", "omarchy-launch-tui btop")
-
-bind("SUPER + CTRL + G", "GitHub", 'omarchy-launch-webapp "https://www.github.com/Traap/"')
-
-bind("SUPER + CTRL + K", "KJV", 'omarchy-launch-webapp "https://www.kingjamesbibleonline.org"')
-
-bind("SUPER + CTRL + N", "Editor", "omarchy-launch-editor")
 
 bind("SUPER + CTRL + R", "Hyprland reload", "hyprctl reload")
 
