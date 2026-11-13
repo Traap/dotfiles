@@ -191,7 +191,7 @@ gitea:
         url: git@gsa-gitea:BSS/entra_auth.git
 
       - alias: GsaRooms
-        url: git@gsa-gitea:BSS/GSAScanQA.git
+        url: git@gsa-gitea:BSS/GSA-rooms.git
 
       - alias: GsaScanQA
         url: git@gsa-gitea:BSS/GSAScanQA.git
