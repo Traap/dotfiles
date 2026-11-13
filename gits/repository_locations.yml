@@ -187,6 +187,12 @@ gitea:
       - alias: EIS
         url: git@gsa-gitea:GaryHoward/EIS.git
 
+      - alias: entra_auth
+        url: git@gsa-gitea:BSS/entra_auth.git
+
+      - alias: GsaRooms
+        url: git@gsa-gitea:BSS/GSAScanQA.git
+
       - alias: GsaScanQA
         url: git@gsa-gitea:BSS/GSAScanQA.git
 
