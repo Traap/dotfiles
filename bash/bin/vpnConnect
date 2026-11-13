@@ -10,6 +10,11 @@ BINHOME="${BINHOME:-$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)}"
 
 SNX_CONFIG="${SNX_CONFIG:-/etc/snx-rs/config.toml}"
 SNX_IKE_PERSIST="${SNX_IKE_PERSIST:-false}"
+# This gateway forwards tunnel traffic and does not answer IPSec keepalives
+# on UDP/18234.  snx-rs treats five missed replies as fatal and exits with
+# "Error: Keepalive failed" about 20 seconds after the tunnel connects.
+# Disabling the probes leaves that working tunnel up.
+SNX_NO_KEEPALIVE="${SNX_NO_KEEPALIVE:-true}"
 SNX_READY_PATTERN="${SNX_READY_PATTERN:-Tunnel connected}"
 SNX_USER="${SNX_USER:-${AD_USER:-}}"
 VPN_CONNECT_AD_FORCE="${VPN_CONNECT_AD_FORCE:-false}"
@@ -82,6 +87,9 @@ Behavior:
   - Waits for the tunnel-ready log line before launching adConnect.
   - Calls adConnect with AD_CONNECT_CONFIGURE_DNS=false so the established VPN
     tunnel's DNS and routing are not rewritten during the post-connect hook.
+  - Writes no-keepalive=true by default.  This gateway answers tunnel traffic
+    and ignores IPSec keepalives on UDP port 18234, so snx-rs otherwise exits
+    with "Error: Keepalive failed" about 20 seconds after the tunnel connects.
   - Restarts snx-rs when an established tunnel exits because keepalive failed
     or another unexpected error.  snx-rs prints "Tunnel disconnected" and
     "Error: Keepalive failed" after unanswered IPSec keepalives.  Ctrl-C, a
@@ -113,6 +121,10 @@ Optional environment:
   SNX_IKE_PERSIST=false
       Value written as ike-persist.  false avoids restoring an IKE session
       that can come back up with keepalive already dead.
+
+  SNX_NO_KEEPALIVE=true
+      Value written as no-keepalive.  true stops snx-rs from sending IPSec
+      keepalive packets.  Set false when the gateway answers UDP port 18234.
 
   SNX_READY_PATTERN="Tunnel connected"
       Log text that indicates the VPN tunnel is ready for adConnect.
@@ -246,6 +258,7 @@ require_uint SNX_RECONNECT_DELAY "$SNX_RECONNECT_DELAY" 0
 require_uint SNX_RECONNECT_MAX_DELAY "$SNX_RECONNECT_MAX_DELAY" 0
 require_uint SNX_SUDO_REFRESH_SECONDS "$SNX_SUDO_REFRESH_SECONDS" 1
 require_bool SNX_IKE_PERSIST "$SNX_IKE_PERSIST"
+require_bool SNX_NO_KEEPALIVE "$SNX_NO_KEEPALIVE"
 require_bool SNX_RECONNECT "$SNX_RECONNECT"
 
 if [[ ! "$SNX_RETRY_DELAY" =~ ^[0-9]+([.][0-9]+)?$ ]]; then
@@ -373,6 +386,7 @@ write_runtime_config() {
     fi
     printf 'password=%s\n' "$password_b64"
     printf 'ike-persist=%s\n' "$SNX_IKE_PERSIST"
+    printf 'no-keepalive=%s\n' "$SNX_NO_KEEPALIVE"
   } >"$SNX_RUNTIME_CONFIG"
 
   chmod 600 "$SNX_RUNTIME_CONFIG"
@@ -451,9 +465,9 @@ while true; do
   session_ready_at=""
 
   if (( reconnects == 0 )); then
-    info "Starting snx-rs attempt $attempt of $SNX_MAX_ATTEMPTS with ike-persist=$SNX_IKE_PERSIST."
+    info "Starting snx-rs attempt $attempt of $SNX_MAX_ATTEMPTS with ike-persist=$SNX_IKE_PERSIST no-keepalive=$SNX_NO_KEEPALIVE."
   else
-    info "Reconnecting snx-rs (reconnect $reconnects, connect attempt $attempt of $SNX_MAX_ATTEMPTS) with ike-persist=$SNX_IKE_PERSIST."
+    info "Reconnecting snx-rs (reconnect $reconnects, connect attempt $attempt of $SNX_MAX_ATTEMPTS) with ike-persist=$SNX_IKE_PERSIST no-keepalive=$SNX_NO_KEEPALIVE."
   fi
 
   ensure_sudo

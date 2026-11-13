@@ -106,10 +106,14 @@ failure up to three total attempts by default.  It invokes `adConnect` only
 after `snx-rs` reports `Tunnel connected`.  Set `SNX_MAX_ATTEMPTS` or
 `SNX_RETRY_DELAY` to adjust the retry behavior.
 
-After the tunnel is up, `snx-rs` exits with `Tunnel disconnected` and
-`Error: Keepalive failed` when IPSec keepalives go unanswered.  `vpnConnect`
-starts a new tunnel instead of leaving that drop as the end of the session.
-The wait doubles from `SNX_RECONNECT_DELAY` up to `SNX_RECONNECT_MAX_DELAY`.
+`vpnConnect` writes `no-keepalive=true` into its runtime config.  This gateway
+forwards tunnel traffic and does not answer IPSec keepalives on UDP port
+18234.  With those probes left on, `snx-rs` exits about 20 seconds after
+`Tunnel connected` with `Error: Keepalive failed`.  Set `SNX_NO_KEEPALIVE=false`
+to send them again.
+
+If an established tunnel still exits, `vpnConnect` starts a new tunnel.  The
+wait doubles from `SNX_RECONNECT_DELAY` up to `SNX_RECONNECT_MAX_DELAY`.
 Set `SNX_RECONNECT=false` to keep the old exit-on-disconnect behavior.  Ctrl-C
 still closes the tunnel.  The VPN password is stored in a mode 600 runtime
 config for the life of `vpnConnect` and is not passed on the `snx-rs` command
