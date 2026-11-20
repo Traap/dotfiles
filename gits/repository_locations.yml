@@ -242,6 +242,15 @@ gitea:
         url: git@gsa-gitea:GaryHoward/Wiki.git
 
 # -------------------------------------------------------------------------- }}}
+# {{{ golf
+
+golf:
+  - root_dir: golf
+  - repositories:
+      - alias: iceberg
+        url: git@github.com:gjbergie/iceberg-golf.git
+
+# -------------------------------------------------------------------------- }}}
 # {{{ eform
 
 eform:
