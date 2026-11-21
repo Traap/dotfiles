@@ -119,6 +119,13 @@ still closes the tunnel.  The VPN password is stored in a mode 600 runtime
 config for the life of `vpnConnect` and is not passed on the `snx-rs` command
 line.
 
+`vpnFlush` clears a stuck session so a new `vpnConnect` can start.  It stops
+`vpnConnect` and `snx-rs`, wipes the runtime config and log, deletes
+`snx-xfrm`, and flushes the IPSec state and keepalive routes `snx-rs` adds.
+The `vpn` tmux session is left running.  `vpnFlush --dry-run` prints the
+actions without changing the system.  Automounts under `/mnt` stay in place
+until the tunnel is up again.
+
 Kerberos CIFS entries under `/mnt` can be accessed before the first ticket is
 available.  Install the mount-unit retry policy so those early failures do not
 leave an automount permanently rate-limited:
@@ -178,6 +185,7 @@ Useful checks after Bash changes:
 bash -n bash/bashrc bash/bashrc_personal bash/my_*
 bash -n bash/bin/adConnect bash/bin/adConnectService
 bash -n bash/bin/createUserKeytab
+bash -n bash/bin/vpnConnect bash/bin/vpnFlush
 generate-session-bindings --check
 git diff --check
 ```
