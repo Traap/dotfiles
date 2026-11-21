@@ -2,32 +2,31 @@
 
 local vars = require("hypr.vars")
 local monitor_profile = require("hypr.monitor_profile")
-local edge_webapp = vars.hypr_dir .. "/scripts/omarchy-launch-edge-webapp"
 
 local default_launch_on_empty = {
-  ["1"] = 'omarchy-launch-or-focus-webapp Email "https://app.hey.com"',
+  ["1"] = vars.webapp .. ' "https://app.hey.com"',
   ["2"] = vars.file_manager,
   ["3"] = vars.office,
   ["4"] = vars.terminal .. " -e btop",
   ["5"] = "code-insiders",
   ["6"] = vars.bin_home .. "/toggler Zero",
   ["7"] = {
-    edge_webapp .. ' "https://teams.microsoft.com/v2/"',
-    edge_webapp .. ' "https://owa.ventura.org"',
+    vars.edge_webapp .. ' "https://teams.microsoft.com/v2/"',
+    vars.edge_webapp .. ' "https://owa.ventura.org"',
   },
   ["8"] = vars.browser .. " --new-window https://www.github.com/Traap/",
-  ["9"] = 'omarchy-launch-webapp "https://www.kingjamesbibleonline.org"',
-  ["10"] = 'omarchy-launch-webapp "https://chatgpt.com"',
+  ["9"] = vars.webapp .. ' "https://www.kingjamesbibleonline.org"',
+  ["10"] = vars.webapp .. ' "https://chatgpt.com"',
 }
 
 -- Customize these commands for GSA-AXA89M without changing other hosts.
 local gsa_axa89m_launch_on_empty = {
   ["1"] = {
-    edge_webapp .. ' "https://teams.microsoft.com/v2/"',
-    edge_webapp .. ' "https://owa.ventura.org"',
+    vars.edge_webapp .. ' "https://teams.microsoft.com/v2/"',
+    vars.edge_webapp .. ' "https://owa.ventura.org"',
   },
   ["2"] = vars.file_manager,
-  ["3"] = 'omarchy-launch-or-focus-webapp Email "https://app.hey.com"',
+  ["3"] = vars.webapp .. ' Email "https://app.hey.com"',
   ["4"] = vars.bin_home .. "/toggler Upgrade",
   ["5"] = {
     "code-insiders",
@@ -36,8 +35,8 @@ local gsa_axa89m_launch_on_empty = {
   ["6"] = vars.bin_home .. "/toggler Paperboy",
   ["7"] = vars.bin_home .. "/toggler Work",
   ["8"] = vars.browser .. " --new-window https://www.github.com/Traap/",
-  ["9"] = 'omarchy-launch-webapp "https://www.kingjamesbibleonline.org"',
-  ["10"] = 'omarchy-launch-webapp "https://chatgpt.com"',
+  ["9"] = vars.webapp .. ' "https://www.kingjamesbibleonline.org"',
+  ["10"] = vars.webapp .. ' "https://chatgpt.com"',
 }
 
 local launch_on_empty = default_launch_on_empty
