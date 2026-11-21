@@ -29,7 +29,7 @@ bind("SUPER + P", "1 Password", vars.password_manager)
 
 bind("SUPER + Q", "Kill all", hl.dsp.window.close())
 
-bind("SUPER + RETURN", "Terminal", "ghostty")
+bind("SUPER + RETURN", "Terminal", vars.terminal)
 
 -- Hyprland physical keycode for the / key.
 unbind("SUPER + code:61")

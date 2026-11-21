@@ -8,7 +8,7 @@ return {
   hypr_dir = "~/.config/hypr",
   local_bin = "~/.local/bin",
   office = "libreoffice",
-  terminal = os.getenv("TERMINAL") or "ghostty",
+  terminal = os.getenv("TERMINAL") or "foot",
   webapp = "omarchy-launch-webapp",
   password_manager = "1password",
 }

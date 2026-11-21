@@ -36,7 +36,9 @@ export FILE
 # -------------------------------------------------------------------------- }}}
 # {{{ TERMINAL
 
-if programExists ghostty; then
+if programExists foot; then
+  TERMINAL=$(command -v -- foot)
+elif programExists ghostty; then
   TERMINAL=$(command -v -- ghostty)
 elif programExists alacritty; then
   TERMINAL=$(command -v -- alacritty)
@@ -46,7 +48,7 @@ else
   if ! osType msys; then
     TERMINAL=""
     [[ $echoWarning == 1 ]] && \
-      echo "WARNING: alacritty, ghostty or kitty are not installed."
+      echo "WARNING: alacritty, foot, ghostty or kitty are not installed."
   fi
 fi
 export TERMINAL
