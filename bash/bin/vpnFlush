@@ -10,6 +10,10 @@ set -euo pipefail
 # snx-rs through sudo.  A killed session can leave that file, the snx-xfrm
 # device, and kernel IPSec state behind.  snx-rs names its IPSec device
 # snx-xfrm and keeps keepalive routes in table 18234.
+#
+# A tunnel can also look connected while it forwards nothing.  Mounts then
+# fail until systemd hits its start limit and stops the automount.  That
+# latch survives until reset-failed.  It does not require a reboot.
 
 VPN_FLUSH_INTERFACE="${VPN_FLUSH_INTERFACE:-snx-xfrm}"
 VPN_FLUSH_ROUTE_TABLE="${VPN_FLUSH_ROUTE_TABLE:-18234}"
@@ -17,6 +21,7 @@ VPN_FLUSH_WAIT_SECONDS="${VPN_FLUSH_WAIT_SECONDS:-5}"
 VPN_FLUSH_TMPDIR="${TMPDIR:-/tmp}"
 
 DRY_RUN=false
+MODE=full
 SUDO_READY=false
 CHANGED=false
 SELF_PID=$BASHPID
@@ -57,6 +62,8 @@ vpnFlush - stop a stuck vpnConnect session so a new one can start
 Usage:
   vpnFlush
   vpnFlush --dry-run
+  vpnFlush --kernel [--dry-run]
+  vpnFlush --mounts [--dry-run]
   vpnFlush --help
 
 Behavior:
@@ -64,6 +71,9 @@ Behavior:
     children of that session.  Processes still running after the wait
     are killed.  The vpn tmux session and "ao vpn" launcher are left
     running.
+  - Stops a noninteractive "kinit -k".  That kinit has no password
+    prompt, and during a flush it is waiting on a KDC the flush is
+    about to disconnect.  An interactive kinit is left alone.
   - Gives snx-rs time to remove its own tunnel before a second pass.
   - Wipes vpnConnect.runtime.* and vpnConnect.snx-rs.* in the temp
     directory.  The runtime file holds the VPN password.
@@ -72,16 +82,37 @@ Behavior:
     route table.  snx-rs uses this table for IPSec keepalive routes.
   - Flushes all kernel IPSec states and policies.  This host's only
     XFRM user is snx-rs.  Another IPSec tunnel would be removed too.
+  - Flushes the systemd-resolved cache.  A dead tunnel leaves negative
+    answers for AD names, and those answers outlive the tunnel.
+  - Lazy-unmounts CIFS mounts under /mnt, kills mount.cifs left behind
+    by a timed-out mount unit, installs the Kerberos mount retry policy
+    when it is not already installed, clears the mount start-limit,
+    and starts the automounts again.  None of this needs a reboot.
   - Removes an adConnect lock whose owner is no longer running.  A live
     adConnect, including the user service, is left alone.  Saved
-    adConnect state and the /mnt automounts are not touched.
+    adConnect state is not touched.
   - Asks for sudo once.  Root is required to signal snx-rs and to
-    change IPSec, routes, and interfaces.
+    change IPSec, routes, interfaces, and mount units.
+
+  --kernel skips processes, runtime files, and mount changes.  vpnConnect
+  uses it to drop a dead data plane before the next snx-rs start.
+
+  --mounts only repairs CIFS automounts.  It does nothing when they are
+  already armed and the retry policy is installed, so adConnect can call
+  it on a timer.  A working share is not unmounted.
 
 Options:
   --dry-run
       Print the actions without signaling processes, deleting files,
-      or changing network state.
+      or changing network state.  It can be combined with --kernel or
+      --mounts.
+
+  --kernel
+      Remove the tunnel interface, keepalive routes, and IPSec state,
+      then flush the DNS cache.  Do not stop vpnConnect or snx-rs.
+
+  --mounts
+      Repair latched CIFS automounts without stopping the VPN.
 
   -h, --help
       Show this help.
@@ -482,10 +513,10 @@ flush_kernel() {
   local failed=false
 
   if ip link show dev "$VPN_FLUSH_INTERFACE" >/dev/null 2>&1; then
-    info "Deleting interface ${VPN_FLUSH_INTERFACE}."
     if $DRY_RUN; then
-      info "Would run: sudo -n ip link del dev ${VPN_FLUSH_INTERFACE}"
+      info "Would delete interface ${VPN_FLUSH_INTERFACE}."
     else
+      info "Deleting interface ${VPN_FLUSH_INTERFACE}."
       run_root ip link del dev "$VPN_FLUSH_INTERFACE" || failed=true
       CHANGED=true
     fi
@@ -520,51 +551,327 @@ ensure_sudo() {
     SUDO_READY=true
     return 0
   fi
-  if sudo -v; then
+  # vpnConnect and the adConnect timer set VPN_FLUSH_NONINTERACTIVE so a
+  # password prompt cannot stall them.  An interactive adConnect may ask.
+  if [[ "$MODE" == full || \
+        ( -r /dev/tty && "${VPN_FLUSH_NONINTERACTIVE:-}" != true ) ]]; then
+    if sudo -v; then
+      SUDO_READY=true
+      return 0
+    fi
+    SUDO_READY=false
+    if [[ "$MODE" == full ]]; then
+      warn "sudo was not granted. Runtime files will still be wiped."
+    else
+      warn "sudo was not granted for vpnFlush --${MODE}."
+    fi
+    return 1
+  fi
+  if sudo -n -v >/dev/null 2>&1; then
     SUDO_READY=true
     return 0
   fi
   SUDO_READY=false
-  warn "sudo was not granted. Runtime files will still be wiped."
+  warn "sudo is not available for vpnFlush --${MODE}."
   return 1
 }
 
 parse_args() {
-  case "${1:-}" in
-    "")
-      ;;
-    --dry-run)
-      DRY_RUN=true
-      ;;
-    -h|--help)
-      print_help
-      exit 0
-      ;;
-    *)
-      fail "Unknown argument: $1" >&2
-      print_help >&2
-      exit 2
-      ;;
-  esac
+  local arg
+
+  while (($#)); do
+    arg=$1
+    shift
+    case "$arg" in
+      --dry-run)
+        DRY_RUN=true
+        ;;
+      --kernel)
+        MODE=kernel
+        ;;
+      --mounts)
+        MODE=mounts
+        ;;
+      -h|--help)
+        print_help
+        exit 0
+        ;;
+      *)
+        fail "Unknown argument: $arg" >&2
+        print_help >&2
+        exit 2
+        ;;
+    esac
+  done
+
 }
+
+# -------------------------------------------------------------------------- }}}
+# {{{ CIFS automount recovery
+#
+# systemd stops an automount after a burst of failures and leaves it
+# inactive.  reset-failed plus start is enough.  The retry policy keeps
+# the next burst from latching the unit again.  A reboot is not part of
+# this recovery.
+
+mount_retry_source() {
+  local root
+
+  root="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
+  printf '%s\n' "$root/systemd/system/mnt-.mount.d/kerberos-retry.conf"
+}
+
+list_mount_units() {
+  local kind=$1
+
+  systemctl list-units --all --no-legend --plain \
+    "mnt-*.${kind}" 2>/dev/null | awk '{print $1}'
+}
+
+mount_retry_installed() {
+  local src dest
+
+  src="$(mount_retry_source)"
+  dest=/etc/systemd/system/mnt-.mount.d/kerberos-retry.conf
+  [[ -f "$src" && -f "$dest" ]] && cmp -s "$src" "$dest"
+}
+
+cifs_mounts_need_rearm() {
+  if ! list_mount_units automount | grep -q .; then
+    return 1
+  fi
+  if ! mount_retry_installed; then
+    return 0
+  fi
+  if systemctl list-units --failed --no-legend --plain \
+      'mnt-*.mount' 'mnt-*.automount' 2>/dev/null | grep -q .; then
+    return 0
+  fi
+  while read -r unit; do
+    [[ -n "$unit" ]] || continue
+    if [[ "$(systemctl is-active "$unit" 2>/dev/null || true)" != active ]]; then
+      return 0
+    fi
+  done < <(list_mount_units automount)
+  return 1
+}
+
+install_mount_retry() {
+  local src dest
+
+  src="$(mount_retry_source)"
+  dest=/etc/systemd/system/mnt-.mount.d/kerberos-retry.conf
+  if [[ ! -f "$src" ]]; then
+    warn "Mount retry policy is missing: ${src}."
+    return 0
+  fi
+  if mount_retry_installed; then
+    return 0
+  fi
+  if $DRY_RUN; then
+    info "Would install ${dest} and reload systemd."
+    return 0
+  fi
+  info "Installing CIFS mount retry policy."
+  run_root install -D -m 644 "$src" "$dest" || return 1
+  run_root systemctl daemon-reload || return 1
+  CHANGED=true
+}
+
+flush_resolver_cache() {
+  if ! command -v resolvectl >/dev/null 2>&1; then
+    return 0
+  fi
+  if $DRY_RUN; then
+    info "Would flush the systemd-resolved cache."
+    return 0
+  fi
+  info "Flushing the systemd-resolved cache."
+  run_root resolvectl flush-caches >/dev/null || return 1
+  CHANGED=true
+}
+
+kill_pid() {
+  local pid=$1
+
+  if $DRY_RUN; then
+    info "Would stop ${pid} ($(describe_pid "$pid"))."
+    return 0
+  fi
+  info "Stopping ${pid} ($(describe_pid "$pid"))."
+  signal_pid TERM "$pid"
+  CHANGED=true
+}
+
+release_one_mount() {
+  local target=$1
+  local force_all=$2
+  local unit state
+
+  [[ "$target" == /mnt/* ]] || return 0
+  unit="$(systemd-escape -p --suffix=mount "$target" 2>/dev/null || true)"
+  state=""
+  if [[ -n "$unit" ]]; then
+    state="$(systemctl is-active "$unit" 2>/dev/null || true)"
+  fi
+  if [[ "$force_all" != true && "$state" == active ]]; then
+    return 0
+  fi
+  if $DRY_RUN; then
+    info "Would lazy-unmount ${target}."
+    return 0
+  fi
+  info "Lazy-unmounting ${target}."
+  run_root umount -l "$target" || warn "Could not unmount ${target}."
+  CHANGED=true
+}
+
+mount_helper_is_stuck() {
+  local pid=$1
+  local text target fstype
+
+  text="$(tr '\0' ' ' < "/proc/${pid}/cmdline" 2>/dev/null || true)"
+  for target in $text; do
+    [[ "$target" == /mnt/* ]] || continue
+    fstype="$(findmnt -n -o FSTYPE -T "$target" 2>/dev/null || true)"
+    [[ "$fstype" == cifs ]] && return 1
+    return 0
+  done
+  return 0
+}
+
+release_cifs_mounts() {
+  local force_all=$1
+  local target pid
+
+  while read -r target; do
+    [[ -n "$target" ]] || continue
+    release_one_mount "$target" "$force_all"
+  done < <(findmnt -n -t cifs -o TARGET 2>/dev/null || true)
+
+  for pid in /proc/[0-9]*; do
+    pid="${pid##*/}"
+    [[ "$pid" == "$SELF_PID" ]] && continue
+    if ! argv0_is "$pid" mount.cifs && ! argv0_is "$pid" mount.smb3; then
+      continue
+    fi
+    if [[ "$force_all" != true ]] && ! mount_helper_is_stuck "$pid"; then
+      continue
+    fi
+    kill_pid "$pid"
+  done
+}
+
+rearm_cifs_automounts() {
+  local -a units=()
+  local unit
+
+  while read -r unit; do
+    [[ -n "$unit" ]] || continue
+    units+=("$unit")
+  done < <(list_mount_units automount)
+
+  if ((${#units[@]} == 0)); then
+    info "No CIFS automount units are loaded."
+    return 0
+  fi
+
+  if $DRY_RUN; then
+    info "Would reset failed mount state and start: ${units[*]}."
+    return 0
+  fi
+
+  info "Clearing failed CIFS mount state."
+  local -a mount_units=()
+  while read -r unit; do
+    [[ -n "$unit" ]] || continue
+    mount_units+=("$unit")
+  done < <(list_mount_units mount)
+  run_root systemctl reset-failed "${units[@]}" "${mount_units[@]}" || \
+    return 1
+  info "Starting CIFS automounts."
+  run_root systemctl start "${units[@]}" || return 1
+  CHANGED=true
+}
+
+recover_mounts() {
+  local force_all=$1
+
+  if [[ "$force_all" != true ]] && ! cifs_mounts_need_rearm; then
+    return 0
+  fi
+
+  install_mount_retry || return 1
+  release_cifs_mounts "$force_all" || return 1
+  rearm_cifs_automounts || return 1
+  flush_resolver_cache || return 1
+}
+
+stop_noninteractive_kinit() {
+  local pid
+
+  for pid in /proc/[0-9]*; do
+    pid="${pid##*/}"
+    [[ "$pid" == "$SELF_PID" ]] && continue
+    argv0_is "$pid" kinit || continue
+    process_has_arg "$pid" -k || continue
+    kill_pid "$pid"
+  done
+}
+
+# -------------------------------------------------------------------------- }}}
+# {{{ Entry point continued
 
 main() {
   local status=0
 
-  parse_args "${1:-}"
-  ensure_sudo || status=1
-  stop_processes
-  wipe_runtime_files
-  clear_stale_ad_lock || status=1
-  flush_kernel || status=1
+  parse_args "$@"
+
+  case "$MODE" in
+    kernel)
+      if ! ensure_sudo; then
+        status=1
+      else
+        flush_kernel || status=1
+        flush_resolver_cache || status=1
+      fi
+      ;;
+    mounts)
+      # Stay quiet when the automounts are already armed.  adConnect's
+      # timer calls this mode and must not prompt for sudo every time.
+      if ! cifs_mounts_need_rearm; then
+        exit 0
+      fi
+      if ! ensure_sudo; then
+        status=1
+      else
+        recover_mounts false || status=1
+      fi
+      ;;
+    full)
+      ensure_sudo || status=1
+      stop_processes
+      stop_noninteractive_kinit
+      wipe_runtime_files
+      clear_stale_ad_lock || status=1
+      if $SUDO_READY; then
+        flush_kernel || status=1
+        recover_mounts true || status=1
+      fi
+      ;;
+  esac
 
   if (( status == 0 )); then
-    info "VPN session cleared."
+    if [[ "$MODE" == mounts ]]; then
+      :
+    else
+      info "VPN session cleared."
+    fi
   else
     fail "VPN flush did not finish cleanly."
   fi
 
-  if ! $DRY_RUN && $CHANGED && (( status == 0 )); then
+  if ! $DRY_RUN && $CHANGED && (( status == 0 )) && [[ "$MODE" == full ]]; then
     notify_flushed || true
   fi
 

@@ -31,6 +31,15 @@ if [[ -z "${SNX_KEEPALIVE_PATTERN:-}" ]]; then
   SNX_KEEPALIVE_PATTERN='Keepalive failed\.?[[:space:]]*$'
 fi
 SNX_SUDO_REFRESH_SECONDS="${SNX_SUDO_REFRESH_SECONDS:-60}"
+# "Tunnel connected" only means the gateway handed out an address.  With
+# keepalives disabled, snx-rs will not notice a tunnel that sends and
+# never receives.  Probe the AD DNS servers before trusting it.
+SNX_PROBE="${SNX_PROBE:-true}"
+SNX_PROBE_TIMEOUT="${SNX_PROBE_TIMEOUT:-2}"
+SNX_PROBE_TRIES="${SNX_PROBE_TRIES:-3}"
+SNX_PROBE_INTERVAL="${SNX_PROBE_INTERVAL:-20}"
+SNX_PROBE_MISSES="${SNX_PROBE_MISSES:-2}"
+SNX_INTERFACE="${SNX_INTERFACE:-snx-xfrm}"
 
 # -------------------------------------------------------------------------- }}}
 # {{{ Console output helpers
@@ -84,7 +93,15 @@ Behavior:
   - Retries when an authenticated gateway response does not contain the SSL
     active_key needed to create the tunnel.
   - Sends a desktop notification when the VPN connects and disconnects.
-  - Waits for the tunnel-ready log line before launching adConnect.
+  - Waits for the tunnel-ready log line, then asks an AD DNS server for a
+    reply before launching adConnect.  A tunnel that never receives packets
+    is closed and retried.  That is the failure mode keepalive cannot see.
+  - While the tunnel stays up, repeats that DNS probe.  Two missed replies
+    close snx-rs so the reconnect path can build a new tunnel.
+  - Clears leftover IPSec state before each new snx-rs start when a previous
+    tunnel device is still present.
+  - After a probe succeeds, flushes the DNS cache and rearms CIFS automounts
+    that systemd has stopped.  A reboot is not required.
   - Calls adConnect with AD_CONNECT_CONFIGURE_DNS=false so the established VPN
     tunnel's DNS and routing are not rewritten during the post-connect hook.
   - Writes no-keepalive=true by default.  This gateway answers tunnel traffic
@@ -181,6 +198,27 @@ Optional environment:
       How often to refresh the sudo timestamp.  Keep this below sudo's
       timestamp_timeout so reconnects can start without a password prompt.
 
+  SNX_PROBE=true
+      Ask an AD DNS server whether the tunnel forwards traffic.  Set false
+      to treat the snx-rs ready line as proof enough.
+
+  SNX_PROBE_TIMEOUT=2
+      Seconds to wait for one DNS reply.
+
+  SNX_PROBE_TRIES=3
+      How many times to try before rejecting a newly connected tunnel.
+
+  SNX_PROBE_INTERVAL=20
+      Seconds between probes after the tunnel has been accepted.
+
+  SNX_PROBE_MISSES=2
+      Consecutive missed probes that close an accepted tunnel.
+
+  SNX_INTERFACE=snx-xfrm
+      Interface snx-rs creates.  Passed to vpnFlush when clearing a dead
+      tunnel.  vpnFlush reads VPN_FLUSH_INTERFACE, which defaults to the
+      same name.
+
 Exit status:
   Returns the snx-rs process exit status after log streaming completes.
   Ctrl-C exits 130.  A configuration error exits 2.
@@ -260,6 +298,11 @@ require_uint SNX_SUDO_REFRESH_SECONDS "$SNX_SUDO_REFRESH_SECONDS" 1
 require_bool SNX_IKE_PERSIST "$SNX_IKE_PERSIST"
 require_bool SNX_NO_KEEPALIVE "$SNX_NO_KEEPALIVE"
 require_bool SNX_RECONNECT "$SNX_RECONNECT"
+require_bool SNX_PROBE "$SNX_PROBE"
+require_uint SNX_PROBE_TIMEOUT "$SNX_PROBE_TIMEOUT" 1
+require_uint SNX_PROBE_TRIES "$SNX_PROBE_TRIES" 1
+require_uint SNX_PROBE_INTERVAL "$SNX_PROBE_INTERVAL" 1
+require_uint SNX_PROBE_MISSES "$SNX_PROBE_MISSES" 1
 
 if [[ ! "$SNX_RETRY_DELAY" =~ ^[0-9]+([.][0-9]+)?$ ]]; then
   fail "SNX_RETRY_DELAY must be a non-negative number." >&2
@@ -281,6 +324,181 @@ run_ad_connect() {
   else
     warn "adConnect is not executable: $BINHOME/adConnect"
   fi
+}
+
+# -------------------------------------------------------------------------- }}}
+# {{{ Data-plane probe
+#
+# snx-rs prints "Tunnel connected" once the gateway assigns an address.
+# This gateway does not answer IPSec keepalives, so a tunnel that never
+# receives a packet stays in that state.  An AD DNS reply is the proof
+# the mounts and kinit can use.
+
+collect_probe_servers() {
+  local server
+  local -A seen=()
+
+  PROBE_SERVERS=()
+  if [[ -n "${SNX_LOG:-}" && -r "$SNX_LOG" ]]; then
+    while read -r server; do
+      [[ -n "$server" ]] || continue
+      [[ -n "${seen[$server]:-}" ]] && continue
+      seen["$server"]=1
+      PROBE_SERVERS+=("$server")
+    done < <(grep -E 'DNS servers:' "$SNX_LOG" 2>/dev/null | \
+      grep -oE '[0-9]+([.][0-9]+){3}' || true)
+  fi
+  for server in "${AD_DNS1:-}" "${AD_DNS2:-}"; do
+    [[ "$server" =~ ^[0-9]+([.][0-9]+){3}$ ]] || continue
+    [[ -n "${seen[$server]:-}" ]] && continue
+    seen["$server"]=1
+    PROBE_SERVERS+=("$server")
+  done
+}
+
+dns_server_answers() {
+  local server=$1
+
+  [[ "$server" =~ ^[0-9]+([.][0-9]+){3}$ ]] || return 1
+  if ! command -v python3 >/dev/null 2>&1; then
+    ping -n -c 1 -W "$SNX_PROBE_TIMEOUT" "$server" >/dev/null 2>&1
+    return
+  fi
+  python3 -c '
+import socket, struct, sys
+ip, timeout = sys.argv[1], float(sys.argv[2])
+header = struct.pack(">HHHHHH", 0x6242, 0x0100, 1, 0, 0, 0)
+query = b"\x09vpn-probe\x07invalid\x00" + struct.pack(">HH", 1, 1)
+sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+sock.settimeout(timeout)
+try:
+    sock.sendto(header + query, (ip, 53))
+    sock.recvfrom(512)
+except OSError:
+    sys.exit(1)
+finally:
+    sock.close()
+' "$server" "$SNX_PROBE_TIMEOUT"
+}
+
+probe_once() {
+  local server
+
+  collect_probe_servers
+  if ((${#PROBE_SERVERS[@]} == 0)); then
+    warn "No AD DNS server is available to probe." >&2
+    return 1
+  fi
+  for server in "${PROBE_SERVERS[@]}"; do
+    if dns_server_answers "$server"; then
+      PROBE_SERVER="$server"
+      return 0
+    fi
+  done
+  return 1
+}
+
+tunnel_forwards() {
+  local try
+
+  for ((try = 1; try <= SNX_PROBE_TRIES; try++)); do
+    if probe_once; then
+      info "VPN data plane answered DNS at ${PROBE_SERVER}."
+      return 0
+    fi
+    if ((try < SNX_PROBE_TRIES)); then
+      sleep 1
+    fi
+  done
+  local rx
+  rx="$(tunnel_rx_packets)"
+  warn "AD DNS did not answer through ${SNX_INTERFACE} (RX ${rx:-unknown} packets)." >&2
+  return 1
+}
+
+tunnel_rx_packets() {
+  ip -s link show dev "$SNX_INTERFACE" 2>/dev/null | \
+    awk '/RX:/{getline; print $2; exit}'
+}
+
+stop_snx() {
+  local pid="${SNX_PID:-}"
+
+  [[ -n "$pid" ]] || return 0
+  sudo -n kill "$pid" 2>/dev/null || kill "$pid" 2>/dev/null || true
+  sleep 0.5
+  # kill -0 cannot see a root sudo process, so look at /proc instead.
+  if [[ -d "/proc/${pid}" ]]; then
+    sudo -n kill -KILL "$pid" 2>/dev/null || \
+      kill -KILL "$pid" 2>/dev/null || true
+  fi
+}
+
+stop_tunnel_watch() {
+  local watch_pid="${SNX_WATCH_PID:-}"
+
+  SNX_WATCH_PID=""
+  if [[ -n "$watch_pid" ]] && kill -0 "$watch_pid" 2>/dev/null; then
+    kill "$watch_pid" 2>/dev/null || true
+    wait "$watch_pid" 2>/dev/null || true
+  fi
+}
+
+start_tunnel_watch() {
+  local watch_interval=$SNX_PROBE_INTERVAL
+
+  stop_tunnel_watch
+  [[ "$SNX_PROBE" == true ]] || return 0
+  (
+    misses=0
+    trap 'exit 0' TERM INT HUP
+    while kill -0 "${SNX_PID}" 2>/dev/null; do
+      sleep "$watch_interval" &
+      wait $! || exit 0
+      if probe_once; then
+        misses=0
+        continue
+      fi
+      misses=$((misses + 1))
+      if ((misses >= SNX_PROBE_MISSES)); then
+        warn "AD DNS stopped answering. Closing the tunnel." >&2
+        stop_snx
+        exit 0
+      fi
+    done
+  ) &
+  SNX_WATCH_PID=$!
+}
+
+clear_tunnel_kernel() {
+  if [[ ! -x "$BINHOME/vpnFlush" ]]; then
+    warn "vpnFlush is not executable: $BINHOME/vpnFlush" >&2
+    return 0
+  fi
+  VPN_FLUSH_INTERFACE="$SNX_INTERFACE" VPN_FLUSH_NONINTERACTIVE=true \
+    "$BINHOME/vpnFlush" --kernel || \
+    warn "Could not clear leftover VPN tunnel state." >&2
+}
+
+rearm_cifs_mounts() {
+  if [[ ! -x "$BINHOME/vpnFlush" ]]; then
+    return 0
+  fi
+  if command -v resolvectl >/dev/null 2>&1; then
+    sudo -n resolvectl flush-caches >/dev/null 2>&1 || \
+      warn "Could not flush the DNS cache." >&2
+  fi
+  VPN_FLUSH_NONINTERACTIVE=true "$BINHOME/vpnFlush" --mounts || \
+    warn "CIFS automounts were not rearmed." >&2
+}
+
+leftover_tunnel() {
+  ip link show dev "$SNX_INTERFACE" >/dev/null 2>&1 || return 1
+  if command -v pgrep >/dev/null 2>&1; then
+    ! pgrep -x snx-rs >/dev/null 2>&1
+    return
+  fi
+  return 0
 }
 
 # -------------------------------------------------------------------------- }}}
@@ -318,9 +536,17 @@ cleanup() {
     notify "VPN disconnected" "The VPN tunnel has closed." || true
   fi
 
+  stop_tunnel_watch
   if [[ -n "${SNX_PID:-}" ]] && kill -0 "$SNX_PID" 2>/dev/null; then
-    kill "$SNX_PID" 2>/dev/null || true
+    stop_snx
     wait "$SNX_PID" 2>/dev/null || true
+  fi
+  SNX_PID=""
+
+  # Only remove a tunnel this process started.  Ctrl-C at the password
+  # prompt must not flush a tunnel that another vpnConnect owns.
+  if ${TUNNEL_OWNED:-false}; then
+    clear_tunnel_kernel || true
   fi
 
   stop_sudo_refresh
@@ -455,6 +681,11 @@ snx_args=(
 
 ad_connect_started=false
 VPN_CONNECTED=false
+probe_rejected=false
+cleanup_kernel=false
+SNX_WATCH_PID=""
+PROBE_SERVERS=()
+PROBE_SERVER=""
 attempt=1
 reconnects=0
 reconnect_delay=$SNX_RECONNECT_DELAY
@@ -463,6 +694,13 @@ session_ready_at=""
 while true; do
   : >"$SNX_LOG"
   session_ready_at=""
+  stop_tunnel_watch
+  if $cleanup_kernel || leftover_tunnel; then
+    info "Clearing leftover VPN tunnel state."
+    clear_tunnel_kernel
+  fi
+  cleanup_kernel=false
+  probe_rejected=false
 
   if (( reconnects == 0 )); then
     info "Starting snx-rs attempt $attempt of $SNX_MAX_ATTEMPTS with ike-persist=$SNX_IKE_PERSIST no-keepalive=$SNX_NO_KEEPALIVE."
@@ -471,6 +709,7 @@ while true; do
   fi
 
   ensure_sudo
+  TUNNEL_OWNED=true
   sudo -n snx-rs "${snx_args[@]}" >"$SNX_LOG" 2>&1 &
   SNX_PID=$!
 
@@ -479,13 +718,24 @@ while true; do
     printf '%s\n' "$line"
 
     if ! $ad_connect_started && [[ "$line" == *"$SNX_READY_PATTERN"* ]]; then
-      ad_connect_started=true
-      VPN_CONNECTED=true
-      session_ready_at=$SECONDS
-      notify "VPN connected" "The VPN tunnel is ready." || true
-      run_ad_connect || warn "adConnect failed; leaving VPN tunnel running." >&2
+      if [[ "$SNX_PROBE" == true ]] && ! tunnel_forwards; then
+        probe_rejected=true
+        warn "snx-rs reported a tunnel, but the data plane is down. Closing it." >&2
+        stop_snx
+      else
+        ad_connect_started=true
+        VPN_CONNECTED=true
+        session_ready_at=$SECONDS
+        notify "VPN connected" "The VPN tunnel is ready." || true
+        rearm_cifs_mounts || \
+          warn "CIFS automount recovery failed; leaving the tunnel up." >&2
+        run_ad_connect || warn "adConnect failed; leaving VPN tunnel running." >&2
+        start_tunnel_watch
+      fi
     fi
   done < <(tail -n +1 -F --pid="$SNX_PID" "$SNX_LOG" 2>/dev/null)
+
+  stop_tunnel_watch
 
   if wait "$SNX_PID"; then
     snx_status=0
@@ -493,6 +743,21 @@ while true; do
     snx_status=$?
   fi
   SNX_PID=""
+
+  if $probe_rejected; then
+    cleanup_kernel=true
+    VPN_CONNECTED=false
+    ad_connect_started=false
+    if (( attempt == SNX_MAX_ATTEMPTS )); then
+      fail "The VPN tunnel did not forward traffic after ${SNX_MAX_ATTEMPTS} attempts." >&2
+      notify "VPN disconnected" "The tunnel came up but AD DNS did not answer." || true
+      exit "$snx_status"
+    fi
+    warn "The tunnel did not forward traffic; retrying in ${SNX_RETRY_DELAY}s." >&2
+    sleep "$SNX_RETRY_DELAY"
+    attempt=$((attempt + 1))
+    continue
+  fi
 
   # snx-rs exits after five unanswered IPSec keepalives.  The log contains
   # "Keepalive failed" and the process status is non-zero.  A clean exit or a
@@ -520,6 +785,7 @@ while true; do
     fi
 
     reconnects=$((reconnects + 1))
+    cleanup_kernel=true
     VPN_CONNECTED=false
     ad_connect_started=false
     attempt=1

@@ -103,8 +103,9 @@ gateway can return `is_authenticated=true` without the SSL `active_key` that
 `snx-rs` needs to build the tunnel.  In that case `snx-rs` exits with an error
 even though authentication succeeded.  `vpnConnect` automatically retries this
 failure up to three total attempts by default.  It invokes `adConnect` only
-after `snx-rs` reports `Tunnel connected`.  Set `SNX_MAX_ATTEMPTS` or
-`SNX_RETRY_DELAY` to adjust the retry behavior.
+after `snx-rs` reports `Tunnel connected` and an AD DNS server answers through
+the tunnel.  Set `SNX_MAX_ATTEMPTS` or `SNX_RETRY_DELAY` to adjust the retry
+behavior.  Set `SNX_PROBE=false` to skip the DNS proof.
 
 `vpnConnect` writes `no-keepalive=true` into its runtime config.  This gateway
 forwards tunnel traffic and does not answer IPSec keepalives on UDP port
@@ -119,16 +120,25 @@ still closes the tunnel.  The VPN password is stored in a mode 600 runtime
 config for the life of `vpnConnect` and is not passed on the `snx-rs` command
 line.
 
+Keepalives are off, so `snx-rs` cannot see a tunnel that sends packets and
+receives none.  `vpnConnect` probes the AD DNS servers while the tunnel is up.
+Two missed replies close that tunnel, clear its IPSec state, and reconnect.
+A reboot is not required.  `klist` can still show a ticket from the last good
+tunnel; `kinit` now stops waiting after `AD_CONNECT_KINIT_TIMEOUT` seconds
+instead of hanging on the silent DNS path.
+
 `vpnFlush` clears a stuck session so a new `vpnConnect` can start.  It stops
 `vpnConnect` and `snx-rs`, wipes the runtime config and log, deletes
 `snx-xfrm`, and flushes the IPSec state and keepalive routes `snx-rs` adds.
-The `vpn` tmux session is left running.  `vpnFlush --dry-run` prints the
-actions without changing the system.  Automounts under `/mnt` stay in place
-until the tunnel is up again.
+It also lazy-unmounts CIFS shares under `/mnt`, clears a systemd start-limit
+on those automounts, and starts the automounts again.  The `vpn` tmux session
+is left running.  `vpnFlush --dry-run` prints the actions without changing
+the system.  `vpnFlush --kernel` clears only tunnel state.  `vpnFlush --mounts`
+repairs latched automounts without stopping a working tunnel.
 
 Kerberos CIFS entries under `/mnt` can be accessed before the first ticket is
-available.  Install the mount-unit retry policy so those early failures do not
-leave an automount permanently rate-limited:
+available.  `vpnFlush` installs the mount-unit retry policy when it is
+missing.  Install it by hand with:
 
 ```bash
 sudo install -D -m 644 \

@@ -36,7 +36,11 @@ Behavior:
   - Refreshes Kerberos credentials with kinit when reconnect is required.
   - Optionally applies AD DNS settings and restarts SSSD.
   - Mounts configured network drives on the known bare-metal work host.
+  - Rearms latched CIFS automounts under /mnt without a reboot once the AD
+    network answers and a Kerberos ticket is already cached, and again after
+    a new ticket is acquired.  It stays quiet when nothing is latched.
   - Checks Kerberos tickets and SSSD identity resolution for diagnostics.
+  - Bounds kinit with a timeout so a silent tunnel cannot wedge the lock.
 
 Required environment:
   AD_DOMAIN      Kerberos/AD DNS domain, for example ent.example.org.
@@ -59,6 +63,11 @@ Optional environment:
   AD_CONNECT_CONFIGURE_DNS=false
       Skip resolvectl DNS changes and SSSD restart.  vpnConnect uses this so
       the VPN tunnel's network settings are not disturbed after connect.
+
+  AD_CONNECT_KINIT_TIMEOUT
+      Seconds to wait for kinit.  The default is 20 for a noninteractive
+      run and 180 for an interactive one.  A dead tunnel used to leave
+      kinit waiting on DNS while klist still showed the old ticket.
 
   AD_CONNECT_NETWORK_TIMEOUT=0.25
       Maximum seconds to spend on each AD reachability probe before silently
@@ -139,6 +148,16 @@ ad_connect_truthy() {
     [[ "$1" == true || "$1" == 1 ]]
 }
 
+if ad_connect_truthy "$AD_CONNECT_NONINTERACTIVE"; then
+    AD_CONNECT_KINIT_TIMEOUT="${AD_CONNECT_KINIT_TIMEOUT:-20}"
+else
+    AD_CONNECT_KINIT_TIMEOUT="${AD_CONNECT_KINIT_TIMEOUT:-180}"
+fi
+if [[ ! "$AD_CONNECT_KINIT_TIMEOUT" =~ ^[0-9]+$ ]]; then
+    warn "Invalid AD_CONNECT_KINIT_TIMEOUT=$AD_CONNECT_KINIT_TIMEOUT; using 20."
+    AD_CONNECT_KINIT_TIMEOUT=20
+fi
+
 ad_connect_remove_lock() {
     rm -f "$AD_CONNECT_LOCK_OWNER" 2>/dev/null || true
     rmdir "$AD_CONNECT_LOCK" 2>/dev/null || true
@@ -149,6 +168,22 @@ ad_connect_sudo() {
         sudo -n "$@"
     else
         sudo "$@"
+    fi
+}
+
+# vpnFlush --mounts is silent when nothing is latched, so a healthy
+# timer run does not ask for sudo.
+ad_connect_rearm_mounts() {
+    local flusher="$BINHOME/vpnFlush"
+
+    if [[ ! -x "$flusher" ]]; then
+        return 0
+    fi
+    if ad_connect_truthy "$AD_CONNECT_NONINTERACTIVE"; then
+        VPN_FLUSH_NONINTERACTIVE=true "$flusher" --mounts || \
+            warn "CIFS automounts could not be rearmed."
+    elif ! "$flusher" --mounts; then
+        warn "CIFS automounts could not be rearmed."
     fi
 }
 
@@ -188,6 +223,13 @@ elif ad_dns_reachable; then
     info "AD network detected by ping."
 else
     exit 0
+fi
+
+# The network can reach AD.  A cached ticket is enough to heal automounts
+# that systemd stopped while an earlier tunnel was black-holing DNS.
+# klist only reads the ticket file, so this does not wait on a KDC.
+if command -v klist >/dev/null 2>&1 && klist -s >/dev/null 2>&1; then
+    ad_connect_rearm_mounts
 fi
 
 # The remaining settings are only needed after AD is reachable.
@@ -479,9 +521,26 @@ else
     kinit_command=(kinit "$AD_USER@$AD_REALM")
 fi
 
-if "${kinit_command[@]}"; then
+kinit_status=0
+if command -v timeout >/dev/null 2>&1; then
+    # --foreground keeps an interactive password prompt on this terminal.
+    # Without the timeout, kinit waits on DNS and klist still looks live.
+    if ! timeout --foreground "$AD_CONNECT_KINIT_TIMEOUT" \
+        "${kinit_command[@]}"; then
+        kinit_status=$?
+    fi
+else
+    if ! "${kinit_command[@]}"; then
+        kinit_status=$?
+    fi
+fi
+
+if (( kinit_status == 0 )); then
     KINIT_OK=true
     info "Kerberos ticket acquired."
+elif (( kinit_status == 124 )); then
+    KINIT_OK=false
+    warn "Kerberos login timed out after ${AD_CONNECT_KINIT_TIMEOUT}s."
 else
     KINIT_OK=false
     warn "Kerberos login failed."
@@ -577,6 +636,9 @@ fi
 # again.
 
 if $KINIT_OK; then
+    # Mount attempts during kinit can fail before the ticket exists.
+    # Arm the automounts again now that Kerberos has succeeded.
+    ad_connect_rearm_mounts
     mkdir -p "$AD_CONNECT_STATE_DIR"
     state_tmp="$AD_CONNECT_STATE_FILE.$$"
     {
