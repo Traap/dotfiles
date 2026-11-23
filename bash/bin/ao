@@ -188,7 +188,7 @@ if  [[ $# -eq 1 ]]; then
       tmux new-window    -t "$SESSION":3 -c "$WORKDIR" -n 'Spare01' -d
       tmux new-window    -t "$SESSION":4 -c "$WORKDIR" -n 'Spare02'  -d
 
-      tmux send-keys     -t "$SESSION":2 "$EDITOR $WORKHOMW/Wiki/index.md" Enter
+      tmux send-keys     -t "$SESSION":2 "$EDITOR $WORKHOME/Wiki/index.md" Enter
       tmux send-keys     -t "$SESSION":1 "bin/dev && wt list" Enter
 
       tmux select-window -t "$SESSION":1
