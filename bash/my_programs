@@ -66,6 +66,137 @@ export PATH="$HOME/.grok/bin:$PATH"
 [[ -r "$HOME/.grok/completions/bash/grok.bash" ]] && \
   source "$HOME/.grok/completions/bash/grok.bash"
 
-if fileExists "$WORKHOME/Paperboy/sdlc/bin/shell-init"; then
-  source "$WORKHOME/Paperboy/sdlc/bin/shell-init"
-fi
+# wt follows the current directory on every call. Under ~/gitea/..., it
+# is the function Paperboy's shell-init defined. Anywhere else, including
+# ~/gitea itself, it is Worktrunk's wrapper. The alias decides at the
+# call, so `cd ~/gitea/Paperboy && wt list` sees the directory just
+# entered. shell-init finds sdlc/bin through BASH_SOURCE, so that
+# function stays the one the file defined. A missing shell-init falls
+# through to Worktrunk.
+#
+# While `alias wt` is set, Bash rewrites a function named wt as it reads
+# the definition. `wt()` would be stored as `__wt_dispatch` and the
+# dispatcher would disappear. Parse those definitions with expansion off
+# and the alias removed. ~/.bashrc does that around Worktrunk's init
+# line, then calls __wt_arm. The prompt hook does it again so a later
+# init line cannot keep the rewritten function.
+
+__wt_under_gitea() {
+  local work workphys dir phys
+  work=${WORKHOME:-$HOME/gitea}
+  [[ -d $work ]] || return 1
+  work=${work%/}
+  workphys=$(cd -- "$work" && pwd -P) || return 1
+  workphys=${workphys%/}
+  phys=$(pwd -P) || return 1
+  for dir in "${PWD%/}" "${phys%/}"; do
+    [[ $dir == "$work"/* || $dir == "$workphys"/* ]] && return 0
+  done
+  return 1
+}
+
+__wt_copy_function() {
+  local src=$1 dest=$2 body
+  declare -F "$src" >/dev/null || return 1
+  body=$(declare -f "$src" | sed "1s/^${src} /${dest} /")
+  [[ $body == "$dest "* ]] || return 1
+  __wt_parse_wt eval "$body"
+}
+
+__wt_paperboy_init() {
+  printf '%s\n' "${WORKHOME:-$HOME/gitea}/Paperboy/sdlc/bin/shell-init"
+}
+
+# Run a command while `wt() { ... }` still defines a function named wt.
+__wt_parse_wt() {
+  local restore had=0 status=0
+  restore=$(shopt -p expand_aliases)
+  shopt -u expand_aliases
+  if alias wt >/dev/null 2>&1; then
+    had=1
+    unalias wt
+  fi
+  "$@" || status=$?
+  eval "$restore"
+  if [[ $had -eq 1 ]]; then
+    alias wt='__wt_dispatch'
+  fi
+  return "$status"
+}
+
+# Keep Worktrunk's cd wrapper under a private name. The copy is safe:
+# that function calls the binary with `command`, not BASH_SOURCE.
+__wt_remember_worktrunk() {
+  declare -F wt >/dev/null || return 1
+  [[ $(declare -f wt) == *WORKTRUNK_DIRECTIVE_CD_FILE* ]] || return 1
+  __wt_copy_function wt __worktrunk_wt
+}
+
+__wt_load_worktrunk() {
+  declare -F __worktrunk_wt >/dev/null && return 0
+  local bin generated
+  bin=$(type -P wt 2>/dev/null) || return 1
+  generated=$("$bin" config shell init bash 2>/dev/null) || return 1
+  [[ -n $generated ]] || return 1
+  __wt_parse_wt eval "$generated" || return 1
+  __wt_copy_function wt __worktrunk_wt || return 1
+}
+
+__wt_use_worktrunk() {
+  __wt_remember_worktrunk || true
+  if declare -F __worktrunk_wt >/dev/null; then
+    __worktrunk_wt "$@"
+    return
+  fi
+  if declare -F wt >/dev/null && \
+      [[ $(declare -f wt) == *WORKTRUNK_DIRECTIVE_CD_FILE* ]]; then
+    \wt "$@"
+    return
+  fi
+  command wt "$@"
+}
+
+__wt_use_paperboy() {
+  local init
+  init=$(__wt_paperboy_init)
+  if [[ ! -f $init ]]; then
+    __wt_use_worktrunk "$@"
+    return
+  fi
+  __wt_remember_worktrunk || true
+  if ! declare -F wt >/dev/null || \
+      [[ $(declare -f wt) == *WORKTRUNK_DIRECTIVE_CD_FILE* ]]; then
+    # shellcheck source=/dev/null
+    __wt_parse_wt source "$init" || { __wt_use_worktrunk "$@"; return; }
+  fi
+  if ! declare -F wt >/dev/null; then
+    __wt_use_worktrunk "$@"
+    return
+  fi
+  \wt "$@"
+}
+
+__wt_dispatch() {
+  if __wt_under_gitea; then
+    __wt_use_paperboy "$@"
+  else
+    __wt_use_worktrunk "$@"
+  fi
+}
+__wt_dispatch_src=$(declare -f __wt_dispatch)
+
+__wt_arm() {
+  if ! declare -F __wt_dispatch >/dev/null || \
+      [[ $(declare -f __wt_dispatch) == *WORKTRUNK_DIRECTIVE_CD_FILE* ]]; then
+    [[ -n ${__wt_dispatch_src:-} ]] && eval "$__wt_dispatch_src"
+  fi
+  __wt_remember_worktrunk || true
+  alias wt='__wt_dispatch'
+}
+
+case ":${PROMPT_COMMAND:-}:" in
+  *__wt_arm*) ;;
+  *) PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND; }__wt_arm" ;;
+esac
+__wt_load_worktrunk || true
+__wt_arm
